@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.bbj</groupId>
@@ -23,6 +22,8 @@
 		<servlet.base.version>3.0-alpha-1</servlet.base.version>
 		<jsp.base.version>2.1</jsp.base.version>
 		<jstl.base.version>1.2</jstl.base.version>
+		<gson.base.version>2.8.0</gson.base.version>
+		
 	</properties>
 
 	<dependencies>
@@ -77,8 +78,17 @@
 		</dependency>
 		<!-- end 2017-11-12 21:21 添加 by 陆瑞华 -->
 
+		<!-- gson start 2017-11-12 23:33 添加 by 陆瑞华 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.base.version}</version>
+		</dependency>
+		<!-- gson end 2017-11-12 23:33 添加 by 陆瑞华 -->
+		
 	</dependencies>
 	<modules>
 		<module>menu</module>
+		<module>base</module>
 	</modules>
 </project>
