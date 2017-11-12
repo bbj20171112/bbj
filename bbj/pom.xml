@@ -88,7 +88,7 @@
 		
 	</dependencies>
 	<modules>
-		<module>menu</module>
+		<module>web</module>
 		<module>base</module>
 	</modules>
 </project>
