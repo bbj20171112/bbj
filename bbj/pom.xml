@@ -23,6 +23,7 @@
 		<jsp.base.version>2.1</jsp.base.version>
 		<jstl.base.version>1.2</jstl.base.version>
 		<gson.base.version>2.8.0</gson.base.version>
+		<jackson.base.version>2.8.9</jackson.base.version>
 		
 	</properties>
 
@@ -86,6 +87,14 @@
 		</dependency>
 		<!-- gson end 2017-11-12 23:33 添加 by 陆瑞华 -->
 		
+		<!-- jackson end 2017-11-13 22:51 添加 by 陆瑞华 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson.base.version}</version>
+		</dependency>
+		<!-- jackson end 2017-11-13 22:51 添加 by 陆瑞华 -->
+        
 	</dependencies>
 	<modules>
 		<module>web</module>

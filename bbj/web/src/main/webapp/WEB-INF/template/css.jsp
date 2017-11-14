@@ -17,6 +17,5 @@
 <![endif]-->
 </head>
 <body>
-	Css Jsp
 </body>
 </html>

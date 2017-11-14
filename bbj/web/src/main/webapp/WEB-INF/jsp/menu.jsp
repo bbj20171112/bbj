@@ -1,0 +1,54 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Index Jsp</title>
+<%@ include file="../template/css.jsp"%>
+
+<script type="text/javascript" src="../resources/base/menu/js/menu.js">
+	
+</script>
+
+</head>
+<body onload="initOnload()">
+	<div class="container">
+
+		<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">BBJ</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav" id="menu-navbar">
+					<li class="dropdown" id="first-level-menu" style="display: none">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false"> <span
+							id="first-level-menu-text">Dropdown</span> <span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li id="second-level-menu" style="display: none"><a href="#">Dropdown</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">User<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Login</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Logout</a></li>
+					</ul></li>
+			</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid --> </nav>
+
+	</div>
+</body>
+<%@ include file="../template/javascript.jsp"%>
+</html>
