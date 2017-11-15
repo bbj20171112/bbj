@@ -23,13 +23,13 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav" id="menu-navbar">
-					<li class="dropdown" id="first-level-menu" style="display: none">
+					<li class="dropdown" style="display: none" name="first-level-menu">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown"
 						role="button" aria-haspopup="true" aria-expanded="false"> <span
-							id="first-level-menu-text">Dropdown</span> <span class="caret"></span>
-					</a>
+							name="first-level-menu-text">Dropdown</span> <span name="dropdown-icon" class="caret"></span>
+						</a>
 						<ul class="dropdown-menu">
-							<li id="second-level-menu" style="display: none"><a href="#">Dropdown</a></li>
+							<li name="second-level-menu" style="display: none"><a href="#" name="second-level-menu-text">Dropdown</a></li>
 						</ul>
 					</li>
 				</ul>

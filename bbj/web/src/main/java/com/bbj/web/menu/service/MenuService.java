@@ -120,7 +120,7 @@ public class MenuService {
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "8");
-		attr.put("upId", "3");
+		attr.put("upId", "1");
 		attr.put("text", "menu8");
 		menu = new Menu(attr );
 		list.add(menu );
