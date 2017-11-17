@@ -9,12 +9,7 @@
 <title></title>
 </head>
 <body>
+	BBJ
 </body>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="../resources/jquery-3.1.1/jquery-3.1.1.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../resources/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-
-<script src="../resources/framework/menu/js/menu.js"></script>
 
 </html>

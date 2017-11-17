@@ -17,7 +17,12 @@ public class IndexController {
 	
 	@RequestMapping(value={"/","/index"})
 	public String index(){
-		return "menu";
+		return "menu/index";
+	}
+	
+	@RequestMapping(value={"/starter"})
+	public String starter(){
+		return "/AdminLTE/starter";
 	}
 	
 	@RequestMapping(value={"/json"})

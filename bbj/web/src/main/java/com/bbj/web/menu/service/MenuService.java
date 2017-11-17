@@ -106,21 +106,21 @@ public class MenuService {
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "6");
-		attr.put("upId", "2");
+		attr.put("upId", "4");
 		attr.put("text", "menu6");
 		menu = new Menu(attr );
 		list.add(menu );
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "7");
-		attr.put("upId", "2");
+		attr.put("upId", "3");
 		attr.put("text", "menu7");
 		menu = new Menu(attr );
 		list.add(menu );
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "8");
-		attr.put("upId", "1");
+		attr.put("upId", "4");
 		attr.put("text", "menu8");
 		menu = new Menu(attr );
 		list.add(menu );

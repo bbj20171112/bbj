@@ -24,6 +24,8 @@
 		<jstl.base.version>1.2</jstl.base.version>
 		<gson.base.version>2.8.0</gson.base.version>
 		<jackson.base.version>2.8.9</jackson.base.version>
+		<!-- <thymeleaf.base.version>3.0.7.RELEASE</thymeleaf.base.version> -->
+		<thymeleaf.base.version>3.0.2.RELEASE</thymeleaf.base.version>
 		
 	</properties>
 
@@ -94,6 +96,21 @@
 		    <version>${jackson.base.version}</version>
 		</dependency>
 		<!-- jackson end 2017-11-13 22:51 添加 by 陆瑞华 -->
+        
+        <!-- thymeleaf start 2017-11-16 23:21 添加 by 陆瑞华 -->
+        <dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf</artifactId>
+		    <version>${thymeleaf.base.version}</version>
+		</dependency>
+		<dependency>
+    <groupId>org.thymeleaf</groupId>
+    <artifactId>thymeleaf-spring4</artifactId>
+    <version>3.0.2.RELEASE</version>
+</dependency>
+		
+		<!-- thymeleaf end 2017-11-16 23:21 添加 by 陆瑞华 -->
+        
         
 	</dependencies>
 	<modules>
