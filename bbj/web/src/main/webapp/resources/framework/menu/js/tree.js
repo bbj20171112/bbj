@@ -37,29 +37,72 @@ function isNotEmpty(obj){
 	return !isEmpty(obj);
 }
 
-function openMenu(){
-	var menuId = $("#menu-id").val();
-	$(".treeview").attr("class","treeview");
-	$(".treeview-menu").attr("style","display: none;");
-	$("#li-level-menu-id-"+menuId).attr("class",$("#li-level-menu-id-"+menuId).attr("class")+" menu-open");
-	$("#li-level-menu-id-"+menuId).find("ul[name=ul-level-menu]").first().attr("style","display: block;");
+function openMenu(menuId){
+	//var menuId = $("#menu-id").val();
+//	$(".treeview").attr("class","treeview");
+//	$(".treeview-menu").attr("style","display: none;");
+	var menuItem = menuArray[0]; // 取根节点
+	var pathArray = [];
+	var isFoundObj = {"isFound":false};
+	var menuFootprint = $("#menu-footprint");
+	var liSubMenu = menuFootprint.find("li[name=li-sub-menu]");
+	var liSubMenuAuto = menuFootprint.find("li[name=li-sub-menu-auto]");
+	if(!isEmpty(liSubMenuAuto)){// 清空原有足迹
+		liSubMenuAuto.remove();
+	}
+	getMenuTreePath(menuId,menuItem,pathArray,0,isFoundObj);// isFoundObj 直接给boolean值会因为递归保存现场问题出问题
+	
+	// console.log(pathArray);
+	for(var i = 1; i < pathArray.length; i++){
+//		var liLevelMenu = $("#li-level-menu-id-"+pathArray[i].id);
+//		var ulLevelMenu = $("#ul-level-menu-id-"+pathArray[i].id);
+//		if(!isEmpty(liLevelMenu)){
+//			liLevelMenu.attr("class",liLevelMenu.attr("class")+" menu-open");
+//		}
+//		if(!isEmpty(ulLevelMenu)){
+//			ulLevelMenu.attr("style","display: block;");
+//		}
+		// 足记
+		if(i == 1){
+			menuFootprint.find("span[name=parent-menu]").html(pathArray[i].text);
+		} else {
+			var subMenuItem = liSubMenu.clone(true);
+			subMenuItem.insertBefore(liSubMenu);
+			subMenuItem.attr("name","li-sub-menu-auto");
+			subMenuItem.html(pathArray[i].text);
+			subMenuItem.show();
+		}
+	}
 }
 
-function openMenuTree(menuId,menuItem){
-	for (var i = 0; i < root.children.length; i++) { // 一级菜单
-		var subMenuItemData = root.children[i];
-		var subMenuItem = templateItem.clone(true);
-		subMenuItem.insertAfter(templateItem);
-		subMenuItem.find("span[name=li-level-menu-text]").html(subMenuItemData.attributes.text);
-		subMenuItem.find("a[name=a-level-menu]").attr("onclick","menuItemOnclick("+subMenuItemData.attributes.id+")");
-		subMenuItem.show();
-		buildMenuTreeRecursionItem(subMenuItemData,subMenuItem,templateItem);
+function getMenuTreePath(menuId,menuItem,pathArray,deepIndex,isFoundObj){
+	if(isEmpty(menuItem)){ // 空，直接返回
+		return ;
 	}
-	templateItem.hide();
+	pathArray[deepIndex] = {"id":0,"text":""};
+	pathArray[deepIndex].id = menuItem.attributes.id ; // 保存当前节点作为树路径
+	pathArray[deepIndex].text = menuItem.attributes.text ; 
+	// 移除当前节点之后的多余的数据
+	var removeCount = pathArray.length - deepIndex - 1;
+	while (removeCount > 0) {
+		removeCount --;
+		pathArray.splice(deepIndex + 1,1);
+	}
+	
+	if(menuItem.attributes.id == menuId){ // 已经找到
+		isFoundObj.isFound = true;
+		return ;
+	}
+	for (var i = 0; i < menuItem.children.length; i++) { // 一级菜单
+		var subMenuItem = menuItem.children[i];
+		if(!isFoundObj.isFound){
+			getMenuTreePath(menuId,subMenuItem,pathArray,deepIndex + 1,isFoundObj);
+		}
+	}
 }
 
 function menuItemOnclick(id){
-	console.log(id);
+	openMenu(id);
 }
 
 /**
@@ -95,6 +138,7 @@ function buildMenuTreeRecursionItem(menuItemData,menuItem,templateItem){
 	}
 	if (menuItemData.children.length > 0) {
 		var mountPoint = menuItem.find("ul[name=ul-level-menu]");
+		mountPoint.attr("id","ul-level-menu-id-"+menuItemData.attributes.id);
 		for (var i = 0; i < menuItemData.children.length; i++) { // 下级菜单
 			var subMenuItemData = menuItemData.children[i];
 			var subMenuItem = templateItem.clone(true);

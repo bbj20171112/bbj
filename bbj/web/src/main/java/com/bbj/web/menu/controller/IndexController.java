@@ -38,4 +38,10 @@ public class IndexController {
 		return JsonUtils.toJson(MenuService.retrieve());
 	}
 	
+
+	@RequestMapping(value={"/header"})
+	public String header(){
+		return "/menu/header";
+	}
+	
 }
