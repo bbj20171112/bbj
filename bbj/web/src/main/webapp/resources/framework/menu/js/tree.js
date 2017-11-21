@@ -38,12 +38,13 @@ function isNotEmpty(obj){
 }
 
 function openMenu(menuId){
+	
 	//var menuId = $("#menu-id").val();
 //	$(".treeview").attr("class","treeview");
 //	$(".treeview-menu").attr("style","display: none;");
 	var menuItem = menuArray[0]; // 取根节点
 	var pathArray = [];
-	var isFoundObj = {"isFound":false};
+	var isFoundObj = {"isFound":false,"currentMenu":{}};
 	var menuFootprint = $("#menu-footprint");
 	var liSubMenu = menuFootprint.find("li[name=li-sub-menu]");
 	var liSubMenuAuto = menuFootprint.find("li[name=li-sub-menu-auto]");
@@ -51,6 +52,10 @@ function openMenu(menuId){
 		liSubMenuAuto.remove();
 	}
 	getMenuTreePath(menuId,menuItem,pathArray,0,isFoundObj);// isFoundObj 直接给boolean值会因为递归保存现场问题出问题
+	
+	// 切换页面
+	$("#iframe-content-wrapper-main").attr("src","../" + isFoundObj.currentMenu.attributes.link);
+	
 	
 	// console.log(pathArray);
 	for(var i = 1; i < pathArray.length; i++){
@@ -91,6 +96,7 @@ function getMenuTreePath(menuId,menuItem,pathArray,deepIndex,isFoundObj){
 	
 	if(menuItem.attributes.id == menuId){ // 已经找到
 		isFoundObj.isFound = true;
+		isFoundObj.currentMenu = menuItem;
 		return ;
 	}
 	for (var i = 0; i < menuItem.children.length; i++) { // 一级菜单

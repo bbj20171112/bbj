@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<meta th:include="template/css :: common"></meta>
-  
+  <!-- 引入全局css样式 -->
+  <script src="../resources/framework/css-import.js"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition sidebar-mini">
 <div class="wrapper">
 	
     <!-- Main content -->
@@ -40,8 +40,8 @@
     <!-- /.content -->
 </div>
 <!-- ./wrapper -->
-<div th:include="javascript :: common"></div>
-<!-- AdminLTE for demo purposes -->
-<script src="../resources/dist/js/demo.js"></script>
+<!-- 引入JavaScripts样式 -->
+<script src="../resources/framework/javascript-import.js"></script>
+
 </body>
 </html>

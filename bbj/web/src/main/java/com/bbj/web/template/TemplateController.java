@@ -27,4 +27,24 @@ public class TemplateController {
 		System.out.println("javascript");
 		return "template/javascript";
 	}
+	@RequestMapping(value={"/invoice"})
+	public String invoice(){
+		System.out.println("invoice");
+		return "template/invoice";
+	}
+	@RequestMapping(value={"/profile"})
+	public String profile(){
+		System.out.println("profile");
+		return "template/profile";
+	}
+	@RequestMapping(value={"/lockscreen"})
+	public String lockscreen(){
+		System.out.println("lockscreen");
+		return "template/lockscreen";
+	}
+	@RequestMapping(value={"/login"})
+	public String login(){
+		System.out.println("login");
+		return "template/login";
+	}
 }

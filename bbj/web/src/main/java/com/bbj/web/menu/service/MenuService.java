@@ -66,6 +66,7 @@ public class MenuService {
 		attr.put("id", "0");
 		attr.put("upId", "-1");
 		attr.put("text", "");
+		attr.put("link", "template/blank");
 		Menu menu = new Menu(attr );
 		list.add(menu );
 		
@@ -73,6 +74,7 @@ public class MenuService {
 		attr.put("id", "1");
 		attr.put("upId", "0");
 		attr.put("text", "menu1");
+		attr.put("link", "template/500");
 		menu = new Menu(attr );
 		list.add(menu );
 		
@@ -80,6 +82,7 @@ public class MenuService {
 		attr.put("id", "2");
 		attr.put("upId", "0");
 		attr.put("text", "menu2");
+		attr.put("link", "template/invoice");
 		menu = new Menu(attr );
 		list.add(menu );
 
@@ -87,6 +90,7 @@ public class MenuService {
 		attr.put("id", "3");
 		attr.put("upId", "0");
 		attr.put("text", "menu3");
+		attr.put("link", "template/profile");
 		menu = new Menu(attr );
 		list.add(menu );
 
@@ -94,6 +98,7 @@ public class MenuService {
 		attr.put("id", "4");
 		attr.put("upId", "1");
 		attr.put("text", "menu4");
+		attr.put("link", "template/lockscreen");
 		menu = new Menu(attr );
 		list.add(menu );
 
@@ -101,6 +106,7 @@ public class MenuService {
 		attr.put("id", "5");
 		attr.put("upId", "1");
 		attr.put("text", "menu5");
+		attr.put("link", "template/404");
 		menu = new Menu(attr );
 		list.add(menu );
 
@@ -108,12 +114,13 @@ public class MenuService {
 		attr.put("id", "6");
 		attr.put("upId", "4");
 		attr.put("text", "menu6");
+		attr.put("link", "template/login");
 		menu = new Menu(attr );
 		list.add(menu );
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "7");
-		attr.put("upId", "3");
+		attr.put("upId", "6");
 		attr.put("text", "menu7");
 		menu = new Menu(attr );
 		list.add(menu );

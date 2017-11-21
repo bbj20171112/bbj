@@ -7,4 +7,11 @@ document.writeln('<script src="../resources/bower_components/jquery/dist/jquery.
 document.writeln('<!-- Bootstrap 3.3.7 -->');
 document.writeln('<script src="../resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>');
 document.writeln('<!-- AdminLTE App -->');
-document.writeln('<script src="../resources/dist/js/adminlte.min.js"></script>');
+document.writeln('<script src="../resources/dist/js/adminlte.js"></script>');
+document.writeln('<!-- PACE -->');
+document.writeln('<script src="../resources/bower_components/PACE/pace.min.jss"></script>');
+document.writeln('<!-- SlimScroll -->');
+document.writeln('<script src="../resources/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>');
+document.writeln('<!-- FastClick -->');
+document.writeln('<script src="../resources/bower_components/fastclick/lib/fastclick.js"></script>');
+

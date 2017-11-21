@@ -245,16 +245,16 @@
     </section>
 
     <!-- Main content -->
-    <section class="content container-fluid">
+    <section class="content">
 
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-		Your Page Content Here
-		<input id="menu-id"/>
-		<button class="btn" onclick="openMenu()">打开</button>
-		
+		<!-- Your Page Content Here -->
+		<iframe src="../template/404" id="iframe-content-wrapper-main" frameBorder="0" class="content-wrapper" style="margin-left: 0px" width="100%" scrolling="no"></iframe>
+	
     </section>
+   
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -353,5 +353,13 @@
 <!-- tree.js  -->    
 <script src="../resources/framework/menu/js/tree.js"></script>
  
+<script type="text/javascript">
+
+//init method one
+$(document).ready(function() {
+	//$("#section-content-id").load("../template/404");
+});
+
+</script>
 </body>
 </html>
