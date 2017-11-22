@@ -8,11 +8,9 @@
 		<artifactId>bbj</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>web</groupId>
 	<artifactId>web</artifactId>
 	<packaging>war</packaging>
-	<name>menu Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -25,9 +23,10 @@
 			<artifactId>base</artifactId>
 			<version>${version}</version>
 		</dependency>
-
 	</dependencies>
+
 	<build>
 		<finalName>menu</finalName>
 	</build>
+
 </project>
