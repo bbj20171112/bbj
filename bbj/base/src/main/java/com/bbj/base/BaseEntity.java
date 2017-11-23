@@ -15,7 +15,7 @@ import java.util.function.Function;
  * @param <K>
  * @param <V>
  */
-public class BaseDomain<K, V> extends HashMap<K, V>
+public class BaseEntity<K, V> extends HashMap<K, V>
 {
     private static final long serialVersionUID = 1L;
 
