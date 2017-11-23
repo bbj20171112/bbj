@@ -28,6 +28,7 @@ public class IndexController {
 	@RequestMapping(value={"/json"})
 	@ResponseBody
 	public String json(){
+		System.out.println("IndexController.json() is work " );
 		return "你好";
 	}
 	

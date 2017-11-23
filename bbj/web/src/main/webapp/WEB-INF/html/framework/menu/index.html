@@ -251,8 +251,10 @@
         | Your Page Content Here |
         -------------------------->
 		<!-- Your Page Content Here -->
-		<iframe src="../template/404" id="iframe-content-wrapper-main" frameBorder="0" class="content-wrapper" style="margin-left: 0px" width="100%" scrolling="no"></iframe>
+		<button onclick="myAjax()">测试Ajax</button>
+		<iframe src="" id="iframe-content-wrapper-main" frameBorder="0" class="content-wrapper" style="margin-left: 0px" width="100%" scrolling="no"></iframe>
 	
+		
     </section>
    
     <!-- /.content -->
@@ -354,12 +356,16 @@
 <script src="../resources/framework/menu/js/tree.js"></script>
  
 <script type="text/javascript">
-
-//init method one
-$(document).ready(function() {
-	//$("#section-content-id").load("../template/404");
-});
-
+function myAjax(){
+	Utils.ajax({
+		type: "POST",
+        url: "json",
+        data: "name=garfield&age=18",
+        success: function(data){
+        	alert(data);
+        }
+	});
+}
 </script>
 </body>
 </html>

@@ -8,8 +8,8 @@
 		<artifactId>bbj</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>menu</groupId>
-	<artifactId>menu</artifactId>
+	<groupId>web</groupId>
+	<artifactId>web</artifactId>
 	<packaging>war</packaging>
 	<name>menu Maven Webapp</name>
 	<url>http://maven.apache.org</url>

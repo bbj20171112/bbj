@@ -5,7 +5,7 @@ document.writeln('<meta content="width=device-width, initial-scale=1, maximum-sc
 document.writeln('<link rel="stylesheet" href="../resources/bower_components/bootstrap/dist/css/bootstrap.min.css">');
 document.writeln('<link rel="stylesheet" href="../resources/bower_components/font-awesome/css/font-awesome.min.css">');
 document.writeln('<link rel="stylesheet" href="../resources/bower_components/Ionicons/css/ionicons.min.css">');
-document.writeln('<link rel="stylesheet" href="../resources/dist/css/AdminLTE.min.css">');
+document.writeln('<link rel="stylesheet" href="../resources/dist/css/AdminLTE.css">');
 document.writeln('<link rel="stylesheet" href="../resources/dist/css/skins/_all-skins.min.css">');
 document.writeln('<!--[if lt IE 9]>');
 document.writeln('<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>');
