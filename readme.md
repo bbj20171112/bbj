@@ -6,7 +6,10 @@
 
 # 2017-11-24 BinaryLie
 bbjframe--war --纯前台   --pom.xml引入web的jar
+
 bbj--pom
+
 --web --jar --纯java
+
 --base--jar --纯java
 
