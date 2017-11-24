@@ -8,7 +8,7 @@ public class StringUtils
      *  @param obj
      *  @return    
      */
-    public static boolean isBlank(Object obj) {
+    public static boolean isEmpty(Object obj) {
         if (obj == null) {
             return true;
         }
@@ -23,8 +23,8 @@ public class StringUtils
      *  @param obj
      *  @return    
      */
-    public static boolean isNotBlank(Object obj) {
-        return !isBlank(obj);
+    public static boolean isNotEmpty(Object obj) {
+        return !isEmpty(obj);
     }
 
     /**
@@ -33,7 +33,7 @@ public class StringUtils
      *  @return    
      */
     public static boolean isDigit(String string) {
-        if (isBlank(string)) {
+        if (isEmpty(string)) {
             return false;
         }
         return string.matches("^[0-9]*$");
@@ -49,7 +49,7 @@ public class StringUtils
      *          "000" 
      */
     public static String getMultipleStrings(String string, int length) {
-        if (isNotBlank(string)) {
+        if (isNotEmpty(string)) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < length; i++) {
                 sb.append(string);
