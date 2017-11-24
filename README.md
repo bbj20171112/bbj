@@ -5,8 +5,7 @@
 增加公共方法Ajax和重新集成DispatcherServlet，以后统一进行参数控制，请求控制等，但是目前还在web项目中，找时间进行重构
 
 项目结构能否这样？
-bbjframe--war --纯前台   --pom.xml引入web、base的jar
-bbj--pom
-   --jar--web --纯java
-   --jar--base--纯java
+①bbjframe--war --纯前台   --pom.xml引入web、base的jar
+②bbj--pom
+③--jar--web --纯java，--jar--base--纯java
 
