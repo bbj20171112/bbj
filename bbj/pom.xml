@@ -10,7 +10,6 @@
 	<modules>
 		<module>web</module>
 		<module>base</module>
-    <module>test</module>
   </modules>
 
 	<properties>
