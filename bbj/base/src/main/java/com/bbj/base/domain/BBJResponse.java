@@ -1,14 +1,13 @@
 package com.bbj.base.domain;
 
-import java.io.Serializable;
-
 /**
- * BBJObject 基本对象
+ * 请求相应对象
  * @author bage
  *
  */
-public class BBJObject implements Serializable{
+public class BBJResponse extends BBJObject{
 
 	private static final long serialVersionUID = 1L;
 	
+
 }

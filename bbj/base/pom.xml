@@ -12,6 +12,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.base.version>4.3.9.RELEASE</spring.base.version>
+		<gson.base.version>2.8.0</gson.base.version>
+		<mysql.base.version>5.1.39</mysql.base.version>
+		
 	</properties>
 
 	<dependencies>
@@ -21,6 +25,62 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- start 2017-11-12 21:21 添加 by 陆瑞华 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.base.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.base.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.base.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.base.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.base.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.base.version}</version>
+		</dependency>
+		<!-- end 2017-11-12 21:21 添加 by 陆瑞华 -->
+		
+		<!-- gson start 2017-11-12 23:33 添加 by 陆瑞华 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.base.version}</version>
+		</dependency>
+		<!-- gson end 2017-11-12 23:33 添加 by 陆瑞华 -->
+		
+		<!-- start 2017-11-26 22:46 添加 by 陆瑞华 -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>${mysql.base.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>${spring.base.version}</version>
+		</dependency>
+		
+		<!-- end 2017-11-26 22:46 添加 by 陆瑞华 -->
+		
 	</dependencies>
 
 </project>

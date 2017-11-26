@@ -1,14 +1,13 @@
-package com.bbj.base.test;
+package com.bbj.base.domain;
 
-import com.bbj.base.domain.BBJObject;
-
-public class DemoDomain extends BBJObject{
+public class DemoDomain extends BBJEntity{
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String tableName = "demoTable";
+	public static final String tableName = "base_demo";
 	
-	public static final String attr1 = "id";
+	public static final String ID = "id";
+	public static final String attr1 = "attr1";
 	public static final String attr2 = "attr2";
 	public static final String attr3 = "attr3";
 	
@@ -19,7 +18,7 @@ public class DemoDomain extends BBJObject{
 
 	@Override
 	public String[] initAttr() {
-		return new String[]{attr1,attr2,attr3};
+		return new String[]{ID,attr1,attr2,attr3};
 	}
 	
 }
