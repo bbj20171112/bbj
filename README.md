@@ -7,12 +7,4 @@ https://www.2cto.com/kf/201210/161016.html
 
 可是我里面的实现是trim()过了，所有就是Empty的吧？@BinaryLie
 
-"",this is empty,
-
-"    ",this is blank,not empty
-
-isEmpty("  ") should be false,
-
-isBlank("  ") should be true.
-
-Do you agree with me,bage ?  ʅ（´◔౪◔）ʃ
+ʅ（´◔౪◔）ʃ
