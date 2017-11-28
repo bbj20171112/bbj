@@ -6,25 +6,11 @@
          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-	<!-- start 配置编码 by 陆瑞华 2017-11-13 00:07 -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean
-					class="org.springframework.http.converter.StringHttpMessageConverter">
-					<property name="defaultCharset">
-						<value>UTF-8</value>
-					</property>
-
-				</bean>
-			</list>
-		</property>
-	</bean>
-	<!-- end 配置编码 by 陆瑞华 2017-11-13 00:07 -->
-
 	<!-- 配置自动扫描的包 -->
-	<context:component-scan base-package="com.bbj.web.menu"></context:component-scan>
-
+	<context:component-scan base-package="com.bbj"></context:component-scan>
+	
+	<mvc:annotation-driven/>
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -32,5 +18,36 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<!-- MySQL --> 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+     </bean>
+     <context:property-placeholder location="classpath:jdbc.properties"/>
+     <bean id="jdbctemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- MySQL -->
 
+	<!-- 增加返回JSON格式支持 2017-11-28 by luruihua -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="bbjMappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="bbjMappingJacksonHttpMessageConverter"
+		class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean> 
+ 	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->
+ 
 </beans>

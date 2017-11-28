@@ -1,4 +1,4 @@
-package com.bbj.base.httpmessageconverter;
+package com.bbj.base.responseconverter;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.converter.ObjectToStringHttpMessageConverter;
