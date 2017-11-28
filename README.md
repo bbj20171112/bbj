@@ -7,5 +7,6 @@ https://www.2cto.com/kf/201210/161016.html
 
 可是我里面的实现是trim()过了，所有就是Empty的吧？@啊略
 
-isNotEmpty(" ")应该为true吧
-isNotBlank(" ")应该为false吧，ʅ（´◔౪◔）ʃ
+isNotEmpty("  ")应该为true吧
+
+isNotBlank("  ")应该为false吧，ʅ（´◔౪◔）ʃ
