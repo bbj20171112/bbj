@@ -5,8 +5,14 @@
 # StringUtils中 isNotEmpty 和isNotBlank的区别
 https://www.2cto.com/kf/201210/161016.html
 
-可是我里面的实现是trim()过了，所有就是Empty的吧？@啊略
+可是我里面的实现是trim()过了，所有就是Empty的吧？@BinaryLie
 
-isNotEmpty("  ")应该为true吧
+"",this is empty,
 
-isNotBlank("  ")应该为false吧，ʅ（´◔౪◔）ʃ
+"    ",this is blank,not empty
+
+isEmpty("  ") should be false,
+
+isBlank("  ") should be true.
+
+Do you agree with me,bage ?  ʅ（´◔౪◔）ʃ
