@@ -7,4 +7,4 @@ https://www.2cto.com/kf/201210/161016.html
 
 可是我里面的实现是trim()过了，所有就是Empty的吧？@BinaryLie
 
-ʅ（´◔౪◔）ʃ
+ʅ（´◔౪◔）ʃ @jackw 
