@@ -22,11 +22,11 @@ public abstract class BBJDao{
 	public abstract BBJEntity initEntity();
 
 	/**
-	 * 
+	 * 根据主键值查找一个对象
 	 * @param primaryValue
 	 * @return
 	 */
-	public BBJEntity queryForBBJEntity(String primaryValue){
+	public BBJEntity queryByPrimaryValue(String primaryValue){
 		String sql = "select "+curruntBBJEntity.getAttrKeysStr()
 		+" from " + curruntBBJEntity.getTableName() 
 		+ " where " + curruntBBJEntity.getPrimaryAttr() + " = ?";
@@ -52,13 +52,38 @@ public abstract class BBJDao{
 		}
 		return null;
 	}
+	
 	/**
-	 * 
-	 * @param cls
+	 * 根据主键删除一个对象
+	 * @param primaryValue
 	 * @return
 	 */
-	public <T> T queryForObject(Class<T> cls){
-		return this.jdbcTemplate.queryForObject("select count(*) from "+curruntBBJEntity.getTableName(), cls);
+	public BBJEntity deleteByPrimaryValue(String primaryValue){
+		// TODO
+//		String sql = "select "+curruntBBJEntity.getAttrKeysStr()
+//		+" from " + curruntBBJEntity.getTableName() 
+//		+ " where " + curruntBBJEntity.getPrimaryAttr() + " = ?";
+//		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, primaryValue);
+//		
+//		if(rs.next()){
+//			BBJEntity bbjEntity = new BBJEntity() {
+//				private static final long serialVersionUID = 1L;
+//				@Override
+//				public String initTable() {
+//					return curruntBBJEntity.getTableName();
+//				}
+//				@Override
+//				public String[] initAttr() {
+//					return curruntBBJEntity.getAttrKeys().toArray(new String[0]);
+//				}
+//			};
+//			List<String> keys = curruntBBJEntity.getAttrKeys();
+//			for (int i = 0; i < keys.size(); i++) {
+//				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
+//			}
+//			return bbjEntity;
+//		}
+		return null;
 	}
 	
 	

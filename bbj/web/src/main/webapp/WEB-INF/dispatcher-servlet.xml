@@ -36,11 +36,11 @@
 	<bean class="com.bbj.base.responseconverter.BBJAnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
-				<ref bean="mappingJacksonHttpMessageConverter" />
+				<ref bean="bbjMappingJackson2HttpMessageConverter" />
 			</list>
 		</property>
 	</bean>
-	<bean id="mappingJacksonHttpMessageConverter"
+	<bean id="bbjMappingJackson2HttpMessageConverter"
 		class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>

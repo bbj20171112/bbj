@@ -16,11 +16,11 @@ public class Main {
 		ApplicationContext context = new ClassPathXmlApplicationContext(beansFilePathStr ); 	
 		DemoDao demoDao = context.getBean("demoDao",DemoDao.class);
 		System.out.println(demoDao);
-		BBJEntity h = demoDao.queryForBBJEntity("1");
+		BBJEntity h = demoDao.queryByPrimaryValue("1");
 		System.out.println(h);
 		
 		DemoDao2 demoDao2 = context.getBean("demoDao2",DemoDao2.class);
-		BBJEntity h2 = demoDao2.queryForBBJEntity("3");
+		BBJEntity h2 = demoDao2.queryByPrimaryValue("3");
 		System.out.println(h2);
 	}
 	

@@ -80,6 +80,12 @@
 		</dependency>
 		
 		<!-- end 2017-11-26 22:46 添加 by 陆瑞华 -->
+		<dependency>
+    <groupId>wsdl4j</groupId>
+    <artifactId>wsdl4j</artifactId>
+    <version>1.6.2</version>
+</dependency>
+		
 		
 	</dependencies>
 

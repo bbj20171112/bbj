@@ -204,7 +204,7 @@ public abstract class BBJEntity extends BBJObject	{
 	 */
 	@Override
 	public String toString() {
-		return "StringObject [tableName=" + tableName + ", primaryAttr=" + primaryAttr + ", attr=" + getAttr() + "]";
+		return "BBJEntity [tableName=" + tableName + ", primaryAttr=" + primaryAttr + ", attr=" + getAttr() + "]";
 	}
 
 }
