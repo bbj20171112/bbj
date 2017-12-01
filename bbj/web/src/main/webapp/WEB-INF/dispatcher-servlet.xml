@@ -11,12 +11,19 @@
 	
 	<mvc:annotation-driven/>
 	
+	<!-- 返回 jsp 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
+	</bean> 
+	-->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/html/framework/" />
+		<property name="suffix" value=".html" />
 	</bean>
 	
 	<!-- MySQL --> 

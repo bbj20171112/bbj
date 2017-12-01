@@ -6,7 +6,6 @@ public class DemoDomain extends BBJEntity{
 
 	public static final String tableName = "base_demo";
 	
-	public static final String ID = "id";
 	public static final String attr1 = "attr1";
 	public static final String attr2 = "attr2";
 	public static final String attr3 = "attr3";
@@ -18,7 +17,7 @@ public class DemoDomain extends BBJEntity{
 
 	@Override
 	public String[] initAttr() {
-		return new String[]{ID,attr1,attr2,attr3};
+		return new String[]{attr1,attr2,attr3};
 	}
 	
 }

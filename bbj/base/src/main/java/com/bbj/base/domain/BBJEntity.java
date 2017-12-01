@@ -16,9 +16,17 @@ import com.bbj.base.utils.StringUtils;
 public abstract class BBJEntity extends BBJObject	{
 
 	private static final long serialVersionUID = 1L;
-
-	protected String tableName = ""; 									// 表名
-	protected String primaryAttr = ""; 									// 主键
+	// 基本属性
+	public static final String id = "id";
+	public static final String create_time = "create_time";
+	public static final String delete_state = "delete_state";
+	public static final String update_time = "update_time";
+	
+	public static final String delete_state_yes = "1";
+	public static final String delete_state_not = "0";
+	
+	private String tableName = ""; 	
+	// 表名								// 主键
 	private Map<String, String> attr = new HashMap<String, String>(); 	// 属性集
 
 	// 构造函数
@@ -31,11 +39,12 @@ public abstract class BBJEntity extends BBJObject	{
 	private void init() {
 		tableName = initTable();
 		String[] attrs = initAttr();
+		addAttr(id, "");
+		addAttr(create_time, "");
+		addAttr(delete_state, "0");
+		addAttr(update_time, "");
 		if (attrs != null) {
 			for (int i = 0; i < attrs.length; i++) {
-				if (i == 0) {
-					primaryAttr = attrs[i];
-				}
 				if (StringUtils.isNotEmpty(attrs[i])) {
 					addAttr(attrs[i], "");
 				}
@@ -66,14 +75,7 @@ public abstract class BBJEntity extends BBJObject	{
 	}
 
 	// 属性操作
-	/**
-	 * 获取主键
-	 * @return
-	 */
-	public String getPrimaryAttr() {
-		return primaryAttr;
-	}
-	
+		
 	/**
 	 * 获取所有的属性集 ( 如果需要获取某个属性值，可以使用 getAttr(key)方法 )
 	 * @return
@@ -169,7 +171,7 @@ public abstract class BBJEntity extends BBJObject	{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((primaryAttr == null) ? 0 : primaryAttr.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -185,15 +187,10 @@ public abstract class BBJEntity extends BBJObject	{
 		if (getClass() != obj.getClass())
 			return false;
 		BBJEntity other = (BBJEntity) obj;
-		if (primaryAttr == null) {
-			if (other.primaryAttr != null)
+		if (getAttr().get(id) == null) {
+			if (other.getAttr().get(id) != null)
 				return false;
-		} else if (!primaryAttr.equals(other.primaryAttr))
-			return false;
-		else if (getAttr().get(primaryAttr) == null) {
-			if (other.getAttr().get(primaryAttr) != null)
-				return false;
-		} else if (!getAttr().get(primaryAttr).equals(other.getAttr().get(primaryAttr)))
+		} else if (!getAttr().get(id).equals(other.getAttr().get(id)))
 			return false;
 		return true;
 	}
@@ -204,7 +201,7 @@ public abstract class BBJEntity extends BBJObject	{
 	 */
 	@Override
 	public String toString() {
-		return "BBJEntity [tableName=" + tableName + ", primaryAttr=" + primaryAttr + ", attr=" + getAttr() + "]";
+		return "BBJEntity [tableName=" + tableName + ", attr=" + getAttr() + "]";
 	}
 
 }
