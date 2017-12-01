@@ -12,3 +12,7 @@ https://www.2cto.com/kf/201210/161016.html
 jdbc.driverClassName=com.mysql.jdbc.Driver
 
 “jdbc.”就不用了吧 (‾◡◝)
+
+2017-12-01  by luruihua
+增加基类的增删改查方法，但是查询的过滤仍有待设计，暂不实现
+详情参考：/base/src/main/java/com/bbj/base/test/db/Main.java 和 /base/readme.txt
