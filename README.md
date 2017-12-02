@@ -16,3 +16,7 @@ jdbc.driverClassName=com.mysql.jdbc.Driver
 2017-12-01  by luruihua
 增加基类的增删改查方法，但是查询的过滤仍有待设计，暂不实现
 详情参考：/base/src/main/java/com/bbj/base/test/db/Main.java 和 /base/readme.txt
+
+
+增加对grid的基本使用
+datatables官网：http://www.datatables.club/
