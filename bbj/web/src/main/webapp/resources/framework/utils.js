@@ -3,6 +3,17 @@
  */
 var Utils = new Utils();
 function Utils() {
+	
+	/**
+	 * 是否存在属性
+	 */
+	this.hasOwnProperty = function (obj,attr){
+		if(obj == null || obj == undefined || obj == ""){
+			return false;
+		}
+		return obj.hasOwnProperty(attr);;
+	}
+	
 	/**
 	 * 判断空
 	 */
@@ -17,7 +28,10 @@ function Utils() {
 	 * 判断不空
 	 */
 	this.isNotEmpty = function (obj){
-		return !isEmpty(obj);
+		if(obj != null && obj != undefined && obj != "" || $.trim("" + obj) != ""){
+			return true;
+		}
+		return false;
 	}
 	
 	/**

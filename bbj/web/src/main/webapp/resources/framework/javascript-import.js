@@ -28,7 +28,7 @@ document.writeln('<!-- Utils -->');
 document.writeln('<script src="/'+contextPath+'/resources/framework/utils.js"></script>');
 
 document.writeln('<!-- DataTables -->');
-document.writeln('<script src="/'+contextPath+'/resources/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>');
+document.writeln('<script src="/'+contextPath+'/resources/bower_components/datatables.net/js/jquery.dataTables.js"></script>');
 document.writeln('<script src="/'+contextPath+'/resources/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>');
 
 document.writeln('<!-- SlimScroll -->');
