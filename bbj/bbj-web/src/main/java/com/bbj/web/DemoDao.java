@@ -1,16 +1,16 @@
-package com.bbj.base.dao;
+package com.bbj.web;
 
 import org.springframework.stereotype.Repository;
 
+import com.bbj.base.dao.BBJDao;
 import com.bbj.base.domain.BBJEntity;
-import com.bbj.base.domain.DemoDomain2;
 
 @Repository
-public class DemoDao2 extends BBJDao{
+public class DemoDao extends BBJDao{
 
 	@Override
 	public BBJEntity initEntity() {
-		return new DemoDomain2();
+		return new DemoDomain();
 	}
 
 }

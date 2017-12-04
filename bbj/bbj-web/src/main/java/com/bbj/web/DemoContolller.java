@@ -1,4 +1,4 @@
-package com.bbj.base.controller;
+package com.bbj.web;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.base.domain.BBJEntity;
 
 @Controller
-@RequestMapping({"/base/demo"})
+@RequestMapping({"/web/demo"})
 public class DemoContolller {
 	
 	@Autowired
-	com.bbj.base.dao.DemoDao2 demoDao;
+	DemoDao2 demoDao;
 	
 	@RequestMapping({"/queryByPage"})
 	@ResponseBody

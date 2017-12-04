@@ -1,4 +1,6 @@
-package com.bbj.base.domain;
+package com.bbj.test.base.crud;
+
+import com.bbj.base.domain.BBJEntity;
 
 public class DemoDomain2 extends BBJEntity{
 

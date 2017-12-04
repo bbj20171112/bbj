@@ -1,4 +1,6 @@
-package com.bbj.base.domain;
+package com.bbj.web;
+
+import com.bbj.base.domain.BBJEntity;
 
 public class DemoDomain extends BBJEntity{
 
