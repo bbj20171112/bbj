@@ -11,8 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.bbj.base.dao.DemoDao;
-import com.bbj.base.dao.DemoDao2;
 import com.bbj.base.domain.BBJEntity;
 
 @RunWith(SpringRunner.class)

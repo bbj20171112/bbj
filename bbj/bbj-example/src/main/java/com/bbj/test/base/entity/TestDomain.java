@@ -1,6 +1,6 @@
 package com.bbj.test.base.entity;
 
-import com.bbj.base.domain.DemoDomain;
+import com.bbj.test.base.crud.DemoDomain;
 
 public class TestDomain {
 

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.base.domain.DemoDomain;
+import com.bbj.test.base.crud.DemoDomain;
 
 @Controller
 @RequestMapping("/example/response")
