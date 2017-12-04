@@ -8,62 +8,16 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>web</module>
-		<module>base</module>
-  </modules>
+		<module>bbj-web</module>
+		<module>bbj-base</module>
+		<module>bbj-example</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.base.version>UTF-8</junit.base.version>
-		<servlet.base.version>3.0-alpha-1</servlet.base.version>
-		<jsp.base.version>2.1</jsp.base.version>
-		<jstl.base.version>1.2</jstl.base.version>
-		<jackson.base.version>2.8.9</jackson.base.version>
-		<!-- <thymeleaf.base.version>3.0.7.RELEASE</thymeleaf.base.version> -->
-		<thymeleaf.base.version>3.0.2.RELEASE</thymeleaf.base.version>
 	</properties>
 
 	<dependencies>
-		<!-- start 2017-11-12 21:21 添加 by 陆瑞华 -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.base.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>${jsp.base.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${servlet.base.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- end 2017-11-12 21:21 添加 by 陆瑞华 -->
-
-		<!-- jackson end 2017-11-13 22:51 添加 by 陆瑞华 -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.base.version}</version>
-		</dependency>
-		<!-- jackson end 2017-11-13 22:51 添加 by 陆瑞华 -->
-
-		<!-- thymeleaf start 2017-11-16 23:21 添加 by 陆瑞华 -->
-		<dependency>
-			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf</artifactId>
-			<version>${thymeleaf.base.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf-spring4</artifactId>
-			<version>3.0.2.RELEASE</version>
-		</dependency>
-		<!-- thymeleaf end 2017-11-16 23:21 添加 by 陆瑞华 -->
 	</dependencies>
 
 </project>
