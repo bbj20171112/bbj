@@ -9,3 +9,7 @@ bbjframe--war --纯前台   --pom.xml引入web、base的jar
 bbj--pom
    --jar--web --纯java
    --jar--base--纯java
+
+   
+   
+   
