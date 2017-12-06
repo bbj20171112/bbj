@@ -58,6 +58,8 @@ $(function () {
         url: "../../web/demo/queryByPage",
         data: "tagPage=1&pageSize=10",
         success: function(data){
+        	data = data.data;
+        	//console.log(data);
         	$('#example2').DataTable({
         		data : data,
         		select: {
@@ -70,9 +72,9 @@ $(function () {
                 },{
                     targets: -1,
                     data: null,
-                    defaultContent: "<a class='btn-opt'>编辑</a>",
+                    defaultContent: "<button class='btn-opt'>编辑</button>",
                     render: function(data, type, full) { // 返回自定义内容
-                        return '<span onclick="edit_func('+full.attr.id+')">编辑</span>';
+                        return '<button onclick="edit_func('+full.attr.id+')">编辑'+full.attr.id+full.attr.attr5+'</button>';
                     }
                 },{ 
                     "orderable": false, "targets": [0,-1],  //设置第一列和最后一列不可排序
