@@ -2,7 +2,7 @@
  * 引入全局 JavaScript 文件
  */
 
-var contextPath = 'bbj-web';
+// contextPath -- 已经在css-import里面定义
 
 document.writeln('<!-- REQUIRED JS SCRIPTS -->');
 
@@ -36,6 +36,10 @@ document.writeln('<script src="/'+contextPath+'/resources/bower_components/jquer
 
 document.writeln('<!-- FastClick -->');
 document.writeln('<script src="/'+contextPath+'/resources/bower_components/fastclick/lib/fastclick.js"></script>');
+
+
+document.writeln('<!-- iCheck -->');
+document.writeln('<script src="/'+contextPath+'/resources/plugins/iCheck/icheck.min.js"></script>');
 
 
 

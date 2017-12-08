@@ -18,6 +18,8 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">基本表格</h3>
+              <button type="button" onclick="showSelectItems()" class="btn btn-info">查看选中</button>
+                        	
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -54,6 +56,7 @@
 <script src="../../resources/framework/javascript-import.js"></script>
 <script type="text/javascript">
 $(function () {
+	
 	// 页面初始化
 	// http://www.datatables.club/manual/data.html
 	Utils.ajax({
@@ -65,47 +68,105 @@ $(function () {
         	// console.log(data);
         	$('#example').DataTable({
         		data : data,
-        		"columnDefs": [{
-        				"targets": 0,
-                    	"render": function(data, type, row) {
-                        	return '<input type="checkbox" class="icheckbox_minimal item_check">';
-                    	}
+        		searching: false, // 是否搜索
+        		processing: true, // 显示进度
+        	    ordering: true, // 是否排序
+        	    order: [[ 1, "asc" ]], // 默认排序 // desc
+        	    scrollY: 200,scrollCollapse: true, // 滚动条
+        		lengthMenu: [[10, -1], [10, "All"]], // 定义页面大小
+        		columnDefs: [{ // 列渲染
+        				targets: 0,
+                    	render: function(data, type, row) {
+                        	return '<input type="checkbox" name="item_check" class="icheckbox_minimal">';
+                    	},
+                    	orderData: [ 0, 1 ],  //如果第一列进行排序，有相同数据则按照第二列顺序排列
+                    	visible: true, // 是否隐藏
+                        searchable: false // 是否可以查询
+                    	
                 	},{
-           				"targets": 3,
-                    	"render": function(data, type, row) {
+           				targets: 3,
+                    	render: function(data, type, row) {
 	                    	return row.id+"-合并-" + row.desc;
                     	}
                     },{
-               			"targets": -1,
-                        "render": function(data, type, row) {
+               			targets: -1,
+                        render: function(data, type, row) {
                         	var operatorDiv = '<div class="btn-group">'
                         	+'<button type="button" onclick="row_edit('+row.id+')" class="btn btn-info">编辑</button>'
                         	+'<button type="button" onclick="row_delete('+row.id+')" class="btn btn-danger">删除</button>'
                         	+'</div>';
                         	return operatorDiv;
                         }
+                        
                 }],
-        		// 配置列映射
-        		columns: [
+        		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
                     { data: null },
                     { data: 'id' },
                     { data: 'desc'},
                     { data: null },
-                    { data: null}
-                ]
+                    { data: null } // 居中
+                ],
+                // 创建行回调
+                "createdRow": function ( row, data, index ) {
+                	// console.log(row);
+                },
+                // 初始化数据结束
+                "initComplete": function () {
+                	// console.log("initComplete");
+                },
         	});
         	}
 		});
   	})
   	
+  	// 编辑事件(列点击)
   	function row_edit(id){
 		alert("您要编辑：id=" + id);
 	}
 	
+	// 删除事件(列点击)
 	function row_delete(id){
 		alert("您要删除：id=" + id);
 	}
 
+	// 行点击事件
+	$('#example tbody').on('click', 'tr', function () {
+		var data = $('#example').DataTable().row( this ).data();
+        console.log( '您点击了ID为： '+data.id+' 的数据' );
+    } );
+	
+	// 隐藏和显示列
+	$('#example tbody').on('click', 'tr', function () {
+		// Get the column API object
+	    var column = $('#example').DataTable().column(1);
+
+	    // Toggle the visibility
+	    column.visible( ! column.visible() );
+    } );
+	
+	// 选择
+	$('#example tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        var ichecked = $(this).find("[type=checkbox]");
+        if(ichecked.is(':checked')){
+        	ichecked.iCheck('uncheck');
+        }else{
+        	ichecked.iCheck('check');
+        }
+        
+    
+    } );
+ 
+	// 获取选择的Item
+    function showSelectItems() {
+    	// console.log($('#example').DataTable().rows('.selected').data());
+    	var rows = $('#example').DataTable().rows('.selected').data();
+    	var rowsIdArray = [];
+    	for(var i = 0;i < rows.length; i++){
+    		rowsIdArray[i] = rows[i].id;
+    	}
+        alert('您选择的ID：' + rowsIdArray );
+    }
    
 </script>
 </body>
