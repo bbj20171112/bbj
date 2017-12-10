@@ -29,9 +29,19 @@ public class WidgetsController {
 	 */
 	@RequestMapping({"/grid"})
 	public String grid(HttpServletRequest request){
-		request.setAttribute("test", "abcd");
 		return "widgets/grid";
 	}
+	
+	/**
+	 * 跳转到grid页面
+	 * @param request
+	 * @return 跳转的页面
+	 */
+	@RequestMapping({"/grid-extends"})
+	public String gridExtends(HttpServletRequest request){
+		return "widgets/grid-extends";
+	}
+	
 	/**
 	 * 跳转到grid页面
 	 * @param request

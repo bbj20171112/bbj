@@ -89,8 +89,8 @@ public class MenuService {
 		attr = new HashMap<String, String>();
 		attr.put("id", "3");
 		attr.put("upId", "0");
-		attr.put("text", "menu3");
-		attr.put("link", "template/profile");
+		attr.put("text", "grid拓展");
+		attr.put("link", "base/widgets/grid-extends");
 		menu = new MenuObject(attr );
 		list.add(menu );
 

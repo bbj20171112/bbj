@@ -32,6 +32,7 @@
                   <th>ID</th>
                   <th>Desc</th>
                   <th>合并列</th>
+                  <th>Desc</th>
                   <th>操作</th>
                 </tr>
                 </thead>
@@ -72,7 +73,7 @@ $(function () {
         		processing: true, // 显示进度
         	    ordering: true, // 是否排序
         	    order: [[ 1, "asc" ]], // 默认排序 // desc
-        	    scrollY: 200,scrollCollapse: true, // 滚动条
+        	    // scrollY: 200,scrollCollapse: true, // 滚动条
         		lengthMenu: [[10, -1], [10, "All"]], // 定义页面大小
         		columnDefs: [{ // 列渲染
         				targets: 0,
@@ -103,8 +104,9 @@ $(function () {
                     { data: null },
                     { data: 'id' },
                     { data: 'desc'},
-                    { data: null },
-                    { data: null } // 居中
+                    { data: 'desc'},
+                    { data: 'desc'},
+                    { data: null }, 
                 ],
                 // 创建行回调
                 "createdRow": function ( row, data, index ) {
@@ -115,9 +117,11 @@ $(function () {
                 	// console.log("initComplete");
                 },
         	});
+        	$(".table").colResizable(); // 使用colResizable插件实现表格头宽度拖拽,这个不能喝滚动条同时时候，不然会存在一些问题
         	}
 		});
   	})
+  	
   	
   	// 编辑事件(列点击)
   	function row_edit(id){
