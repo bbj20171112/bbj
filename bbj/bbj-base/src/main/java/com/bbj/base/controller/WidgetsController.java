@@ -63,7 +63,16 @@ public class WidgetsController {
 	}
 	
 	
-	
+
+	/**
+	 * 跳转到alert页面
+	 * @param request
+	 * @return 跳转的页面
+	 */
+	@RequestMapping({"/alert"})
+	public String alert(HttpServletRequest request){
+		return "widgets/alert";
+	}
 	
 	
 }

@@ -81,16 +81,16 @@ public class MenuService {
 		attr = new HashMap<String, String>();
 		attr.put("id", "2");
 		attr.put("upId", "0");
-		attr.put("text", "menu2");
-		attr.put("link", "template/invoice");
+		attr.put("text", "Alert");
+		attr.put("link", "base/widgets/alert");
 		menu = new MenuObject(attr );
 		list.add(menu );
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "3");
 		attr.put("upId", "0");
-		attr.put("text", "grid拓展");
-		attr.put("link", "base/widgets/grid-extends");
+		attr.put("text", "Grid");
+		attr.put("link", "base/widgets/grid");
 		menu = new MenuObject(attr );
 		list.add(menu );
 

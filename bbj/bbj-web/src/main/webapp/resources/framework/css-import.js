@@ -20,10 +20,15 @@ document.writeln('<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.
 document.writeln('<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>');
 document.writeln('<![endif]-->');
 document.writeln('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">');
+
 document.writeln('<!-- Pace style -->');
 document.writeln('<link rel="stylesheet" href="'+contextPath+'/resources/bower_components/PACE/themes/blue/pace-theme-bounce.css">');
+
 document.writeln('<!-- ICheck -->');
 document.writeln('<link rel="stylesheet" href="'+contextPath+'/resources/plugins/iCheck/all.css">');
-
+/*
+document.writeln('<!-- SweetAlert -->');
+document.writeln('<link rel="stylesheet" href="'+contextPath+'/resources/plugins/sweetalert/sweetalert.css">');
+*/
 
 

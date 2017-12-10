@@ -43,6 +43,8 @@ document.writeln('<script src="'+contextPath+'/resources/plugins/iCheck/icheck.m
 document.writeln('<!-- colResizable -->');
 document.writeln('<script src="'+contextPath+'/resources/plugins/colResizable/colResizable-1.5.min.js"></script>');
 
+document.writeln('<!-- SweetAlert -->');
+document.writeln('<script src="'+contextPath+'/resources/plugins/sweetalert/sweetalert.min.js"></script>');
 
 
 
