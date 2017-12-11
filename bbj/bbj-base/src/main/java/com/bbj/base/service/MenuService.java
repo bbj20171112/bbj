@@ -73,8 +73,8 @@ public class MenuService {
 		attr = new HashMap<String, String>();
 		attr.put("id", "1");
 		attr.put("upId", "0");
-		attr.put("text", "menu1");
-		attr.put("link", "template/500");
+		attr.put("text", "Progress");
+		attr.put("link", "base/widgets/progress");
 		menu = new MenuObject(attr );
 		list.add(menu );
 		

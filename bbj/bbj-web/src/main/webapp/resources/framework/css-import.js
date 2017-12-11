@@ -22,7 +22,7 @@ document.writeln('<![endif]-->');
 document.writeln('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">');
 
 document.writeln('<!-- Pace style -->');
-document.writeln('<link rel="stylesheet" href="'+contextPath+'/resources/bower_components/PACE/themes/blue/pace-theme-bounce.css">');
+document.writeln('<link rel="stylesheet" href="'+contextPath+'/resources/bower_components/PACE/themes/blue/pace-theme-minimal.css">');
 
 document.writeln('<!-- ICheck -->');
 document.writeln('<link rel="stylesheet" href="'+contextPath+'/resources/plugins/iCheck/all.css">');

@@ -73,6 +73,17 @@ public class WidgetsController {
 	public String alert(HttpServletRequest request){
 		return "widgets/alert";
 	}
+
+
+	/**
+	 * 跳转到progress页面
+	 * @param request
+	 * @return 跳转的页面
+	 */
+	@RequestMapping({"/progress"})
+	public String progress(HttpServletRequest request){
+		return "widgets/progress";
+	}
 	
 	
 }
