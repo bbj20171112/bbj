@@ -9,7 +9,16 @@
 	<!-- 配置自动扫描的包 -->
 	<context:component-scan base-package="com.bbj"></context:component-scan>
 	
-	<mvc:annotation-driven/>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">
+			</bean>
+		</mvc:message-converters>
+		<mvc:return-value-handlers>
+			<bean class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
+			</bean>
+		</mvc:return-value-handlers>
+	</mvc:annotation-driven>
 	
 	<!-- 返回 jsp 
 	<bean id="viewResolver"
@@ -70,6 +79,9 @@
 				<value>text/html;charset=UTF-8</value>
 			</list>
 		</property>
+	</bean>
+	<bean id="testtest"
+		class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
 	</bean>
  	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->
  

@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>BBJ | Menu</title>
+  
+  <!-- 引入全局css样式 -->
+  <script src="../../resources/framework/css-import.js"></script>
+  
+  <style type="text/css">
+	.swal-title {
+	  margin: 0px;
+	  font-size: 16px;
+	  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+	  margin-bottom: 24px;
+	}
+	.swal-footer {
+	  background-color: rgb(245, 248, 250);
+	  margin-top: 24px;
+	  border-top: 1px solid #E9EEF1;
+	  overflow: hidden;
+	}
+  </style>
+</head>
+<body>
+<div class="wrapper">
+		<h3 class="box-title">SweetAlert, 官网：https://sweetalert.js.org/</h3>
+	 <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="basic()" class="btn btn-info">basic</button>
+        	<button type="button" onclick="withTitle()" class="btn btn-info">withTitle</button>
+        	<button type="button" onclick="withIcon()" class="btn btn-info">withIcon</button>
+        	<button type="button" onclick="deleteConfirm()" class="btn btn-info">deleteConfirm</button>
+        	<button type="button" onclick="buttons()" class="btn btn-info">buttons</button>
+        	<button type="button" onclick="html()" class="btn btn-info">html</button>
+        
+        
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- ./wrapper -->
+<!-- 引入JavaScripts样式 -->
+<script src="../../resources/framework/javascript-import.js"></script>
+<script type="text/javascript">
+
+	function buttons(){
+		swal(	"Here's the title!"
+				, "...and here's the text!", {
+			  buttons: {
+			    cancel: "取消",
+			    catch: {
+			      text: "其他",
+			      value: "other",
+			    },
+			    defeat: {
+			      text: "确定",
+			      value: "ok",
+			    }
+			  },
+			})
+			.then((value) => {
+			  switch (value) {
+			 
+			    case "ok":
+			      swal("你点击了确定");
+			      break;
+			 
+			    case "other":
+			      swal("你点击了其他");
+			      break;
+			 
+			    default:
+			      swal("你点击了取消");
+			  }
+			});
+	}
+    function basic(){
+	    swal("Hello Wprld！");
+    }
+    function withTitle(){
+	    swal("Here's the title!", "...and here's the text!");
+    }
+    function deleteConfirm(){
+    	swal( "Are you sure?"
+			, "This is tips", {
+			  buttons: {
+			    cancel: "Cancel",
+			    Delete: {
+			      text: "Delete",
+			      value: "ok",
+			    }
+			  },
+			})
+			.then((value) => {
+			  switch (value) {
+			 
+			    case "Delete":
+			      swal("deleted！", "This is tips", "success"); 
+			      break;
+			 
+			    default:
+			      swal("你点击了取消");
+			  }
+			});
+    }
+    function withIcon(){
+    	swal({
+    		  title: "Are you sure?",
+    		  text: "Are you sure that you want to delete this file?",
+    		  icon: "warning",
+    		  dangerMode: true,
+    		});
+    }
+    function html(){
+    	var div = document.createElement("div");
+    	$(div).html('<div class="col-xs-12">'+
+    			'<button type="button" onclick="basic()" class="btn btn-info">basic</button>'+
+            	'<button type="button" onclick="withTitle()" class="btn btn-info">withTitle</button>'+
+            	'<button type="button" onclick="withIcon()" class="btn btn-info">withIcon</button>'+
+            	'<button type="button" onclick="deleteConfirm()" class="btn btn-info">deleteConfirm</button>'+
+            	'<button type="button" onclick="buttons()" class="btn btn-info">buttons</button>'+
+            	'</div>');
+    	swal({
+    	  content: div,
+    	});
+    }
+    
+</script>
+</body>
+</html>

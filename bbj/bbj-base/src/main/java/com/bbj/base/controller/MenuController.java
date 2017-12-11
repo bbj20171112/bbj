@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.base.utils.JsonUtils;
-
 @Controller
 @RequestMapping(value={"/menu"})
 public class MenuController {
@@ -34,8 +32,8 @@ public class MenuController {
 
 	@RequestMapping(value={"/retrieve"})
 	@ResponseBody
-	public String retrieve(){
-		return JsonUtils.toJson(MenuService.retrieve());
+	public Object retrieve(){
+		return MenuService.retrieve();
 	}
 	
 

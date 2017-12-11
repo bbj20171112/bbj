@@ -73,16 +73,16 @@ public class MenuService {
 		attr = new HashMap<String, String>();
 		attr.put("id", "1");
 		attr.put("upId", "0");
-		attr.put("text", "menu1");
-		attr.put("link", "template/500");
+		attr.put("text", "Progress");
+		attr.put("link", "base/widgets/progress");
 		menu = new MenuObject(attr );
 		list.add(menu );
 		
 		attr = new HashMap<String, String>();
 		attr.put("id", "2");
 		attr.put("upId", "0");
-		attr.put("text", "menu2");
-		attr.put("link", "template/invoice");
+		attr.put("text", "Alert");
+		attr.put("link", "base/widgets/alert");
 		menu = new MenuObject(attr );
 		list.add(menu );
 
@@ -112,17 +112,17 @@ public class MenuService {
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "4");
-		attr.put("upId", "1");
-		attr.put("text", "menu4");
-		attr.put("link", "template/lockscreen");
+		attr.put("upId", "0");
+		attr.put("text", "Layer");
+		attr.put("link", "base/widgets/layer");
 		menu = new MenuObject(attr );
 		list.add(menu );
 
 		attr = new HashMap<String, String>();
 		attr.put("id", "5");
 		attr.put("upId", "1");
-		attr.put("text", "menu5");
-		attr.put("link", "template/404");
+		attr.put("text", "Grid");
+		attr.put("link", "base/widgets/grid");
 		menu = new MenuObject(attr );
 		list.add(menu );
 
