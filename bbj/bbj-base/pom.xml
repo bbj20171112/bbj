@@ -8,7 +8,9 @@
 		<artifactId>bbj</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>bbj</artifactId>
+	<groupId>com.bbj</groupId>
+	<artifactId>bbj-base</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
 	
 
