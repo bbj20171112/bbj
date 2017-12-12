@@ -16,8 +16,8 @@
     <dependency>
 		<groupId>com.bbj</groupId>
 		<artifactId>bbj-base</artifactId>
-		<version>${version}</version>
-	</dependency>
+		<version>${project.version}</version>
+	</dependency> 
 		
 	<dependency>
 	    <groupId>javax.servlet</groupId>
