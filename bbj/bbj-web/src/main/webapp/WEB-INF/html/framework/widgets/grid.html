@@ -11,23 +11,28 @@
 </head>
 <body>
 <div class="wrapper">
+		<h3 class="box-title">表格, 官网：http://www.datatables.club/</h3>
 	 <section class="content">
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Hover Data Table</h3>
-              <p th:utext="#{test}">Welcome to our grocery store!</p>
+              <h3 class="box-title">基本表格</h3>
+              <button type="button" onclick="showSelectItems()" class="btn btn-info">查看选中</button>
+                        	
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="example" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th><input type="checkbox" class="icheckbox_minimal" id="all_checked"></th>
+                  <th>
+                  	<input type="checkbox" class="icheckbox_minimal" id="all_checked">
+                  </th>
                   <th>ID</th>
-                  <th>Time</th>
-                  <th>Attr5</th>
+                  <th>Desc</th>
+                  <th>合并列</th>
+                  <th>Desc</th>
                   <th>操作</th>
                 </tr>
                 </thead>
@@ -53,74 +58,119 @@
 <script type="text/javascript">
 $(function () {
 	
+	// 页面初始化
+	// http://www.datatables.club/manual/data.html
 	Utils.ajax({
-		type: "POST",
-        url: "../../web/demo/queryByPage",
-        data: "tagPage=1&pageSize=10",
+		type: "GET",
+        url: "grid/query",
+        data: "tagPage=1&&pageSize=15",
         success: function(data){
-        	$('#example2').DataTable({
+        	data = data.data;
+        	// console.log(data);
+        	$('#example').DataTable({
         		data : data,
-        		select: {
-                    style: 'multi'
-                },
-        		columnDefs: [{
-                    targets:0,
-                    data: null,
-                    defaultContent:"<input type ='checkbox' name='test' class='icheckbox_minimal' value=''>",
-                },{
-                    targets: -1,
-                    data: null,
-                    defaultContent: "<a class='btn-opt'>编辑</a>",
-                    render: function(data, type, full) { // 返回自定义内容
-                        return '<span onclick="edit_func('+full.attr.id+')">编辑</span>';
-                    }
-                },{ 
-                    "orderable": false, "targets": [0,-1],  //设置第一列和最后一列不可排序
+        		searching: false, // 是否搜索
+        		processing: true, // 显示进度
+        	    ordering: true, // 是否排序
+        	    order: [[ 1, "asc" ]], // 默认排序 // desc
+        	    // scrollY: 200,scrollCollapse: true, // 滚动条
+        		lengthMenu: [[10, -1], [10, "All"]], // 定义页面大小
+        		columnDefs: [{ // 列渲染
+        				targets: 0,
+                    	render: function(data, type, row) {
+                        	return '<input type="checkbox" name="item_check" class="icheckbox_minimal">';
+                    	},
+                    	orderData: [ 0, 1 ],  //如果第一列进行排序，有相同数据则按照第二列顺序排列
+                    	visible: true, // 是否隐藏
+                        searchable: false // 是否可以查询
+                    	
+                	},{
+           				targets: 3,
+                    	render: function(data, type, row) {
+	                    	return row.id+"-合并-" + row.desc;
+                    	}
+                    },{
+               			targets: -1,
+                        render: function(data, type, row) {
+                        	var operatorDiv = '<div class="btn-group">'
+                        	+'<button type="button" onclick="row_edit('+row.id+')" class="btn btn-info">编辑</button>'
+                        	+'<button type="button" onclick="row_delete('+row.id+')" class="btn btn-danger">删除</button>'
+                        	+'</div>';
+                        	return operatorDiv;
+                        }
+                        
                 }],
-        		columns: [
+        		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
                     { data: null },
-                    { data: 'attr.id' },
-                    { data: 'attr.create_time' },
-                    { data: 'attr.attr5' },
-                    { data: null }
-                    
-                    
-                ]
+                    { data: 'id' },
+                    { data: 'desc'},
+                    { data: 'desc'},
+                    { data: 'desc'},
+                    { data: null }, 
+                ],
+                // 创建行回调
+                "createdRow": function ( row, data, index ) {
+                	// console.log(row);
+                },
+                // 初始化数据结束
+                "initComplete": function () {
+                	// console.log("initComplete");
+                },
         	});
-        	/* $('#example2').on("click","tr",function(){//给tr或者td添加click事件
-        	      var data=$('#example2').DataTable().row(this).data();//获取值的对象数据
-        	      if(Utils.hasOwnProperty(data,'attr')){
-        	    	  console.log(data.attr.id);//某一行中要是用的表头值
-        	      }  
-        	      if ( $(this).hasClass('selected') ) {
-                      $(this).removeClass('selected');
-                  } else {
-                  	$('#example2').DataTable().$('tr.selected').removeClass('selected');
-                      $(this).addClass('selected');
-                  }
-        	});  */
-        	/* $('#example2 tbody').on( 'click', 'tr', function () {
-                if ( $(this).hasClass('selected') ) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                	$('#example2').DataTable().$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            } ); */
-        	/* $('.btn-opt').click( function () {
-        		//console.log($('#example2').DataTable().rows('.selected').data());
-                alert( $('#example2').DataTable().rows('.selected').data().length +' row(s) selected' );
-            } ); */
-        	
-        }
-	});
-  })
-  
+        	$(".table").colResizable(); // 使用colResizable插件实现表格头宽度拖拽,这个不能喝滚动条同时时候，不然会存在一些问题
+        	}
+		});
+  	})
+  	
+  	
+  	// 编辑事件(列点击)
+  	function row_edit(id){
+		alert("您要编辑：id=" + id);
+	}
+	
+	// 删除事件(列点击)
+	function row_delete(id){
+		alert("您要删除：id=" + id);
+	}
 
-   function edit_func(id){
-   	alert("您要编辑：" + id);
-   }
+	// 行点击事件
+	$('#example tbody').on('click', 'tr', function () {
+		var data = $('#example').DataTable().row( this ).data();
+        console.log( '您点击了ID为： '+data.id+' 的数据' );
+    } );
+	
+	// 隐藏和显示列
+	$('#example tbody').on('click', 'tr', function () {
+		// Get the column API object
+	    var column = $('#example').DataTable().column(1);
+
+	    // Toggle the visibility
+	    column.visible( ! column.visible() );
+    } );
+	
+	// 选择
+	$('#example tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        var ichecked = $(this).find("[type=checkbox]");
+        if(ichecked.is(':checked')){
+        	ichecked.iCheck('uncheck');
+        }else{
+        	ichecked.iCheck('check');
+        }
+        
+    
+    } );
+ 
+	// 获取选择的Item
+    function showSelectItems() {
+    	// console.log($('#example').DataTable().rows('.selected').data());
+    	var rows = $('#example').DataTable().rows('.selected').data();
+    	var rowsIdArray = [];
+    	for(var i = 0;i < rows.length; i++){
+    		rowsIdArray[i] = rows[i].id;
+    	}
+        alert('您选择的ID：' + rowsIdArray );
+    }
    
 </script>
 </body>

@@ -9,21 +9,16 @@ $(document).ready(function() {
 var menuArray = [];
 
 function initOnload() {
-	$.ajax({
-		url : "retrieve",
-		method : "GET",
-		// async : false,
-		// data : "maxId=" + maxId,
-		dataType : "html"
-	}).done(function(responseText) {
-		//console.log("responseText:" + responseText);
-		menuArray = JSON.parse(responseText);
-		//buildMenuTreeFor(menuArray); // 迭代生成菜单
-		buildMenuTreeRecursion(menuArray); // 递归生成菜单(推荐使用)
-
-	}).fail(function(jqXHR, textStatus) {
-
-	});
+	Utils.ajax({
+		type: "GET",
+        url: "retrieve",
+        //data: "tagPage=1&pageSize=10",
+        success: function(data){
+        	
+        	//buildMenuTreeFor(menuArray); // 迭代生成菜单
+        	buildMenuTreeRecursion(data.data); // 递归生成菜单(推荐使用)
+        }
+    });
 }
 
 function isEmpty(obj){
