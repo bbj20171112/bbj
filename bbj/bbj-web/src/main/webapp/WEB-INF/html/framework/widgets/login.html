@@ -24,18 +24,35 @@
 					<input type="password" class="form-control" name="password" placeholder="密码">
 					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				</div>
+				<br>
 				<div class="row">
-					<div class="col-xs-4">
+					<div class="col-xs-6">
 						<div class="">
-							<img src=""></img>
+							<a href=""><img src="../../rl/login/vcode" class="vcode"></img></a>
+						</div>
+					</div>
+					
+					<!-- /.col -->
+					<div class="col-xs-6">
+						<input type="text" class="form-control codecontent" name="verification-code" placeholder="请输入验证码">
+					</div>
+					
+					<!-- /.col -->
+				</div><div class="row">
+					
+					<div class="col-xs-6">
+						<div class="">
+							<label style="font-size:1px" class="vcode"><a href="#">看不清，点击刷新</a></label>
 						</div>
 					</div>
 					<!-- /.col -->
-					<div class="col-xs-8">
-						<input type="text" class="form-control" name="verification-code" placeholder="请输入左边图片所示的验证码">
+					
+					<div class="col-xs-6">
+						<p class="vcodenotice" style='color:red;font-size:1px'></p>
 					</div>
 					<!-- /.col -->
 				</div>
+				<br>
 				<div class="row">
 					<div class="col-xs-8">
 						<div class="">
@@ -61,7 +78,7 @@
 			<!-- /.social-auth-links -->
 			<div class="row">
 				<div class="col-xs-8">
-					<a href="#">忘记密码</a>
+					<a href="">忘记密码</a>
 				</div>
 				<div class="col-xs-4">
 					<a href="register.html" class="text-center">注册</a>
@@ -76,14 +93,37 @@
 
 	<!-- iCheck -->
 	<script src="../../resources/plugins/iCheck/icheck.min.js"></script>
-	<!-- <script>
-		$(function() {
-			$('input').iCheck({
-				checkboxClass : 'icheckbox_square-blue',
-				radioClass : 'iradio_square-blue',
-				increaseArea : '20%' // optional
+	<script>
+		
+		$('.vcode').click(function(){
+			$('.vcode').attr("src","../../rl/login/vcode?rnd=" + Math.random());
+		});
+		
+		$('.codecontent').blur(function(){
+			var content = $('.codecontent').val();
+			if(Utils.isEmpty(content)){
+				$(".vcodenotice").html("验证码不能为空");
+				$(".vcodenotice").css({color:"#ff0000"});
+				return;
+			}
+			Utils.ajax({
+				type: "GET",
+		        url: "../../../rl/login/vvcode",
+		        data: "content=" + content,
+		        success: function(data){
+		        	var data = data.data;
+		        	if(data == "false"){
+		        		$(".vcodenotice").html("验证码错误");
+		        		$(".vcodenotice").css({color:"#ff0000"});
+		        	}else{
+		        		$(".vcodenotice").html("验证码正确");
+		        		$(".vcodenotice").css({color:"#00ff00"});
+		        	}
+				}
 			});
 		});
-	</script> -->
+		
+	
+	</script>
 </body>
 </html>
