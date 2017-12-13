@@ -1,11 +1,17 @@
 package com.bbj.base.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.bbj.base.utils.CreateImageCode;
 
 @Controller
 @RequestMapping(value={"/rl"})
@@ -20,8 +26,8 @@ public class RgstAndLoginController {
 		return "/base/widgets/register";
 	}
 	
-	@RequestMapping(value={"/login"})
-	public String starter(HttpServletRequest request){
+	@RequestMapping(value={"/login/vacount"})
+	public String vacount(HttpServletRequest request){
 		String userName = "";
 		String password = "";
 		userName = request.getParameter("userName");
@@ -35,18 +41,28 @@ public class RgstAndLoginController {
 		return "false";
 	}
 	
-	@RequestMapping(value={"/json"})
-	@ResponseBody
-	public String json(){
-		System.out.println("IndexController.json() is work " );
-		return "你好";
+	@RequestMapping(value={"/login/vcode"})
+	public void vcode(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession();
+		try {
+			CreateImageCode.getImgCode(request, response, session);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
-	
-
-	@RequestMapping(value={"/header"})
-	public String header(){
-		return "/menu/header";
+	@RequestMapping(value={"/login/vvcode"})
+	@ResponseBody
+	public Object vvcode(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession();
+		String content = session.getAttribute("code").toString();
+		String tempCot = request.getParameter("content");
+		if(content.equalsIgnoreCase(tempCot)) {
+			return "true";
+		}
+		return "false";
 	}
 	
 }
