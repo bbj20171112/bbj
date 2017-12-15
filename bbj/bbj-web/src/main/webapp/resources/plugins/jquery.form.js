@@ -3,7 +3,7 @@
  * version: 4.2.2
  * Requires jQuery v1.7.2 or later
  * Project repository: https://github.com/jquery-form/form
-
+ 
  * Copyright 2017 Kevin Morris
  * Copyright 2006 M. Alsup
 
