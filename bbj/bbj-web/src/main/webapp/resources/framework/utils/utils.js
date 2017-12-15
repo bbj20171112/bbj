@@ -5,8 +5,10 @@ var Utils = new Utils();
 function Utils() {
 	
 	this.absolutUrl = function(url){
+		if(Utils.isEmpty(url))
+			return contextPath;
 		if(url.charAt(0) != "/")
-			url = url + "/";
+			url = "/" + url;
 		location.href = contextPath + url;
 			
 	}
