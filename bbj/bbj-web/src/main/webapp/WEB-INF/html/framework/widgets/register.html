@@ -1,71 +1,337 @@
 ﻿<!DOCTYPE html>
 <html>
-<head> 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Registration Page</title>
-  <!-- 引入全局css样式 -->
-  <script src="../../resources/framework/css-import.js"></script>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>AdminLTE 2 | Registration Page</title>
+<!-- 引入全局css样式 -->
+<script src="../../resources/framework/css-import.js"></script>
 </head>
 <body class="hold-transition register-page">
-<div class="register-box">
-  <div class="register-logo">
-    <a href="../../index2.html"><b>BBJ</b></a>
-  </div>
+	<div class="register-box">
+		<div class="register-logo">
+			<a href="../../index2.html"><b>BBJ</b></a>
+		</div>
 
-  <div class="register-box-body">
+		<div class="register-box-body">
 
-    <form action="../../base/widgets/register" method="post">
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" name="userName" placeholder="用户名">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" name="email" placeholder="邮件">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="number" class="form-control" name="phone" placeholder="手机">
-        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" name="password" placeholder="密码">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" name="rePassword" placeholder="确认密码">
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="">
-            <label>
-              <input type="checkbox"> 我同意这些 <a href="#">条约</a>
-            </label>
-          </div>
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
+			<form id="registerForm" action="../../base/widgets/register"
+				method="post">
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control" name="userName"
+								placeholder="用户名"> <span
+								class="glyphicon glyphicon-user form-control-feedback"></span>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<label style="font-size: 1px; display: none; color: red"
+							id="rName" class="rNotice">用户名已存在</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="form-group has-feedback">
+							<input type="email" class="form-control" name="email"
+								placeholder="邮件"> <span
+								class="glyphicon glyphicon-envelope form-control-feedback"></span>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<label style="font-size: 1px; display: none; color: red"
+							id="rEmail" class="rNotice">邮箱格式错误</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="form-group has-feedback">
+							<input type="number" class="form-control" name="phone"
+								placeholder="手机"> <span
+								class="glyphicon glyphicon-phone form-control-feedback"></span>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<label style="font-size: 1px; display: none; color: red"
+							id="rNumber" class="rNotice">请输入正确的手机号</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="form-group has-feedback">
+							<input type="password" class="form-control" name="password"
+								placeholder="密码"> <span
+								class="glyphicon glyphicon-lock form-control-feedback"></span>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<label style="font-size: 1px; display: none; color: red"
+							id="rPassword" class="rNotice">密码至少6位</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="form-group has-feedback">
+							<input type="password" class="form-control" name="rePassword"
+								placeholder="确认密码"> <span
+								class="glyphicon glyphicon-log-in form-control-feedback"></span>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<label style="font-size: 1px; display: none; color: red"
+							id="rRePassword" class="rNotice">两次密码不一致</label>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="">
+							<a href=""><img src="../../rl/vcode" class="vcode"></img></a>
+						</div>
+					</div>
+
+					<!-- /.col -->
+					<div class="col-xs-6">
+						<input type="text" class="form-control codecontent"
+							name="verification-code" placeholder="请输入验证码">
+					</div>
+
+					<!-- /.col -->
+				</div>
+				<div class="row">
+
+					<div class="col-xs-6">
+						<div class="">
+							<label style="font-size: 1px" class="vcode"><a href="#">看不清，点击刷新</a></label>
+						</div>
+					</div>
+					<!-- /.col -->
+
+					<div class="col-xs-6">
+						<p class="vcodenotice" style='color: red; font-size: 1px'></p>
+					</div>
+					<!-- /.col -->
+				</div>
+
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="">
+							<label> <input type="checkbox"> 我同意这些 <a href="#">条约</a>
+							</label>
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<button type="submit"
+							class="btn disabled btn-primary btn-block btn-flat">注册</button>
+					</div>
+					<!-- /.col -->
+				</div>
+			</form>
 
 
 
-    <a href="login.html" class="text-center">已有账户 点击登录</a>
-  </div>
-  <!-- /.form-box -->
-</div>
-<!-- /.register-box -->
-<!-- 引入JavaScripts样式 -->
-<script src="../../resources/framework/javascript-import.js"></script>
+			<a href="javascript:Utils.absolutUrl('/base/widgets/login')" class="text-center">已有账户
+				点击登录</a>
+		</div>
+		<!-- /.form-box -->
+	</div>
+	<!-- /.register-box -->
+	<!-- 引入JavaScripts样式 -->
+	<script src="../../resources/framework/javascript-import.js"></script>
 
-<!-- iCheck -->
-<script src="../../resources/plugins/iCheck/icheck.min.js"></script>
-<script>
- 
-</script>
+	<!-- iCheck -->
+	<script src="../../resources/plugins/iCheck/icheck.min.js"></script>
+	<script src="../../resources/plugins/jquery.form.js"></script>
+	<script>
+		/**
+		 *使用jQuery-form获取表单提交后返回值
+		 */
+		$('#registerForm').submit(function() {
+
+			vvcode();		//再次验证验证码
+			if ($(".vcodenotice").html() != "验证码正确") {
+				return false; //阻止表单默认提交  
+			}
+			var flag = false;
+			$(this).ajaxSubmit(function(data) {
+				if (data.data == "success") {
+					flag = true;
+				} else {
+					$(".noticeLogin").html("用户名或者密码有误");
+					flag = false;
+				}
+			});
+			if (flag) {
+				//跳转到指定页面
+			} else {
+				return false;
+			}
+		});
+		/**
+		 *	刷新验证码
+		 */	
+		$('.vcode').click(function() {
+			var url = Utils.absolutUrl("/rl/vcode");
+			$('.vcode').attr("src", url + "?rnd=" + Math.random());
+		});
+
+		/**
+		 *	表单输入框失去焦点
+		 */	
+		$("form input").blur(function() {
+			if ("userName" == this.name) {
+				var tempName = this.value;
+				if(Utils.isEmpty(tempName)){
+					updateNotice("rName", "用户名不能为空", false);
+					this.focus();
+				}else{
+					var flag = isNameExists(tempName);
+					if(flag){
+						updateNotice("rName", "用户名存在", false);
+						this.focus();
+					}else{
+						updateNotice("rName", "用户名可用", true);
+					}
+				}
+				$("#rName").show();
+			}else if ("email" == this.name) {
+				var tempEmail = this.value;
+				if(Utils.isEmpty(tempEmail)){
+					updateNotice("rEmail", "邮箱不能为空", false);
+					this.focus();
+				}else{
+					var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+				    var isok = reg.test(tempEmail);
+			        if (!isok) {
+			    	    updateNotice("rEmail", "邮箱格式不正确", false);
+			            this.focus();
+			        }else{
+			        	updateNotice("rEmail", "邮箱可用", true);
+			        }
+				}
+				$("#rEmail").show();
+			}else if("phone" == this.name) {
+				var tempNumber = this.value;
+				if(Utils.isEmpty(tempNumber)){
+					updateNotice("rNumber", "手机号码不能为空", false);
+					this.focus();
+				}else{
+					var reg = /^1[34578]\d{9}$/;
+				    var isok = reg.test(tempNumber);
+			        if (!isok) {
+			    	    updateNotice("rNumber", "请输入正确的手机号码", false);
+			            this.focus();
+			        }else{
+			        	updateNotice("rNumber", "手机号可用", true);
+			        }
+				}
+				$("#rNumber").show();
+			}else if("password" == this.name) {
+				var tempPassword = this.value;
+				if(Utils.isEmpty(tempPassword)){
+					updateNotice("rPassword", "密码不能为空", false);
+					this.focus();
+				}else{
+					var reg = /^(\w){6,20}$/;
+				    var isok = reg.test(tempPassword);
+			        if (!isok) {
+			    	    updateNotice("rPassword", "密码只能用6-20个字母、数字、下划线 ", false);
+			            this.focus();
+			        }else{
+			        	updateNotice("rPassword", "密码可用", true);
+			        }
+				}
+				$("#rPassword").show();
+			}else if("rePassword" == this.name) {
+				var p = $("input[name='password']").val();
+				if(Utils.isEmpty(p)){
+					$("input[name='password']").focus();
+				}else{
+					if(this.value == p){
+						updateNotice("rRePassword", "密码可用", true);
+					}else{
+						updateNotice("rRePassword", "两次密码必须一致", false);
+						this.focus();
+					}
+				}
+				$("#rRePassword").show();
+			}
+		});
+		
+		function updateNotice(id, content, flag){
+			$("#" + id).html(content);
+			if(flag){
+				$("#" + id).css({
+					color : "#00ff00"
+				});
+			}else{
+				$("#" + id).css({
+					color : "#ff0000"
+				});
+			}
+		}
+		
+		function isNameExists(name){
+			var isExists = false;
+			Utils.ajax({
+				type : "GET",
+				url : "../../../rl/vname",
+				data : "userName=" + name,
+				async: false,
+				success : function(data) {
+					if(data.data == "true"){
+						isExists = true;
+					}else{
+						isExists = false;
+					}
+				}
+			});
+			return isExists;
+		}
+		
+		/**
+		 *	验证码输入框失去焦点
+		 */		
+		$('.codecontent').blur(function() {
+			vvcode();
+		});
+		function vvcode() {
+			var content = $('.codecontent').val();
+			if (Utils.isEmpty(content)) {
+				$(".vcodenotice").html("验证码不能为空");
+				$("#btn_register").addClass("disabled");
+				$(".vcodenotice").css({
+					color : "#ff0000"
+				});
+				return;
+			}
+			Utils.ajax({
+				type : "GET",
+				url : "../../../rl/vvcode",
+				data : "content=" + content,
+				success : function(data) {
+					var data = data.data;
+					if (data == "false") {
+						$(".vcodenotice").html("验证码错误");
+						$("#btn_register").addClass("disabled");
+						$(".vcodenotice").css({
+							color : "#ff0000"
+						});
+					} else {
+						$(".vcodenotice").html("验证码正确");
+						$(".vcodenotice").css({
+							color : "#00ff00"
+						});
+						$("#btn_register").removeClass("disabled");
+					}
+				}
+			});
+		}
+	</script>
 </body>
 </html>

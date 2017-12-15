@@ -14,7 +14,7 @@
 		</div>
 		<!-- /.login-logo -->
 		<div class="login-box-body">
-
+			<!-- form中的action即为登录信息提交的目的地址  -->
 			<form id="loginForm" action="../../../rl/login/vacount" method="post">
 				<div class="form-group has-feedback">
 					<input type="用户名" class="form-control" name="userName"
@@ -91,7 +91,7 @@
 					<a href="">忘记密码</a>
 				</div>
 				<div class="col-xs-4">
-					<a href="../../../base/widgets/register" class="text-center">注册</a>
+					<a href="javascript:Utils.absolutUrl('/base/widgets/register')" class="text-center">注册</a>
 				</div>
 			</div>
 		</div>
@@ -130,10 +130,16 @@
 			}
 		});
 
+		/**
+		 *	刷新验证码
+		 */	
 		$('.vcode').click(function() {
 			$('.vcode').attr("src", "../../rl/vcode?rnd=" + Math.random());
 		});
 
+		/**
+		 *	验证码输入框失去焦点
+		 */	
 		$('.codecontent').blur(function() {
 			vvcode();
 

@@ -28,7 +28,7 @@ public class RgstAndLoginController {
 	
 	@RequestMapping(value={"/login/vacount"})
 	@ResponseBody
-	public Object vacount(HttpServletRequest request){
+	public Object vAcount(HttpServletRequest request){
 		String userName = "";
 		String password = "";
 		userName = request.getParameter("userName");
@@ -43,7 +43,7 @@ public class RgstAndLoginController {
 	}
 	
 	@RequestMapping(value={"/vcode"})
-	public void vcode(HttpServletRequest request, HttpServletResponse response){
+	public void vCode(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession();
 		try {
 			CreateImageCode.getImgCode(request, response, session);
@@ -56,11 +56,23 @@ public class RgstAndLoginController {
 	
 	@RequestMapping(value={"/vvcode"})
 	@ResponseBody
-	public Object vvcode(HttpServletRequest request, HttpServletResponse response){
+	public Object vVcode(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession();
 		String content = session.getAttribute("code").toString();
 		String tempCot = request.getParameter("content");
 		if(content.equalsIgnoreCase(tempCot)) {
+			return "true";
+		}
+		return "false";
+	}
+	
+	@RequestMapping(value={"/vname"})
+	@ResponseBody
+	public Object vName(HttpServletRequest request, HttpServletResponse response){
+		String userName = "";
+		userName = request.getParameter("userName");
+		
+		if(RLService.getUserByName(userName) != null) {
 			return "true";
 		}
 		return "false";
