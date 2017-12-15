@@ -15,40 +15,49 @@
 		<!-- /.login-logo -->
 		<div class="login-box-body">
 
-			<form action="../../rl/login" method="post">
+			<form id="loginForm" action="../../../rl/login/vacount" method="post">
 				<div class="form-group has-feedback">
-					<input type="用户名" class="form-control" name="userName" placeholder="用户名"> <span
+					<input type="用户名" class="form-control" name="userName"
+						placeholder="用户名"> <span
 						class="glyphicon glyphicon-user form-control-feedback"></span>
 				</div>
 				<div class="form-group has-feedback">
-					<input type="password" class="form-control" name="password" placeholder="密码">
-					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+					<input type="password" class="form-control" name="password"
+						placeholder="密码"> <span
+						class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<label style="color: red" class="noticeLogin"></label>
+					</div>
 				</div>
 				<br>
 				<div class="row">
 					<div class="col-xs-6">
 						<div class="">
-							<a href=""><img src="../../rl/login/vcode" class="vcode"></img></a>
+							<a><img src="../../../rl/vcode" class="vcode"></img></a>
 						</div>
 					</div>
-					
+
 					<!-- /.col -->
 					<div class="col-xs-6">
-						<input type="text" class="form-control codecontent" name="verification-code" placeholder="请输入验证码">
+						<input type="text" class="form-control codecontent"
+							name="verification-code" placeholder="请输入验证码">
 					</div>
-					
+
 					<!-- /.col -->
-				</div><div class="row">
-					
+				</div>
+				<div class="row">
+
 					<div class="col-xs-6">
 						<div class="">
-							<label style="font-size:1px" class="vcode"><a href="#">看不清，点击刷新</a></label>
+							<label style="font-size: 1px" class="vcode"><a>看不清，点击刷新</a></label>
 						</div>
 					</div>
 					<!-- /.col -->
-					
+
 					<div class="col-xs-6">
-						<p class="vcodenotice" style='color:red;font-size:1px'></p>
+						<p class="vcodenotice" style='color: red; font-size: 1px'></p>
 					</div>
 					<!-- /.col -->
 				</div>
@@ -62,7 +71,8 @@
 					</div>
 					<!-- /.col -->
 					<div class="col-xs-4">
-						<button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+						<button type="submit" id="btn_login"
+							class="btn disabled btn-primary btn-block btn-flat">登录</button>
 					</div>
 					<!-- /.col -->
 				</div>
@@ -81,7 +91,7 @@
 					<a href="">忘记密码</a>
 				</div>
 				<div class="col-xs-4">
-					<a href="register.html" class="text-center">注册</a>
+					<a href="../../../base/widgets/register" class="text-center">注册</a>
 				</div>
 			</div>
 		</div>
@@ -93,37 +103,76 @@
 
 	<!-- iCheck -->
 	<script src="../../resources/plugins/iCheck/icheck.min.js"></script>
+	<script src="../../resources/plugins/jquery.form.js"></script>
 	<script>
-		
-		$('.vcode').click(function(){
-			$('.vcode').attr("src","../../rl/login/vcode?rnd=" + Math.random());
+		/**
+		 *使用jQuery-form获取表单提交后返回值
+		 */
+		$('#loginForm').submit(function() {
+
+			vvcode();
+			if ($(".vcodenotice").html() != "验证码正确") {
+				return false; //阻止表单默认提交  
+			}
+			var flag = false;
+			$(this).ajaxSubmit(function(data) {
+				if (data.data == "success") {
+					flag = true;
+				} else {
+					$(".noticeLogin").html("用户名或者密码有误");
+					flag = false;
+				}
+			});
+			if(flag){
+				//跳转到指定页面
+			}else{
+				return false;
+			}
 		});
-		
-		$('.codecontent').blur(function(){
+
+		$('.vcode').click(function() {
+			$('.vcode').attr("src", "../../rl/vcode?rnd=" + Math.random());
+		});
+
+		$('.codecontent').blur(function() {
+			vvcode();
+
+		});
+		function vvcode() {
 			var content = $('.codecontent').val();
-			if(Utils.isEmpty(content)){
+			if (Utils.isEmpty(content)) {
 				$(".vcodenotice").html("验证码不能为空");
-				$(".vcodenotice").css({color:"#ff0000"});
+				$("#btn_login").addClass("disabled");
+				$("#btn_login").type = "button";
+				$(".vcodenotice").css({
+					color : "#ff0000"
+				});
 				return;
 			}
 			Utils.ajax({
-				type: "GET",
-		        url: "../../../rl/login/vvcode",
-		        data: "content=" + content,
-		        success: function(data){
-		        	var data = data.data;
-		        	if(data == "false"){
-		        		$(".vcodenotice").html("验证码错误");
-		        		$(".vcodenotice").css({color:"#ff0000"});
-		        	}else{
-		        		$(".vcodenotice").html("验证码正确");
-		        		$(".vcodenotice").css({color:"#00ff00"});
-		        	}
+				type : "GET",
+				url : "../../../rl/vvcode",
+				data : "content=" + content,
+				success : function(data) {
+					var data = data.data;
+					if (data == "false") {
+						$(".vcodenotice").html("验证码错误");
+						$("#btn_login").addClass("disabled");
+						$("#btn_login").type = "button";
+						$(".vcodenotice").css({
+							color : "#ff0000"
+						});
+					} else {
+						$(".vcodenotice").html("验证码正确");
+						$(".vcodenotice").css({
+							color : "#00ff00"
+						});
+						$("#btn_login").removeClass("disabled");
+						$("#btn_login").type = "submit";
+					}
 				}
 			});
-		});
-		
-	
+		}
 	</script>
 </body>
 </html>

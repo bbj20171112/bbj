@@ -27,7 +27,8 @@ public class RgstAndLoginController {
 	}
 	
 	@RequestMapping(value={"/login/vacount"})
-	public String vacount(HttpServletRequest request){
+	@ResponseBody
+	public Object vacount(HttpServletRequest request){
 		String userName = "";
 		String password = "";
 		userName = request.getParameter("userName");
@@ -41,7 +42,7 @@ public class RgstAndLoginController {
 		return "false";
 	}
 	
-	@RequestMapping(value={"/login/vcode"})
+	@RequestMapping(value={"/vcode"})
 	public void vcode(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession();
 		try {
@@ -53,7 +54,7 @@ public class RgstAndLoginController {
 		
 	}
 	
-	@RequestMapping(value={"/login/vvcode"})
+	@RequestMapping(value={"/vvcode"})
 	@ResponseBody
 	public Object vvcode(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession();
