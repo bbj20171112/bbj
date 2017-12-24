@@ -20,3 +20,6 @@ jdbc.driverClassName=com.mysql.jdbc.Driver
 
 增加对grid的基本使用
 datatables官网：http://www.datatables.club/
+
+以后按照阿略说的，多余的没用的文件补提交，包括target目录，bin目录等
+
