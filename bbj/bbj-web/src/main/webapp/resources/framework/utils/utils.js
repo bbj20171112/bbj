@@ -3,14 +3,23 @@
  */
 var Utils = new Utils();
 function Utils() {
-	
-	this.absolutUrl = function(url){
-		if(Utils.isEmpty(url))
+
+	// 获取绝对路径
+	this.getAbsoluteUrl = function(url) {
+		if (Utils.isEmpty(url))
 			return contextPath;
-		if(url.charAt(0) != "/")
+		if (url.charAt(0) != "/")
+			url = "/" + url;
+		return contextPath + url;
+		// return "http://localhost:8080" + contextPath + url;
+	}
+
+	// 跳转至局对路径
+	this.locateUrl = function(url) {
+		if (url.charAt(0) != "/")
 			url = "/" + url;
 		location.href = contextPath + url;
-			
+
 	}
 
 	/**
@@ -121,5 +130,7 @@ function Utils() {
 			return false
 		return true
 	}
+
+	
 
 }

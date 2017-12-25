@@ -35,7 +35,7 @@
 				<div class="row">
 					<div class="col-xs-6">
 						<div class="">
-							<a><img src="../../../rl/vcode" class="vcode"></img></a>
+							<a><img src="javascript:Utils.getAbsoluteUrl('/rl/vcode')" class="vcode"></img></a>
 						</div>
 					</div>
 
@@ -91,7 +91,8 @@
 					<a href="">忘记密码</a>
 				</div>
 				<div class="col-xs-4">
-					<a href="javascript:Utils.absolutUrl('/base/widgets/register')" class="text-center">注册</a>
+				<!--路径使用ok  -->
+					<a href="javascript:Utils.locateUrl('/base/widgets/register')" class="text-center">注册</a>
 				</div>
 			</div>
 		</div>
@@ -99,11 +100,12 @@
 	</div>
 	<!-- /.login-box -->
 	<!-- 引入JavaScripts样式 -->
-	<script src="../../resources/framework/javascript-import.js"></script>
+	<script src="../../../resources/framework/javascript-import.js"></script>
 
 	<!-- iCheck -->
-	<script src="../../resources/plugins/iCheck/icheck.min.js"></script>
-	<script src="../../resources/plugins/jquery.form.js"></script>
+	<script src="javascript:Utils.locateUrl('/resources/plugins/iCheck/icheck.min.js')"></script>
+	<script src="../../../resources/plugins/jquery.form.js"></script>
+	<!-- <script src="javascript:Utils.getAbsoluteUrl('/resources/plugins/jquery.form.js')"></script> -->
 	<script>
 		/**
 		 *使用jQuery-form获取表单提交后返回值
@@ -134,7 +136,7 @@
 		 *	刷新验证码
 		 */	
 		$('.vcode').click(function() {
-			$('.vcode').attr("src", "../../rl/vcode?rnd=" + Math.random());
+			$('.vcode').attr("src", Utils.getAbsoluteUrl('/rl/vcode') + "?rnd=" + Math.random());
 		});
 
 		/**
@@ -157,7 +159,7 @@
 			}
 			Utils.ajax({
 				type : "GET",
-				url : "../../../rl/vvcode",
+				url : Utils.getAbsoluteUrl('/rl/vvcode'),//使用ok
 				data : "content=" + content,
 				success : function(data) {
 					var data = data.data;

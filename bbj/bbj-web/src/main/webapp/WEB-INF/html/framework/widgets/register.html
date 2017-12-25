@@ -61,6 +61,41 @@
 				<div class="row">
 					<div class="col-xs-8">
 						<div class="form-group has-feedback">
+							<label>性别：</label>
+							<label><input name="gender" type="radio" value="男" checked />男 </label> &nbsp
+							<label><input name="gender" type="radio" value="女" />女 </label> 
+						</div>
+					</div>
+				</div>
+
+				<div>
+					您的爱好：<br />
+					<label><input name="hobby" type="checkbox" value="eat" />吃 </label> &nbsp
+					<label><input name="hobby" type="checkbox" value="drink" />喝 </label> &nbsp
+					<label><input name="hobby" type="checkbox" value="play" />玩 </label> &nbsp
+					<label><input name="hobby" type="checkbox" value="happy" />乐 </label> &nbsp
+				</div>
+				
+				<!-- <select id="province" name="province" onchange="selectprovince(this);" style=" width:95px;"></select>
+				<select id="city" name="city" style=" width:95px;"></select> -->
+				<div class="row">  
+					<div class="col-xs-12">
+						地区：<select style=" width:95px;" id="area"></select>  
+						省：<select style=" width:95px;" id="cmbProvince"></select>  
+					</div>
+				</div>
+				</br>
+				<div class="row">
+					<div class="col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						市：<select style=" width:95px;" id="cmbCity"></select>  
+						区：<select style=" width:95px;" id="cmbArea"></select>  
+					</div>
+				</div>
+				</br>
+				
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="form-group has-feedback">
 							<input type="password" class="form-control" name="password"
 								placeholder="密码"> <span
 								class="glyphicon glyphicon-lock form-control-feedback"></span>
@@ -71,7 +106,7 @@
 							id="rPassword" class="rNotice">密码至少6位</label>
 					</div>
 				</div>
-
+				
 				<div class="row">
 					<div class="col-xs-8">
 						<div class="form-group has-feedback">
@@ -135,7 +170,7 @@
 
 
 
-			<a href="javascript:Utils.absolutUrl('/base/widgets/login')" class="text-center">已有账户
+			<a href="javascript:Utils.locateUrl('/base/widgets/login')" class="text-center">已有账户
 				点击登录</a>
 		</div>
 		<!-- /.form-box -->
@@ -147,7 +182,10 @@
 	<!-- iCheck -->
 	<script src="../../resources/plugins/iCheck/icheck.min.js"></script>
 	<script src="../../resources/plugins/jquery.form.js"></script>
+	<script src="../../resources/framework/utils/addressSelector.js"></script>
 	<script>
+	//地址选择初始化，需引入addressSelector.js
+	addressInit('area','cmbProvince','cmbCity','cmbArea','西北地区', '北京', '市辖区', '东城区');  
 		/**
 		 *使用jQuery-form获取表单提交后返回值
 		 */
@@ -176,7 +214,7 @@
 		 *	刷新验证码
 		 */	
 		$('.vcode').click(function() {
-			var url = Utils.absolutUrl("/rl/vcode");
+			var url = Utils.getAbsoluteUrl("/rl/vcode");
 			$('.vcode').attr("src", url + "?rnd=" + Math.random());
 		});
 
@@ -251,6 +289,7 @@
 				var p = $("input[name='password']").val();
 				if(Utils.isEmpty(p)){
 					$("input[name='password']").focus();
+					return;
 				}else{
 					if(this.value == p){
 						updateNotice("rRePassword", "密码可用", true);
@@ -333,5 +372,7 @@
 			});
 		}
 	</script>
+	<style> .checkbox { position: relative; height: 30px; } .checkbox input[type='checkbox'] { position: absolute; left: 0; top: 0; width: 20px; height: 20px; opacity: 0; } .checkbox label { position: absolute; left: 30px; top: 0; height: 20px; line-height: 20px; } .checkbox label:before { content: ''; position: absolute; left: -30px; top: 0; width: 20px; height: 20px; border: 1px solid #ddd; border-radius: 50%; transition: all 0.3s ease; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; } .checkbox label:after { content: ''; position: absolute; left: -22px; top: 3px; width: 6px; height: 12px; border: 0; border-right: 1px solid #fff; border-bottom: 1px solid #fff; background: #fff; transform: rotate(45deg); -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); transition: all 0.3s ease; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; } .checkbox input[type='checkbox']:checked + label:before { background: #4cd764; border-color: #4cd764; } .checkbox input[type='checkbox']:checked + label:after { background: #4cd764; } </style>
+
 </body>
 </html>
