@@ -89,7 +89,7 @@ public class MenuService {
 		attr = new HashMap<String, String>();
 		attr.put("id", "3");
 		attr.put("upId", "0");
-		attr.put("text", "王建明");
+		attr.put("text", "汪建明");
 		attr.put("link", "/base/widgets/button");
 		menu = new MenuObject(attr );
 		list.add(menu );

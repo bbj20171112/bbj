@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bbj.base.utils.CreateImageCode;
@@ -21,8 +22,9 @@ public class RgstAndLoginController {
 	private com.bbj.base.service.RLService RLService;
 	
 	@RequestMapping(value={"/","/register"})
-	public String register(HttpServletRequest request){
-		
+	public String register(@RequestParam("hobby") String[] hoppy, HttpServletRequest request){
+		String gender = request.getParameter("gender");
+		System.out.println(gender + hoppy[0]);
 		return "/base/widgets/register";
 	}
 	
