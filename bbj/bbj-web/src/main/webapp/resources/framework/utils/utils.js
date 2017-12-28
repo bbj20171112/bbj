@@ -48,11 +48,11 @@ function Utils() {
 	 * 判断不空
 	 */
 	this.isNotEmpty = function(obj) {
-		if (obj != null && obj != undefined && obj != ""
-				|| $.trim("" + obj) != "") {
-			return true;
-		}
+		if (obj == null || obj == undefined || obj == ""
+			|| $.trim("" + obj) == "") {
 		return false;
+	}
+	return true;
 	}
 
 	/**

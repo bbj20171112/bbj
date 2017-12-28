@@ -38,8 +38,8 @@ document
 document
 		.writeln('<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>');
 document.writeln('<![endif]-->');
-document
-		.writeln('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">');
+
+//document.writeln('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">');
 
 document.writeln('<!-- Pace style -->');
 document
@@ -50,6 +50,13 @@ document
 document.writeln('<!-- ICheck -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath
 		+ '/resources/plugins/iCheck/all.css">');
+
+document.writeln('<!-- alert -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/framework/widgets/css/alert.css">');
+
+
+
 /*
  * document.writeln('<!-- SweetAlert -->'); document.writeln('<link
  * rel="stylesheet"

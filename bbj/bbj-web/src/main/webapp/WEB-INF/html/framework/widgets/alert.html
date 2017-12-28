@@ -28,6 +28,7 @@
 <div class="wrapper">
 		<h3 class="box-title">SweetAlert, 官网：https://sweetalert.js.org/</h3>
 	 <section class="content">
+      <h2 class="page-header">基本使用</h2>
       <div class="row">
         <div class="col-xs-12">
 			<button type="button" onclick="basic()" class="btn btn-info">basic</button>
@@ -36,12 +37,56 @@
         	<button type="button" onclick="deleteConfirm()" class="btn btn-info">deleteConfirm</button>
         	<button type="button" onclick="buttons()" class="btn btn-info">buttons</button>
         	<button type="button" onclick="html()" class="btn btn-info">html</button>
-        
-        
+        </div>
+        <!-- /.col -->
+      </div>
+      
+     <h2 class="page-header">提示信息</h2>
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="msg()" class="btn btn-info">提示框msg</button>
         </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
+      
+      <h2 class="page-header">提示框</h2>
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="info1()" class="btn btn-info">只有内容</button>
+			<button type="button" onclick="info2()" class="btn btn-info">内容+标题</button>
+			<button type="button" onclick="info3()" class="btn btn-info">内容+标题+自定义确定按钮</button>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      
+      <h2 class="page-header">操作框</h2>
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="info()" class="btn btn-info">提示说明</button>
+			<button type="button" onclick="success()" class="btn btn-info">成功</button>
+			<button type="button" onclick="error()" class="btn btn-info">失败错误</button>
+			<button type="button" onclick="warning()" class="btn btn-info">警告</button>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      
+      <h2 class="page-header">确认框</h2>
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="confirm1()" class="btn btn-info">说明+标题</button>
+			<button type="button" onclick="confirm2()" class="btn btn-info">说明+标题+按钮+图标</button>
+			<button type="button" onclick="confirm3()" class="btn btn-info">说明+标题说明+标题+按钮+图标+事件回调（浏览器控制台打印日志）</button>
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      
+      
+      
     </section>
     <!-- /.content -->
 
@@ -51,7 +96,61 @@
 <script src="../../resources/framework/javascript-import.js"></script>
 <script type="text/javascript">
 
-	function buttons(){
+	///////////////////////////////////////     确认框 			///////////////////////////////////////     
+	function confirm1(){
+		// textText,titleText,okText,cancelText,okFunc,cancelFunc
+		Alert.confirm("这是内容","这是标题");
+	}
+	function confirm2(){
+		// textText,titleText,okText,cancelText,okFunc,cancelFunc
+		Alert.confirm("这是内容","这是标题","取消按钮","确定按钮","info");
+	}
+	function confirm3(){
+		// textText,titleText,okText,cancelText,okFunc,cancelFunc
+		Alert.confirm("这是内容","这是标题","取消按钮","确定按钮","info",function (){console.log("ok");},function (){console.log("cancel");});
+	}
+	///////////////////////////////////////     确认框 			///////////////////////////////////////     
+
+
+
+	///////////////////////////////////////     操作框 			///////////////////////////////////////     
+	function success(){
+		Alert.successWithIcon("这是内容");
+	}
+
+	function error(){
+		Alert.errorWithIcon("这是内容","这是标题");
+	}
+
+	function warning(){
+		Alert.warningWithIcon("这是内容","这是标题","奥奥");
+	}
+	
+	function info(){
+		Alert.infoWithIcon("这是内容","这是标题","奥info奥");
+	}
+	///////////////////////////////////////     操作框 			///////////////////////////////////////     
+
+	///////////////////////////////////////     提示框             /////////////////////////////////
+
+	function info1(){
+		 Alert.info("这是内容");
+	}
+
+	function info2(){
+		Alert.info("这是内容","这是标题");
+	}
+	
+	function info3(){
+		Alert.info("这是内容","这是标题","自定义按钮");
+	}
+	////////////////////////////////////////     提示框             /////////////////////////////////
+
+	function msg(){
+		Alert.msg("这是信息框!");
+	}
+
+	function buttons1(){
 		swal(	"Here's the title!"
 				, "...and here's the text!", {
 			  buttons: {
@@ -82,6 +181,7 @@
 			  }
 			});
 	}
+	
     function basic(){
 	    swal("Hello Wprld！");
     }

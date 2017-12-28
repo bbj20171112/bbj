@@ -49,11 +49,7 @@ document.writeln('<script src="'+contextPath+'/resources/plugins/sweetalert/swee
 document.writeln('<!-- layer -->');
 document.writeln('<script src="'+contextPath+'/resources/plugins/layer/layer.min.js"></script>');
 
-
-
-
-
-
-
+document.writeln('<!-- alert -->');
+document.writeln('<script src="'+contextPath+'/resources/framework/widgets/js/alert.js"></script>');
 
 
