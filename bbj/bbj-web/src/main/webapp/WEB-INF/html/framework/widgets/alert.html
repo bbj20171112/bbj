@@ -85,6 +85,16 @@
       </div>
       <!-- /.row -->
       
+      <h2 class="page-header">自定义框</h2>
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="custom()" class="btn btn-info">自定义</button>
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      
       
       
     </section>
@@ -95,6 +105,39 @@
 <!-- 引入JavaScripts样式 -->
 <script src="../../resources/framework/javascript-import.js"></script>
 <script type="text/javascript">
+
+	function custom (){
+		var div = document.createElement("div");
+    	$(div).html('<div class="col-xs-12">'
+    					+'<h4>这是自定义的内容</h4>'
+    					+'<div class="col-xs-12">'
+    					+'<div class="box">'
+    					+'<div class="box-header">'
+    					+'<h3 class="box-title">Application Buttons</h3>'
+    			              +'</div>'
+    			              +'<div class="box-body">'
+    			              +'<a class="btn btn-app">'
+    			              +'<i class="fa fa-edit"></i> Edit'
+    			                +'</a>'
+    			                +'<a class="btn btn-app">'
+    			                +'<i class="fa fa-play"></i> Play'
+    			                +'</a>'
+    			                +'<a class="btn btn-app">'
+    			                +'<i class="fa fa-repeat"></i> Repeat'
+    			                +'</a>'
+    			                +'<a class="btn btn-app">'
+    			                +'<i class="fa fa-pause"></i> Pause'
+    			                +'</a>'
+    			                +'<a class="btn btn-app">'
+    			                +'<i class="fa fa-save"></i> Save'
+    			                +'</a>'
+    			                +'</div>'
+    			                +'<!-- /.box-body -->'
+    		            +'</div>'
+    		            +'</div>'
+            		+'</div>');
+		Alert.customHtml(div);
+	}
 
 	///////////////////////////////////////     确认框 			///////////////////////////////////////     
 	function confirm1(){
