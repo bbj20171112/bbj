@@ -55,6 +55,9 @@ document.writeln('<!-- alert -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath
 		+ '/resources/framework/widgets/css/alert.css">');
 
+document.writeln('<!-- grid -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/framework/widgets/css/grid.css">');
 
 
 /*

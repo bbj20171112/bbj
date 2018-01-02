@@ -19,7 +19,6 @@
             <div class="box-header">
               <h3 class="box-title">基本表格</h3>
               <button type="button" onclick="showSelectItems()" class="btn btn-info">查看选中</button>
-                        	
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -32,7 +31,7 @@
                   <th>ID</th>
                   <th>Desc</th>
                   <th>合并列</th>
-                  <th>Desc</th>
+                  <th>Desc2</th>
                   <th>操作</th>
                 </tr>
                 </thead>
@@ -41,9 +40,6 @@
               </table>
             </div>
             <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
         </div>
         <!-- /.col -->
       </div>
@@ -97,7 +93,12 @@ $(function () {
                         	+'<button type="button" onclick="row_delete('+row.id+')" class="btn btn-danger">删除</button>'
                         	+'</div>';
                         	return operatorDiv;
-                        }
+                       }
+                    },{
+              			targets: 'Desc2',
+                       	render: function(data, type, row) {
+   	                    	return "Desc2:" + row.desc;
+                       	}
                         
                 }],
         		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 

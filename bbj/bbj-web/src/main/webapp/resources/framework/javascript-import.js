@@ -28,7 +28,9 @@ document.writeln('<!-- Utils -->');
 document.writeln('<script src="'+contextPath+'/resources/framework/utils/utils.js"></script>');
 
 document.writeln('<!-- DataTables -->');
-document.writeln('<script src="'+contextPath+'/resources/bower_components/datatables.net/js/jquery.dataTables.js"></script>');
+document.writeln('<!-- grid 基于 DataTables 进行改装 -->');
+document.writeln('<script src="'+contextPath+'/resources/framework/widgets/js/grid.js"></script>');
+//document.writeln('<script src="'+contextPath+'/resources/bower_components/datatables.net/js/jquery.dataTables.js"></script>');
 document.writeln('<script src="'+contextPath+'/resources/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>');
 
 document.writeln('<!-- SlimScroll -->');
