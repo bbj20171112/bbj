@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>boxDemo</title>
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<script src="../../resources/framework/css-import.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<h3>infobox</h3>
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box1"></div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box2"></div>
+			</div>
+		</div>
+		<h3>smallbox</h3>
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box3"></div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box4"></div>
+			</div>
+		</div>
+		<h3>panelbox</h3>
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box5"></div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box6"></div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box7"></div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box8">66</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div id="box9">6446</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../resources/framework/javascript-import.js"></script>
+	<script>
+		/**
+		 * infobox
+		 */
+		(function(win, $) {
+			//数据模版
+			var options = {
+				type : 'infobox', //模版名称!!!!!
+				bgcolorcls : 'bg-aqua', //背景
+				iconcls : 'fa fa-bookmark-o', //图标
+				text1 : 'text1', //文本1
+				text2 : 'text2', //文本2
+				progress : []
+			//进度条
+			};
+
+			var options2 = {
+				type : 'infobox', //模版名称!!!!!
+				text1 : 'text444444444444441', //文本1
+			};
+			//渲染box1
+			bbj.renderHtml('box1', options2);
+			options.progress = {
+				width : '70%', //进度条宽度
+				description : '进度条描述' //进度条描述
+			};
+			//渲染box2
+			bbj.renderHtml('box2', options);
+		}(this, jQuery));
+
+		/**
+		 * smallbox
+		 */
+		(function(win, $) {
+
+			var options = {
+				type : 'smallbox', //模版名称!!!!!!
+				bgcolorcls : 'bg-aqua', //背景
+				text1 : 'text1', //文本1
+				text2 : 'text2', //文本2
+				iconcls : 'fa fa-shopping-cart', //图标
+				footer : []
+			//底部超链接
+			};
+
+			//渲染box3
+			bbj.renderHtml('box3', options);
+			options.footer = [ {
+				url : 'https://www.baidu.com/', //地址
+				text : 'More info1 ', //值
+				iconcls : 'fa fa-arrow-circle-right' //小图标
+			}, {
+				url : '#',
+				text : 'More info2 ',
+				iconcls : 'fa fa-shopping-cart'
+			} ];
+			//渲染box4
+			bbj.renderHtml('box4', options);
+		}(this, jQuery));
+
+		/**
+		 * panelbox
+		 */
+		(function(win, $) {
+
+			var options = {
+				type : 'panelbox', //模版名称!!!!!!
+				state : 'default', //状态：default，danger，success，warning
+				boxsolid : '', //标题栏是否有颜色
+				collapsedbox : '', //是否展开内容面板，''为展开。取值：''、'collapsed-box'
+				withborder : 'with-border', //标题与内容之间的线,''、'with-border'
+				title : '标题',
+				button : [],
+				body : '内容33',
+				overlay : []
+			};
+
+			//test
+			var smallboxoptions = {
+				type : 'smallbox', //模版名称!!!!!!
+				bgcolorcls : 'bg-aqua', //背景
+				text1 : 'text1', //文本1
+				text2 : 'text2', //文本2
+				iconcls : 'fa fa-shopping-cart', //图标
+				footer : []
+			//底部超链接
+			};
+			//options.body = bbj.parseControl(smallboxoptions);
+			options.body = '<div style="color:red;">555</div>';
+
+			//渲染box5
+			bbj.renderPanelbox('box5', options);
+			//渲染box6
+			options.body = 'panelbox';
+			options.state = 'success';
+			options.boxsolid = 'box-solid';
+			options.collapsedbox = 'collapsed-box'; //建议设置按钮为‘+’时使用
+			options.button = [ {
+				datawidget : 'collapse',
+				iconcls : 'fa fa-plus'
+			}, {
+				datawidget : 'remove',
+				iconcls : 'fa fa-times'
+			} ];
+
+			bbj.renderPanelbox('box6', options);
+
+			//渲染box7
+			options.collapsedbox = '';
+			options.button = [];
+			options.overlay = [ {} ];
+			bbj.renderPanelbox('box7', options);
+			bbj.renderPanelbox('box8', options);
+			bbj.renderPanelbox('box9', options);
+
+		}(this, jQuery));
+	</script>
+</body>
+
+</html>
