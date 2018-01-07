@@ -16,49 +16,52 @@ import com.bbj.base.domain.BBJEntity;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("application.xml")
-public class CrudTests {
+public class CrudTests
+{
 
-        @Autowired
-        private WebApplicationContext wac;
+    @Autowired
+    private WebApplicationContext wac;
 
-        private MockMvc mockMvc;
+    @SuppressWarnings("unused")
+    private MockMvc mockMvc;
 
-        @Before
-        public void setup() {
-                this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        }
+    @Before
+    public void setup() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
 
-        @Test
-        public void getAccount() throws Exception {
-        	
-    		DemoDao demoDao = wac.getBean("demoDao",DemoDao.class);
-    		//BBJEntity h = demoDao.queryById("1");
-    		DemoDao2 demoDao2 = wac.getBean("demoDao2",DemoDao2.class);
-    		
-    		// 查找
-    		BBJEntity h2 = demoDao2.queryById("3");
-    		System.out.println(h2);
-    		// 增加
-//    		BBJEntity bbjEntity = h2 ;
-//    		h2.setAttr(BBJEntity.id, "2");
-//    		demoDao2.insert(bbjEntity );
-    		
-    		// 修改
-//    		h2.setAttr(DemoDomain2.attr3, "val5_new");
-//    		demoDao2.update(h2);
-//    		h2 = demoDao2.queryByPrimaryValue("1");
-//    		System.out.println(h2);
-    		
-    		// 删除
-    		//demoDao2.deleteById("1");
-    		
-    		System.out.println(demoDao2.queryByPage(2,2).size());
-    		
-//        	
-//                this.mockMvc.perform(get("/accounts/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-//                        .andExpect(status().isOk())
-//                        .andExpect(content().contentType("application/json"))
-//                        .andExpect(jsonPath("$.name").value("Lee"));
-        }
+    @Test
+    public void getAccount() throws Exception {
+
+        @SuppressWarnings("unused")
+        DemoDao demoDao = wac.getBean("demoDao", DemoDao.class);
+        //BBJEntity h = demoDao.queryById("1");
+        DemoDao2 demoDao2 = wac.getBean("demoDao2", DemoDao2.class);
+
+        // 查找
+        BBJEntity h2 = demoDao2.queryById("3");
+        System.out.println(h2);
+        // 增加
+        //    		BBJEntity bbjEntity = h2 ;
+        //    		h2.setAttr(BBJEntity.id, "2");
+        //    		demoDao2.insert(bbjEntity );
+
+        // 修改
+        //    		h2.setAttr(DemoDomain2.attr3, "val5_new");
+        //    		demoDao2.update(h2);
+        //    		h2 = demoDao2.queryByPrimaryValue("1");
+        //    		System.out.println(h2);
+
+        // 删除
+        //demoDao2.deleteById("1");
+
+        System.out.println(demoDao2.queryByPage(2, 2).size());
+
+        //        	
+        //                this.mockMvc.perform(get("/accounts/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        //                        .andExpect(status().isOk())
+        //                        .andExpect(content().contentType("application/json"))
+        //                        .andExpect(jsonPath("$.name").value("Lee"));
+    }
 
 }

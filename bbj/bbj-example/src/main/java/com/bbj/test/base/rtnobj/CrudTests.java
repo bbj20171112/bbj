@@ -14,26 +14,28 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("application.xml")
-public class CrudTests {
+public class CrudTests
+{
 
-        @Autowired
-        private WebApplicationContext wac;
+    @Autowired
+    private WebApplicationContext wac;
 
-        private MockMvc mockMvc;
+    @SuppressWarnings("unused")
+    private MockMvc mockMvc;
 
-        @Before
-        public void setup() {
-                this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        }
+    @Before
+    public void setup() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
 
-        @Test
-        public void getAccount() throws Exception {
-//        	mockMvc = standaloneSetup(new ResponceController())
-//                    .defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
-//                    .alwaysExpect(status().isOk())
-//                    .alwaysExpect(content().contentType("application/json;charset=UTF-8"))
-//                    .build();
-                
-        }
+    @Test
+    public void getAccount() throws Exception {
+        //        	mockMvc = standaloneSetup(new ResponceController())
+        //                    .defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
+        //                    .alwaysExpect(status().isOk())
+        //                    .alwaysExpect(content().contentType("application/json;charset=UTF-8"))
+        //                    .build();
+
+    }
 
 }
