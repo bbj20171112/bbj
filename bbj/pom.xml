@@ -21,7 +21,7 @@
 		<jstl.base.version>1.2</jstl.base.version>
 		<jsp.base.version>2.1</jsp.base.version>
 		<servlet.base.version>3.0-alpha-1</servlet.base.version>
-		<spring.base.version>4.3.9.RELEASE</spring.base.version>
+		<spring.base.version>4.3.8.RELEASE</spring.base.version>
 		<gson.base.version>2.8.0</gson.base.version>
 		<mysql.base.version>5.1.39</mysql.base.version>
 		<jackson.base.version>2.8.9</jackson.base.version>
