@@ -1,5 +1,9 @@
 package com.bbj.base.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +22,17 @@ public class CodeshowController
      * @return 跳转的页面
      */
     @RequestMapping({"/index" })
-    public String boxdemo(@RequestParam(value = "url",defaultValue="boxdemo") String url) {
-        return "widgets/" + url;
+    public String index(@RequestParam(value = "url") String url) {
+    	List<String> list = Arrays.asList(new String[]{
+    			"cardlistdemo",
+    			"echartdemo",
+    			"richtexteditordemo",
+    			"swiperdemo"
+    			});
+    	if(list.contains(url)){
+    		return "widgets/" + url;
+        }
+    	return "widgets/boxdemo"; // 默认跳转页面
     }
 //    /**
 //     * 跳转到boxdemo页面
@@ -36,7 +49,7 @@ public class CodeshowController
 //     * @param request
 //     * @return 跳转的页面
 //     */
-//    @RequestMapping({"/cardlistdemo" })
+//    @RequestMapping({"/" })
 //    public String cardlistdemo(HttpServletRequest request) {
 //        return "codeshow/index?url=cardlistdemo";
 //    }
