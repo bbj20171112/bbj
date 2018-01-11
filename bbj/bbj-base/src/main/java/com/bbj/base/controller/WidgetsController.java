@@ -49,7 +49,7 @@ public class WidgetsController
     @RequestMapping({"/register" })
     public String register(HttpServletRequest request) {
         request.setAttribute("test", "abcd");
-        return "widgets/register";
+        return "widgets/register-new";
     }
 
     /**
