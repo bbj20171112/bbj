@@ -34,6 +34,18 @@ document.writeln('<!-- FastClick -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/bower_components/fastclick/lib/fastclick.js"></script>');
 
+document.writeln('<!-- mustache -->');
+document.writeln('<script src="' + contextPath
+		+ '/resources/plugins/mustache/mustache.js"></script>');
+
+document.writeln('<!-- bbj.controls.js -->');
+document.writeln('<script src="' + contextPath
+		+ '/resources/framework/bbj.controls.js"></script>');
+
+document.writeln('<!-- bbj.js -->');
+document.writeln('<script src="' + contextPath
+		+ '/resources/framework/bbj.js"></script>');
+
 document.writeln('<!-- Utils -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/framework/utils/utils.js"></script>');
@@ -79,14 +91,4 @@ document.writeln('<!-- alert -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/framework/widgets/js/alert.js"></script>');
 
-document.writeln('<!-- mustache -->');
-document.writeln('<script src="' + contextPath
-		+ '/resources/plugins/mustache/mustache.js"></script>');
 
-document.writeln('<!-- bbj.controls.js -->');
-document.writeln('<script src="' + contextPath
-		+ '/resources/framework/bbj.controls.js"></script>');
-
-document.writeln('<!-- bbj.js -->');
-document.writeln('<script src="' + contextPath
-		+ '/resources/framework/bbj.js"></script>');
