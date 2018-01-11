@@ -1,6 +1,7 @@
 package com.bbj.base.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.bbj.base.domain.BBJEntity;
+import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.utils.StringUtils;
 
 public abstract class BBJDao{
@@ -138,15 +140,22 @@ public abstract class BBJDao{
 		}
 		return null;
 	}
-	
 	/**
-	 * 分页查询(不支持过滤)
+	 * 分页查询
 	 * @return
 	 */
 	public List<BBJEntity> queryByPage(int tagPage,int pageSize){
+		return this.queryByPage(tagPage, pageSize, null);
+	}
+
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	public List<BBJEntity> queryByPage(int tagPage,int pageSize,SqlFilter sqlFilter){
 		
-		int totalRow = getTotalRow();
-		int totalPage = getTotalRow() / pageSize;
+		int totalRow = getTotalRow(sqlFilter);
+		int totalPage = totalRow / pageSize;
 		if(totalPage *  pageSize < totalRow){ // 不能够整除，总页数应该 + 1
 			totalPage = totalPage + 1;
 		}
@@ -184,12 +193,30 @@ public abstract class BBJDao{
 	
 	/**
 	 * 查询有多少条记录
+	 * @param sqlFilter 
 	 * @return
 	 */
 	public int getTotalRow(){
-		String sql = " select count(1) from " + curruntBBJEntity.getTableName() 
-				+ " where " + BBJEntity.delete_state + " <> ? " ;
-		int row = jdbcTemplate.queryForObject(sql,new Object[]{BBJEntity.delete_state_yes},Integer.class);
+		return getTotalRow(null);
+	}
+	/**
+	 * 查询有多少条记录
+	 * @param sqlFilter 
+	 * @return
+	 */
+	public int getTotalRow(SqlFilter sqlFilter){
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select count(1) from ");
+		sb.append( curruntBBJEntity.getTableName() );
+		sb.append( " where " + BBJEntity.delete_state + " <> ? " );
+		
+		List<Object> list = new ArrayList<Object>();
+		list.add(BBJEntity.delete_state_yes);
+		if(sqlFilter != null){
+			sb.append(" and " + sqlFilter.getSqlString());
+			list.addAll(sqlFilter.getListParam());
+		}
+		int row = jdbcTemplate.queryForObject(sb.toString(),list.toArray(new Object[0]),Integer.class);
 		return row <=0 ? 1 : row;
 	}
 }
