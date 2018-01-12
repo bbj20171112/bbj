@@ -1,17 +1,20 @@
 package com.bbj.test.base.crud;
 
-import org.junit.Before;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.omg.Messaging.SyncScopeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.bbj.base.domain.BBJEntity;
+import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.WhereFilter;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -21,15 +24,7 @@ public class CrudTests
 
     @Autowired
     private WebApplicationContext wac;
-
-    @SuppressWarnings("unused")
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
-
+    
     @Test
     public void getAccount() throws Exception {
 
@@ -41,10 +36,11 @@ public class CrudTests
         // 查找
         BBJEntity h2 = demoDao2.queryById("3");
         System.out.println(h2);
+       
         // 增加
-        //    		BBJEntity bbjEntity = h2 ;
-        //    		h2.setAttr(BBJEntity.id, "2");
-        //    		demoDao2.insert(bbjEntity );
+//        BBJEntity bbjEntity = h2 ;
+//        h2.setAttr(BBJEntity.id, "2");
+//        demoDao2.insert(bbjEntity );
 
         // 修改
         //    		h2.setAttr(DemoDomain2.attr3, "val5_new");
@@ -62,6 +58,17 @@ public class CrudTests
         //                        .andExpect(status().isOk())
         //                        .andExpect(content().contentType("application/json"))
         //                        .andExpect(jsonPath("$.name").value("Lee"));
+        
+        System.out.println("------ 带条件查询   -----------------------------------");
+        System.out.println(demoDao2.queryByPage(1, 2));
+        SqlFilter sqlFilter = new SqlFilter(new DemoDomain2());
+        List<WhereFilter> list = new ArrayList<WhereFilter>();
+        list.add(new WhereFilter("attr5", SqlFilter.where_opt_eq, "val52"));
+		sqlFilter.addWhereFilter(list );
+		System.out.println(demoDao2.queryByPage(1, 2,sqlFilter ));
+        System.out.println("------ 带条件查询   -----------------------------------");
+
+        
     }
 
 }

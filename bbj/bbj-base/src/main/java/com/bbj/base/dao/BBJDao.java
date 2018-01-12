@@ -1,6 +1,7 @@
 package com.bbj.base.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -164,11 +165,23 @@ public abstract class BBJDao{
 		}		
 		int startId = pageSize * (tagPage - 1 );
 		
-		String sql = " select "+curruntBBJEntity.getAttrKeysStr()
-				+ " from " + curruntBBJEntity.getTableName() 
-				+ " where " + BBJEntity.delete_state + " <> ? limit ?,? ";
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select "+curruntBBJEntity.getAttrKeysStr() );
+		sb.append( " from " + curruntBBJEntity.getTableName()  );
+		sb.append( " where " + BBJEntity.delete_state + " <> ? " );
 				
-		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql,new Object[]{BBJEntity.delete_state_yes,startId,pageSize});
+		List<Object> listParam = new ArrayList<Object>();
+		listParam.add(BBJEntity.delete_state_yes);
+		if(sqlFilter != null){
+			sb.append(" and " + sqlFilter.getSqlString());
+			listParam.addAll(sqlFilter.getListParam());
+		}
+		sb.append(" order by " + BBJEntity.id);
+		sb.append(" limit ?,? ");
+		listParam.add(startId);
+		listParam.add(pageSize);
+		System.out.println(sb.toString());
+		SqlRowSet rs = jdbcTemplate.queryForRowSet(sb.toString(),listParam.toArray(new Object[0]));
 		List<BBJEntity> list = new ArrayList<BBJEntity>();
 		while(rs.next()){
 			BBJEntity bbjEntity = new BBJEntity() {
