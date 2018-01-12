@@ -12,7 +12,6 @@
 		<div class="register-logo">
 			<a href="../../index2.html"><b>BBJ</b></a>
 		</div>
-
 		<div class="register-body">
 
 			<form id="registerForm" action="../../rl/register"
@@ -32,20 +31,23 @@
 	<script src="../../resources/framework/javascript-import.js"></script>
 
 	<script>
-		/**
-		 * inputbox
-		 */
-		(function(win, $) {
-			var options: {
-				type: 'inputbox',
+	
+	(function(win, $) {
+		
+		//数据模版
+		var options={
+				type: 'forminput',
 				input_type: 'text',
 				input_id: 'input_id',
 				placeholder: 'Please input something here !',
 				label_id: 'label_id',
 				hint_text: 'I am hint'
 			};
-			bbj.renderHtml('input1', options);
-		}(this, jQuery));
+		
+		//渲染box1
+		bbj.renderHtml('input1', options);
+	}(this, jQuery));
+	
 	</script>
 	
 </body>
