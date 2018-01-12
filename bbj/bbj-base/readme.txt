@@ -38,6 +38,8 @@ VALUES (3,'val5','val5','val5',now(),0,now());
 
 实现基本对象的根据主键查找操作
 
+带条件查询测试类：
+/bbj-example/src/main/java/com/bbj/test/base/crud/CrudTests.java
 
 
 
