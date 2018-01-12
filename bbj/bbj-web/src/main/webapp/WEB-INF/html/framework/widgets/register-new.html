@@ -12,7 +12,6 @@
 		<div class="register-logo">
 			<a href="../../index2.html"><b>BBJ</b></a>
 		</div>
-
 		<div class="register-body">
 
 			<form id="registerForm" action="../../rl/register"
@@ -20,9 +19,10 @@
 				<div class="form-group has-success">
 				  <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ...">
                   <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> Input with success</label>
-                  <!-- <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..."> 
-                  <span class="help-block">Help block with success</span>-->
+                  
                 </div>
+                <div id="input1"></div>
+            </form>
 			</div>
 			<!-- /.form-box -->
 	</div>
@@ -31,6 +31,22 @@
 	<script src="../../resources/framework/javascript-import.js"></script>
 
 	<script>
+	
+	(function(win, $) {
+		
+		//数据模版
+		var options={
+				type: 'forminput',
+				input_type: 'text',
+				input_id: 'input_id',
+				placeholder: 'Please input something here !',
+				label_id: 'label_id',
+				hint_text: 'I am hint'
+			};
+		
+		//渲染box1
+		bbj.renderHtml('input1', options);
+	}(this, jQuery));
 	
 	</script>
 	
