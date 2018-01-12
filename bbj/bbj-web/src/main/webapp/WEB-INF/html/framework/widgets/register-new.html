@@ -20,9 +20,10 @@
 				<div class="form-group has-success">
 				  <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ...">
                   <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> Input with success</label>
-                  <!-- <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ..."> 
-                  <span class="help-block">Help block with success</span>-->
+                  
                 </div>
+                <div id="input1"></div>
+            </form>
 			</div>
 			<!-- /.form-box -->
 	</div>
@@ -31,7 +32,20 @@
 	<script src="../../resources/framework/javascript-import.js"></script>
 
 	<script>
-	
+		/**
+		 * inputbox
+		 */
+		(function(win, $) {
+			var options: {
+				type: 'inputbox',
+				input_type: 'text',
+				input_id: 'input_id',
+				placeholder: 'Please input something here !',
+				label_id: 'label_id',
+				hint_text: 'I am hint'
+			};
+			bbj.renderHtml('input1', options);
+		}(this, jQuery));
 	</script>
 	
 </body>

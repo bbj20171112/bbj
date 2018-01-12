@@ -100,6 +100,20 @@ var bbj = (function(bbj) {
 					body: '自定义div或已有控件3'
 				}]
 			}
+		},
+		
+		//输入框，含提示————input
+		inputbox: {
+			templ: '<input type="{{input_type}}" class="form-control" id="{{input_id}}" placeholder="{{placeholder}}">' +
+                '<label class="control-label" for="{{input_id}}" id="{{label_id}}">{{hint_text}}</label>',
+                
+			options: {
+				input_type: 'text',
+				input_id: 'input_id',
+				placeholder: 'Please input something here !',
+				label_id: 'label_id',
+				hint_text: 'I am hint'
+			}
 		}
 	};
 
