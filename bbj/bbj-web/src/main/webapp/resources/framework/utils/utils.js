@@ -116,7 +116,7 @@ function Utils() {
 
 	// 校验手机号码：必须以数字开头，除数字外，可含有“-”
 	this.isMobil = function isMobil(s) {
-		var patrn = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
+		var patrn = /^1[34578]\d{9}$/;
 		if (!patrn.exec(s))
 			return false
 		return true
