@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.base.domain.BBJEntity;
-
 @Controller
 @RequestMapping({"/web/demo"})
 public class DemoContolller {
@@ -20,7 +18,9 @@ public class DemoContolller {
 	@RequestMapping({"/queryByPage"})
 	@ResponseBody
 	public Object grid(@RequestParam("tagPage") int tagPage,@RequestParam("pageSize") int pageSize){
-		List<BBJEntity> list = demoDao.queryByPage(tagPage, pageSize);
+		List<DemoDomain2> list = demoDao.queryByPage(tagPage, pageSize);
+		  DemoDomain2 h2 = demoDao.queryById("3");
+	        System.out.println(h2);
 		return list;
 	}
 }

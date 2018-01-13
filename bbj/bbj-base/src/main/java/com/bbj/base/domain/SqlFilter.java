@@ -8,7 +8,7 @@ import java.util.List;
  * @author bage
  *
  */
-public class SqlFilter extends BBJObject{
+public class SqlFilter<T> extends BBJObject{
 
 	private static final long serialVersionUID = 1L;
 	

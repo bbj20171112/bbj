@@ -1,8 +1,7 @@
 package com.bbj.base.dao;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,26 +12,35 @@ import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.utils.StringUtils;
 
-public abstract class BBJDao{
+@SuppressWarnings("unchecked")
+public class BBJDao<T extends BBJEntity>{
 	
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
+	private Class<T> currentEntityClass;
+	private BBJEntity curruntBBJEntity = null;
 	
-	protected BBJEntity curruntBBJEntity;
-	
-	public BBJDao() {
-		curruntBBJEntity = initEntity();
+	public BBJDao(){
+        ParameterizedType type = (ParameterizedType) getClass()
+                .getGenericSuperclass();      
+        currentEntityClass = (Class<T>) type.getActualTypeArguments()[0];
+        
+		try {
+			curruntBBJEntity = currentEntityClass.newInstance();
+			System.out.println(curruntBBJEntity);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
-
-	public abstract BBJEntity initEntity();
-
 
 	/**
 	 * 增加一条记录
 	 * @param bbjEntity
 	 * @return the number of rows affected
 	 */
-	public int insert(BBJEntity bbjEntity){
+	public int insert(T bbjEntity){
 		List<String> listAttrKeys = bbjEntity.getAttrKeys();
 		// 构造参数列表
 		StringBuilder sbAttrKeys = new StringBuilder();
@@ -73,7 +81,7 @@ public abstract class BBJDao{
 	 * @param bbjEntity
 	 * @return the number of rows affected
 	 */
-	public int update(BBJEntity bbjEntity){
+	public int update(T bbjEntity){
 		List<String> listAttrKeys = bbjEntity.getAttrKeys();
 		// 构造参数列表
 		StringBuilder sbParamAttrPair = new StringBuilder();
@@ -89,18 +97,6 @@ public abstract class BBJDao{
 				listParamAttr.add(bbjEntity.getAttr(key));
 			}
 		}
-		int sex = 1;
-		switch (sex) {
-		case 1: // 男
-			
-			break;
-		case 2: // 女
-			
-			break;
-
-		default:
-			break;
-		}
 		listParamAttr.add(bbjEntity.getAttr(BBJEntity.id));
 		String insertSql = " update " + bbjEntity.getTableName() 
 						+ " set "
@@ -114,15 +110,15 @@ public abstract class BBJDao{
 	 * @param primaryValue
 	 * @return
 	 */
-	public BBJEntity queryById(String primaryValue){
+	public T queryById(String primaryValue){
 		String sql = "  select "+curruntBBJEntity.getAttrKeysStr()
 					+ " from " + curruntBBJEntity.getTableName() 
-					+ " where " + BBJEntity.id + " = ? " 
-					+ " and " + BBJEntity.delete_state + " <> ? ";
+				+ " where " + BBJEntity.id + " = ? " 
+				+ " and " + BBJEntity.delete_state + " <> ? ";
 		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, primaryValue,BBJEntity.delete_state_yes);
-		
+		BBJEntity bbjEntity = null;
 		if(rs.next()){
-			BBJEntity bbjEntity = new BBJEntity() {
+			bbjEntity = new BBJEntity() {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public String initTable() {
@@ -137,15 +133,19 @@ public abstract class BBJDao{
 			for (int i = 0; i < keys.size(); i++) {
 				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
 			}
-			return bbjEntity;
 		}
-		return null;
+		System.out.println("--------222----");
+		T temp =  (T) bbjEntity;
+		System.out.println("-------23333-----" + temp);
+		return temp;
+
 	}
+	
 	/**
 	 * 分页查询
 	 * @return
 	 */
-	public List<BBJEntity> queryByPage(int tagPage,int pageSize){
+	public List<T> queryByPage(int tagPage,int pageSize){
 		return this.queryByPage(tagPage, pageSize, null);
 	}
 
@@ -153,7 +153,7 @@ public abstract class BBJDao{
 	 * 分页查询
 	 * @return
 	 */
-	public List<BBJEntity> queryByPage(int tagPage,int pageSize,SqlFilter sqlFilter){
+	public List<T> queryByPage(int tagPage,int pageSize,SqlFilter<T> sqlFilter){
 		
 		int totalRow = getTotalRow(sqlFilter);
 		int totalPage = totalRow / pageSize;
@@ -201,7 +201,7 @@ public abstract class BBJDao{
 			}
 			list.add(bbjEntity);
 		}
-		return list;
+		return (List<T>) list;
 	}
 	
 	/**
@@ -217,7 +217,7 @@ public abstract class BBJDao{
 	 * @param sqlFilter 
 	 * @return
 	 */
-	public int getTotalRow(SqlFilter sqlFilter){
+	public int getTotalRow(SqlFilter<T> sqlFilter){
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select count(1) from ");
 		sb.append( curruntBBJEntity.getTableName() );
