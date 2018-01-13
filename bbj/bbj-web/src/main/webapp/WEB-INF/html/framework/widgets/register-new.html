@@ -22,6 +22,7 @@
                   
                 </div>
                 <div id="input1"></div>
+                <div id="input2"></div>
             </form>
 			</div>
 			<!-- /.form-box -->
@@ -34,20 +35,69 @@
 	
 	(function(win, $) {
 		
-		//数据模版
+		//forminput
 		var options={
-				type: 'forminput',
-				input_type: 'text',
-				input_id: 'input_id',
-				placeholder: 'Please input something here !',
-				label_id: 'label_id',
-				hint_text: 'I am hint'
-			};
+			type: 'forminput',
+			input_type: 'text', //输入类型
+			input_id: 'input_id', //输入框id
+			placeholder: 'Please input something here !', //输入提示信息
+			hint_id: 'label_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_state_id' //输入框输入信息校正控制状态
+		};
 		
 		//渲染box1
 		bbj.renderHtml('input1', options);
 	}(this, jQuery));
 	
+	/**************************手机号输入及其验证***************************/
+	(function(win, $) {
+		
+		//forminput
+		var options={
+			type: 'forminput',
+			input_type: 'number', //输入类型
+			input_id: 'input_number_id', //输入框id
+			placeholder: '请输入手机号', //输入提示信息
+			hint_id: 'label_number_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_number_state_id'  //输入框输入信息校正控制状态
+		};
+		
+		//渲染box1
+		bbj.renderHtml('input2', options);
+	}(this, jQuery));
+	
+	$("#input_number_id").blur(function() {
+		validatePhone(this);
+	});
+	
+	function validatePhone(input){
+		if(Utils.isEmpty(input.value)){
+			updateHtml("label_number_id", "请输入手机号！");
+			updateState("input_number_state_id", "has-error");
+			return false;
+		}
+		if(Utils.isMobil(input.value)){
+			
+			updateHtml("label_number_id", "手机号正确");
+			updateState("input_number_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_number_id", "请输入正确手机号！");
+			updateState("input_number_state_id", "has-error");
+			return false;
+		}
+	}
+	
+	function updateHtml(id, hint){
+		$("#" + id).html(hint);
+	}
+	function updateState(id, clazz){
+		$("#" + id).attr("class", "");
+		$("#" + id).attr("class", "form-group " + clazz);
+	} 
+	/**************************手机号输入及其验证***************************/
 	</script>
 	
 </body>
