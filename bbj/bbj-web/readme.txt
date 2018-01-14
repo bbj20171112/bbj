@@ -10,6 +10,7 @@ bbj--pom
    --jar--web --纯java
    --jar--base--纯java
 
+推荐啊略将此部署方式修改为内嵌tomcat或者jetty方式进行部署
    
    
    
