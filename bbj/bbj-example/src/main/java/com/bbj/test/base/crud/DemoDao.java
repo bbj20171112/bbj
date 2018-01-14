@@ -2,10 +2,10 @@ package com.bbj.test.base.crud;
 
 import org.springframework.stereotype.Repository;
 
-import com.bbj.base.dao.BBJDao;
+import com.bbj.base.dao.BBJBaseDao;
 
 @Repository
-public class DemoDao extends BBJDao<DemoDomain>{
+public class DemoDao extends BBJBaseDao<DemoDomain>{
 
 
 }
