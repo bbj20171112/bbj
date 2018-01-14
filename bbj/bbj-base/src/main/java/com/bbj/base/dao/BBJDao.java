@@ -17,22 +17,16 @@ public class BBJDao<T extends BBJEntity>{
 	
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
-	private Class<T> currentEntityClass;
-	private BBJEntity curruntBBJEntity = null;
+	private Class<T> currentBBJEntityClass;
+	private BBJEntity currentBBJEntity = null;
 	
 	public BBJDao(){
+		
         ParameterizedType type = (ParameterizedType) getClass()
                 .getGenericSuperclass();      
-        currentEntityClass = (Class<T>) type.getActualTypeArguments()[0];
-        
-		try {
-			curruntBBJEntity = currentEntityClass.newInstance();
-			System.out.println(curruntBBJEntity);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
+        currentBBJEntityClass = (Class<T>) type.getActualTypeArguments()[0];
+		currentBBJEntity = newInstanceBBJEntity();
+		
 	}
 
 	/**
@@ -67,14 +61,14 @@ public class BBJDao<T extends BBJEntity>{
 	
 	/**
 	 * 根据主键进行删除
-	 * @param primaryValue
+	 * @param id
 	 * @return the number of rows affected
 	 */
-	public int deleteById(String primaryValue){
-		String updateSql = " update " + curruntBBJEntity.getTableName() 
+	public int deleteById(String id){
+		String updateSql = " update " + currentBBJEntity.getTableName() 
 						+ " set " + BBJEntity.delete_state + " = " + BBJEntity.delete_state_yes 
 						+ " where " + BBJEntity.id + " = ?";
-		return jdbcTemplate.update(updateSql, new Object[]{primaryValue});
+		return jdbcTemplate.update(updateSql, new Object[]{id});
 	}
 	/**
 	 * 修改一条记录
@@ -107,38 +101,33 @@ public class BBJDao<T extends BBJEntity>{
 	
 	/**
 	 * 根据主键值查找一个对象
-	 * @param primaryValue
+	 * @param id
 	 * @return
 	 */
-	public T queryById(String primaryValue){
-		String sql = "  select "+curruntBBJEntity.getAttrKeysStr()
-					+ " from " + curruntBBJEntity.getTableName() 
+	public T queryById(String id){
+		String sql = "  select "+currentBBJEntity.getAttrKeysStr()
+					+ " from " + currentBBJEntity.getTableName() 
 				+ " where " + BBJEntity.id + " = ? " 
 				+ " and " + BBJEntity.delete_state + " <> ? ";
-		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, primaryValue,BBJEntity.delete_state_yes);
-		BBJEntity bbjEntity = null;
+		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id,BBJEntity.delete_state_yes);
+		BBJEntity bbjEntity = newInstanceBBJEntity();
 		if(rs.next()){
-			bbjEntity = new BBJEntity() {
-				private static final long serialVersionUID = 1L;
-				@Override
-				public String initTable() {
-					return curruntBBJEntity.getTableName();
-				}
-				@Override
-				public String[] initAttr() {
-					return curruntBBJEntity.getAttrKeys().toArray(new String[0]);
-				}
-			};
-			List<String> keys = curruntBBJEntity.getAttrKeys();
+			List<String> keys = currentBBJEntity.getAttrKeys();
 			for (int i = 0; i < keys.size(); i++) {
 				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
 			}
 		}
-		System.out.println("--------222----");
-		T temp =  (T) bbjEntity;
-		System.out.println("-------23333-----" + temp);
-		return temp;
+		return (T) bbjEntity;
 
+	}
+
+	private BBJEntity newInstanceBBJEntity() {
+		try {
+			return currentBBJEntityClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return currentBBJEntity;
 	}
 	
 	/**
@@ -166,8 +155,8 @@ public class BBJDao<T extends BBJEntity>{
 		int startId = pageSize * (tagPage - 1 );
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select "+curruntBBJEntity.getAttrKeysStr() );
-		sb.append( " from " + curruntBBJEntity.getTableName()  );
+		sb.append(" select "+currentBBJEntity.getAttrKeysStr() );
+		sb.append( " from " + currentBBJEntity.getTableName()  );
 		sb.append( " where " + BBJEntity.delete_state + " <> ? " );
 				
 		List<Object> listParam = new ArrayList<Object>();
@@ -180,22 +169,11 @@ public class BBJDao<T extends BBJEntity>{
 		sb.append(" limit ?,? ");
 		listParam.add(startId);
 		listParam.add(pageSize);
-		System.out.println(sb.toString());
 		SqlRowSet rs = jdbcTemplate.queryForRowSet(sb.toString(),listParam.toArray(new Object[0]));
 		List<BBJEntity> list = new ArrayList<BBJEntity>();
 		while(rs.next()){
-			BBJEntity bbjEntity = new BBJEntity() {
-				private static final long serialVersionUID = 1L;
-				@Override
-				public String initTable() {
-					return curruntBBJEntity.getTableName();
-				}
-				@Override
-				public String[] initAttr() {
-					return curruntBBJEntity.getAttrKeys().toArray(new String[0]);
-				}
-			};
-			List<String> keys = curruntBBJEntity.getAttrKeys();
+			BBJEntity bbjEntity = newInstanceBBJEntity();
+			List<String> keys = currentBBJEntity.getAttrKeys();
 			for (int i = 0; i < keys.size(); i++) {
 				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
 			}
@@ -220,7 +198,7 @@ public class BBJDao<T extends BBJEntity>{
 	public int getTotalRow(SqlFilter<T> sqlFilter){
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select count(1) from ");
-		sb.append( curruntBBJEntity.getTableName() );
+		sb.append( currentBBJEntity.getTableName() );
 		sb.append( " where " + BBJEntity.delete_state + " <> ? " );
 		
 		List<Object> list = new ArrayList<Object>();

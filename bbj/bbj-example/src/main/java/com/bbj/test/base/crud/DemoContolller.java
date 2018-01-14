@@ -19,7 +19,6 @@ public class DemoContolller {
 	@ResponseBody
 	public Object grid(@RequestParam("tagPage") int tagPage,@RequestParam("pageSize") int pageSize){
 		List<DemoDomain2> list = demoDao.queryByPage(tagPage, pageSize);
-		 DemoDomain2 h2 = demoDao.queryById("3");
 		return list;
 	}
 }
