@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.utils.StringUtils;
+import com.bbj.base.utils.TimeUtils;
 
 /**
  * 目前仅提供了基本的增删改查<br>
@@ -45,7 +46,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	 * @see com.bbj.base.dao.BBJDao#insert(T)
 	 */
 	public int insert(T bbjEntity){
-		if(inputIsValid(bbjEntity)){
+		if(!inputIsValid(bbjEntity)){
 			return 0;
 		}
 		List<String> listAttrKeys = bbjEntity.getAttrKeys();
@@ -56,14 +57,19 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		for(int i = 0;i < listAttrKeys.size();i ++){
 			String key = listAttrKeys.get(i);
 			if(StringUtils.isNotEmpty(key)){
-				if(sbAttrKeys.length() == 0){
-					sbAttrKeys.append(key);
-					sbParamAttr.append("?");
-				}else{
-					sbAttrKeys.append(","+key);
-					sbParamAttr.append(",?");
+				if(BBJEntity.create_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
+					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
-				listParamAttr.add(bbjEntity.getAttr(key));
+				if(StringUtils.isNotEmpty(bbjEntity.getAttr(key))){
+					if(sbAttrKeys.length() == 0){
+						sbAttrKeys.append(key);
+						sbParamAttr.append("?");
+					}else{
+						sbAttrKeys.append(","+key);
+						sbParamAttr.append(",?");
+					}
+					listParamAttr.add(bbjEntity.getAttr(key));
+				}
 			}
 		}
 		String insertSql = " insert into " + bbjEntity.getTableName() 
@@ -90,7 +96,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	public int deleteById(String id){
 		String updateSql = " update " + currentBBJEntity.getTableName() 
 						+ " set " + BBJEntity.delete_state + " = " + BBJEntity.delete_state_yes 
-						+ " where " + BBJEntity.id + " = ?";
+						+ " where " + currentBBJEntity.getId() + " = ?";
 		return jdbcTemplate.update(updateSql, new Object[]{id});
 	}
 	
@@ -104,20 +110,25 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		List<String> listParamAttr = new ArrayList<String>();
 		for(int i = 0;i < listAttrKeys.size();i ++){
 			String key = listAttrKeys.get(i);
-			if(StringUtils.isNotEmpty(key) && !BBJEntity.id.equals(key)){
-				if(sbParamAttrPair.length() == 0){
-					sbParamAttrPair.append(key + "=?");
-				}else{
-					sbParamAttrPair.append("," + key + "=?");
+			if(StringUtils.isNotEmpty(key) && !currentBBJEntity.getId().equals(key)){
+				if(BBJEntity.update_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
+					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
-				listParamAttr.add(bbjEntity.getAttr(key));
+				if(StringUtils.isNotEmpty(bbjEntity.getAttr(key))){
+					if(sbParamAttrPair.length() == 0){
+						sbParamAttrPair.append(key + "=?");
+					}else{
+						sbParamAttrPair.append("," + key + "=?");
+					}
+					listParamAttr.add(bbjEntity.getAttr(key));
+				}
 			}
 		}
-		listParamAttr.add(bbjEntity.getAttr(BBJEntity.id));
+		listParamAttr.add(bbjEntity.getAttr(currentBBJEntity.getId()));
 		String insertSql = " update " + bbjEntity.getTableName() 
 						+ " set "
 						+ sbParamAttrPair.toString()
-						+ " where " + BBJEntity.id + "=?";
+						+ " where " + currentBBJEntity.getId() + "=?";
 		return jdbcTemplate.update(insertSql, listParamAttr.toArray(new Object[0]));
 	}
 	
@@ -127,18 +138,18 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	public T queryById(String id){
 		String sql = "  select "+currentBBJEntity.getAttrKeysStr()
 					+ " from " + currentBBJEntity.getTableName() 
-				+ " where " + BBJEntity.id + " = ? " 
+				+ " where " + currentBBJEntity.getId() + " = ? " 
 				+ " and " + BBJEntity.delete_state + " <> ? ";
 		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id,BBJEntity.delete_state_yes);
-		BBJEntity bbjEntity = newInstanceBBJEntity();
 		if(rs.next()){
+			BBJEntity bbjEntity = newInstanceBBJEntity();
 			List<String> keys = currentBBJEntity.getAttrKeys();
 			for (int i = 0; i < keys.size(); i++) {
 				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
 			}
-		}
-		return (T) bbjEntity;
-
+			return (T) bbjEntity;
+		} 
+		return null ;
 	}
 	
 	/* (non-Javadoc)
@@ -174,7 +185,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 			sb.append(" and " + sqlFilter.getSqlString());
 			listParam.addAll(sqlFilter.getListParam());
 		}
-		sb.append(" order by " + BBJEntity.id);
+		sb.append(" order by " + currentBBJEntity.getId());
 		sb.append(" limit ?,? ");
 		listParam.add(startId);
 		listParam.add(pageSize);
