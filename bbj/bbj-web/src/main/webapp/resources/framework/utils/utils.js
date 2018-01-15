@@ -81,13 +81,6 @@ function Utils() {
 		return true
 	}
 
-	this.isRegisterUserName = function isRegisterUserName(s) {
-		var patrn = /^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/;
-		if (!patrn.exec(s))
-			return false
-		return true
-	}
-
 	// 校验用户姓名：只能输入1-30个以字母开头的字串
 	this.isTrueName = function isTrueName(s) {
 		var patrn = /^[a-zA-Z]{1,30}$/;
