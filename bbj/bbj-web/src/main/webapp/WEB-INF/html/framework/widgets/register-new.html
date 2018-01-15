@@ -16,13 +16,15 @@
 
 			<form id="registerForm" action="../../rl/register"
 				method="post">
-				<div class="form-group has-success">
+				<!-- <div class="form-group has-success">
 				  <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ...">
                   <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> Input with success</label>
                   
-                </div>
+                </div> -->
                 <div id="input1"></div>
-                <div id="input2"></div>
+                <div id="phone"></div>
+                <div id="username"></div>
+                <div id="email"></div>
             </form>
 			</div>
 			<!-- /.form-box -->
@@ -32,25 +34,8 @@
 	<script src="../../resources/framework/javascript-import.js"></script>
 
 	<script>
-	
-	(function(win, $) {
-		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'text', //输入类型
-			input_id: 'input_id', //输入框id
-			placeholder: 'Please input something here !', //输入提示信息
-			hint_id: 'label_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_state_id' //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('input1', options);
-	}(this, jQuery));
-	
-	/**************************手机号输入及其验证***************************/
+
+	/**************************start手机号输入及其验证***************************/
 	(function(win, $) {
 		
 		//forminput
@@ -65,7 +50,7 @@
 		};
 		
 		//渲染box1
-		bbj.renderHtml('input2', options);
+		bbj.renderHtml('phone', options);
 	}(this, jQuery));
 	
 	$("#input_number_id").blur(function() {
@@ -90,14 +75,80 @@
 		}
 	}
 	
+	/**************************end手机号输入及其验证***************************/
+	
+	/**************************start用户名输入及其验证***************************/
+	
+	
+	(function(win, $) {
+		
+		//forminput
+		var options={
+			type: 'forminput',
+			input_type: 'text', //输入类型
+			input_id: 'input_username_id', //输入框id
+			placeholder: '请输入用户名', //输入提示信息
+			hint_id: 'label_username_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_username_state_id'  //输入框输入信息校正控制状态
+		};
+		
+		//渲染box1
+		bbj.renderHtml('username', options);
+	}(this, jQuery));
+	
+	$("#input_username_id").blur(function() {
+		validateUsername(this);
+	});
+	
+	function validateUsername(input){
+		if(Utils.isEmpty(input.value)){
+			updateHtml("label_username_id", "用户名不能为空！");
+			updateState("input_username_state_id", "has-error");
+			return false;
+		}
+		if(!Utils.isRegisterUserName(input.value)){
+			updateHtml("label_username_id", "只能输入5-20个以字母开头、可带数字、“_”、“.”的字串");
+			updateState("input_username_state_id", "has-error");
+			return false;
+		}
+		if(!isNameExists(input.value)){
+			updateHtml("label_username_id", "用户名可用！");
+			updateState("input_username_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_number_id", "用户名存在！");
+			updateState("input_number_state_id", "has-error");
+			return false;
+		}
+	}
+	function isNameExists(name){
+		var isExists = false;
+		Utils.ajax({
+			type : "GET",
+			url : "../../../rl/vname",
+			data : "userName=" + name,
+			async: false,
+			success : function(data) {
+				if(data.data == "true"){
+					isExists = true;
+				}else{
+					isExists = false;
+				}
+			}
+		});
+		return isExists;
+	}
+	/**************************end用户名输入及其验证***************************/
+	
 	function updateHtml(id, hint){
 		$("#" + id).html(hint);
 	}
 	function updateState(id, clazz){
 		$("#" + id).attr("class", "");
 		$("#" + id).attr("class", "form-group " + clazz);
-	} 
-	/**************************手机号输入及其验证***************************/
+	}
+	
 	</script>
 	
 </body>
