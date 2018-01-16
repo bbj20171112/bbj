@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>数据字典</title>
+
+<!-- 引入全局css样式 -->
+<script src="../../resources/framework/css-import.js"></script>
+
+</head>
+<body>
+	<div class="wrapper">
+		<h3 class="box-title">数据字典</h3>
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">基本表格</h3>
+							<button type="button" onclick="showSelectItems()"
+								class="btn btn-info">查看选中</button>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<table id="example" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th><input type="checkbox" class="icheckbox_minimal"
+											id="all_checked"></th>
+										<th>ID</th>
+										<th>表名称</th>
+										<th>表说明</th>
+										<th>表描述</th>
+										<th>序列</th>
+										<th>备注</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</div>
+</div>
+	<!-- ./wrapper -->
+	<!-- 引入JavaScripts样式 -->
+	<script src="../../resources/framework/javascript-import.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		
+		// 页面初始化
+		Utils.ajax({
+			type: "GET",
+	        url: "table/queryByPage",
+	        data: "tagPage=8&pageSize=10",
+	        success: function(data){
+	        	data = data.data;
+	        	// console.log(data);
+	        	$('#example').DataTable({
+	        		data : data,
+	        		searching: false, // 是否搜索
+	        		processing: true, // 显示进度
+	        	    ordering: true, // 是否排序
+	        	    order: [[ 1, "asc" ]], // 默认排序 // desc
+	        		lengthMenu: [[10, -1], [10, "All"]], // 定义页面大小
+	        		columnDefs: [{ // 列渲染
+	        				targets: 0,
+	                    	render: function(data, type, row) {
+	                        	return '<input type="checkbox" name="item_check" class="icheckbox_minimal">';
+	                    	},
+	                    	orderData: [ 0, 1 ],  //如果第一列进行排序，有相同数据则按照第二列顺序排列
+	                    	visible: true, // 是否隐藏
+	                        searchable: false // 是否可以查询
+	                    	
+	                	},{
+	               			targets: -1,
+	                        render: function(data, type, row) {
+	                        	var operatorDiv = '<div class="btn-group">'
+	                        	+'<button type="button" onclick="row_edit('+row.id+')" class="btn btn-info">编辑</button>'
+	                        	+'<button type="button" onclick="row_delete('+row.id+')" class="btn btn-danger">删除</button>'
+	                        	+'</div>';
+	                        	return operatorDiv;
+	                       }
+	                    }],
+	        		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
+	        			{ data: null },
+		                { data: 'attr.id' },
+		                { data: 'attr.table_name'},
+		                { data: 'attr.table_comment'},
+		                { data: 'attr.table_description'},
+		                { data: 'attr.sequence_name'},
+		                { data: 'attr.table_remark'},
+		                { data: null }, 
+	                ]
+	        	});
+	        	$(".table").colResizable(); // 使用colResizable插件实现表格头宽度拖拽,这个不能喝滚动条同时时候，不然会存在一些问题
+	        	}
+			});
+	  	})
+	  	
+	  	
+	  	// 编辑事件(列点击)
+	  	function row_edit(id){
+			alert("您要编辑：id=" + id);
+		}
+		
+		// 删除事件(列点击)
+		function row_delete(id){
+			alert("您要删除：id=" + id);
+		}
+
+		// 选择
+		$('#example tbody').on( 'click', 'tr', function () {
+	        $(this).toggleClass('selected');
+	        var ichecked = $(this).find("[type=checkbox]");
+	        if(ichecked.is(':checked')){
+	        	ichecked.iCheck('uncheck');
+	        }else{
+	        	ichecked.iCheck('check');
+	        }
+	        
+	    
+	    } );
+	 
+		// 获取选择的Item
+	    function showSelectItems() {
+	    	// console.log($('#example').DataTable().rows('.selected').data());
+	    	var rows = $('#example').DataTable().rows('.selected').data();
+	    	var rowsIdArray = [];
+	    	for(var i = 0;i < rows.length; i++){
+	    		rowsIdArray[i] = rows[i].id;
+	    	}
+	        alert('您选择的ID：' + rowsIdArray );
+	    }
+	   
+	
+	</script>
+</body>
+</html>
