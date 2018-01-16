@@ -17,10 +17,18 @@ public abstract class BBJEntity extends BBJObject	{
 
 	private static final long serialVersionUID = 1L;
 	// 基本属性
-	public static final String id = "id";
 	public static final String create_time = "create_time";
-	public static final String delete_state = "delete_state";
 	public static final String update_time = "update_time";
+	public static final String create_staff_id = "create_staff_id";
+	public static final String update_staff_id = "update_staff_id";
+	public static final String delete_state = "delete_state";
+//	public static final String[] commonAttrs = {
+//			create_time,
+//			update_time,
+//			create_staff_id,
+//			update_staff_id,
+//			delete_state
+//			};
 	
 	public static final String delete_state_yes = "1";
 	public static final String delete_state_not = "0";
@@ -28,7 +36,8 @@ public abstract class BBJEntity extends BBJObject	{
 	private String tableName = ""; 	
 	// 表名								// 主键
 	private Map<String, String> attr = new HashMap<String, String>(); 	// 属性集
-
+	private String id = "id";
+	
 	// 构造函数
 	public BBJEntity() {
 		super();
@@ -39,10 +48,13 @@ public abstract class BBJEntity extends BBJObject	{
 	private void init() {
 		tableName = initTable();
 		String[] attrs = initAttr();
-		addAttr(id, "");
+		// 加入公共属性
+		id = attrs[0]; // 保存主键
 		addAttr(create_time, "");
-		addAttr(delete_state, "0");
 		addAttr(update_time, "");
+		addAttr(create_staff_id, "0");
+		addAttr(update_staff_id, "0");
+		addAttr(delete_state, "0");
 		if (attrs != null) {
 			for (int i = 0; i < attrs.length; i++) {
 				if (StringUtils.isNotEmpty(attrs[i])) {
@@ -166,12 +178,20 @@ public abstract class BBJEntity extends BBJObject	{
 		return keySb.toString();
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	// hashCode 和   Equals
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((attr == null) ? 0 : id.hashCode());
 		return result;
 	}
 

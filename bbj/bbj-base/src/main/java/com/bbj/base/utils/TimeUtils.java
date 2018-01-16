@@ -133,7 +133,7 @@ public class TimeUtils {
 	 * @param hour
 	 * @param minute
 	 * @param second
-	 * @return
+	 * @return "2016-05-01 00:00:00"
 	 */
 	public static String generateTime(int year, int month, int day, int hour, int minute, int second) {
 		String y = year + "";
@@ -164,7 +164,7 @@ public class TimeUtils {
 	/**
 	 * 获取当前时间
 	 * 
-	 * @return
+	 * @return "2016-05-01 00:00:00"
 	 */
 	public static String getCurrentTime() {
 		Calendar c = Calendar.getInstance();// 获取当前日期时间
