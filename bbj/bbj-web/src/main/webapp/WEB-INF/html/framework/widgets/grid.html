@@ -70,6 +70,7 @@ $(function () {
         	    ordering: true, // 是否排序
         	    order: [[ 1, "asc" ]], // 默认排序 // desc
         	    // scrollY: 200,scrollCollapse: true, // 滚动条
+        	    pagingType:   "full_numbers",
         		lengthMenu: [[10, -1], [10, "All"]], // 定义页面大小
         		columnDefs: [{ // 列渲染
         				targets: 0,
@@ -101,6 +102,7 @@ $(function () {
                        	}
                         
                 }],
+                
         		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
                     { data: null },
                     { data: 'id' },

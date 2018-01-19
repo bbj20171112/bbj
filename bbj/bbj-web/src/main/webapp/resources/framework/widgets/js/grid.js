@@ -3,6 +3,10 @@
  *	bbj改造说明：
  *	1.	_fnApplyColumnDefs 方法 增加改造，增加不仅仅对下表进行target，同时可以使用key值(属性值) -by bage 2018-01-02
  * 	2.	_pluck_order 方法也需要改造，未完成 //TODO
+ *  3. this.fnVersionCheck = _ext.fnVersionCheck; 初始化开始行 
+ *  4. var baseAjax = {
+ *  5. oSettings.jqXHR = Utils.ajax(
+ * 
  */
 
 /*! DataTables 1.10.16
@@ -1093,6 +1097,7 @@
 					dataType: 'json',
 					url: oLanguage.sUrl,
 					success: function ( json ) {
+						console.log(json);
 						_fnLanguageCompat( json );
 						_fnCamelToHungarian( defaults.oLanguage, json );
 						$.extend( true, oLanguage, json );
@@ -3894,6 +3899,7 @@
 		var baseAjax = {
 			"data": data,
 			"success": function (json) {
+				json = json.data; // 自定义转化
 				var error = json.error || json.sError;
 				if ( error ) {
 					_fnLog( oSettings, 0, error );
@@ -3942,7 +3948,7 @@
 		else if ( oSettings.sAjaxSource || typeof ajax === 'string' )
 		{
 			// DataTables 1.9- compatibility
-			oSettings.jqXHR = $.ajax( $.extend( baseAjax, {
+			oSettings.jqXHR = Utils.ajax( $.extend( baseAjax, { // 改造成使用BBJ统一 Ajax
 				url: ajax || oSettings.sAjaxSource
 			} ) );
 		}

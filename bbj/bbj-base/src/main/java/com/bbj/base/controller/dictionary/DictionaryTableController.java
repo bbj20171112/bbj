@@ -1,5 +1,8 @@
 package com.bbj.base.controller.dictionary;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,11 +44,25 @@ public class DictionaryTableController {
 
 	@RequestMapping(value={"/queryByPage"})
 	@ResponseBody
-	public Object queryByPage(@RequestParam(value="tagPage",defaultValue="1")int tagPage,@RequestParam(value="pageSize",defaultValue="10")int pageSize){
+	public Object queryByPage(@RequestParam(value="start",defaultValue="1")int start,
+			@RequestParam(value="length",defaultValue="10")int length,
+			@RequestParam(value="draw",defaultValue="0")int draw
+
+			){
 		SqlFilter<DictionaryTable> sqlFilter = null;
-		return dictionaryTableService.queryByPage(tagPage, pageSize, sqlFilter);
+		Map<String, Object> map = new HashMap<String, Object>();
+		int tagPage = start / length;
+		if(tagPage < 1){
+			tagPage = 1;
+		} else {
+			tagPage = tagPage + 1;
+		}
+		map.put("data", dictionaryTableService.queryByPage(tagPage, length, sqlFilter));
+		map.put("recordsTotal", dictionaryTableService.getTotalRow(sqlFilter));
+		map.put("recordsFiltered", dictionaryTableService.getTotalRow(sqlFilter));
+		map.put("draw", draw);
+		return map;
 	}
-	
 
 	@RequestMapping(value={""})
 	public Object index(){

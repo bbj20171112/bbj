@@ -35,4 +35,8 @@ public class DictionaryTableService
 		return dictionaryTableDao.queryByPage(tagPage, pageSize, sqlFilter);
 	}
 	
+	public int getTotalRow(SqlFilter<DictionaryTable> sqlFilter){
+		return dictionaryTableDao.getTotalRow(sqlFilter);
+	}
+	
 }
