@@ -1,11 +1,17 @@
 
 /**
- *	bbj改造说明：
- *	1.	_fnApplyColumnDefs 方法 增加改造，增加不仅仅对下表进行target，同时可以使用key值(属性值) -by bage 2018-01-02
- * 	2.	_pluck_order 方法也需要改造，未完成 //TODO
+ *	bbj 改造说明：
+ *	1.	function _fnApplyColumnDefs( oSettings, aoColDefs, aoCols, fn ) 增加改造，增加不仅仅对下表进行target，同时可以使用key值(属性值) -by bage 2018-01-02
+ * 	2.	DataTable.models.oSettings = { 增加跳页函数
  *  3. this.fnVersionCheck = _ext.fnVersionCheck; 初始化开始行 
- *  4. var baseAjax = {
- *  5. oSettings.jqXHR = Utils.ajax(
+ *  4. var baseAjax = { 修改ajax调用我们封装的 ajax方法
+ *  5. oSettings.jqXHR = Utils.ajax( 修改ajax调用我们封装的 ajax方法
+ * 	6. oInit.aoColumns.unshift({data: null // 增加默认支持全选、单选
+ *  7. "oPaginate": { 修改默认提示信息为中文
+ *  8. "sPaginationType":  修改默认simple_numbers为full_numbers
+ *  9. "bServerSide": 修改为true
+ *  10. "bProcessing": 修改为true
+ *  11. function _fnSortAttachListener ( settings, attachTo, colIdx, callback ) 增加如果col.data == null || col.mData == null，点击时不响应排序事件
  * 
  */
 
@@ -839,7 +845,6 @@
 			return 0;
 		};
 		
-		
 		/**
 		 * Provide a common method for plug-ins to check the version of DataTables being used, in order
 		 * to ensure compatibility.
@@ -1043,7 +1048,7 @@
 				[ "bScrollCollapse", "bCollapse" ]
 			] );
 			_fnMap( oSettings.oLanguage, oInit, "fnInfoCallback" );
-			
+
 			/* Callback functions which are array driven */
 			_fnCallbackReg( oSettings, 'aoDrawCallback',       oInit.fnDrawCallback,      'user' );
 			_fnCallbackReg( oSettings, 'aoServerParams',       oInit.fnServerParams,      'user' );
@@ -1156,9 +1161,20 @@
 			}
 			else
 			{
+				// 增加默认支持全选、单选 start  bage 2018-01-28
+				if ( nThead.length !== 0 ){ // 如果没有写thead
+					oInit.aoColumns.unshift({data: null , title: '<input type="checkbox" class="icheckbox_flat" name="cb-check-all"></input>'});
+					oInit.aoColumnDefs.unshift({
+						targets: 0,
+						render: function(data, type, row) {
+	                    	return '<input type="checkbox" name="item_check" class="icheckbox_flat">';
+	                	}
+					});
+				}
+				// 增加默认支持全选、单选 end   bage 2018-01-28 
 				aoColumnsInit = oInit.aoColumns;
 			}
-			
+
 			/* Add the columns */
 			for ( i=0, iLen=aoColumnsInit.length ; i<iLen ; i++ )
 			{
@@ -1318,9 +1334,29 @@
 			else {
 				loadedInit();
 			}
-			
 		} );
 		_that = null;
+		
+		/**
+         * 增加全选、选择功能
+         */
+        $(this).on("change",":checkbox",function() {
+            if ($(this).is("[name='cb-check-all']")) {
+                //全选
+                var checkedValue = $(this).prop("checked");
+                $(":checkbox",$(_that)).prop("checked",checkedValue);
+                if(checkedValue){
+                	$(_that).find('tbody tr').addClass('selected');
+                } else {
+                	$(_that).find('tbody tr').removeClass('selected');
+                }
+            }else{
+                //一般复选
+                var checkbox = $("tbody :checkbox",$(_that));     
+                $(this).parent().parent().toggleClass('selected');
+                $(":checkbox[name='cb-check-all']",$(_that)).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+            }
+        })
 		return this;
 	};
 
@@ -2359,7 +2395,7 @@
 							{
 								fn( k, def );
 							}
-							// 增加支持用对象key或者属性值来设置target -by bage 2018-01-02
+							// 增加支持用对象key或者属性值来设置target start  -by bage 2018-01-02
 							else if(columns[k].sTitle == aTargets[j])
 							{
 								/* Add columns that we don't yet know about */
@@ -2371,7 +2407,7 @@
 								/* Integer, basic index */
 								fn( k, def );
 							}
-							// 增加支持用对象key或者属性值来设置target -by bage 2018-01-02
+							// 增加支持用对象key或者属性值来设置target end  -by bage 2018-01-02
 						}
 					}
 				}
@@ -3876,6 +3912,9 @@
 		var callback = function ( json ) {
 			_fnCallbackFire( oSettings, null, 'xhr', [oSettings, json, oSettings.jqXHR] );
 			fn( json );
+			// 增加在加载结束后，构造跳页div start bage 2018-01-28
+			oSettings.fnDrawCallbackAddJumptoFunc(oSettings.nTable.id);
+			// 增加在加载结束后，构造跳页div end bage 2018-01-28
 		};
 	
 		if ( $.isPlainObject( ajax ) && ajax.data )
@@ -6197,7 +6236,7 @@
 	
 		_fnBindAction( attachTo, {}, function (e) {
 			/* If the column is not sortable - don't to anything */
-			if ( col.bSortable === false ) {
+			if ( col.bSortable === false || col.data == null || col.mData == null) {
 				return;
 			}
 	
@@ -10422,7 +10461,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"bProcessing": false,
+		"bProcessing": true,
 	
 	
 		/**
@@ -10506,7 +10545,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"bServerSide": false,
+		"bServerSide": true,
 	
 	
 		/**
@@ -11317,7 +11356,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
+				"sFirst": "首页",
 	
 	
 				/**
@@ -11340,7 +11379,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
+				"sLast": "末页",
 	
 	
 				/**
@@ -11363,7 +11402,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "下一页",
 	
 	
 				/**
@@ -11386,7 +11425,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": "上一页"
 			},
 	
 			/**
@@ -11409,7 +11448,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "暂无数据",
 	
 	
 			/**
@@ -11441,7 +11480,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项",
 	
 	
 			/**
@@ -11462,7 +11501,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
 	
 	
 			/**
@@ -11484,7 +11523,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+			"sInfoFiltered": "(从 _MAX_ 条记录过滤)",
 	
 	
 			/**
@@ -11602,7 +11641,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
+			"sLengthMenu": "每页_MENU_ 条记录",
 	
 	
 			/**
@@ -11626,7 +11665,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
+			"sLoadingRecords": "正在加载中...",
 	
 	
 			/**
@@ -11647,7 +11686,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sProcessing": "Processing...",
+			"sProcessing": "正在加载中...",
 	
 	
 			/**
@@ -11682,7 +11721,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+			"sSearch": "搜索:",
 	
 	
 			/**
@@ -11693,7 +11732,7 @@
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.searchPlaceholder
 			 */
-			"sSearchPlaceholder": "",
+			"sSearchPlaceholder": "输入关键字",
 	
 	
 			/**
@@ -11740,7 +11779,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "没有找到记录"
 		},
 	
 	
@@ -11907,7 +11946,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"sPaginationType": "simple_numbers",
+		"sPaginationType": "full_numbers",
 	
 	
 		/**
@@ -12922,6 +12961,33 @@
 	 *    will be done in 2.0.
 	 */
 	DataTable.models.oSettings = {
+		/**
+		 * 增加渲染跳页的函数 bage 2018-01-23
+		 */
+		fnDrawCallbackAddJumptoFunc : function (tableId){
+            var paginationNode = $("#"+tableId+"_paginate").find("ul[class=pagination]");
+            
+            paginationNode.append(
+            		 '<div class="paginationJump input-group input-group-sm" style="padding:2px">'/* width:80px */
+                     + '<input type="number" class="form-control" >'
+                     + '<span class="input-group-btn">'
+                     + '<button type="button" class="btn btn-info btn-flat">Go!</button>'
+                     + '</span>'
+                     + '</div>'
+            		 ); 
+            
+            /**
+    		 * 增加跳页点击函数
+    		 */
+            paginationNode.find("button").on("click",function (){
+    			var jumpTo = parseInt($(this).parent().parent().find("input").val()) - 1;
+				if(jumpTo < 0){
+					jumpTo = 0;
+				}
+				$("#" + tableId).DataTable().page(jumpTo).draw( false )
+            });
+		},
+		
 		/**
 		 * Primary features of DataTables and their enablement state.
 		 *  @namespace
