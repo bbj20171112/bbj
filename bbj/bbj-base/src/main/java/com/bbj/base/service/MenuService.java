@@ -176,6 +176,13 @@ public class MenuService
         menu = new MenuObject(attr);
         list.add(menu);
 
+        attr = new HashMap<String, String>();
+        attr.put("id", "14");
+        attr.put("upId", "0");
+        attr.put("text", "数据字典");
+        attr.put("link", "base/dictionary/table");
+        menu = new MenuObject(attr);
+        list.add(menu);
         return list;
 
     }

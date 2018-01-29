@@ -12,9 +12,10 @@
  *  9. "bServerSide": 修改为true
  *  10. "bProcessing": 修改为true
  *  11. function _fnSortAttachListener ( settings, attachTo, colIdx, callback ) 增加如果col.data == null || col.mData == null，点击时不响应排序事件
+ *  12. "aLengthMenu": [ 10, 15, 30, 50 ], 将 "aLengthMenu": [10, 25, 50, 100] 改为 "aLengthMenu": [ 10, 15, 30, 50 ],
  * 
  */
-
+ 
 /*! DataTables 1.10.16
  * ©2008-2017 SpryMedia Ltd - datatables.net/license
  */
@@ -1162,7 +1163,7 @@
 			else
 			{
 				// 增加默认支持全选、单选 start  bage 2018-01-28
-				if ( nThead.length !== 0 ){ // 如果没有写thead
+				if ( nThead.length == 0 ){ // 如果没有写thead
 					oInit.aoColumns.unshift({data: null , title: '<input type="checkbox" class="icheckbox_flat" name="cb-check-all"></input>'});
 					oInit.aoColumnDefs.unshift({
 						targets: 0,
@@ -1335,28 +1336,8 @@
 				loadedInit();
 			}
 		} );
-		_that = null;
 		
-		/**
-         * 增加全选、选择功能
-         */
-        $(this).on("change",":checkbox",function() {
-            if ($(this).is("[name='cb-check-all']")) {
-                //全选
-                var checkedValue = $(this).prop("checked");
-                $(":checkbox",$(_that)).prop("checked",checkedValue);
-                if(checkedValue){
-                	$(_that).find('tbody tr').addClass('selected');
-                } else {
-                	$(_that).find('tbody tr').removeClass('selected');
-                }
-            }else{
-                //一般复选
-                var checkbox = $("tbody :checkbox",$(_that));     
-                $(this).parent().parent().toggleClass('selected');
-                $(":checkbox[name='cb-check-all']",$(_that)).prop('checked', checkbox.length == checkbox.filter(':checked').length);
-            }
-        })
+        _that = null;
 		return this;
 	};
 
@@ -10204,7 +10185,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [ 10, 25, 50, 100 ],
+		"aLengthMenu": [ 10, 15, 30, 50 ],
 	
 	
 		/**
@@ -12968,7 +12949,7 @@
             var paginationNode = $("#"+tableId+"_paginate").find("ul[class=pagination]");
             
             paginationNode.append(
-            		 '<div class="paginationJump input-group input-group-sm" style="padding:2px">'/* width:80px */
+            		 '<div class="paginationJump input-group input-group-sm" style="padding:2px;width:100px">'/* width:80px */
                      + '<input type="number" class="form-control" >'
                      + '<span class="input-group-btn">'
                      + '<button type="button" class="btn btn-info btn-flat">Go!</button>'
@@ -12986,6 +12967,27 @@
 				}
 				$("#" + tableId).DataTable().page(jumpTo).draw( false )
             });
+            
+            /**
+             * 增加全选、选择功能
+             */
+            $("#" + tableId).on("change",":checkbox",function() {
+                if ($(this).is("[name='cb-check-all']")) {
+                    //全选
+                    var checkedValue = $(this).prop("checked");
+                    $(":checkbox",$("#" + tableId)).prop("checked",checkedValue);
+                    if(checkedValue){
+                    	$("#" + tableId ).find('tbody tr').addClass('selected');
+                    } else {
+                    	$("#" + tableId ).find('tbody tr').removeClass('selected');
+                    }
+                }else{
+                    //一般复选
+                    var checkbox = $("tbody :checkbox",$("#" + tableId ));     
+                    $(this).parent().parent().toggleClass('selected');
+                    $(":checkbox[name='cb-check-all']",$("#" + tableId )).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+                }
+            })
 		},
 		
 		/**
