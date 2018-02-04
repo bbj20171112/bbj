@@ -40,22 +40,28 @@ public class SqlFilter<T> extends BBJObject{
 	 * @param list
 	 * @return
 	 */
-	public SqlFilter addWhereFilter(List<WhereFilter> list){
+	public SqlFilter<T> addWhereFilter(List<WhereFilter> list){
 		for (int i = 0; i < list.size(); i++) {
 			WhereFilter whereFilter = list.get(i);
-			if(curruntBBJEntity.getAttrKeys().contains(whereFilter.getAttr())){
-				if(whereString.length() > 0){
-					whereString.append(whereFilter.getConn());
-				}
-				whereString.append(whereFilter.toString());
-				if(where_opt_like.equals(whereFilter.getOpt())){
-					listParam.add("%" + whereFilter.getValue() + "%");
-				} else {
-					listParam.add(whereFilter.getValue());
-				}
+			if(null == whereFilter.getAttr() || "".equals(whereFilter.getAttr())){
+				addToWhereFilter(whereFilter);
+			} else if(curruntBBJEntity.getAttrKeys().contains(whereFilter.getAttr())){
+				addToWhereFilter(whereFilter);
 			}
 		}
 		return this;
+	}
+
+	private void addToWhereFilter(WhereFilter whereFilter) {
+		if(whereString.length() > 0){
+			whereString.append(whereFilter.getConn());
+		}
+		whereString.append(whereFilter.toString());
+		if(where_opt_like.equals(whereFilter.getOpt())){
+			listParam.add("%" + whereFilter.getValue() + "%");
+		} else {
+			listParam.add(whereFilter.getValue());
+		}
 	}
 
 	

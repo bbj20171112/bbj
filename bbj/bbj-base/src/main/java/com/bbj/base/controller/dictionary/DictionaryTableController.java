@@ -1,6 +1,8 @@
 package com.bbj.base.controller.dictionary;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.domain.dictionary.DictionaryTable;
 import com.bbj.base.service.dictionary.DictionaryTableService;
+import com.google.gson.JsonObject;
 
 @Controller
 @RequestMapping(value={"/base/dictionary/table"})
@@ -46,10 +51,16 @@ public class DictionaryTableController {
 	@ResponseBody
 	public Object queryByPage(@RequestParam(value="start",defaultValue="1")int start,
 			@RequestParam(value="length",defaultValue="10")int length,
-			@RequestParam(value="draw",defaultValue="0")int draw
+			@RequestParam(value="draw",defaultValue="0")int draw,
+			@RequestParam(value="search[value]",defaultValue="")String searchValue
 
 			){
-		SqlFilter<DictionaryTable> sqlFilter = null;
+		BBJEntity curruntBBJEntity = new DictionaryTable();
+		SqlFilter<DictionaryTable> sqlFilter = new SqlFilter<DictionaryTable>(curruntBBJEntity );
+		List<WhereFilter> list = new ArrayList<WhereFilter>();
+		WhereFilter whereFilter = new WhereFilter("", "like ", "%" + searchValue + "%");
+		list.add(whereFilter );
+		sqlFilter.addWhereFilter(list );
 		Map<String, Object> map = new HashMap<String, Object>();
 		int tagPage = start / length;
 		if(tagPage < 1){
@@ -61,6 +72,7 @@ public class DictionaryTableController {
 		map.put("recordsTotal", dictionaryTableService.getTotalRow(sqlFilter));
 		map.put("recordsFiltered", dictionaryTableService.getTotalRow(sqlFilter));
 		map.put("draw", draw);
+		
 		return map;
 	}
 
