@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>数据字典</title>
+
+<!-- 引入全局css样式 -->
+<script src="../../resources/framework/css-import.js"></script>
+
+<style type="text/css">
+	paginate div.page_jump {
+    	float: right;
+    	margin: 0 0 0 5px;
+    }
+    aginate div.page_jump input {
+    	width: 30px;
+    }
+</style>
+
+</head>
+<body>
+	<div class="wrapper">
+		<h3 class="box-title">数据字典</h3>
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">基本表格</h3>
+							<button type="button" onclick="showSelectItems()"
+								class="btn btn-info">查看选中</button>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<table id="example" class="table table-bordered table-hover">
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</div>
+</div>
+	<!-- ./wrapper -->
+	<!-- 引入JavaScripts样式 -->
+	<script src="../../resources/framework/javascript-import.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		
+	        	// var chbx = '<input type="checkbox" class="icheckbox_flat" name="cb-check-all"></input>';
+				var headers = [];
+				headers.push("ID");
+				headers.push("表名称");
+				headers.push("表说明");
+				headers.push("表描述");
+				headers.push("序列");
+				headers.push("备注");
+				headers.push("操作");
+	        	// console.log(data);
+	        	var tableExp = $('#example').DataTable({
+	        		ajax: {
+	                    url: "table/queryByPage"
+	                },
+	        		columnDefs: [{
+	               			targets: -1,
+	                        render: function(data, type, row) {
+	                        	var operatorDiv = '<div class="btn-group">'
+	                        	+'<button type="button" onclick="row_edit(\''+row.attr.id+'\')" class="btn btn-info">编辑</button>'
+	                        	+'<button type="button" onclick="row_delete(\''+row.attr.id+'\')" class="btn btn-danger">删除</button>'
+	                        	+'</div>';
+	                        	return operatorDiv;
+	                       }
+	                    }],
+	        		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
+	        			{ data: 'attr.id' , title: headers[0]},
+		                { data: 'attr.table_name', title: headers[1]},
+		                { data: 'attr.table_comment', title: headers[2]},
+		                { data: 'attr.table_description', title: headers[3]},
+		                { data: 'attr.sequence_name', title: headers[4]},
+		                { data: 'attr.table_remark', title: headers[5]},
+		                { data: null , title: headers[6]}, 
+	                ]
+	        	});
+	    });
+	
+	    function showSelectItems() {
+	        console.log( $('#example').DataTable().rows('.selected').data()[0]);
+	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );
+		}
+	
+		//行点击事件
+	    
+		function goOnclick(btnJump,tableId){
+			console.log(tableId);
+			var table = $("#"+tableId).DataTable();
+			var jumpTo = 0;
+			if(btnJump.parentNode.parentNode.firstChild.value){
+				jumpTo = parseInt(btnJump.parentNode.parentNode.firstChild.value) - 1;
+			}
+			if(jumpTo < 0){
+				jumpTo = 0;
+			}
+			table.page(jumpTo).draw( false );
+		}
+	  	
+	  	// 编辑事件(列点击)
+	  	function row_edit(id){
+			alert("您要编辑：id=" + id);
+		}
+		
+		// 删除事件(列点击)
+		function row_delete(id){
+			alert("您要删除：id=" + id);
+		}
+
+	</script>
+</body>
+</html>

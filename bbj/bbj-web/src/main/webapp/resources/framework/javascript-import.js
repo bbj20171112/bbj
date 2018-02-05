@@ -59,7 +59,7 @@ document.writeln('<script src="' + contextPath
 document
 		.writeln('<script src="'
 				+ contextPath
-				+ '/resources/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>');
+				+ '/resources/bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>');
 
 document.writeln('<!-- SlimScroll -->');
 document
@@ -74,6 +74,11 @@ document.writeln('<script src="' + contextPath
 document.writeln('<!-- iCheck -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/iCheck/icheck.min.js"></script>');
+/*document.writeln('$("input").iCheck({');
+document.writeln('	    checkboxClass: "icheckbox_square",');
+document.writeln('	    radioClass: "iradio_square",');
+document.writeln('	    increaseArea: "20%" // optional');
+document.writeln('	  });');*/
 
 document.writeln('<!-- colResizable -->');
 document.writeln('<script src="' + contextPath
