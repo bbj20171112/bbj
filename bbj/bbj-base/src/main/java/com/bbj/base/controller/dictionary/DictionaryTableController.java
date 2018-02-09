@@ -58,7 +58,7 @@ public class DictionaryTableController {
 		BBJEntity curruntBBJEntity = new DictionaryTable();
 		SqlFilter<DictionaryTable> sqlFilter = new SqlFilter<DictionaryTable>(curruntBBJEntity );
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		WhereFilter whereFilter = new WhereFilter("", "like ", "%" + searchValue + "%");
+		WhereFilter whereFilter = new WhereFilter("table_name", "like ", "%" + searchValue + "%");
 		list.add(whereFilter );
 		sqlFilter.addWhereFilter(list );
 		Map<String, Object> map = new HashMap<String, Object>();

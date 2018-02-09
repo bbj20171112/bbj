@@ -13,9 +13,11 @@
  *  10. "bProcessing": 修改为true
  *  11. function _fnSortAttachListener ( settings, attachTo, colIdx, callback ) 增加如果col.data == null || col.mData == null，点击时不响应排序事件
  *  12. "aLengthMenu": [ 10, 15, 30, 50 ], 将 "aLengthMenu": [10, 25, 50, 100] 改为 "aLengthMenu": [ 10, 15, 30, 50 ],
+ * 	13. var searchDelay = settings.searchDelay !== null ? 设置默认 1500
+ * 
  * 
  */
- 
+
 /*! DataTables 1.10.16
  * ©2008-2017 SpryMedia Ltd - datatables.net/license
  */
@@ -4249,7 +4251,7 @@
 		var searchDelay = settings.searchDelay !== null ?
 			settings.searchDelay :
 			_fnDataSource( settings ) === 'ssp' ?
-				400 :
+				1500 : // 原来是400 
 				0;
 	
 		var jqFilter = $('input', filter)
@@ -12987,7 +12989,9 @@
                     $(this).parent().parent().toggleClass('selected');
                     $(":checkbox[name='cb-check-all']",$("#" + tableId )).prop('checked', checkbox.length == checkbox.filter(':checked').length);
                 }
-            })
+            });
+            
+            $("#" + tableId).colResizable();
 		},
 		
 		/**

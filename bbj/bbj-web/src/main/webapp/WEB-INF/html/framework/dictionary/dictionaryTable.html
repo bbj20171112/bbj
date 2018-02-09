@@ -9,16 +9,6 @@
 <!-- 引入全局css样式 -->
 <script src="../../resources/framework/css-import.js"></script>
 
-<style type="text/css">
-	paginate div.page_jump {
-    	float: right;
-    	margin: 0 0 0 5px;
-    }
-    aginate div.page_jump input {
-    	width: 30px;
-    }
-</style>
-
 </head>
 <body>
 	<div class="wrapper">
@@ -45,15 +35,14 @@
 		</section>
 		<!-- /.content -->
 	</div>
-</div>
+	</div>
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
 	<script src="../../resources/framework/javascript-import.js"></script>
 	<script type="text/javascript">
 	$(function () {
 		
-	        	// var chbx = '<input type="checkbox" class="icheckbox_flat" name="cb-check-all"></input>';
-				var headers = [];
+	        	var headers = [];
 				headers.push("ID");
 				headers.push("表名称");
 				headers.push("表说明");
@@ -88,26 +77,12 @@
 	        	});
 	    });
 	
+		// 获取选中
 	    function showSelectItems() {
 	        console.log( $('#example').DataTable().rows('.selected').data()[0]);
 	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );
 		}
 	
-		//行点击事件
-	    
-		function goOnclick(btnJump,tableId){
-			console.log(tableId);
-			var table = $("#"+tableId).DataTable();
-			var jumpTo = 0;
-			if(btnJump.parentNode.parentNode.firstChild.value){
-				jumpTo = parseInt(btnJump.parentNode.parentNode.firstChild.value) - 1;
-			}
-			if(jumpTo < 0){
-				jumpTo = 0;
-			}
-			table.page(jumpTo).draw( false );
-		}
-	  	
 	  	// 编辑事件(列点击)
 	  	function row_edit(id){
 			alert("您要编辑：id=" + id);
