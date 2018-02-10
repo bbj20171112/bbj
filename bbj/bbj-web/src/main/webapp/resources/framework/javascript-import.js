@@ -10,6 +10,10 @@ document.writeln('<!-- jQuery 3 -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/bower_components/jquery/dist/jquery.min.js"></script>');
 
+document.writeln('<!-- jQuery UI 1.11.4 -->');
+document.writeln('<script src="' + contextPath
+		+ '/resources/bower_components/jquery-ui/jquery-ui.min.js"></script>');
+
 document.writeln('<!-- Bootstrap 3.3.7 -->');
 document
 		.writeln('<script src="'

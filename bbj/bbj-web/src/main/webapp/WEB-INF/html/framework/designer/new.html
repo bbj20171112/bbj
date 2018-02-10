@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>数据字典</title>
+
+<!-- 引入全局css样式 -->
+<script src="../../resources/framework/css-import.js"></script>
+<link rel="stylesheet"
+	href="../../resources/plugins/dragula/dragula.css">
+<link rel="stylesheet"
+	href="../../resources/plugins/ContextJS/css/context.standalone.css">
+
+<style type="text/css">
+.item-parent .item {
+	padding: 10px;
+	margin: 5px; cursor : move;
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+	cursor: move;
+}
+
+/* .item {
+	background-color: #ad9d9d;
+} */
+</style>
+</head>
+<body>
+	<div class="wrapper">
+		<section class="content">
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">Form设计</h3>
+				</div>
+				<!-- /.box-header -->
+				<!-- form start -->
+				<form class="form-horizontal">
+					<div class="box-body">
+						<div class="col-sm-4 item-parent" id="item-parent1">
+							<div class="col-sm-12 item">
+								<label for="inputEmail3" class="col-sm-2 item-field control-label">Email</label>
+							</div>
+							<div class="col-sm-12 item">
+								<input type="email" class="form-control item-field" id="inputEmail3"
+									placeholder="Email">
+							</div>
+							<div class="col-sm-12 item">
+								<button type="submit" class="btn btn-default item-field">Cancel</button>
+							</div>
+						</div>
+						<div class="col-sm-4 item-parent" id="item-parent2">
+							<div class="col-sm-12 item">
+								<label for="inputPassword3" class="col-sm-2 control-label item-field">Password</label>
+							</div>
+							<div class="col-sm-12 item">
+								<input type="password" class="form-control item-field" id="inputPassword3"
+									placeholder="Password">
+							</div>
+							<div class="col-sm-12 item">
+								<button type="submit" class="btn btn-info pull-right item-field">Sign
+									in</button>
+							</div>
+						</div>
+						<div class="col-sm-4 item-parent" id="item-parent3">
+							<div class="col-sm-12 item">
+								<input type="checkbox item-field"> Remember me
+							</div>
+							<div class="col-sm-12 item">
+								<div class="form-group">
+									<div class="checkbox item-field">
+										<label> <input type="checkbox"> Checkbox 1
+										</label> <label> <input type="checkbox"> Checkbox 2
+										</label> <label> <input type="checkbox" disabled="">
+											Checkbox disabled
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item">
+								<div class="form-group">
+									<select class="form-control">
+										<option>option 1</option>
+										<option>option 2</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</form>
+			</div>
+		</section>
+		<!-- /.content -->
+	</div>
+	</div>
+	<!-- ./wrapper -->
+	<!-- 引入JavaScripts样式 -->
+	<script src="../../resources/framework/javascript-import.js"></script>
+	<script src='../../resources/plugins/dragula/dragula.js'></script>
+	<script src='../../resources/framework/designer/js/new.js'></script>
+	<script src='../../resources/plugins/ContextJS/js/context.js'></script>// 参考 http://www.jq22.com/demo/ContextJS/
+	
+</body>
+</html>
