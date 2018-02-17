@@ -61,10 +61,72 @@ $(document).ready(function() {
 			]}
 		]}
 	]);
+	
+	$("#navbar-col-num-input").val("3");
+	newPage();
+	
 } );
 
 function getElementById (id) {
   return document.getElementById(id);
 }
+
+function getFieldItems(){
+	var fieldItems = [];
+	fieldItems[0] = '<input value="这是字段1"></input>';
+	fieldItems[1] = '<label>这是字段2</label>';
+	fieldItems[2] = '<select><option label="这是字段3" value="3" /></select>';
+	fieldItems[3] = '<button>这是字段4</button>';
+	fieldItems[4] = '<img src="../../resources/dist/img/avatar5.png"/>';
+	return fieldItems;
+}
+
+/**
+ * 新建一个页面设计布局
+ * 
+ * @returns
+ */
+
+function newPage(){
+	$("#container").html("");
+
+	var colNum = $("#navbar-col-num-input").val();
+	var baseWidth = 12;
+	var fieldItems = getFieldItems();
+	var colHtml = [];
+	for (var i = 0; i < colNum; i++) {
+		colHtml[i] = '<div' + 
+		' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + 
+		' id="item-parent-' + i +'">';
+	}
+	var name = "";
+	var clazz = "";
+	for (var i = 0; i < fieldItems.length; i++) {
+			colHtml[i % colNum] += '<div'+
+								' class="col-sm-12 item"' +
+								' id="item-' + (i % colNum) + '-' + i +'">'
+								+fieldItems[i]+
+								'</div>';
+	}
+	var containerHtml = "";
+	for (var i = 0; i < colNum; i++) {
+		colHtml[i] += '</div>'; // 结束标签
+		containerHtml += colHtml[i]; // 进行拼接容器HTML
+	}
+	$("#container").html(containerHtml);
+	var colDiv = [];
+	for (var i = 0; i < colNum; i++) {
+		colDiv[i] = getElementById("item-parent-" + i);
+	}
+	dragula(colDiv);
+	
+}
+
+
+
+
+
+
+
 
 

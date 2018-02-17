@@ -191,7 +191,14 @@ public class MenuService
         attr.put("link", "base/designer/new");
         menu = new MenuObject(attr);
         list.add(menu);
-        
+
+        attr = new HashMap<String, String>();
+        attr.put("id", "16");
+        attr.put("upId", "14");
+        attr.put("text", "数据字典2");
+        attr.put("link", "base/dictionary/field");
+        menu = new MenuObject(attr);
+        list.add(menu);
         
         return list;
 
