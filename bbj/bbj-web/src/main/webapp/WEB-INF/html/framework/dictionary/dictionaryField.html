@@ -1,0 +1,304 @@
+﻿﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>数据字典</title>
+
+<!-- 引入全局css样式 -->
+<script src="../../resources/framework/css-import.js"></script>
+
+</head>
+<body>
+	<div class="wrapper">
+		<span class="white-text" th:text="${param.aaa}"></span>
+		<span class="white-text" th:text="${session.ssss}"></span>
+		<h3 class="box-title">字段维护</h3>
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">基本表格</h3>
+							<button type="button" onclick="showSelectItems()"
+								class="btn btn-info">查看选中</button>
+								<button type="button" onclick="newTable()"
+								class="btn btn-info">新建</button>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<table id="example" class="table table-bordered table-hover">
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</div>
+	</div>
+	
+	<div class="modal fade" id="modal-new-table" style="display: none;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">New</h4>
+              </div>
+              <div class="modal-body">
+                <div class="nav-tabs-custom">
+		            <!-- Tabs within a box -->
+		            <ul class="nav nav-tabs pull-right ui-sortable-handle">
+		              <li class=""><a href="#revenue-chart" data-toggle="tab" aria-expanded="false">SQL 预览</a></li>
+		              <li class="active"><a href="#field-columns" data-toggle="tab" aria-expanded="true">列 新增</a></li>
+		              <li class="pull-left header"><i class="fa fa-inbox"></i> 字段维护</li>
+		            </ul>
+		            <div class="tab-content no-padding">
+		              <!-- Morris chart - Sales -->
+		              <div class="chart tab-pane" id="revenue-chart" style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		              	SQL 
+		              </div>
+		              <div class="chart tab-pane active" id="field-columns" style="position: relative; height: 300px;">
+		              	<div class="form-horizontal">
+		              		<div class="box-body">
+			                	<div class="row form-group">
+			                		<div class="col-sm-2 item">
+			                			<label>字段名称</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-name"></input>
+			                		</div>
+			                		<div class="col-sm-2 item">
+			                			<label>字段说明</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-comm"></input>
+			                		</div>
+			                	</div>
+			                	<div class="row form-group">
+			                		<div class="col-sm-2 item">
+			                			<label>字段类型</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<select class="form-control select2" id="item-field-field-type" style="width:100%">
+						                  <option value="1" selected="selected">字符串[varchar(64)]</option>
+						                  <option value="2">数字[int]</option>
+						                  <option value="3">长数字[float]</option>
+						                  <option value="4">小数[decimal]</option>
+						                  <option value="5">日期[date]</option>
+						                  <option value="6">日期时间[datetime]</option>
+						                  <option value="7">文本[text]</option>
+						                  <option value="8">blob[blob]</option>
+						                </select>
+			                		</div>
+			                		<div class="col-sm-2 item">
+			                			<label>字段描述</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-desc"></input>
+			                		</div>
+			                	</div>
+			                	<div class="row form-group">
+			                		<div class="col-sm-2 item">
+			                			<label>键值</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-key"></input>
+			                		</div>
+			                		<div class="col-sm-2 item">
+			                			<label>键值说明</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-keycomm"></input>
+			                		</div>
+			                	</div>
+			                	<div class="row form-group">
+			                		<div class="col-sm-2 item">
+			                			<label>约束</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-cons"></input>
+			                		</div>
+			                		<div class="col-sm-2 item">
+			                			<label>约束说明</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-conscomm"></input>
+			                		</div>
+			                	</div>
+			                	<div class="row form-group">
+			                		<div class="col-sm-2 item">
+			                			<label>参照</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-ref"></input>
+			                		</div>
+			                		<div class="col-sm-2 item">
+			                			<label>参照说明</label>
+			                		</div>
+			                		<div class="col-sm-4 item">
+			                			<input class="form-control" id="item-field-field-refcomm"></input>
+			                		</div>
+			                	</div>
+			                	<div class="row form-group">
+			                		<div class="col-sm-2 item">
+			                			<label>备注</label>
+			                		</div>
+			                		<div class="col-sm-10 item">
+			                			<input class="form-control" id="item-field-field-remark"></input>
+			                		</div>
+			                	</div>
+			                </div>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+          
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="newFieldSave()">Save</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        
+	<!-- ./wrapper -->
+	<!-- 引入JavaScripts样式 -->
+	<script src="../../resources/framework/javascript-import.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		
+        	var headers = [];
+			headers.push("ID");
+			headers.push("字段名称");
+			headers.push("字段类型");
+			headers.push("字段说明");
+			headers.push("字段描述");
+			headers.push("键值");
+			headers.push("键值说明");
+			headers.push("约束");
+			headers.push("约束说明");
+			headers.push("参照");
+			headers.push("参照说明");
+			headers.push("备注");
+    			headers.push("操作");
+
+
+			var datas = [];
+			for (var i = 0; i < 5; i++) {
+				datas[i] = {
+					id:"field_id" + i,
+					field_name:"field_name" + i,
+					field_type:"field_type" + i,
+					field_comm:"field_comm" + i,
+					field_desc:"field_desc" + i,
+					field_key:"field_key" + i,
+					field_keydesc:"field_keydesc" + i,
+					field_cons:"field_cons" + i, // 约束
+					field_consdesc:"field_consdesc" + i, // 约束说明
+					field_ref:"field_ref" + i, // 参照
+					field_refdesc:"field_refdesc" + i,
+					field_remark:"field_remark" + i, // 备注
+				};
+			}
+			
+        	var tableExp = $('#example').DataTable({
+        		data: datas,
+        		serverSide:false,
+        		columnDefs: [{
+               			targets: -1,
+                        render: function(data, type, row) {
+                        	var operatorDiv = '<div class="btn-group">'
+                        	+'<button type="button" onclick="row_edit(\''+row.id+'\')" class="btn btn-info">编辑</button>'
+                        	+'<button type="button" onclick="row_delete(\''+row.id+'\')" class="btn btn-danger">删除</button>'
+                        	+'</div>';
+                        	return operatorDiv;
+                       }
+                    }],
+        		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
+        			{ data: 'id' , title: headers[0]},
+	                { data: 'field_name', title: headers[1]},
+	                { data: 'field_type', title: headers[2]},
+	                { data: 'field_comm', title: headers[3]},
+	                { data: 'field_desc', title: headers[4]},
+	                { data: 'field_key', title: headers[5]},
+	                { data: 'field_keydesc', title: headers[6]},
+	                /* { data: 'field_cons', title: headers[7]},
+	                { data: 'field_consdesc', title: headers[8]},
+	                { data: 'field_ref', title: headers[9]},
+	                { data: 'field_refdesc', title: headers[10]},
+	                { data: 'field_remark', title: headers[11]}, */
+	                { data: null , title: headers[12]}, 
+                ]
+        	});
+        	
+	    });
+	
+		// 获取选中
+	    function showSelectItems() {
+	        console.log( $('#example').DataTable().rows('.selected').data()[0]);
+	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );
+		}
+	
+	  	// 编辑事件(列点击)
+	  	function row_edit(id){
+			alert("您要编辑：id=" + id);
+		}
+		
+		// 删除事件(列点击)
+		function row_delete(id){
+			alert("您要删除：id=" + id);
+		}
+		
+		function newTable(){
+			$("#modal-new-table").modal();
+		}
+
+		function newFieldSave(){
+			var jsonData= {};
+			jsonData.id = 0;
+			
+			jsonData.field_name = $("#item-field-field-name").val();
+			jsonData.field_comm = $("#item-field-field-comm").val();
+			jsonData.field_type = $("#item-field-field-type").val();
+			jsonData.field_desc = $("#item-field-field-desc").val();
+			
+			jsonData.field_key = $("#item-field-field-key").val();
+			jsonData.field_keycomm = $("#item-field-field-keycomm").val();
+			jsonData.field_cons = $("#item-field-field-cons").val();
+			jsonData.field_conscomm = $("#item-field-field-conscomm").val();
+			
+			jsonData.field_ref = $("#item-field-field-ref").val();
+			jsonData.field_refcomm = $("#item-field-field-refcomm").val();
+			jsonData.field_remark = $("#item-field-field-remark").val();
+			
+
+			//console.log(jsonData);
+			Utils.ajax({
+				type: "GET",
+		        url: "field/insert",
+		        data: jsonData,
+		        success: function(data){
+		        	alert(JSON.stringify(data));
+					if(data.code == 200){
+						alert("添加结果" + data);
+					}		        	
+				}
+			}); 
+		}
+		
+		function getSql(){
+			
+		}
+		
+	</script>
+</body>
+</html>

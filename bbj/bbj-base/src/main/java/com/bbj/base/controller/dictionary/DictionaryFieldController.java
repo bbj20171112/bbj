@@ -1,9 +1,12 @@
+
 package com.bbj.base.controller.dictionary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,36 +17,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
+import com.bbj.base.domain.dictionary.DictionaryField;
 import com.bbj.base.domain.dictionary.DictionaryTable;
-import com.bbj.base.service.dictionary.DictionaryTableService;
-import com.google.gson.JsonObject;
+import com.bbj.base.service.dictionary.DictionaryFieldService;
 
 @Controller
-@RequestMapping(value={"/base/dictionary/table"})
-public class DictionaryTableController {
+@RequestMapping(value={"/base/dictionary/field"})
+public class DictionaryFieldController {
 
 	@Autowired
-	private DictionaryTableService dictionaryTableService;
+	private DictionaryFieldService dictionaryFieldService;
 	
 	@RequestMapping(value={"/insert"})
 	@ResponseBody
-	public Object insert(){
-		DictionaryTable bbjEntity = new DictionaryTable();
-		return 0;//dictionaryTableService.insert(bbjEntity );
+	public Object insert(HttpServletRequest request){
+		String field_name = request.getParameter("field_name");
+		System.out.println("insert is work..." + field_name);
+		return 0;
+		//DictionaryTable bbjEntity = new DictionaryTable();
+		//return dictionaryTableService.insert(bbjEntity );
 	}
 	
 
 	@RequestMapping(value={"/deleteById"})
 	@ResponseBody
 	public Object deleteById(String id){
-		return dictionaryTableService.deleteById(id);
+		return dictionaryFieldService.deleteById(id);
 	}
 
 	@RequestMapping(value={"/update"})
 	@ResponseBody
 	public Object update(String id){
-		DictionaryTable bbjEntity = new DictionaryTable();
-		return dictionaryTableService.update(bbjEntity );
+		DictionaryField bbjEntity = new DictionaryField();
+		return dictionaryFieldService.update(bbjEntity );
 	}
 	
 
@@ -56,7 +62,7 @@ public class DictionaryTableController {
 
 			){
 		BBJEntity curruntBBJEntity = new DictionaryTable();
-		SqlFilter<DictionaryTable> sqlFilter = new SqlFilter<DictionaryTable>(curruntBBJEntity );
+		SqlFilter<DictionaryField> sqlFilter = new SqlFilter<DictionaryField>(curruntBBJEntity );
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
 		WhereFilter whereFilter = new WhereFilter("table_name", "like ", "%" + searchValue + "%");
 		list.add(whereFilter );
@@ -68,17 +74,19 @@ public class DictionaryTableController {
 		} else {
 			tagPage = tagPage + 1;
 		}
-		map.put("data", dictionaryTableService.queryByPage(tagPage, length, sqlFilter));
-		map.put("recordsTotal", dictionaryTableService.getTotalRow(sqlFilter));
-		map.put("recordsFiltered", dictionaryTableService.getTotalRow(sqlFilter));
+		map.put("data", dictionaryFieldService.queryByPage(tagPage, length, sqlFilter));
+		map.put("recordsTotal", dictionaryFieldService.getTotalRow(sqlFilter));
+		map.put("recordsFiltered", dictionaryFieldService.getTotalRow(sqlFilter));
 		map.put("draw", draw);
 		
 		return map;
 	}
 
 	@RequestMapping(value={""})
-	public Object index(){
-		return "../framework/dictionary/dictionaryTable";
+	public Object index(HttpServletRequest request){
+		request.setAttribute("testValue", "testValuevvvv");
+		request.getSession().setAttribute("ssss", "dsd");
+		return "../framework/dictionary/dictionaryField";
 	}
 	
 }
