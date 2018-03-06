@@ -1,4 +1,4 @@
-if(!window.bbj) {
+if (!window.bbj) {
 	window.bbj = {};
 }
 
@@ -10,28 +10,26 @@ if(!window.bbj) {
 	var M = Mustache;
 
 	var parseControl = function(options) {
-		var type = options.type,
-			config = controlResource[type],
-			tpl, opt;
+		var type = options.type, config = controlResource[type], tpl, opt;
 
-		if(config) {
+		if (config) {
 			tpl = config.templ;
 			opt = config.options;
 
-			if(tpl) {
-				if(opt) {
+			if (tpl) {
+				if (opt) {
 					options = $.extend({}, opt, options);
 				}
 				return M.render(tpl, options);
 			}
 		}
-		//console.warn('widget解析失败！未找到该类型的widget模板！options：', options);
+		// console.warn('widget解析失败！未找到该类型的widget模板！options：', options);
 		return '';
 	};
 
 	win.bbj = (function(bbj) {
 		return jQuery.extend(bbj, {
-			parseControl: parseControl
+			parseControl : parseControl
 		});
 	})(win.bbj || {});
 
@@ -54,9 +52,9 @@ jQuery.extend(bbj, (function(win, $) {
 	 */
 	function renderPanelbox(id, options) {
 		var _box = $('#' + id);
-		//渲染好所有内容
+		// 渲染好所有内容
 		_box.html(bbj.parseControl(options));
-		//将body以html形式渲染
+		// 将body以html形式渲染
 		var _box_body = _box.find('.box-body');
 		_box_body.html(_box_body.html());
 	}
@@ -66,19 +64,29 @@ jQuery.extend(bbj, (function(win, $) {
 	 */
 	function renderCardlist(id, options) {
 		var _box = $('#' + id);
-		//渲染好所有内容
+		// 渲染好所有内容
 		_box.html(bbj.parseControl(options));
-		//将body以html形式渲染
+		// 将body以html形式渲染
 		_box.find('.card').each(function(i) {
 			var _this = $(this);
 			_this.html(_this.html());
 		});
 	}
 
+	/**
+	 * 获取echarts
+	 */
+	function initEchart(id, option) {
+		var _echart = echarts.init(document.getElementById(id));
+		_echart.setOption(option);
+		return _echart;
+	}
+
 	return {
-		renderHtml: renderHtml,
-		renderPanelbox: renderPanelbox,
-		renderCardlist: renderCardlist
+		renderHtml : renderHtml,
+		renderPanelbox : renderPanelbox,
+		renderCardlist : renderCardlist,
+		initEchart : initEchart
 	}
 
 }(this, jQuery)));

@@ -38,6 +38,10 @@ document.writeln('<!-- FastClick -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/bower_components/fastclick/lib/fastclick.js"></script>');
 
+document.writeln('<!-- echarts.common.min.js -->');
+document.writeln('<script src="' + contextPath
+		+ '/resources/plugins/echarts/echarts.common.min.js"></script>');
+
 document.writeln('<!-- mustache -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/mustache/mustache.js"></script>');
@@ -96,12 +100,11 @@ document.writeln('<script src="' + contextPath
 		+ '/resources/framework/widgets/js/alert.js"></script>');
 
 document.writeln('<!-- select2.js -->');
-document.writeln('<script src="' + contextPath
-		+ '/resources/bower_components/select2/dist/js/select2.full.js"></script>');
-
+document
+		.writeln('<script src="'
+				+ contextPath
+				+ '/resources/bower_components/select2/dist/js/select2.full.js"></script>');
 
 document.writeln('<!-- base.js -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/framework/common/js/base.js"></script>');
-
-
