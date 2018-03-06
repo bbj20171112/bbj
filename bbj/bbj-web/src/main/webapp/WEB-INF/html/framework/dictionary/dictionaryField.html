@@ -1,4 +1,5 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -12,8 +13,8 @@
 </head>
 <body>
 	<div class="wrapper">
-		<span class="white-text" th:text="${param.aaa}"></span>
-		<span class="white-text" th:text="${session.ssss}"></span>
+		<span class="white-text" th:text="${param.aaa}"></span> <span
+			class="white-text" th:text="${session.ssss}"></span>
 		<h3 class="box-title">字段维护</h3>
 		<section class="content">
 			<div class="row">
@@ -23,8 +24,7 @@
 							<h3 class="box-title">基本表格</h3>
 							<button type="button" onclick="showSelectItems()"
 								class="btn btn-info">查看选中</button>
-								<button type="button" onclick="newTable()"
-								class="btn btn-info">新建</button>
+							<button type="button" onclick="newTable()" class="btn btn-info">新建</button>
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
@@ -40,136 +40,145 @@
 		<!-- /.content -->
 	</div>
 	</div>
-	
+
 	<div class="modal fade" id="modal-new-table" style="display: none;">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">New</h4>
-              </div>
-              <div class="modal-body">
-                <div class="nav-tabs-custom">
-		            <!-- Tabs within a box -->
-		            <ul class="nav nav-tabs pull-right ui-sortable-handle">
-		              <li class=""><a href="#revenue-chart" data-toggle="tab" aria-expanded="false">SQL 预览</a></li>
-		              <li class="active"><a href="#field-columns" data-toggle="tab" aria-expanded="true">列 新增</a></li>
-		              <li class="pull-left header"><i class="fa fa-inbox"></i> 字段维护</li>
-		            </ul>
-		            <div class="tab-content no-padding">
-		              <!-- Morris chart - Sales -->
-		              <div class="chart tab-pane" id="revenue-chart" style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-		              	SQL 
-		              </div>
-		              <div class="chart tab-pane active" id="field-columns" style="position: relative; height: 300px;">
-		              	<div class="form-horizontal">
-		              		<div class="box-body">
-			                	<div class="row form-group">
-			                		<div class="col-sm-2 item">
-			                			<label>字段名称</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-name"></input>
-			                		</div>
-			                		<div class="col-sm-2 item">
-			                			<label>字段说明</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-comm"></input>
-			                		</div>
-			                	</div>
-			                	<div class="row form-group">
-			                		<div class="col-sm-2 item">
-			                			<label>字段类型</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<select class="form-control select2" id="item-field-field-type" style="width:100%">
-						                  <option value="1" selected="selected">字符串[varchar(64)]</option>
-						                  <option value="2">数字[int]</option>
-						                  <option value="3">长数字[float]</option>
-						                  <option value="4">小数[decimal]</option>
-						                  <option value="5">日期[date]</option>
-						                  <option value="6">日期时间[datetime]</option>
-						                  <option value="7">文本[text]</option>
-						                  <option value="8">blob[blob]</option>
-						                </select>
-			                		</div>
-			                		<div class="col-sm-2 item">
-			                			<label>字段描述</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-desc"></input>
-			                		</div>
-			                	</div>
-			                	<div class="row form-group">
-			                		<div class="col-sm-2 item">
-			                			<label>键值</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-key"></input>
-			                		</div>
-			                		<div class="col-sm-2 item">
-			                			<label>键值说明</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-keycomm"></input>
-			                		</div>
-			                	</div>
-			                	<div class="row form-group">
-			                		<div class="col-sm-2 item">
-			                			<label>约束</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-cons"></input>
-			                		</div>
-			                		<div class="col-sm-2 item">
-			                			<label>约束说明</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-conscomm"></input>
-			                		</div>
-			                	</div>
-			                	<div class="row form-group">
-			                		<div class="col-sm-2 item">
-			                			<label>参照</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-ref"></input>
-			                		</div>
-			                		<div class="col-sm-2 item">
-			                			<label>参照说明</label>
-			                		</div>
-			                		<div class="col-sm-4 item">
-			                			<input class="form-control" id="item-field-field-refcomm"></input>
-			                		</div>
-			                	</div>
-			                	<div class="row form-group">
-			                		<div class="col-sm-2 item">
-			                			<label>备注</label>
-			                		</div>
-			                		<div class="col-sm-10 item">
-			                			<input class="form-control" id="item-field-field-remark"></input>
-			                		</div>
-			                	</div>
-			                </div>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-          
-                
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="newFieldSave()">Save</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title">New</h4>
+				</div>
+				<div class="modal-body">
+					<div class="nav-tabs-custom">
+						<!-- Tabs within a box -->
+						<ul class="nav nav-tabs pull-right ui-sortable-handle">
+							<li class=""><a href="#revenue-chart" data-toggle="tab"
+								aria-expanded="false">SQL 预览</a></li>
+							<li class="active"><a href="#field-columns"
+								data-toggle="tab" aria-expanded="true">列 新增</a></li>
+							<li class="pull-left header"><i class="fa fa-inbox"></i>
+								字段维护</li>
+						</ul>
+						<div class="tab-content no-padding">
+							<!-- Morris chart - Sales -->
+							<div class="chart tab-pane" id="revenue-chart"
+								style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+								SQL</div>
+							<div class="chart tab-pane active" id="field-columns"
+								style="position: relative; height: 300px;">
+								<div class="form-horizontal">
+									<div class="box-body">
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>字段名称</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-name"></input>
+											</div>
+											<div class="col-sm-2 item">
+												<label>字段说明</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-comm"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>字段类型</label>
+											</div>
+											<div class="col-sm-4 item">
+												<select class="form-control select2"
+													id="item-field-field-type" style="width: 100%">
+													<option value="1" selected="selected">字符串[varchar(64)]</option>
+													<option value="2">数字[int]</option>
+													<option value="3">长数字[float]</option>
+													<option value="4">小数[decimal]</option>
+													<option value="5">日期[date]</option>
+													<option value="6">日期时间[datetime]</option>
+													<option value="7">文本[text]</option>
+													<option value="8">blob[blob]</option>
+												</select>
+											</div>
+											<div class="col-sm-2 item">
+												<label>字段描述</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-desc"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>键值</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-key"></input>
+											</div>
+											<div class="col-sm-2 item">
+												<label>键值说明</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-keycomm"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>约束</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-cons"></input>
+											</div>
+											<div class="col-sm-2 item">
+												<label>约束说明</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-conscomm"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>参照</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-ref"></input>
+											</div>
+											<div class="col-sm-2 item">
+												<label>参照说明</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-field-refcomm"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>备注</label>
+											</div>
+											<div class="col-sm-10 item">
+												<input class="form-control" id="item-field-field-remark"></input>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left"
+						data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary"
+						onclick="newFieldSave()">Save</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
 	<script src="../../resources/framework/javascript-import.js"></script>

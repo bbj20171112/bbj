@@ -23,7 +23,7 @@ public class DictionaryTable extends BBJEntity {
 				"table_name",
 				"table_comment",
 				"table_description",
-				"sequence_name",
+				"sequence_id",
 				
 				"table_remark",
 		};

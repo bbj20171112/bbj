@@ -10,12 +10,15 @@ import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.dictionary.DictionaryTable;
 
 @Service(value = "dictionaryTableService")
-public class DictionaryTableService
-{
+public class DictionaryTableService {
+	
 	@Autowired
 	private DictionaryTableDao dictionaryTableDao;
-	
+
 	public int insert(DictionaryTable bbjEntity){
+		if(null == bbjEntity.getAttr(DictionaryTable.delete_state)){
+			bbjEntity.setAttr(DictionaryTable.delete_state,DictionaryTable.delete_state_not);
+		}
 		return dictionaryTableDao.insert(bbjEntity);
 	}
 

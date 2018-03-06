@@ -2,7 +2,7 @@ package com.bbj.base.dao.dictionary;
 
 import org.springframework.stereotype.Component;
 
-import com.bbj.base.dao.BBJBaseDao;
+import com.bbj.base.dao.BBJDaoImp;
 import com.bbj.base.domain.dictionary.DictionaryField;
 
 /**
@@ -11,6 +11,6 @@ import com.bbj.base.domain.dictionary.DictionaryField;
  *
  */
 @Component
-public class DictionaryFieldDao extends BBJBaseDao<DictionaryField>{
+public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 
 }
