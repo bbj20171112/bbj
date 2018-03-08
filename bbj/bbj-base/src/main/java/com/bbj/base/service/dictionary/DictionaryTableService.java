@@ -1,9 +1,12 @@
 package com.bbj.base.service.dictionary;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bbj.base.dao.dictionary.DictionaryTableDao;
 import com.bbj.base.domain.SqlFilter;
@@ -15,13 +18,31 @@ public class DictionaryTableService {
 	@Autowired
 	private DictionaryTableDao dictionaryTableDao;
 
-	public int insert(DictionaryTable bbjEntity){
-		if(null == bbjEntity.getAttr(DictionaryTable.delete_state)){
-			bbjEntity.setAttr(DictionaryTable.delete_state,DictionaryTable.delete_state_not);
+	@Transactional
+	public int insert(DictionaryTable table){
+		int rows = 0;
+		if(table == null){
+			return rows;
 		}
-		return dictionaryTableDao.insert(bbjEntity);
+		if(null == table.getAttr(table.getId())){
+			table.setAttr(table.getId(),"" + System.currentTimeMillis());
+		}
+		if(null == table.getAttr(DictionaryTable.delete_state)){
+			table.setAttr(DictionaryTable.delete_state,DictionaryTable.delete_state_not);
+		}
+		rows += dictionaryTableDao.insert(table); // 插入到数据字典表
+		rows += dictionaryTableDao.createTable(table); // 创建一个表
+
+		return rows;
 	}
 
+	public String getCreateTablePrepareSql(DictionaryTable table){
+		if(table == null){
+			return "";
+		}
+		return dictionaryTableDao.getCreateTablePrepareSql(table);
+	}
+	
 	public int deleteById(String id){
 		return dictionaryTableDao.deleteById(id);
 	}

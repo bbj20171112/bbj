@@ -182,7 +182,12 @@
 		
 		// 删除事件(列点击)
 		function row_delete(id){
-			alert("您要删除：id=" + id);
+			Utils.ajax({
+		        url: contextPath + "/base/dictionary/table/deleteById?id="+id,
+		        success: function(data){
+					tableExp.ajax.reload();
+				}
+			});
 		}
 		
 
@@ -209,10 +214,7 @@
 		        url: contextPath + "/base/dictionary/table/insert",
 		        data: jsonData,
 		        success: function(data){
-		        	alert(JSON.stringify(data));
-					if(data.code == 200){
-						alert("添加结果" + data);
-					}		        	
+					tableExp.ajax.reload();
 				}
 			});
 		}

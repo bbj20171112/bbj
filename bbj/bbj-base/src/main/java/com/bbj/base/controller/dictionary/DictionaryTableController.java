@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.domain.dictionary.DictionaryTable;
@@ -38,12 +37,19 @@ public class DictionaryTableController {
 		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
 		return dictionaryTableService.insert(bbjEntity );
 	}
-
+	
+	@RequestMapping(value={"/getCreateTablePrepareSqlMap"})
+	@ResponseBody
+	public Object getCreateTablePrepareSqlMap(HttpServletRequest request){
+		DictionaryTable table = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
+		return dictionaryTableService.getCreateTablePrepareSql(table );
+	}
+	
 	@RequestMapping(value={"/deleteById"})
 	@ResponseBody
 	public Object deleteById(HttpServletRequest request){
 		DictionaryTable dictionaryTable = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.queryById(dictionaryTable.getId());
+		return dictionaryTableService.deleteById(dictionaryTable.getAttr(dictionaryTable.getId()));
 	}
 
 	@RequestMapping(value={"/update"})
