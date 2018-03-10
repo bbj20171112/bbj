@@ -10,5 +10,5 @@ import com.bbj.base.domain.BBJEntity;
  *
  * @param <T>
  */
-public class BBJBaseDao<T extends BBJEntity> extends BBJDaoMySQLImp<T>{ 
+public class BBJDaoImp<T extends BBJEntity> extends BBJDaoMySQLImp<T>{ 
 }

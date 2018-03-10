@@ -57,6 +57,9 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		for(int i = 0;i < listAttrKeys.size();i ++){
 			String key = listAttrKeys.get(i);
 			if(StringUtils.isNotEmpty(key)){
+				if(BBJEntity.delete_state.equals(key) && (null == bbjEntity.getAttr(key) || "".equals(bbjEntity.getAttr(key)))){
+					bbjEntity.setAttr(key, BBJEntity.delete_state_not);
+				}
 				if(BBJEntity.create_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
 					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
