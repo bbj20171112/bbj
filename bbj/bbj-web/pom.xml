@@ -88,7 +88,7 @@
 			</plugin>
 
 			<!-- jrebel的文件生成路径 -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.zeroturnaround</groupId>
 				<artifactId>jrebel-maven-plugin</artifactId>
 				<executions>
@@ -103,7 +103,7 @@
 				<configuration>
 					<rebelXmlDirectory>${basedir}/src/main/resources</rebelXmlDirectory>
 				</configuration>
-			</plugin>
+			</plugin> -->
 
 		</plugins>
 	</build>
