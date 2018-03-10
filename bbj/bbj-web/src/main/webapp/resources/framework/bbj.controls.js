@@ -105,8 +105,9 @@ var bbj = (function(bbj) {
 		//输入框，含提示————input
 		forminput: {
 			templ:'<div id={{input_state_id}} class="form-group has-success">' + 
-				'<input type="{{input_type}}" class="form-control" id="{{input_id}}" name="{{input_id}}_name" placeholder="{{placeholder}}">' +
-                '<label class="control-label" for="{{input_id}}" id="{{hint_id}}">{{hint_text}}</label> </div>',
+				  '	<input type="{{input_type}}" class="form-control" id="{{input_id}}" name="{{input_id}}_name" placeholder="{{placeholder}}">' +
+                  '	<label class="control-label" for="{{input_id}}" id="{{hint_id}}">{{hint_text}}</label>' + 
+                  '</div>',
             options: {
 				input_type: 'text', //输入类型
 				input_id: 'input_id', //输入框id
@@ -115,6 +116,11 @@ var bbj = (function(bbj) {
 				hint_text: 'I am hint', //提示信息
 				input_state_id: 'input_state_id' //输入框输入信息校正控制状态,修改class改变输入框状态（正确、警告、错误）has-success has-error has-warning
 			}
+		},
+		
+		test:{
+			templ:'<h>{{id}}</h><h>{{id}}</h>',
+			options:{id:"2"}
 		}
 	};
 

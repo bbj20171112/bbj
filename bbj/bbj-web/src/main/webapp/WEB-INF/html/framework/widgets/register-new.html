@@ -12,16 +12,21 @@
 		<div class="register-logo">
 			<a href="../../index2.html"><b>BBJ</b></a>
 		</div>
+
 		<div class="register-body">
 
 			<form id="registerForm" action="../../../rl/register"
 				method="post">
-                <div id="input1"></div>
-                <div id="phone"></div>
-                <div id="username"></div>
-                <div id="email"></div>
-                <div id="password"></div>
-                <div id="repassword"></div>
+                <div id="form"></div>
+                
+                <div class="form-group has-feedback">
+					您的爱好：<br />
+					<label><input name="hobby" type="checkbox" value="eat" />吃 </label> &nbsp;
+					<label><input name="hobby" type="checkbox" value="drink" />喝 </label> &nbsp;
+					<label><input name="hobby" type="checkbox" value="play" />玩 </label> &nbsp;
+					<label><input name="hobby" type="checkbox" value="happy" />乐 </label> &nbsp;
+				</div>	
+               
                 <div class="row">
 					<div class="col-xs-6">
 						<div class="">
@@ -53,14 +58,58 @@
 					<!-- /.col -->
 				</div>
             </form>
+            		
 			</div>
 			<!-- /.form-box -->
 	</div>
+	<div id="test"></div>
 	<!-- /.register-box -->
 	<!-- 引入JavaScripts样式 -->
 	<script src="../../resources/framework/javascript-import.js"></script>
 	<script src="../../resources/plugins/jquery.form.js"></script>
 	<script>
+	/**************************start--一次渲染多个input***************************/
+	(function(win, $) {
+		
+		//forminput
+		var options=[{
+			type: 'forminput',
+			input_type: 'text', //输入类型
+			input_id: 'input_username_id', //输入框id
+			placeholder: '请输入用户名', //输入提示信息
+			hint_id: 'label_username_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_username_state_id'  //输入框输入信息校正控制状态
+		},{
+			type: 'forminput',
+			input_type: 'email', //输入类型
+			input_id: 'input_email_id', //输入框id
+			placeholder: '请输入邮箱号', //输入提示信息
+			hint_id: 'label_email_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_email_state_id'  //输入框输入信息校正控制状态
+		},{
+				type: 'forminput',
+				input_type: 'password', //输入类型
+				input_id: 'input_password_id', //输入框id
+				placeholder: '请输入密码', //输入提示信息
+				hint_id: 'label_password_id',	//提示信息——id
+				hint_text: '', //提示信息
+				input_state_id: 'input_password_state_id'  //输入框输入信息校正控制状态
+			},{
+			type: 'forminput',
+			input_type: 'password', //输入类型
+			input_id: 'input_repassword_id', //输入框id
+			placeholder: '请再次输入密码', //输入提示信息
+			hint_id: 'label_repassword_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_repassword_state_id'  //输入框输入信息校正控制状态
+		}];
+		
+		//渲染box1
+		bbj.renderHtml('form', options);
+	}(this, jQuery));
+	/**************************end渲染***************************/
 	/*注册提交验证
 	*/
 	$('#registerForm').submit(function() {
@@ -88,24 +137,6 @@
 	}); 
 	
 	/**************************start验证码输入及其验证***************************/
-
-	(function(win, $) {
-		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'text', //输入类型
-			input_id: 'input_verification_code_id', //输入框id
-			placeholder: '请输入密码', //输入提示信息
-			hint_id: 'label_verification_code_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_verification_code_state_id'  //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('verification_code', options);
-	}(this, jQuery));
-	
 	$("#input_verification_code_id").blur(function() {
 		vvcode();
 	});	
@@ -146,24 +177,9 @@
 		return flag;
 	}
 	/**************************end验证号输入及其验证***************************/
-	/**************************start手机号输入及其验证***************************/
-	(function(win, $) {
-		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'number', //输入类型
-			input_id: 'input_number_id', //输入框id
-			placeholder: '请输入手机号', //输入提示信息
-			hint_id: 'label_number_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_number_state_id'  //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('phone', options);
-	}(this, jQuery));
 	
+	/**************************start手机号输入及其验证***************************/
+		
 	$("#input_number_id").blur(function() {
 		validatePhone();
 	});
@@ -190,23 +206,7 @@
 	/**************************end手机号输入及其验证***************************/
 	
 	/**************************start密码输入及其验证***************************/
-	(function(win, $) {
 		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'password', //输入类型
-			input_id: 'input_password_id', //输入框id
-			placeholder: '请输入密码', //输入提示信息
-			hint_id: 'label_password_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_password_state_id'  //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('password', options);
-	}(this, jQuery));
-	
 	$("#input_password_id").blur(function() {
 		validatePassword();
 	});
@@ -231,23 +231,7 @@
 	
 	/**************************end密码输入及其验证***************************/
 	
-		/**************************start验证密码输入及其验证***************************/
-	(function(win, $) {
-		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'password', //输入类型
-			input_id: 'input_repassword_id', //输入框id
-			placeholder: '请再次输入密码', //输入提示信息
-			hint_id: 'label_repassword_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_repassword_state_id'  //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('repassword', options);
-	}(this, jQuery));
+	
 	
 	$("#input_repassword_id").blur(function() {
 		validateRp();
@@ -275,22 +259,6 @@
 	
 	
 	/**************************start邮箱输入及其验证***************************/
-	(function(win, $) {
-		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'email', //输入类型
-			input_id: 'input_email_id', //输入框id
-			placeholder: '请输入邮箱号', //输入提示信息
-			hint_id: 'label_email_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_email_state_id'  //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('email', options);
-	}(this, jQuery));
 	
 	$("#input_email_id").blur(function() {
 		validateEmail();
@@ -318,22 +286,6 @@
 	
 	
 	/**************************start用户名输入及其验证***************************/
-		(function(win, $) {
-		
-		//forminput
-		var options={
-			type: 'forminput',
-			input_type: 'text', //输入类型
-			input_id: 'input_username_id', //输入框id
-			placeholder: '请输入用户名', //输入提示信息
-			hint_id: 'label_username_id',	//提示信息——id
-			hint_text: '', //提示信息
-			input_state_id: 'input_username_state_id'  //输入框输入信息校正控制状态
-		};
-		
-		//渲染box1
-		bbj.renderHtml('username', options);
-	}(this, jQuery));
 	
 	$("#input_username_id").blur(function() {
 		validateUsername();

@@ -2,30 +2,42 @@ if (!window.bbj) {
 	window.bbj = {};
 }
 
+function doParse(options){
+	var controlResource = bbj.controlResource || {};
+	var M = Mustache;
+	var type = options.type, config = controlResource[type], tpl, opt;
+	
+	if (config) {
+		tpl = config.templ;
+		opt = config.options;
+
+		if (tpl) {
+			if (opt) {
+				options = $.extend({}, opt, options);
+			}
+			return M.render(tpl, options);
+		}
+	}
+	//console.warn('widget解析失败！未找到该类型的widget模板！options：', options);
+	return '';
+}
 /**
  * bbj.parseControl 解析控件方法
  */
 (function(win, $) {
-	var controlResource = bbj.controlResource || {};
-	var M = Mustache;
-
 	var parseControl = function(options) {
-		var type = options.type, config = controlResource[type], tpl, opt;
-
-		if (config) {
-			tpl = config.templ;
-			opt = config.options;
-
-			if (tpl) {
-				if (opt) {
-					options = $.extend({}, opt, options);
-				}
-				return M.render(tpl, options);
+		//增加一部分
+		if(options.length > 1){
+			var htmlTotal = "";
+			for(var p in options){
+				htmlTotal += doParse(options[p]);
 			}
+			return htmlTotal;
+		}else{
+			return doParse(options);
 		}
-		// console.warn('widget解析失败！未找到该类型的widget模板！options：', options);
-		return '';
 	};
+	
 
 	win.bbj = (function(bbj) {
 		return jQuery.extend(bbj, {
