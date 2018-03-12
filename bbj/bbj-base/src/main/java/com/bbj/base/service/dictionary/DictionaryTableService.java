@@ -43,8 +43,26 @@ public class DictionaryTableService {
 		return dictionaryTableDao.getCreateTablePrepareSql(table);
 	}
 	
+	@Transactional
 	public int deleteById(String id){
-		return dictionaryTableDao.deleteById(id);
+		int rows = 0;
+		if(id  == null){
+			return rows;
+		}
+		DictionaryTable table = queryById(id);
+		if(table  == null){
+			return rows;
+		}
+		if(null == table.getAttr(table.getId())){
+			table.setAttr(table.getId(),"" + System.currentTimeMillis());
+		}
+		if(null == table.getAttr(DictionaryTable.delete_state)){
+			table.setAttr(DictionaryTable.delete_state,DictionaryTable.delete_state_not);
+		}
+		rows += dictionaryTableDao.deleteById(id);; // 删除数据字典表
+		rows += dictionaryTableDao.dropTable(table); // 创建一个表
+
+		return rows;
 	}
 
 	public int update(DictionaryTable bbjEntity){

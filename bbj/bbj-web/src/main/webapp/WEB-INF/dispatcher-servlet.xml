@@ -34,13 +34,13 @@
 		<property name="suffix" value=".jsp" />
 	</bean> 
 	-->
-	<bean id="viewResolver"
+	<!-- <bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/html/framework/" />
 		<property name="suffix" value=".html" />
-	</bean>
+	</bean> -->
 	<!--springMVC+thymeleaf的跳转页面配置-->
-      <!--  <bean id="templateResolver"
+    <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
          <property name="prefix" value="/WEB-INF/html/framework/" />
          <property name="suffix" value=".html" />
@@ -54,7 +54,7 @@
 
        <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
          <property name="templateEngine" ref="templateEngine" />
-       </bean> -->
+       </bean>
        
 	<!-- MySQL --> 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

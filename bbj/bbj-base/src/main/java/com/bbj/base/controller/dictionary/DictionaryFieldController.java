@@ -84,8 +84,14 @@ public class DictionaryFieldController {
 
 	@RequestMapping(value={""})
 	public Object index(HttpServletRequest request){
-		request.setAttribute("testValue", "testValuevvvv");
-		request.getSession().setAttribute("ssss", "dsd");
+		String id = request.getParameter("id");
+		if(id != null){
+			DictionaryField field = new DictionaryField();//;dictionaryFieldService.queryById(id);
+			field.addAttr("id", id);
+			field.addAttr("attr1", "value1");
+			request.setAttribute("fieldObject", field);
+		}
+		request.getSession().setAttribute("fieldObject", "dsdsdsds");
 		return "../framework/dictionary/dictionaryField";
 	}
 	
