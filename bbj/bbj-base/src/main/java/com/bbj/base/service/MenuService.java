@@ -92,7 +92,7 @@ public class MenuService
         attr.put("id", "3");
         attr.put("upId", "0");
         attr.put("text", "汪建明");
-        attr.put("link", "/base/widgets/button");
+        attr.put("link", "base/widgets/button");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -100,7 +100,7 @@ public class MenuService
         attr.put("id", "9");
         attr.put("upId", "3");
         attr.put("text", "register");
-        attr.put("link", "/base/widgets/register");
+        attr.put("link", "base/widgets/register");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -108,7 +108,7 @@ public class MenuService
         attr.put("id", "10");
         attr.put("upId", "3");
         attr.put("text", "login");
-        attr.put("link", "/base/widgets/login");
+        attr.put("link", "base/widgets/login");
         menu = new MenuObject(attr);
         list.add(menu);
 

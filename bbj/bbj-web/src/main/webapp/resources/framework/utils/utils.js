@@ -69,24 +69,24 @@ function Utils() {
 	this.isDigit = function isDigit(s) {
 		var patrn = /^[0-9]{1,20}$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 	}
 
 	// 校验登录名：只能输入5-20个以字母开头、可带数字、“_”、“.”的字串
 	this.isRegisterUserName = function isRegisterUserName(s) {
 		var patrn = /^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 	}
 
 	// 校验用户姓名：只能输入1-30个以字母开头的字串
 	this.isTrueName = function isTrueName(s) {
 		var patrn = /^[a-zA-Z]{1,30}$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 
 	}
 
@@ -94,8 +94,8 @@ function Utils() {
 	this.isPasswd = function isPasswd(s) {
 		var patrn = /^(\w){6,20}$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 	}
 
 	// 校验普通电话、传真号码：可以“+”开头，除数字外，可含有“-”
@@ -103,16 +103,16 @@ function Utils() {
 		// var patrn=/^[+]{0,1}(\d){1,3}[ ]?([-]?(\d){1,12})+$/;
 		var patrn = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 	}
 
 	// 校验手机号码：必须以数字开头，除数字外，可含有“-”
 	this.isMobil = function isMobil(s) {
 		var patrn = /^1[34578]\d{9}$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 	}
 
 	// 校验邮政编码
@@ -120,10 +120,23 @@ function Utils() {
 		// var patrn=/^[a-zA-Z0-9]{3,12}$/;
 		var patrn = /^[a-zA-Z0-9 ]{3,12}$/;
 		if (!patrn.exec(s))
-			return false
-		return true
+			return false;
+		return true;
 	}
-
+	
+	this.isEmail = function isEmail(s) {
+		var patrn = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+		if (!patrn.exec(s))
+			return false;
+		return true;
+	}
+	
+	this.isValidPassword = function isValidPassword(s) {
+		var patrn = /^(\w){6,20}$/;
+		if (!patrn.exec(s))
+			return false;
+		return true;
+	}
 	
 
 }
