@@ -11,6 +11,8 @@ public class DictionaryField extends BBJEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String table_id = "table_id";
+	
 	@Override
 	public String initTable() {
 		return "dictionary_field";
@@ -23,7 +25,8 @@ public class DictionaryField extends BBJEntity {
 				"table_id", 
 				"field_name",
 				"field_name_comment",
-				"field_type",
+				"field_key_type",
+				"field_key_type_comment",
 				"field_constraint",
 				"field_constraint_comment",
 				"field_reference",

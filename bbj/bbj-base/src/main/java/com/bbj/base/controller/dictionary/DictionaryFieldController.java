@@ -10,16 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.domain.dictionary.DictionaryField;
 import com.bbj.base.domain.dictionary.DictionaryTable;
 import com.bbj.base.service.dictionary.DictionaryFieldService;
+import com.bbj.base.utils.BBJEntityUtils;
 
 @Controller
 @RequestMapping(value={"/base/dictionary/field"})
@@ -28,43 +30,77 @@ public class DictionaryFieldController {
 	@Autowired
 	private DictionaryFieldService dictionaryFieldService;
 	
-	@RequestMapping(value={"/insert"})
+	/**
+	 * 增
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.PUT,RequestMethod.POST})
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
-		String field_name = request.getParameter("field_name");
-		System.out.println("insert is work..." + field_name);
-		return 0;
-		//DictionaryTable bbjEntity = new DictionaryTable();
-		//return dictionaryTableService.insert(bbjEntity );
+		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
+		return dictionaryFieldService.insert(bbjEntity );
 	}
 	
 
-	@RequestMapping(value={"/deleteById"})
+	/**
+	 * 删
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public Object deleteById(String id){
+	public Object deleteById(@RequestParam("id")String id){
 		return dictionaryFieldService.deleteById(id);
 	}
 
-	@RequestMapping(value={"/update"})
+	/**
+	 * 改
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.PATCH)
 	@ResponseBody
 	public Object update(String id){
 		DictionaryField bbjEntity = new DictionaryField();
 		return dictionaryFieldService.update(bbjEntity );
 	}
 	
-
-	@RequestMapping(value={"/queryByPage"})
+	
+	/**
+	 * 查（单个）
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
+	@ResponseBody
+	public Object index(@PathVariable("id")String id,HttpServletRequest request){
+		return dictionaryFieldService.queryById(id);
+	}
+	
+	/**
+	 * 查（分页）
+	 * @param start
+	 * @param length
+	 * @param draw
+	 * @param searchValue
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
 	public Object queryByPage(@RequestParam(value="start",defaultValue="1")int start,
 			@RequestParam(value="length",defaultValue="10")int length,
 			@RequestParam(value="draw",defaultValue="0")int draw,
-			@RequestParam(value="search[value]",defaultValue="")String searchValue
-
+			@RequestParam(value="search[value]",defaultValue="")String searchValue,
+			HttpServletRequest request
 			){
-		BBJEntity curruntBBJEntity = new DictionaryTable();
+		
+		DictionaryField field = BBJEntityUtils.parseFrom(request, DictionaryField.class);
+		// 分页查询
+		DictionaryTable curruntBBJEntity = new DictionaryTable();
 		SqlFilter<DictionaryField> sqlFilter = new SqlFilter<DictionaryField>(curruntBBJEntity );
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		WhereFilter whereFilter = new WhereFilter("table_name", "like ", "%" + searchValue + "%");
+		WhereFilter whereFilter = new WhereFilter("table_id", "=", field.getAttr(DictionaryField.table_id));
 		list.add(whereFilter );
 		sqlFilter.addWhereFilter(list );
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -81,18 +117,8 @@ public class DictionaryFieldController {
 		
 		return map;
 	}
-
-	@RequestMapping(value={""})
-	public Object index(HttpServletRequest request){
-		String id = request.getParameter("id");
-		if(id != null){
-			DictionaryField field = new DictionaryField();//;dictionaryFieldService.queryById(id);
-			field.addAttr("id", id);
-			field.addAttr("attr1", "value1");
-			request.setAttribute("fieldObject", field);
-		}
-		request.getSession().setAttribute("fieldObject", "dsdsdsds");
+	@RequestMapping(value="/page")
+	public Object page(){
 		return "../framework/dictionary/dictionaryField";
 	}
-	
 }

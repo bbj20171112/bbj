@@ -184,7 +184,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 				
 		List<Object> listParam = new ArrayList<Object>();
 		listParam.add(BBJEntity.delete_state_yes);
-		if(sqlFilter != null){
+		if(sqlFilter != null && !sqlFilter.getListParam().isEmpty()){
 			sb.append(" and " + sqlFilter.getSqlString());
 			listParam.addAll(sqlFilter.getListParam());
 		}
@@ -223,7 +223,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		
 		List<Object> list = new ArrayList<Object>();
 		list.add(BBJEntity.delete_state_yes);
-		if(sqlFilter != null){
+		if(sqlFilter != null && !sqlFilter.getListParam().isEmpty()){
 			sb.append(" and " + sqlFilter.getSqlString());
 			list.addAll(sqlFilter.getListParam());
 		}
