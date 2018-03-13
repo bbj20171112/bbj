@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
@@ -98,5 +99,13 @@
 		class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
 	</bean>
  	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->
- 
+ 	<bean id="timeHandler" class="com.bbj.base.aop.TimeHandler" />
+
+	<aop:config>
+        <aop:aspect id="time" ref="timeHandler">
+        <aop:before method="printTime"
+				pointcut="execution(* com.bbj.base.service.MenuService.retrieve(..))"></aop:before>
+            
+        </aop:aspect>
+    </aop:config>
 </beans>

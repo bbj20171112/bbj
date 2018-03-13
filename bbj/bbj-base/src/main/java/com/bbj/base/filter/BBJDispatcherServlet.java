@@ -15,13 +15,13 @@ public class BBJDispatcherServlet extends DispatcherServlet{
 
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("BBJDispatcherServlet.doService() is work " );
+//		System.out.println("BBJDispatcherServlet.doService() is work " );
 		//1:判断是否是ajax请求
 		if(request instanceof HttpServletRequest){
 			HttpServletRequest httpRequest = request;
 			if (httpRequest.getHeader("x-requested-with") != null 
                 && "XMLHttpRequest".equalsIgnoreCase(httpRequest.getHeader("x-requested-with"))) {   
-				System.out.println("is ajax");
+//				System.out.println("is ajax");
 				Map<String, String> map = new HashMap<String, String>();  
 			     Enumeration<?> paramNames = request.getParameterNames();  
 			    while (paramNames.hasMoreElements()) {  
@@ -37,7 +37,7 @@ public class BBJDispatcherServlet extends DispatcherServlet{
 			      }  
 			    }  
         	}else {
-    			System.out.println("not ajax");
+//    			System.out.println("not ajax");
     		}
 		}
 		super.doService(request, response);
