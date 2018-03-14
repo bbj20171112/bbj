@@ -79,7 +79,7 @@ public interface BBJDao<T extends BBJEntity> {
 	 * @param sqlFilter
 	 * @return
 	 */
-	List<T> queryByPage(int tagPage, int pageSize, SqlFilter<T> sqlFilter);
+	List<T> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter);
 
 	/**
 	 * 统计条记录数
@@ -92,6 +92,6 @@ public interface BBJDao<T extends BBJEntity> {
 	 * @param sqlFilter 
 	 * @return
 	 */
-	int getTotalRow(SqlFilter<T> sqlFilter);
+	int getTotalRow(SqlFilter sqlFilter);
 
 }

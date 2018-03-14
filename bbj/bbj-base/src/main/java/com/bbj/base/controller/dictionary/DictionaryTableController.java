@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.domain.dictionary.DictionaryTable;
@@ -76,11 +77,11 @@ public class DictionaryTableController {
 
 			){
 		//BBJEntity curruntBBJEntity = parseBBJEntity(request);
-		SqlFilter<DictionaryTable> sqlFilter = null;//= new SqlFilter<DictionaryTable>(curruntBBJEntity );
+		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryTable.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
 		WhereFilter whereFilter = new WhereFilter("table_name", "like ", "%" + searchValue + "%");
 		list.add(whereFilter );
-		//sqlFilter.addWhereFilter(list );
+		sqlFilter.addWhereFilter(list );
 		Map<String, Object> map = new HashMap<String, Object>();
 		int tagPage = start / length;
 		if(tagPage < 1){

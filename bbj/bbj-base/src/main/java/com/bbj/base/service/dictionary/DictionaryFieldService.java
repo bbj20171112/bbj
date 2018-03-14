@@ -31,11 +31,11 @@ public class DictionaryFieldService
 		return dictionaryTableDao.queryById(id);
 	}
 
-	public List<DictionaryField> queryByPage(int tagPage, int pageSize,SqlFilter<DictionaryField> sqlFilter){
+	public List<DictionaryField> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){
 		return dictionaryTableDao.queryByPage(tagPage, pageSize, sqlFilter);
 	}
 	
-	public int getTotalRow(SqlFilter<DictionaryField> sqlFilter){
+	public int getTotalRow(SqlFilter sqlFilter){
 		return dictionaryTableDao.getTotalRow(sqlFilter);
 	}
 	

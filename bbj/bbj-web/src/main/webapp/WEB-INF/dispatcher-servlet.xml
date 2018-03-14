@@ -101,8 +101,14 @@
 		class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
 	</bean>
  	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->
+ 	
+ 	<!-- aop开启注解扫描 cglib代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+ 	<!-- aop开启注解扫描-->
+ 	
+ 	<!-- aop配置实现-->
  	<bean id="timeHandler" class="com.bbj.base.aop.TimeHandler" />
-
+ 
 	<aop:config>
         <aop:aspect id="time" ref="timeHandler">
         <aop:before method="printTime"
@@ -110,4 +116,5 @@
             
         </aop:aspect>
     </aop:config>
+    <!-- aop配置实现-->
 </beans>

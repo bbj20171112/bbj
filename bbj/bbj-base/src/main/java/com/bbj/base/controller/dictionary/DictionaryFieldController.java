@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.domain.dictionary.DictionaryField;
-import com.bbj.base.domain.dictionary.DictionaryTable;
 import com.bbj.base.service.dictionary.DictionaryFieldService;
 import com.bbj.base.utils.BBJEntityUtils;
 
@@ -35,7 +35,7 @@ public class DictionaryFieldController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.PUT,RequestMethod.POST})
+	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
 		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
@@ -50,7 +50,7 @@ public class DictionaryFieldController {
 	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public Object deleteById(@RequestParam("id")String id){
+	public Object deleteById(@PathVariable("id")String id){
 		return dictionaryFieldService.deleteById(id);
 	}
 
@@ -59,10 +59,10 @@ public class DictionaryFieldController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.PATCH)
+	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
-	public Object update(String id){
-		DictionaryField bbjEntity = new DictionaryField();
+	public Object update(HttpServletRequest request){
+		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
 		return dictionaryFieldService.update(bbjEntity );
 	}
 	
@@ -74,7 +74,7 @@ public class DictionaryFieldController {
 	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody
-	public Object index(@PathVariable("id")String id,HttpServletRequest request){
+	public Object get(@PathVariable("id")String id,HttpServletRequest request){
 		return dictionaryFieldService.queryById(id);
 	}
 	
@@ -97,11 +97,12 @@ public class DictionaryFieldController {
 		
 		DictionaryField field = BBJEntityUtils.parseFrom(request, DictionaryField.class);
 		// 分页查询
-		DictionaryTable curruntBBJEntity = new DictionaryTable();
-		SqlFilter<DictionaryField> sqlFilter = new SqlFilter<DictionaryField>(curruntBBJEntity );
+		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		WhereFilter whereFilter = new WhereFilter("table_id", "=", field.getAttr(DictionaryField.table_id));
-		list.add(whereFilter );
+		if(field.getAttr(DictionaryField.table_id) != null){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=", field.getAttr(DictionaryField.table_id));
+			list.add(whereFilter );
+		}
 		sqlFilter.addWhereFilter(list );
 		Map<String, Object> map = new HashMap<String, Object>();
 		int tagPage = start / length;
@@ -118,7 +119,7 @@ public class DictionaryFieldController {
 		return map;
 	}
 	@RequestMapping(value="/page")
-	public Object page(){
+	public Object page(HttpServletRequest request){
 		return "../framework/dictionary/dictionaryField";
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
 
@@ -33,9 +34,9 @@ public class CrudTests
   
         System.out.println("------ 带条件查询   -----------------------------------");
         System.out.println(demoDao2.queryByPage(1, 2));
-        SqlFilter<DemoDomain2> sqlFilter = new SqlFilter<DemoDomain2>(new DemoDomain2());
+        SqlFilter sqlFilter = new BBJSqlFilter(DemoDomain2.class);
         List<WhereFilter> list = new ArrayList<WhereFilter>();
-        list.add(new WhereFilter("attr5", SqlFilter.where_opt_eq, "val52"));
+        list.add(new WhereFilter("attr5", BBJSqlFilter.where_opt_eq, "val52"));
 		sqlFilter.addWhereFilter(list );
 		System.out.println(demoDao2.queryByPage(1, 2,sqlFilter ));
 		

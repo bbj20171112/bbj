@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.WhereFilter;
 
 public class SqlFilterTest {
@@ -17,7 +17,7 @@ public class SqlFilterTest {
 		list.add(new WhereFilter("attr2", "=", "nihao", "and"));
 		list.add(new WhereFilter("attr1", "=", "nihao", "or"));
 		list.add(new WhereFilter("attr3", "=", "nihao", "and"));
-		System.out.println(new SqlFilter(new DemoDomain2()).addWhereFilter(list ).getSqlString());
+		System.out.println(new BBJSqlFilter(DemoDomain2.class).addWhereFilter(list ).getSqlString());
 	}
 	
 }

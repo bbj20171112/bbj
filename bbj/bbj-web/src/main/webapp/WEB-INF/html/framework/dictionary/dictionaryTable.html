@@ -70,10 +70,10 @@
 									<div class="box-body">
 										<div class="row form-group">
 											<div class="col-sm-2 item">
-												<label>表ID</label>
+												<label>ID</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-id"></input>
+												<input class="form-control" id="item-field-id"></input>
 											</div>
 										</div>
 										<div class="row form-group">
@@ -128,7 +128,7 @@
 					<button type="button" class="btn btn-default pull-left"
 						data-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-primary"
-						onclick="newFieldSave()">Save</button>
+						onclick="newTableSave()">Save</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -230,9 +230,9 @@
 			$("#modal-new-table").modal('show');
 		}
 
-		function newFieldSave(){
+		function newTableSave(){
 			var jsonData= {};
-			jsonData.id = 0;
+			jsonData.id = $("#item-field-id").val();;
 			jsonData.table_id = $("#item-field-table-id").val();
 			jsonData.table_name = $("#item-field-table-name").val();
 			jsonData.table_comment = $("#item-field-table-comment").val();
@@ -244,7 +244,7 @@
 			console.log(jsonData.table_id);
 			$("#modal-new-table").modal('hide');
 			var url = contextPath + "/base/dictionary/table/insert";
-			if(jsonData.table_id != ""){
+			if(jsonData.table_id){
 				url = contextPath + "/base/dictionary/table/update";
 			}
 			Utils.ajax({

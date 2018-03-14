@@ -1,8 +1,6 @@
 package com.bbj.base.service.dictionary;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +22,7 @@ public class DictionaryTableService {
 		if(table == null){
 			return rows;
 		}
-		if(null == table.getAttr(table.getId())){
-			table.setAttr(table.getId(),"" + System.currentTimeMillis());
-		}
-		if(null == table.getAttr(DictionaryTable.delete_state)){
-			table.setAttr(DictionaryTable.delete_state,DictionaryTable.delete_state_not);
-		}
+		
 		rows += dictionaryTableDao.insert(table); // 插入到数据字典表
 		rows += dictionaryTableDao.createTable(table); // 创建一个表
 
@@ -53,14 +46,8 @@ public class DictionaryTableService {
 		if(table  == null){
 			return rows;
 		}
-		if(null == table.getAttr(table.getId())){
-			table.setAttr(table.getId(),"" + System.currentTimeMillis());
-		}
-		if(null == table.getAttr(DictionaryTable.delete_state)){
-			table.setAttr(DictionaryTable.delete_state,DictionaryTable.delete_state_not);
-		}
-		rows += dictionaryTableDao.deleteById(id);; // 删除数据字典表
-		rows += dictionaryTableDao.dropTable(table); // 创建一个表
+		rows += dictionaryTableDao.deleteById(id);; 
+		rows += dictionaryTableDao.dropTable(table); 
 
 		return rows;
 	}
@@ -73,11 +60,11 @@ public class DictionaryTableService {
 		return dictionaryTableDao.queryById(id);
 	}
 
-	public List<DictionaryTable> queryByPage(int tagPage, int pageSize,SqlFilter<DictionaryTable> sqlFilter){
+	public List<DictionaryTable> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){
 		return dictionaryTableDao.queryByPage(tagPage, pageSize, sqlFilter);
 	}
 	
-	public int getTotalRow(SqlFilter<DictionaryTable> sqlFilter){
+	public int getTotalRow(SqlFilter sqlFilter){
 		return dictionaryTableDao.getTotalRow(sqlFilter);
 	}
 	

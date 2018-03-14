@@ -57,9 +57,15 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		for(int i = 0;i < listAttrKeys.size();i ++){
 			String key = listAttrKeys.get(i);
 			if(StringUtils.isNotEmpty(key)){
+				// 如果没有ID，设置当前时间
+				if(bbjEntity.getAttr(bbjEntity.getId()) == "" || bbjEntity.getAttr(bbjEntity.getId()) == null){
+					bbjEntity.setAttr(bbjEntity.getId(), "" + System.currentTimeMillis());
+				}
+				// 如果删除状态没有值，默认有效状态
 				if(BBJEntity.delete_state.equals(key) && (null == bbjEntity.getAttr(key) || "".equals(bbjEntity.getAttr(key)))){
 					bbjEntity.setAttr(key, BBJEntity.delete_state_not);
 				}
+				// 创建时间
 				if(BBJEntity.create_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
 					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
@@ -165,7 +171,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	/* (non-Javadoc)
 	 * @see com.bbj.base.dao.BBJDao#queryByPage(int, int, com.bbj.base.domain.SqlFilter)
 	 */
-	public List<T> queryByPage(int tagPage,int pageSize,SqlFilter<T> sqlFilter){
+	public List<T> queryByPage(int tagPage,int pageSize,SqlFilter sqlFilter){
 		
 		int totalRow = getTotalRow(sqlFilter);
 		int totalPage = totalRow / pageSize;
@@ -215,7 +221,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	/* (non-Javadoc)
 	 * @see com.bbj.base.dao.BBJDao#getTotalRow(com.bbj.base.domain.SqlFilter)
 	 */
-	public int getTotalRow(SqlFilter<T> sqlFilter){
+	public int getTotalRow(SqlFilter sqlFilter){
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select count(1) from ");
 		sb.append( currentBBJEntity.getTableName() );
