@@ -14,7 +14,7 @@
 <body>
 	<div class="wrapper">
 		<span class="white-text" th:text="${session.fieldObject}"></span>
-		
+
 		<h3 class="box-title">字段维护</h3>
 		<section class="content">
 			<div class="row">
@@ -24,7 +24,7 @@
 							<h3 class="box-title">基本表格</h3>
 							<button type="button" onclick="showSelectItems()"
 								class="btn btn-info">查看选中</button>
-							<button type="button" onclick="newTable()" class="btn btn-info">新建</button>
+							<button type="button" onclick="newField()" class="btn btn-info">新建</button>
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
@@ -41,7 +41,7 @@
 	</div>
 	</div>
 
-	<div class="modal fade" id="modal-new-table" style="display: none;">
+	<div class="modal fade" id="modal-new-field" style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -67,22 +67,30 @@
 							<div class="chart tab-pane" id="revenue-chart"
 								style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 								SQL</div>
-							<div class="chart tab-pane active" id="field-columns"
-								style="position: relative; height: 300px;">
+							<div class="chart tab-pane active" id="field-columns" >
 								<div class="form-horizontal">
 									<div class="box-body">
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>表ID</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-table_id" th:value="${param.id}" />
+											</div>
+										</div>
 										<div class="row form-group">
 											<div class="col-sm-2 item">
 												<label>字段名称</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-name"></input>
+												<input class="form-control" id="item-field-field_name"></input>
 											</div>
 											<div class="col-sm-2 item">
 												<label>字段说明</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-comm"></input>
+												<input class="form-control"
+													id="item-field-field_name_comment"></input>
 											</div>
 										</div>
 										<div class="row form-group">
@@ -91,7 +99,7 @@
 											</div>
 											<div class="col-sm-4 item">
 												<select class="form-control select2"
-													id="item-field-field-type" style="width: 100%">
+													id="item-field-field_key_type" style="width: 100%">
 													<option value="1" selected="selected">字符串[varchar(64)]</option>
 													<option value="2">数字[int]</option>
 													<option value="3">长数字[float]</option>
@@ -106,7 +114,8 @@
 												<label>字段描述</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-desc"></input>
+												<input class="form-control"
+													id="item-field-field_key_type_comment"></input>
 											</div>
 										</div>
 										<div class="row form-group">
@@ -128,13 +137,14 @@
 												<label>约束</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-cons"></input>
+												<input class="form-control" id="item-field-field_constraint"></input>
 											</div>
 											<div class="col-sm-2 item">
 												<label>约束说明</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-conscomm"></input>
+												<input class="form-control"
+													id="item-field-field_constraint_comment"></input>
 											</div>
 										</div>
 										<div class="row form-group">
@@ -142,13 +152,14 @@
 												<label>参照</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-ref"></input>
+												<input class="form-control" id="item-field-field_reference"></input>
 											</div>
 											<div class="col-sm-2 item">
 												<label>参照说明</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-field-refcomm"></input>
+												<input class="form-control"
+													id="item-field-field_reference_comment"></input>
 											</div>
 										</div>
 										<div class="row form-group">
@@ -156,7 +167,7 @@
 												<label>备注</label>
 											</div>
 											<div class="col-sm-10 item">
-												<input class="form-control" id="item-field-field-remark"></input>
+												<input class="form-control" id="item-field-field_remark"></input>
 											</div>
 										</div>
 									</div>
@@ -183,7 +194,169 @@
 	<!-- 引入JavaScripts样式 -->
 	<script src="../../../resources/framework/javascript-import.js"></script>
 	<script type="text/javascript">
-	$(function () {
+		$(function() {
+			var headers = [];
+			headers.push("ID");
+			headers.push("字段名称");
+			headers.push("字段类型");
+			headers.push("字段说明");
+			headers.push("字段描述");
+			headers.push("键值");
+			headers.push("键值说明");
+			headers.push("约束");
+			headers.push("约束说明");
+			headers.push("参照");
+			headers.push("参照说明");
+			headers.push("备注");
+			headers.push("操作");
+			// console.log(data);
+			var tableExp = $('#example')
+					.DataTable(
+							{
+								ajax : {
+									url : contextPath
+											+ "/base/dictionary/field",
+								},
+								columnDefs : [ {
+									targets : -1,
+									render : function(data, type, row) {
+										var operatorDiv = '<div class="btn-group">'
+												+ '<button type="button" onclick="row_edit(\''
+												+ row.attr.id
+												+ '\')" class="btn btn-info">编辑</button>'
+												+ '<button type="button" onclick="row_delete(\''
+												+ row.attr.id
+												+ '\')" class="btn btn-danger">删除</button>'
+												+ '</div>';
+										return operatorDiv;
+									}
+								} ],
+								columns : [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
+								{
+									data : 'attr.id',
+									title : headers[0]
+								}, {
+									data : 'attr.field_name',
+									title : headers[1]
+								}, {
+									data : 'attr.field_key_type',
+									title : headers[2]
+								}, {
+									data : 'attr.field_name_comment',
+									title : headers[3]
+								}, {
+									data : 'attr.field_key_type',
+									title : headers[4]
+								}, {
+									data : 'attr.field_reference',
+									title : headers[5]
+								}, {
+									data : 'attr.field_constraint_comment',
+									title : headers[6]
+								},
+								/* { data: 'field_cons', title: headers[7]},
+								{ data: 'field_consdesc', title: headers[8]},
+								{ data: 'field_ref', title: headers[9]},
+								{ data: 'field_refdesc', title: headers[10]},
+								{ data: 'field_remark', title: headers[11]}, */
+								{
+									data : null,
+									title : headers[12]
+								}, ]
+							});
+		});
+
+		// 获取选中
+		function showSelectItems() {
+			$('#example').DataTable().ajax.reload();
+			/* console.log( $('#example').DataTable().rows('.selected').data()[0]);
+			    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );*/
+		}
+
+		function row_edit(id) {
+			Utils
+					.ajax({
+						url : contextPath
+								+ "/base/dictionary/table/queryById?id=" + id,
+						success : function(data) {
+							data = data.data.attr;
+							$("#item-field-table-id").val(data.id);
+							$("#item-field-table-name").val(data.table_name);
+							$("#item-field-table-comment").val(
+									data.table_comment);
+							$("#item-field-table-description").val(
+									data.table_description);
+							$("#item-field-sequence-id").val(data.sequence_id);
+
+							$("#item-field-table-remark")
+									.val(data.table_remark);
+
+							$("#modal-new-field").modal('show');
+						}
+					});
+		}
+
+		function row_delete(id) {
+			Utils.ajax({
+				url : contextPath + "/base/dictionary/table/deleteById?id="
+						+ id,
+				success : function(data) {
+					$('#example').DataTable().ajax.reload();
+				}
+			});
+		}
+
+		function row_edit_field(id) {
+			location.href = contextPath + "/base/dictionary/field/page?id="
+					+ id;
+		}
+
+		function newField() {
+			var data = {};
+			/* $("#item-field-table-id").val(data.id);
+			 $("#item-field-table-name").val(data.table_name);
+			 $("#item-field-table-comment").val(data.table_comment);
+			 $("#item-field-table-description").val(data.table_description);
+			 $("#item-field-sequence-id").val(data.sequence_id);
+
+			 $("#item-field-table-remark").val(data.table_remark); */
+			$("#modal-new-field").modal('show');
+		}
+
+		function newFieldSave() {
+
+			var jsonData = {};
+			jsonData.id = 0;
+			jsonData.table_id = $("#item-field-table_id").val();
+			jsonData.field_name = $("#item-field-field_name").val();
+			jsonData.field_name_comment = $("#item-field-field_name_comment").val();
+			jsonData.field_key_type = $("#item-field-field_key_type").val();
+
+			jsonData.field_key_type_comment = $("#item-field-field_key_type_comment").val();
+			jsonData.field_constraint = $("#item-field-field_constraint").val();
+			jsonData.field_constraint_comment = $("#item-field-field_constraint_comment").val();
+			jsonData.field_reference = $("#item-field-field_reference").val();
+			jsonData.field_reference_comment = $("#item-field-field_reference_comment").val();
+			jsonData.field_remark = $("#item-field-field_remark").val();
+			
+			$("#modal-new-field").modal('hide');
+			var url = contextPath + "/base/dictionary/field";
+			Utils.ajax({
+			 type: "POST",
+			 url: url,
+			 data: jsonData,
+			 success: function(data){
+				 	$('#example').DataTable().ajax.reload();
+			 	}
+			 });
+		}
+
+		function getSql() {
+
+		}
+	</script>
+	<!-- $(function () {
+	<script type="text/javascript">
 		
         	var headers = [];
 			headers.push("ID");
@@ -268,7 +441,7 @@
 		}
 		
 		function newTable(){
-			$("#modal-new-table").modal();
+			$("#modal-new-field").modal();
 		}
 
 		function newFieldSave(){
@@ -308,6 +481,6 @@
 			
 		}
 		
-	</script>
+	</script> -->
 </body>
 </html>

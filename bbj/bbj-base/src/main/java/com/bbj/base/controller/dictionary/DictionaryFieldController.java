@@ -118,7 +118,7 @@ public class DictionaryFieldController {
 		return map;
 	}
 	@RequestMapping(value="/page")
-	public Object page(){
+	public Object page(HttpServletRequest request){
 		return "../framework/dictionary/dictionaryField";
 	}
 }
