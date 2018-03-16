@@ -15,7 +15,7 @@ public class TimeHandlerAnnotation {
 	public void testPointCut() {
 
 	}
-
+ 
 	@Before("testPointCut()")
 	public void begin(JoinPoint join) {
 		System.out.println("日志前");

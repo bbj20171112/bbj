@@ -108,7 +108,7 @@
  	
  	<!-- aop配置实现-->
  	<bean id="timeHandler" class="com.bbj.base.aop.TimeHandler" />
-
+ 
 	<aop:config>
         <aop:aspect id="time" ref="timeHandler">
         <aop:before method="printTime"
