@@ -63,7 +63,7 @@ public class DictionaryTableController {
 	@ResponseBody
 	public Object queryById(HttpServletRequest request){
 		DictionaryTable dictionaryTable = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.queryById(dictionaryTable.getId());
+		return dictionaryTableService.queryById(dictionaryTable.getAttr(dictionaryTable.getId()));
 	}
 
 	

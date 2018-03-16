@@ -70,6 +70,14 @@
 									<div class="box-body">
 										<div class="row form-group">
 											<div class="col-sm-2 item">
+												<label>表ID</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control" id="item-field-table-id"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
 												<label>表名称</label>
 											</div>
 											<div class="col-sm-4 item">
@@ -153,7 +161,8 @@
 	                      	var operatorDiv = '<div class="btn-group">'
 	                      	+'<button type="button" onclick="row_edit(\''+row.attr.id+'\')" class="btn btn-info">编辑</button>'
 	                      	+'<button type="button" onclick="row_delete(\''+row.attr.id+'\')" class="btn btn-danger">删除</button>'
-	                      	+'</div>';
+	                      	+'<button type="button" onclick="row_edit_field(\''+row.attr.id+'\')" class="btn btn-info">字段维护</button>'
+							+'</div>';
 	                      	return operatorDiv;
 	                     }
 	                  }],
@@ -171,34 +180,60 @@
 	 	
 		// 获取选中
 	    function showSelectItems() {
-	        console.log( $('#example').DataTable().rows('.selected').data()[0]);
-	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );
+		$('#example').DataTable().ajax.reload();
+	        /* console.log( $('#example').DataTable().rows('.selected').data()[0]);
+	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );*/
 		}
 	
-		// 编辑事件(列点击)
 		function row_edit(id){
-			alert("您要编辑：id=" + id);
-		}
-		
-		// 删除事件(列点击)
-		function row_delete(id){
 			Utils.ajax({
-		        url: contextPath + "/base/dictionary/table/deleteById?id="+id,
+		        url: contextPath + "/base/dictionary/table/queryById?id="+id,
 		        success: function(data){
-					tableExp.ajax.reload();
+		        	data = data.data.attr;
+					$("#item-field-table-id").val(data.id);
+		        	$("#item-field-table-name").val(data.table_name);
+					$("#item-field-table-comment").val(data.table_comment);
+					$("#item-field-table-description").val(data.table_description);
+					$("#item-field-sequence-id").val(data.sequence_id);
+					
+					$("#item-field-table-remark").val(data.table_remark);
+					
+
+					$("#modal-new-table").modal('show');
 				}
 			});
 		}
 		
-
+		function row_delete(id){
+			Utils.ajax({
+		        url: contextPath + "/base/dictionary/table/deleteById?id="+id,
+		        success: function(data){
+		        	$('#example').DataTable().ajax.reload();
+				}
+			});
+		}
+		
+		function row_edit_field(id){
+			location.href = contextPath + "/base/dictionary/field/page?id=" +id ;
+		}
+		
+		
 		function newTable(){
+			var data = {};
+			$("#item-field-table-id").val(data.id);
+        	$("#item-field-table-name").val(data.table_name);
+			$("#item-field-table-comment").val(data.table_comment);
+			$("#item-field-table-description").val(data.table_description);
+			$("#item-field-sequence-id").val(data.sequence_id);
+			
+			$("#item-field-table-remark").val(data.table_remark);
 			$("#modal-new-table").modal('show');
 		}
 
 		function newFieldSave(){
 			var jsonData= {};
 			jsonData.id = 0;
-			
+			jsonData.table_id = $("#item-field-table-id").val();
 			jsonData.table_name = $("#item-field-table-name").val();
 			jsonData.table_comment = $("#item-field-table-comment").val();
 			jsonData.table_description = $("#item-field-table-description").val();
@@ -206,15 +241,18 @@
 			
 			jsonData.table_remark = $("#item-field-table-remark").val();
 			
-
-			console.log(jsonData);
+			console.log(jsonData.table_id);
 			$("#modal-new-table").modal('hide');
+			var url = contextPath + "/base/dictionary/table/insert";
+			if(jsonData.table_id != ""){
+				url = contextPath + "/base/dictionary/table/update";
+			}
 			Utils.ajax({
 				type: "POST",
-		        url: contextPath + "/base/dictionary/table/insert",
+		        url: url,
 		        data: jsonData,
 		        success: function(data){
-					tableExp.ajax.reload();
+		        	$('#example').DataTable().ajax.reload();
 				}
 			});
 		}

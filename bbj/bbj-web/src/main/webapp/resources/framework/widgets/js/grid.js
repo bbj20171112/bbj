@@ -1,4 +1,4 @@
-
+﻿
 /**
  *	bbj 改造说明：
  *	1.	function _fnApplyColumnDefs( oSettings, aoColDefs, aoCols, fn ) 增加改造，增加不仅仅对下表进行target，同时可以使用key值(属性值) -by bage 2018-01-02

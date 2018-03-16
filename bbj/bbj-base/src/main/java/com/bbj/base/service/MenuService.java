@@ -196,7 +196,7 @@ public class MenuService
         attr.put("id", "16");
         attr.put("upId", "14");
         attr.put("text", "数据字典2");
-        attr.put("link", "base/dictionary/field");
+        attr.put("link", "base/dictionary/field/page");
         menu = new MenuObject(attr);
         list.add(menu);
         

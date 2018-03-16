@@ -35,17 +35,18 @@
 		<property name="suffix" value=".jsp" />
 	</bean> 
 	-->
-	<bean id="viewResolver"
+	<!-- <bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/html/framework/" />
 		<property name="suffix" value=".html" />
-	</bean>
+	</bean> -->
 	<!--springMVC+thymeleaf的跳转页面配置-->
-      <!--  <bean id="templateResolver"
+    <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
          <property name="prefix" value="/WEB-INF/html/framework/" />
          <property name="suffix" value=".html" />
          <property name="templateMode" value="HTML5" />
+         <property name="characterEncoding" value="UTF-8"/>
        </bean>
 
        <bean id="templateEngine"
@@ -55,7 +56,8 @@
 
        <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
          <property name="templateEngine" ref="templateEngine" />
-       </bean> -->
+         <property name="characterEncoding" value="UTF-8"/>
+       </bean>
        
 	<!-- MySQL --> 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -99,6 +101,12 @@
 		class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
 	</bean>
  	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->
+ 	
+ 	<!-- aop开启注解扫描 cglib代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+ 	<!-- aop开启注解扫描-->
+ 	
+ 	<!-- aop配置实现-->
  	<bean id="timeHandler" class="com.bbj.base.aop.TimeHandler" />
 
 	<aop:config>
@@ -108,4 +116,5 @@
             
         </aop:aspect>
     </aop:config>
+    <!-- aop配置实现-->
 </beans>
