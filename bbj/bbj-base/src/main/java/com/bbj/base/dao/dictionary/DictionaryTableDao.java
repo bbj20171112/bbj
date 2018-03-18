@@ -28,22 +28,22 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 	 * @return
 	 */
 	public int createTable(DictionaryTable table) {
-		Map<String, Object> map = getCreateFieldPrepareSqlMap(table);
+		Map<String, Object> map = getCreateTablePrepareSqlMap(table);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
 		return update( sql,args);
 	}
 
 	public String getCreateTablePrepareSql(DictionaryTable table){
-		Map<String, Object> map = getCreateFieldPrepareSqlMap(table);
+		Map<String, Object> map = getCreateTablePrepareSqlMap(table);
 		return (String) map.get(key_sql);
 	}
 	
-	public Map<String,Object> getCreateFieldPrepareSqlMap(DictionaryTable table){
+	public Map<String,Object> getCreateTablePrepareSqlMap(DictionaryTable table){
 		String tableName = table.getAttr(DictionaryTable.table_name);
 		StringBuilder sb = new StringBuilder();
 		sb.append(" create table ");
-		sb.append(tableName);
+		sb.append(" " + tableName + " ");
 		sb.append(" ( ");
 		sb.append("  create_time datetime, ");
 		sb.append("  update_time datetime, ");
@@ -75,22 +75,22 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 	 * @return
 	 */
 	public int dropTable(DictionaryTable table) {
-		Map<String, Object> map = getDropFieldPrepareSqlMap(table);
+		Map<String, Object> map = getDropTablePrepareSqlMap(table);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
 		return update( sql,args);
 	}
 
 	public String getDropTablePrepareSql(DictionaryTable table){
-		Map<String, Object> map = getDropFieldPrepareSqlMap(table);
+		Map<String, Object> map = getDropTablePrepareSqlMap(table);
 		return (String) map.get(key_sql);
 	}
 	
-	public Map<String,Object> getDropFieldPrepareSqlMap(DictionaryTable table){
+	public Map<String,Object> getDropTablePrepareSqlMap(DictionaryTable table){
 		String tableName = table.getAttr(DictionaryTable.table_name);
 		StringBuilder sb = new StringBuilder();
 		sb.append(" drop table ");
-		sb.append(tableName);
+		sb.append(" " + tableName + " ");
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put(key_sql, sb.toString());
 		map.put(key_parameter, new Object[]{});

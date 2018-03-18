@@ -293,7 +293,7 @@
 				data = data.data.attr;
 				
 				$("#item-field-id").val(data.id);
-				$("#item-field-table_id").val(data.table_id);
+				//$("#item-field-table_id").val(data.table_id);
 				$("#item-field-field_name").val(data.field_name);
 				$("#item-field-field_name_comment").val(
 						data.field_name_comment);
@@ -327,13 +327,25 @@
 
 	function newField() {
 		var data = {};
-		/* $("#item-field-table-id").val(data.id);
-		 $("#item-field-table-name").val(data.table_name);
-		 $("#item-field-table-comment").val(data.table_comment);
-		 $("#item-field-table-description").val(data.table_description);
-		 $("#item-field-sequence-id").val(data.sequence_id);
+		
+		$("#item-field-id").val(data.id);
+		//$("#item-field-table_id").val(data.table_id);
+		$("#item-field-field_name").val(data.field_name);
+		$("#item-field-field_name_comment").val(
+				data.field_name_comment);
+		$("#item-field-field_key_type").val(data.field_key_type);
 
-		 $("#item-field-table-remark").val(data.table_remark); */
+		$("#item-field-field_key_type_comment").val(
+				data.field_key_type_comment);
+		$("#item-field-field_constraint")
+				.val(data.field_constraint);
+		$("#item-field-field_constraint_comment").val(
+				data.field_constraint_comment);
+		$("#item-field-field_reference").val(data.field_reference);
+		$("#item-field-field_reference_comment").val(
+				data.field_reference_comment);
+		$("#item-field-field_remark").val(data.field_remark);
+		
 		$("#modal-new-field").modal('show');
 	}
 
