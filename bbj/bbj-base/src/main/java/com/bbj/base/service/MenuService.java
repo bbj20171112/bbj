@@ -200,6 +200,14 @@ public class MenuService
         menu = new MenuObject(attr);
         list.add(menu);
         
+        attr = new HashMap<String, String>();
+        attr.put("id", "17");
+        attr.put("upId", "1");
+        attr.put("text", "参照值");
+        attr.put("link", "base/dictionary/reference/page");
+        menu = new MenuObject(attr);
+        list.add(menu);
+        
         return list;
 
     }
