@@ -21,7 +21,7 @@
 							<h3 class="box-title">基本表格</h3>
 							<button type="button" onclick="showSelectItems()"
 								class="btn btn-info">查看选中</button>
-							<button type="button" onclick="newTable()" class="btn btn-info">新建</button>
+							<button type="button" onclick="newData()" class="btn btn-info">新建</button>
 							
 						</div>
 						<!-- /.box-header -->
@@ -39,7 +39,7 @@
 	</div>
 	</div>
 	
-	<div class="modal fade" id="modal-new-table" style="display: none;">
+	<div class="modal fade" id="modal-new-div" style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -78,42 +78,32 @@
 										</div>
 										<div class="row form-group">
 											<div class="col-sm-2 item">
-												<label>表名称</label>
+												<label>表ID</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-name"></input>
+												<input class="form-control" id="item-field-table_id"></input>
 											</div>
 											<div class="col-sm-2 item">
-												<label>表说明</label>
+												<label>参照值</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-comment"></input>
+												<input class="form-control" id="item-field-reference_value"></input>
 											</div>
 										</div>
 										<div class="row form-group">											
 											<div class="col-sm-2 item">
-												<label>表描述</label>
+												<label>参照名称</label>
 											</div>
 											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-description"></input>
-											</div>
-											<div class="col-sm-2 item">
-												<label>序列</label>
-											</div>
-											<div class="col-sm-4 item">
-												<select class="form-control select2"
-													id="item-field-sequence-id" style="width: 100%">
-													<option value="1" selected="selected">默认</option>
-												</select>
-											</div>
-											
-										</div>										
-										<div class="row form-group">
+												<input class="form-control" id="item-field-reference_name"></input>
+											</div>			
+										</div>								
+										<div class="row form-group">									
 											<div class="col-sm-2 item">
 												<label>备注</label>
 											</div>
 											<div class="col-sm-10 item">
-												<input class="form-control" id="item-field-table-remark"></input>
+												<input class="form-control" id="item-field-reference_remark"></input>
 											</div>
 										</div>
 									</div>
@@ -128,7 +118,7 @@
 					<button type="button" class="btn btn-default pull-left"
 						data-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-primary"
-						onclick="newTableSave()">Save</button>
+						onclick="newData()">Save</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -139,158 +129,7 @@
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
 	<script src="../../../resources/framework/javascript-import.js"></script>
-
-	<script type="text/javascript">
-	$(function () {
-		        	var headers = [];
-					headers.push("ID");
-					headers.push("参照值");
-					headers.push("参照名称");
-					headers.push("参照说明");
-					headers.push("操作");
-					
-		        	// console.log(data);
-		        	var tableExp = $('#example').DataTable({
-		        		ajax: {
-		                    url: contextPath + "/base/dictionary/reference"
-		                },
-	      		columnDefs: [{
-	             			targets: -1,
-	                      render: function(data, type, row) {
-	                      	var operatorDiv = '<div class="btn-group">'
-	                      	+'<button type="button" onclick="row_edit(\''+row.attr.id+'\')" class="btn btn-info">编辑</button>'
-	                      	+'<button type="button" onclick="row_delete(\''+row.attr.id+'\')" class="btn btn-danger">删除</button>'
-	                      	+'<button type="button" onclick="row_edit_field(\''+row.attr.id+'\')" class="btn btn-info">字段维护</button>'
-							+'</div>';
-	                      	return operatorDiv;
-	                     }
-	                  }],
-	      		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
-	      			{ data: 'attr.id' , title: headers[0]},
-					{ data: 'attr.reference_value', title: headers[1]},
-					{ data: 'attr.reference_name', title: headers[2]},
-					{ data: 'attr.reference_remark', title: headers[3]},
-					{ data: null , title: headers[4]}, 
-	              ]
-	      	});
-	  });
-		// 获取选中
-	    function showSelectItems() {
-		$('#example').DataTable().ajax.reload();
-	        /* console.log( $('#example').DataTable().rows('.selected').data()[0]);
-	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );*/
-		}
+	<script src="../../../resources/framework/dictionary/dictionaryReference.js" ></script>
 	
-	function row_editaaaa(id) {
-		var ss = "";
-		Utils.ajax({
-			url : contextPath + "/base/dictionary/field/" + id,
-			type : 'GET',
-			success : function(data) {
-				data = data.data.attr;
-				
-				$("#item-field-id").val(data.id);
-				//$("#item-field-table_id").val(data.table_id);
-				$("#item-field-field_name").val(data.field_name);
-				$("#item-field-field_name_comment").val(
-						data.field_name_comment);
-				$("#item-field-field_key_type").val(data.field_key_type);
-
-				$("#item-field-field_key_type_comment").val(
-						data.field_key_type_comment);
-				$("#item-field-field_constraint")
-						.val(data.field_constraint);
-				$("#item-field-field_constraint_comment").val(
-						data.field_constraint_comment);
-				$("#item-field-field_reference").val(data.field_reference);
-				$("#item-field-field_reference_comment").val(
-						data.field_reference_comment);
-				$("#item-field-field_remark").val(data.field_remark);
-
-				$("#modal-new-field").modal('show');
-			}
-		});
-	}
-
-	function row_delete(id) {
-		Utils.ajax({
-			url : contextPath + "/base/dictionary/field/" + id,
-			type : 'DELETE',
-			success : function(data) {
-				$('#example').DataTable().ajax.reload();
-			}
-		});
-	}
-
-	function newField() {
-		var data = {};
-		
-		$("#item-field-id").val(data.id);
-		//$("#item-field-table_id").val(data.table_id);
-		$("#item-field-field_name").val(data.field_name);
-		$("#item-field-field_name_comment").val(
-				data.field_name_comment);
-		$("#item-field-field_key_type").val(data.field_key_type);
-
-		$("#item-field-field_key_type_comment").val(
-				data.field_key_type_comment);
-		$("#item-field-field_constraint")
-				.val(data.field_constraint);
-		$("#item-field-field_constraint_comment").val(
-				data.field_constraint_comment);
-		$("#item-field-field_reference").val(data.field_reference);
-		$("#item-field-field_reference_comment").val(
-				data.field_reference_comment);
-		$("#item-field-field_remark").val(data.field_remark);
-		
-		$("#modal-new-field").modal('show');
-	}
-
-	function newFieldSave() {
-		var jsonData = {};
-		jsonData.id = $("#item-field-id").val();
-		jsonData.table_id = $("#item-field-table_id").val();
-		jsonData.field_name = $("#item-field-field_name").val();
-		jsonData.field_name_comment = $("#item-field-field_name_comment")
-				.val();
-		jsonData.field_key_type = $("#item-field-field_key_type").val();
-
-		jsonData.field_key_type_comment = $(
-				"#item-field-field_key_type_comment").val();
-		jsonData.field_constraint = $("#item-field-field_constraint").val();
-		jsonData.field_constraint_comment = $(
-				"#item-field-field_constraint_comment").val();
-		jsonData.field_reference = $("#item-field-field_reference").val();
-		jsonData.field_reference_comment = $(
-				"#item-field-field_reference_comment").val();
-		jsonData.field_remark = $("#item-field-field_remark").val();
-
-		$("#modal-new-field").modal('hide');
-		console.log("jsonData.id::" + jsonData.id);
-		if (jsonData.id) {
-			var url = contextPath + "/base/dictionary/field";
-			Utils.ajax({
-				type : "PUT",
-				url : url,
-				data : jsonData,
-				success : function(data) {
-					$('#example').DataTable().ajax.reload();
-				}
-			});
-		} else {
-			var url = contextPath + "/base/dictionary/field";
-			Utils.ajax({
-				type : "POST",
-				url : url,
-				data : jsonData,
-				success : function(data) {
-					$('#example').DataTable().ajax.reload();
-				}
-			});
-		}
-
-	}
-		
-	</script>
 </body>
 </html>

@@ -34,7 +34,11 @@ public class DictionaryFieldService
 		String tableName = table.getAttr(DictionaryTable.table_name);
 		
 		DictionaryReference dictionaryReference = dictionaryReferenceDao.queryById(field.getAttr(DictionaryField.field_key_type));
-		field.setAttr(DictionaryField.field_key_type, dictionaryReference.getAttr(DictionaryReference.reference_value));
+		if(dictionaryReference == null){
+			field.setAttr(DictionaryField.field_key_type, field.getAttr(DictionaryField.field_key_type));
+		} else {
+			field.setAttr(DictionaryField.field_key_type, dictionaryReference.getAttr(DictionaryReference.reference_value));
+		}
 		rows += dictionaryFieldDao.insert(field); // 插入到数据字典表
 		rows += dictionaryFieldDao.createField(field,tableName); // 创建一个字段
 
@@ -52,7 +56,7 @@ public class DictionaryFieldService
 		String tableName = table.getAttr(DictionaryTable.table_name);
 
 		rows += dictionaryFieldDao.deleteById(id); // 从数据字典表删除
-		rows += dictionaryFieldDao.createField(field,tableName); // 创建一个字段
+		rows += dictionaryFieldDao.dropField(field,tableName); // 创建一个字段
 
 		return rows;
 	}

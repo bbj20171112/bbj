@@ -12,6 +12,7 @@ public class DictionaryReference extends BBJEntity {
 	private static final long serialVersionUID = 1L;
 
 	public static final String id = "id"; 
+	public static final String table_id = "table_id"; 
 	public static final String reference_value = "reference_value";
 	public static final String reference_name = "reference_name"; 
 	public static final String reference_remark = "reference_remark"; 
@@ -25,6 +26,7 @@ public class DictionaryReference extends BBJEntity {
 	public String[] initAttr() {
 		String attrs[] = new String[]{
 				id, 
+				table_id,
 				reference_value, 
 				reference_name,
 				reference_remark,

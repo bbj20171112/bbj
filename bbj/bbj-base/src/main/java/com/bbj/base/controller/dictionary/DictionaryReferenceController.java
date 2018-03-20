@@ -1,9 +1,7 @@
 
 package com.bbj.base.controller.dictionary;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.base.constant.Constants;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
-import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.domain.dictionary.DictionaryField;
 import com.bbj.base.domain.dictionary.DictionaryReference;
 import com.bbj.base.service.dictionary.DictionaryReferenceService;
