@@ -38,10 +38,6 @@ document.writeln('<!-- FastClick -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/bower_components/fastclick/lib/fastclick.js"></script>');
 
-document.writeln('<!-- echarts.common.min.js -->');
-document.writeln('<script src="' + contextPath
-		+ '/resources/plugins/echarts/echarts.common.min.js"></script>');
-
 document.writeln('<!-- mustache -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/mustache/mustache.js"></script>');
@@ -82,6 +78,11 @@ document.writeln('<script src="' + contextPath
 document.writeln('<!-- iCheck -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/iCheck/icheck.min.js"></script>');
+/*document.writeln('$("input").iCheck({');
+document.writeln('	    checkboxClass: "icheckbox_square",');
+document.writeln('	    radioClass: "iradio_square",');
+document.writeln('	    increaseArea: "20%" // optional');
+document.writeln('	  });');*/
 
 document.writeln('<!-- colResizable -->');
 document.writeln('<script src="' + contextPath
@@ -99,12 +100,4 @@ document.writeln('<!-- alert -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/framework/widgets/js/alert.js"></script>');
 
-document.writeln('<!-- select2.js -->');
-document
-		.writeln('<script src="'
-				+ contextPath
-				+ '/resources/bower_components/select2/dist/js/select2.full.js"></script>');
 
-document.writeln('<!-- base.js -->');
-document.writeln('<script src="' + contextPath
-		+ '/resources/framework/common/js/base.js"></script>');
