@@ -47,7 +47,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 	public Map<String,Object> getCreateFieldPrepareSqlMap(DictionaryField field,String tableName){
 		StringBuilder sb = new StringBuilder();
 		sb.append(" alter table ");
-		sb.append(" " + tableName);
+		sb.append(" " + tableName + " ");
 		sb.append(" add ");
 		sb.append(" " + field.getAttr(DictionaryField.field_name) + " ");
 		sb.append(" " + field.getAttr(DictionaryField.field_key_type) + " ");
@@ -90,7 +90,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 	public Map<String,Object> getDropFieldPrepareSqlMap(DictionaryField field,String tableName){
 		StringBuilder sb = new StringBuilder();
 		sb.append(" alter table ");
-		sb.append(" " + tableName);
+		sb.append(" " + tableName + " ");
 		sb.append(" drop ");
 		sb.append(" column ");
 		sb.append(" " + field.getAttr(DictionaryField.field_name) + " ");

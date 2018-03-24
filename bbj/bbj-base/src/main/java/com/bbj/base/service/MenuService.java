@@ -180,7 +180,7 @@ public class MenuService
         attr.put("id", "14");
         attr.put("upId", "1");
         attr.put("text", "数据字典");
-        attr.put("link", "base/dictionary/table");
+        attr.put("link", "base/dictionary/table/page");
         menu = new MenuObject(attr);
         list.add(menu);
         

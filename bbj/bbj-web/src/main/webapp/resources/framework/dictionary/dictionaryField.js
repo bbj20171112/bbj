@@ -29,7 +29,7 @@ $(function() {
 								targets : -1,
 								render : function(data, type, row) {
 									var operatorDiv = '<div class="btn-group">'
-											+ '<button type="button" onclick="row_editaaaa(\''
+											+ '<button type="button" onclick="row_edit(\''
 											+ row.attr.id
 											+ '\')" class="btn btn-info">编辑</button>'
 											+ '<button type="button" onclick="row_delete(\''
@@ -80,7 +80,7 @@ $(function() {
 		console.log( $('#example').DataTable().rows('.selected').data()[0]);
 	}
 
-	function row_editaaaa(id) {
+	function row_edit(id) {
 		var ss = "";
 		Utils.ajax({
 			url : contextPath + "/base/dictionary/field/" + id,
@@ -167,7 +167,6 @@ $(function() {
 		jsonData.field_remark = $("#item-field-field_remark").val();
 
 		$("#modal-new-field").modal('hide');
-		console.log("jsonData.id::" + jsonData);
 		
 		if (jsonData.id) {
 			var url = contextPath + "/base/dictionary/field";

@@ -139,5 +139,21 @@ function Utils() {
 		return true;
 	}
 	
+	// 基本页面元素
+
+
+	
+	/**
+	 * obj : bbj 对象
+	 * currentDom : 当前节点下，默认 document
+	 */
+	this.setBBJEntityValue = function(obj,currentDom){
+		var preSuffx = "";
+		if(currentDom){
+			
+		} else {
+			$("#" + preSuffx + "").val();
+		}
+	}
 
 }

@@ -50,7 +50,7 @@ public class DictionaryFieldController {
 	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public Object deleteById(@PathVariable("id")String id){
+	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
 		return dictionaryFieldService.deleteById(id);
 	}
 
@@ -99,8 +99,8 @@ public class DictionaryFieldController {
 		// 分页查询
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.table_id) != null){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=", field.getAttr(DictionaryField.table_id));
+		if(field.getAttr(DictionaryField.field_name) != null){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.field_name, "like", "%" + searchValue + "%");
 			list.add(whereFilter );
 		}
 		sqlFilter.addWhereFilter(list );

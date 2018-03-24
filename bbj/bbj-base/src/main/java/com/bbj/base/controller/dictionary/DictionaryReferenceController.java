@@ -49,7 +49,7 @@ public class DictionaryReferenceController {
 	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public Object deleteById(@PathVariable("id")String id){
+	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
 		return dictionaryReferenceService.deleteById(id);
 	}
 

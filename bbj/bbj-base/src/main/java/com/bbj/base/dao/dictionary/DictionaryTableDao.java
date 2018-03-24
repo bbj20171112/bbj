@@ -65,7 +65,30 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 	 * @return
 	 */
 	public int alterTable(DictionaryTable table) {
-		return 0;
+		Map<String, Object> map = getAlterTablePrepareSqlMap(table);
+		String sql = (String) map.get(key_sql);
+		Object[] args = (Object[]) map.get(key_parameter);
+		return update( sql,args);
+	}
+
+	public String getAlterTablePrepareSql(DictionaryTable table){
+		Map<String, Object> map = getAlterTablePrepareSqlMap(table);
+		return (String) map.get(key_sql);
+	}
+	
+	public Map<String,Object> getAlterTablePrepareSqlMap(DictionaryTable table){
+		DictionaryTable oldTable = this.queryById(table.getAttr(table.getId()));
+		String oldTableName = oldTable.getAttr(DictionaryTable.table_name);
+		String newTableName = table.getAttr(DictionaryTable.table_name);
+		StringBuilder sb = new StringBuilder();
+		sb.append(" alter table ");
+		sb.append(" " + oldTableName + " ");
+		sb.append(" RENAME TO ");
+		sb.append(" " + newTableName + " ");
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put(key_sql, sb.toString());
+		map.put(key_parameter, new Object[]{});
+		return map;
 	}
 
 	/**

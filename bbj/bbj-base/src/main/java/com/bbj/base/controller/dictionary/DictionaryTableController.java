@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,53 +29,45 @@ public class DictionaryTableController {
 	@Autowired
 	private DictionaryTableService dictionaryTableService;
 	
-	@RequestMapping(value={""})
-	public Object index(){
+	@RequestMapping(value="/page")
+	public Object page(HttpServletRequest request){
 		return "../framework/dictionary/dictionaryTable";
 	}
 
-	@RequestMapping(value={"/insert"})
+	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
 		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
 		return dictionaryTableService.insert(bbjEntity );
 	}
 	
-	@RequestMapping(value={"/getCreateTablePrepareSqlMap"})
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public Object getCreateTablePrepareSqlMap(HttpServletRequest request){
-		DictionaryTable table = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.getCreateTablePrepareSql(table );
-	}
-	
-	@RequestMapping(value={"/deleteById"})
-	@ResponseBody
-	public Object deleteById(HttpServletRequest request){
-		DictionaryTable dictionaryTable = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.deleteById(dictionaryTable.getAttr(dictionaryTable.getId()));
+	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
+		return dictionaryTableService.deleteById(id);
 	}
 
-	@RequestMapping(value={"/update"})
+	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
 	public Object update(HttpServletRequest request){
 		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
 		return dictionaryTableService.update(bbjEntity);
 	}
 
-	@RequestMapping(value={"/queryById"})
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody
-	public Object queryById(HttpServletRequest request){
-		DictionaryTable dictionaryTable = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.queryById(dictionaryTable.getAttr(dictionaryTable.getId()));
+	public Object queryById(@PathVariable("id")String id,HttpServletRequest request){
+		return dictionaryTableService.queryById(id);
 	}
 
 	
-	@RequestMapping(value={"/queryByPage"})
+	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
-	public Object queryByPage(HttpServletRequest request,@RequestParam(value="start",defaultValue="1")int start,
+	public Object queryByPage(@RequestParam(value="start",defaultValue="1")int start,
 			@RequestParam(value="length",defaultValue="10")int length,
 			@RequestParam(value="draw",defaultValue="0")int draw,
-			@RequestParam(value="search[value]",defaultValue="")String searchValue
+			@RequestParam(value="search[value]",defaultValue="")String searchValue,
+			HttpServletRequest request
 
 			){
 		//BBJEntity curruntBBJEntity = parseBBJEntity(request);

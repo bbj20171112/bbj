@@ -23,9 +23,9 @@ public class DictionaryTableService {
 			return rows;
 		}
 		
-		rows += dictionaryTableDao.insert(table); // 插入到数据字典表
 		rows += dictionaryTableDao.createTable(table); // 创建一个表
-
+		rows += dictionaryTableDao.insert(table); // 插入到数据字典表
+		
 		return rows;
 	}
 
@@ -42,18 +42,28 @@ public class DictionaryTableService {
 		if(id  == null){
 			return rows;
 		}
-		DictionaryTable table = queryById(id);
+		DictionaryTable table = this.queryById(id);
 		if(table  == null){
 			return rows;
 		}
-		rows += dictionaryTableDao.deleteById(id);; 
+		
 		rows += dictionaryTableDao.dropTable(table); 
-
+		rows += dictionaryTableDao.deleteById(id);
+		
 		return rows;
 	}
 
-	public int update(DictionaryTable bbjEntity){
-		return dictionaryTableDao.update(bbjEntity);
+	@Transactional
+	public int update(DictionaryTable table){
+		int rows = 0;
+		if(table  == null){
+			return rows;
+		}
+		 
+		rows += dictionaryTableDao.alterTable(table);
+		rows += dictionaryTableDao.update(table);
+		
+		return rows;
 	}
 
 	public DictionaryTable queryById(String id){
