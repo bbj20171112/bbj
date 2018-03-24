@@ -83,6 +83,11 @@ document.writeln('<!-- colResizable -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/colResizable/colResizable-1.5.min.js"></script>');
 
+
+//document.writeln('<!-- require -->');
+//document.writeln('<script src="' + contextPath
+//		+ '/resources/plugins/require/require.js"></script>');
+
 document.writeln('<!-- SweetAlert -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/sweetalert/sweetalert.min.js"></script>');
