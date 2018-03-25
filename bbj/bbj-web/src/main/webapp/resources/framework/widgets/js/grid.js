@@ -15,6 +15,7 @@
  *  12. "aLengthMenu": [ 10, 15, 30, 50 ], 将 "aLengthMenu": [10, 25, 50, 100] 改为 "aLengthMenu": [ 10, 15, 30, 50 ],
  * 	13. var searchDelay = settings.searchDelay !== null ? 设置默认 1500
  *  14. DataTable.models.oSettings = { 增加表格宽度调整
+ *  15. "bSort": false, // 修改为默认不排序
  * 
  */
 
@@ -10556,7 +10557,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"bSort": true,
+		"bSort": false, // 修改为默认不排序
 	
 	
 		/**
@@ -12960,18 +12961,17 @@
             var paginationNode = $("#"+tableId+"_paginate").find("ul[class=pagination]");
             
             paginationNode.append(
-            		 '<div class="paginationJump input-group input-group-sm" style="padding:2px;width:100px">'/* width:80px */
-                     + '<input type="number" class="form-control" >'
-                     + '<span class="input-group-btn">'
-                     + '<button type="button" class="btn btn-info btn-flat">Go!</button>'
-                     + '</span>'
-                     + '</div>'
+            		'<li class="paginate_button "><a style="background: #fff;border-top:none; border-bottom:none;">跳转到：</a></li>'
+            		+
+            		'<li class="paginate_button "><a style="padding: 0px 0px;background: #fff;border-top:none; border-bottom:none;border-left:none;"><input type="number" style="width:40px;height:34px" class="input-group input-group-sm"></a></li>'
+            		+
+            		'<li class="paginate_button "><a class="paginate-jump-btn">GO</a></li>'
             		 ); 
             
             /**
     		 * 增加跳页点击函数
     		 */
-            paginationNode.find("button").on("click",function (){
+            paginationNode.find("a[class=paginate-jump-btn]").on("click",function (){
     			var jumpTo = parseInt($(this).parent().parent().find("input").val()) - 1;
 				if(jumpTo < 0){
 					jumpTo = 0;

@@ -59,13 +59,24 @@ document.writeln('<!-- grid -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath
 		+ '/resources/framework/widgets/css/grid.css">');
 
+document.writeln('<!-- jquery.dataTables.css -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/bower_components/datatables.net/css/jquery.dataTables.css">');
+
+document.writeln('<!-- dataTables -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">');
+
+document.writeln('<!-- ionicons -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/bower_components/Ionicons/css/ionicons.min.css">');
+
 document.writeln('<!-- Awesome Bootstrap Checkbox -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath
 		+ '/resources/plugins/AwesomeBootstrapCheckbox/awesome-bootstrap-checkbox.css">');
 
-/*
- * document.writeln('<!-- SweetAlert -->'); document.writeln('<link
- * rel="stylesheet"
- * href="'+contextPath+'/resources/plugins/sweetalert/sweetalert.css">');
- */
+document.writeln('<!-- select2 -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/bower_components/select2/dist/css/select2.css">');
+
 
