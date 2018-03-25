@@ -14,7 +14,7 @@
  *  11. function _fnSortAttachListener ( settings, attachTo, colIdx, callback ) 增加如果col.data == null || col.mData == null，点击时不响应排序事件
  *  12. "aLengthMenu": [ 10, 15, 30, 50 ], 将 "aLengthMenu": [10, 25, 50, 100] 改为 "aLengthMenu": [ 10, 15, 30, 50 ],
  * 	13. var searchDelay = settings.searchDelay !== null ? 设置默认 1500
- * 
+ *  14. DataTable.models.oSettings = { 增加表格宽度调整
  * 
  */
 
@@ -1166,11 +1166,19 @@
 			{
 				// 增加默认支持全选、单选 start  bage 2018-01-28
 				if ( nThead.length == 0 ){ // 如果没有写thead
-					oInit.aoColumns.unshift({data: null , title: '<input type="checkbox" class="icheckbox_flat" name="cb-check-all"></input>'});
+					var checkBoxAllHtml = '<div name="item_check_all" class="checkbox checkbox-info">';
+					checkBoxAllHtml += '		<input type="checkbox" class="styled" aria-label="Single checkbox One">';
+					checkBoxAllHtml += '   	<label></label>';
+					checkBoxAllHtml += '   </div>';
+					oInit.aoColumns.unshift({data: null , title: checkBoxAllHtml });
 					oInit.aoColumnDefs.unshift({
 						targets: 0,
 						render: function(data, type, row) {
-	                    	return '<input type="checkbox" name="item_check" class="icheckbox_flat">';
+							var checkBoxHtml = '<div name="item_check" class="checkbox checkbox-info">';
+							checkBoxHtml += '		<input type="checkbox" class="styled" aria-label="Single checkbox One">';
+							checkBoxHtml += '   	<label></label>';
+							checkBoxHtml += '   </div>';
+	                    	return checkBoxHtml;
 	                	}
 					});
 				}
@@ -4819,6 +4827,7 @@
 	
 		_fnCallbackFire( settings, null, 'plugin-init', [settings, json] );
 		_fnCallbackFire( settings, 'aoInitComplete', 'init', [settings, json] );
+		
 	}
 	
 	
@@ -12973,11 +12982,11 @@
             /**
              * 增加全选、选择功能
              */
-            $("#" + tableId).on("change",":checkbox",function() {
-                if ($(this).is("[name='cb-check-all']")) {
+            $("#" + tableId).on("change","div",function() {
+                if ($(this).is("[name='item_check_all']")) {
                     //全选
-                    var checkedValue = $(this).prop("checked");
-                    $(":checkbox",$("#" + tableId)).prop("checked",checkedValue);
+                    var checkedValue = $(this).find("input[type=checkbox]").prop("checked");
+                    $("div :checkbox",$("#" + tableId)).prop("checked",checkedValue);
                     if(checkedValue){
                     	$("#" + tableId ).find('tbody tr').addClass('selected');
                     } else {
@@ -12985,13 +12994,13 @@
                     }
                 }else{
                     //一般复选
-                    var checkbox = $("tbody :checkbox",$("#" + tableId ));     
+                    var checkbox = $("tbody div :checkbox",$("#" + tableId ));     
                     $(this).parent().parent().toggleClass('selected');
-                    $(":checkbox[name='cb-check-all']",$("#" + tableId )).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+                    $("thead div :checkbox",$("#" + tableId )).prop('checked', checkbox.length == checkbox.filter(':checked').length);
                 }
             });
             
-            $("#" + tableId).colResizable();
+            $("table").colResizable();
 		},
 		
 		/**

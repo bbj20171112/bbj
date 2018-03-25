@@ -59,6 +59,9 @@ document.writeln('<!-- grid -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath
 		+ '/resources/framework/widgets/css/grid.css">');
 
+document.writeln('<!-- Awesome Bootstrap Checkbox -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath
+		+ '/resources/plugins/AwesomeBootstrapCheckbox/awesome-bootstrap-checkbox.css">');
 
 /*
  * document.writeln('<!-- SweetAlert -->'); document.writeln('<link

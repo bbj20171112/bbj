@@ -79,9 +79,11 @@ document.writeln('<!-- iCheck -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/plugins/iCheck/icheck.min.js"></script>');
 
+
+
 document.writeln('<!-- colResizable -->');
 document.writeln('<script src="' + contextPath
-		+ '/resources/plugins/colResizable/colResizable-1.5.min.js"></script>');
+		+ '/resources/plugins/colResizable/colResizable-1.5.js"></script>');
 
 
 //document.writeln('<!-- require -->');
@@ -108,5 +110,11 @@ document.writeln('<script src="' + contextPath
 document.writeln('<!-- base.js -->');
 document.writeln('<script src="' + contextPath
 		+ '/resources/framework/common/js/base.js"></script>');
+
+
+
+    
+    
+ 
 
 

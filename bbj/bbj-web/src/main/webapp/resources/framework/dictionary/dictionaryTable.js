@@ -1,43 +1,52 @@
-$(function () {
-		        	var headers = [];
-					headers.push("ID");
-					headers.push("表名称");
-					headers.push("表说明");
-					headers.push("表描述");
-					headers.push("序列");
-					headers.push("备注");
-					headers.push("操作");
-		        	// console.log(data);
-		        	var tableExp = $('#example').DataTable({
-		        		ajax: {
-		                    url: contextPath + "/base/dictionary/table"
-		                },
-	      		columnDefs: [{
-	             			targets: -1,
-	                      render: function(data, type, row) {
-	                      	var operatorDiv = '<div class="btn-group">'
-	                      	+'<button type="button" onclick="row_edit(\''+row.attr.id+'\')" class="btn btn-info">编辑</button>'
-	                      	+'<button type="button" onclick="row_delete(\''+row.attr.id+'\')" class="btn btn-danger">删除</button>'
-	                      	+'<button type="button" onclick="row_edit_field(\''+row.attr.id+'\')" class="btn btn-info">字段维护</button>'
-							+'</div>';
-	                      	return operatorDiv;
-	                     }
-	                  }],
-	      		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
-	      			{ data: 'attr.id' , title: headers[0]},
-					{ data: 'attr.table_name', title: headers[1]},
-					{ data: 'attr.table_comment', title: headers[2]},
-					{ data: 'attr.table_description', title: headers[3]},
-					{ data: 'attr.sequence_id', title: headers[4]},
-					{ data: 'attr.table_remark', title: headers[5]},
-					{ data: null , title: headers[6]}, 
-	              ]
-	      	});
-	  });
+$(document).ready(function(){
+	initGrid();
+});
+
+
+function initGrid(){
+	var headers = [];
+	headers.push("ID");
+	headers.push("表名称");
+	headers.push("表说明");
+	headers.push("表描述");
+	headers.push("序列");
+	headers.push("备注");
+	headers.push("操作");
+	// console.log(data);
+	var tableExp = $('#example').DataTable({
+		ajax: {
+            url: contextPath + "/base/dictionary/table"
+        },
+        searching: false,
+        lengthChange: false,
+	columnDefs: [{
+ 			targets: -1,
+          render: function(data, type, row) {
+          	var operatorDiv = '<div class="btn-group">'
+          	+'<a onclick="row_edit(\''+row.attr.id+'\')" >编辑</a>'
+          	+'|<a onclick="row_delete(\''+row.attr.id+'\')" >删除</a>'
+          	+'|<a onclick="row_edit_field(\''+row.attr.id+'\')" >字段维护</a>'
+			+'</div>';
+          	return operatorDiv;
+         }
+      }],
+	columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
+		{ data: 'attr.id' , title: headers[0]},
+	{ data: 'attr.table_name', title: headers[1]},
+	{ data: 'attr.table_comment', title: headers[2]},
+	{ data: 'attr.table_description', title: headers[3]},
+	{ data: 'attr.sequence_id', title: headers[4]},
+	{ data: 'attr.table_remark', title: headers[5]},
+	{ data: null , title: headers[6]}, 
+  ]
+});
+}
 	 	
 		// 获取选中
 	    function showSelectItems() {
-		$('#example').DataTable().ajax.reload();
+		
+			// $('#example').DataTable().ajax.reload();
+			console.log( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );
 	        /* console.log( $('#example').DataTable().rows('.selected').data()[0]);
 	    	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );*/
 		}
