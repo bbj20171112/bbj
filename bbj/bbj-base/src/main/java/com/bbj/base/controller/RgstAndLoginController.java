@@ -50,7 +50,6 @@ public class RgstAndLoginController {
 		try {
 			CreateImageCode.getImgCode(request, response, session);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
