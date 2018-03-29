@@ -30,6 +30,9 @@ document.writeln('<script src="' + contextPath + '/resources/bower_components/fa
 document.writeln('<!-- mustache -->');
 document.writeln('<script src="' + contextPath + '/resources/plugins/mustache/mustache.js"></script>');
 
+document.writeln('<!-- echarts -->');
+document.writeln('<script src="' + contextPath + '/resources/plugins/echarts/echarts.common.min.js"></script>');
+
 document.writeln('<!-- wangEditor.min.js -->');
 document.writeln('<script src="' + contextPath + '/resources/plugins/wangEditor/wangEditor.min.js"></script>');
 
