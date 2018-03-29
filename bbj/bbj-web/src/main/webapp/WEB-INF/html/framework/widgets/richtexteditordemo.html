@@ -1,21 +1,25 @@
 ﻿<!DOCTYPE html>
 <html>
-
-<head>
-<meta charset="UTF-8">
-<title>富文本Demo</title>
-<script src="../../resources/framework/css-import.js"></script>
-</head>
-
-<body>
-	<div class="wrapper">
-		<h3>富文本编辑器</h3>
-	</div>
-	<script src="../../resources/framework/javascript-import.js"></script>
-	<script type="text/javascript">
+ <head> 
+  <meta charset="UTF-8" /> 
+  <title>富文本Demo</title> 
+  <script src="../../resources/framework/css-import.js"></script> 
+ </head> 
+ <body> 
+  <div class="wrapper"> 
+   <h3>富文本编辑器</h3> 
+   <div id="editor"> 
+    <p> 欢迎使用 <b>wangEditor</b> 富文本编辑器 </p> 
+   </div> 
+  </div> 
+  <script src="../../resources/framework/javascript-import.js"></script> 
+  <script type="text/javascript">
 		(function(win, $) {
+			var E = window.wangEditor;
+			var editor = new E('#editor');
+			// 或者 var editor = new E( document.getElementById('editor') )
+			editor.create();
 		}(this, jQuery));
-	</script>
-</body>
-
+	</script>  
+ </body>
 </html>
