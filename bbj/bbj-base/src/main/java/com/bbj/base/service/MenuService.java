@@ -187,11 +187,11 @@ public class MenuService
         attr = new HashMap<String, String>();
         attr.put("id", "15");
         attr.put("upId", "1");
-        attr.put("text", "designer");
-        attr.put("link", "base/designer/new");
+        attr.put("text", "Form设计");
+        attr.put("link", "base/designer/form");
         menu = new MenuObject(attr);
         list.add(menu);
-
+        
         attr = new HashMap<String, String>();
         attr.put("id", "16");
         attr.put("upId", "14");
@@ -205,6 +205,14 @@ public class MenuService
         attr.put("upId", "1");
         attr.put("text", "参照值");
         attr.put("link", "base/dictionary/reference/page");
+        menu = new MenuObject(attr);
+        list.add(menu);
+        
+        attr = new HashMap<String, String>();
+        attr.put("id", "18");
+        attr.put("upId", "1");
+        attr.put("text", "页面设计");
+        attr.put("link", "base/designer/new");
         menu = new MenuObject(attr);
         list.add(menu);
         

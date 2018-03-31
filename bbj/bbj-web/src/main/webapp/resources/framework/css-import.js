@@ -19,7 +19,7 @@ function getRealPath() {
 }
 
 document.writeln('<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">');
-document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/bootstrap/dist/css/bootstrap.min.css">');
+document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/bootstrap/dist/css/bootstrap.css">');
 document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/font-awesome/css/font-awesome.min.css">');
 document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/Ionicons/css/ionicons.min.css">');
 document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/dist/css/AdminLTE.css">');
@@ -56,3 +56,8 @@ document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/plu
 
 document.writeln('<!-- select2 -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/select2/dist/css/select2.css">');
+
+document.writeln('<!-- base.css -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/framework/common/css/base.css">');
+
+

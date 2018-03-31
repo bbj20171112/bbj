@@ -83,7 +83,7 @@ function row_delete(id){
 }
 
 function row_design(id){
-	location.href = contextPath + "/base/designer/new?table_id=" +id ;
+	location.href = contextPath + "/base/designer/form?table_id=" +id ;
 }
 
 function row_edit_field(id){
