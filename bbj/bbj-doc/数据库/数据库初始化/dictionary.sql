@@ -22,10 +22,12 @@ CREATE TABLE dictionary_field(
 	table_id	VARCHAR(256),
 	field_name	VARCHAR(1024),
 	field_name_comment	VARCHAR(64),
-	field_type	VARCHAR(256),
 	
-	field_key_type	VARCHAR(256),
-	field_key_type_comment	VARCHAR(1024),
+	field_type	VARCHAR(256),
+	field_type_comment	VARCHAR(1024),
+	field_show_type	VARCHAR(256),
+	field_show_type_comment	VARCHAR(1024),
+	
 	field_constraint	VARCHAR(1024),
 	field_constraint_comment	VARCHAR(1024),
 	field_reference	VARCHAR(64),

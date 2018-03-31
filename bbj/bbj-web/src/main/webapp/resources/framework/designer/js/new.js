@@ -71,13 +71,47 @@ function getElementById (id) {
   return document.getElementById(id);
 }
 
+function getDictionaryFields(tableId) {
+	var returnData = {};
+	Utils.ajax({
+		url : contextPath + "/base/dictionary/field/all?table_id=" + tableId,
+		type : 'GET',
+		async : false, // 同步
+		success : function(data) {
+			if(true){
+				returnData = data.data;
+			}
+		}
+	});
+	return returnData;
+}
+
+function getFieldItem(field){
+	var fieldKeyType = field.attr.field_show_type;
+	if(fieldKeyType == 'input'){
+		return '<input value='+field.attr.field_show_default+'></input>';
+	}else if (fieldKeyType == 'img'){
+		return '<img src='+field.attr.field_show_default+'></img>';
+	}else if (fieldKeyType == 'button'){
+		return '<button>'+field.attr.field_show_default+'</button>';
+	}else if(fieldKeyType == 'date'){
+		return '<label>'+field.attr.field_show_default+'</label>';
+	}else if(fieldKeyType == 'datetime'){
+		return '<label>'+field.attr.field_show_default+'</label>';
+	}else { // 当成varchar
+		return '<label>'+field.attr.field_show_default+'</label>';
+	}
+}
 function getFieldItems(){
+	var fields = getDictionaryFields($("#navbar-input-table_id").val());
 	var fieldItems = [];
-	fieldItems[0] = '<input value="这是字段1"></input>';
-	fieldItems[1] = '<label>这是字段2</label>';
-	fieldItems[2] = '<select><option label="这是字段3" value="3" /></select>';
-	fieldItems[3] = '<button>这是字段4</button>';
-	fieldItems[4] = '<img src="../../resources/dist/img/avatar5.png"/>';
+	if(fields){
+		for (var i = 0; i < fields.length; i++) {
+			fields[i].attr.field_show_default = "FieldValue" + i;
+			var item = getFieldItem(fields[i]);
+			fieldItems[fieldItems.length] = item;
+		}
+	}
 	return fieldItems;
 }
 

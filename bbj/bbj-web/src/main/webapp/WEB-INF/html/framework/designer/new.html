@@ -47,6 +47,11 @@
 						id="navbar-collapse">
 						<form class="navbar-form navbar-left" role="search">
 							<div class="form-group">
+								table_id:
+								<input type="text" class="form-control" id="navbar-input-table_id" th:value="${param.table_id}">
+							</div>
+							<div class="form-group">
+								列：
 								<input type="text" class="form-control" id="navbar-col-num-input"
 									placeholder="请输入列数">
 							</div>
@@ -280,10 +285,10 @@
 	</div>
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
-	<script src="../../resources/framework/javascript-import.js"></script>
-	<script src='../../resources/plugins/dragula/dragula.js'></script>
-	<script src='../../resources/framework/designer/js/new.js'></script>
-	<script src='../../resources/plugins/ContextJS/js/context.js'></script>
+	<script th:src="@{/resources/framework/javascript-import.js}" src="../../resources/framework/javascript-import.js" ></script>
+	<script th:src="@{/resources/plugins/dragula/dragula.js}" src='../../resources/plugins/dragula/dragula.js'></script>
+	<script th:src="@{/resources/framework/designer/js/new.js}" src='../../resources/framework/designer/js/new.js'></script>
+	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../resources/plugins/ContextJS/js/context.js'></script>
 
 </body>
 </html>

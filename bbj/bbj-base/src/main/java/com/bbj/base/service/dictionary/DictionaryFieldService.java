@@ -33,11 +33,11 @@ public class DictionaryFieldService
 		DictionaryTable table = dictionaryTableDao.queryById(field.getAttr(DictionaryField.table_id));
 		String tableName = table.getAttr(DictionaryTable.table_name);
 		
-		DictionaryReference dictionaryReference = dictionaryReferenceDao.queryById(field.getAttr(DictionaryField.field_key_type));
+		DictionaryReference dictionaryReference = dictionaryReferenceDao.queryById(field.getAttr(DictionaryField.field_type));
 		if(dictionaryReference == null){
-			field.setAttr(DictionaryField.field_key_type, field.getAttr(DictionaryField.field_key_type));
+			field.setAttr(DictionaryField.field_type, field.getAttr(DictionaryField.field_type));
 		} else {
-			field.setAttr(DictionaryField.field_key_type, dictionaryReference.getAttr(DictionaryReference.reference_value));
+			field.setAttr(DictionaryField.field_type, dictionaryReference.getAttr(DictionaryReference.reference_value));
 		}
 		rows += dictionaryFieldDao.insert(field); // 插入到数据字典表
 		rows += dictionaryFieldDao.createField(field,tableName); // 创建一个字段

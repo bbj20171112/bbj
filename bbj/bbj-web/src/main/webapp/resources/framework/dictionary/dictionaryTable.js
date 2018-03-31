@@ -26,7 +26,8 @@ function initGrid(){
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit(\''+row.attr.id+'\')" >编辑</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_delete(\''+row.attr.id+'\')" >删除</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit_field(\''+row.attr.id+'\')" >字段维护</button>'
-				+'</div>';
+	          	+'<button class = "btn btn-link btn-sm" onclick="row_design(\''+row.attr.id+'\')" >设计</button>'
+	          	+'</div>';
           	return operatorDiv;
          }
       }],
@@ -79,6 +80,10 @@ function row_delete(id){
         	$('#example').DataTable().ajax.reload();
 		}
 	});
+}
+
+function row_design(id){
+	location.href = contextPath + "/base/designer/new?table_id=" +id ;
 }
 
 function row_edit_field(id){

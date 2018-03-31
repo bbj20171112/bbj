@@ -1,5 +1,7 @@
 package com.bbj.base.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -8,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DesignerController {
 
 	@RequestMapping(value={"/new"})
-	public String notFound(){
-		return "designer/new";
+	public String newDesign(HttpServletRequest request){
+		return "designer/new";	
 	}
 	
 }

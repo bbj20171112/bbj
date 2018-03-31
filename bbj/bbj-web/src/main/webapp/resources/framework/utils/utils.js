@@ -142,18 +142,73 @@ function Utils() {
 	// 基本页面元素
 
 
+	/**
+	 * obj : bbj 对象
+	 * prefix : ID 前缀
+	 * 
+	 */
+	this.getBBJEntityDictionary = function(tableId,callBackFunction){
+		
+		if(tableId == null || tableId == ""){
+			return "";
+		}
+		Utils.ajax({
+	        url: contextPath + "/base/dictionary/table/"+id,
+	        type : "GET",
+	        success: callBackFunction
+		});
+	}
 	
 	/**
 	 * obj : bbj 对象
-	 * currentDom : 当前节点下，默认 document
+	 * prefix : ID 前缀
+	 * 
 	 */
-	this.setBBJEntityValue = function(obj,currentDom){
-		var preSuffx = "";
-		if(currentDom){
-			
-		} else {
-			$("#" + preSuffx + "").val();
+	this.setBBJEntityValue = function(bbjEntity,idPrefix){
+		
+		if(idPrefix){
+		} else { // 如果没有前置，默认为 item-field
+			idPrefix = "item-field";
 		}
+		
+		for (var attr in bbjEntity) { // 便利对象
+			var e = $("#"+idPrefix+"-" + attr);
+			if(e){
+				var value = bbjEntity[attr];
+				if(value){
+					e.val(value); // 赋值
+				} else {
+					e.val("");
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * obj : bbj 对象
+	 * prefix : ID 前缀
+	 * 
+	 */
+	this.getBBJEntityValue = function(bbjEntity,idPrefix){
+		
+		if(idPrefix){
+		} else { // 如果没有前置，默认为 item-field
+			idPrefix = "item-field";
+		}
+		
+		for (var attr in bbjEntity) { // 便利对象
+			var e = $("#"+idPrefix+"-" + attr);
+			if(e){
+				var value = e.val();
+				if(value){
+					bbjEntity[attr] = value; // 赋值
+				} else {
+					bbjEntity[attr] = null;
+				}
+			}
+		}
+		return bbjEntity;
 	}
 
 }

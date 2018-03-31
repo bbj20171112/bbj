@@ -70,7 +70,7 @@
 							<div class="chart tab-pane active" id="field-columns">
 								<div class="form-horizontal">
 									<div class="box-body">
-										<div class="row form-group">
+										<div class="row form-group" style="display:none">
 											<div class="col-sm-2 item">
 												<label>ID</label>
 											</div>
@@ -108,7 +108,7 @@
 											</div>
 											<div class="col-sm-4 item">
 												<select class="form-control select2"
-													id="item-field-field_key_type" style="width: 100%">
+													id="item-field-field_type" style="width: 100%">
 													<option value="varchar(64)" selected="selected">字符串[varchar(64)]</option>
 													<option value="int">数字[int]</option>
 													<option value="float">长数字[float]</option>
@@ -124,7 +124,28 @@
 											</div>
 											<div class="col-sm-4 item">
 												<input class="form-control"
-													id="item-field-field_key_type_comment"></input>
+													id="item-field-field_type_comment"></input>
+											</div>
+										</div>
+										<div class="row form-group">
+											<div class="col-sm-2 item">
+												<label>字段展示类型</label>
+											</div>
+											<div class="col-sm-4 item">
+												<select class="form-control select2"
+													id="item-field-field_show_type" style="width: 100%">
+													<option value="label" selected="selected">标签[label]</option>
+													<option value="input">输入框[input]</option>
+													<option value="button">按钮[button]</option>
+													<option value="img">图片[img]</option>
+												</select>
+											</div>
+											<div class="col-sm-2 item">
+												<label>字段展示描述</label>
+											</div>
+											<div class="col-sm-4 item">
+												<input class="form-control"
+													id="item-field-field_show_type_comment"></input>
 											</div>
 										</div>
 										<div class="row form-group">

@@ -15,8 +15,10 @@ public class DictionaryField extends BBJEntity {
 	public static final String table_id = "table_id";
 	public static final String field_name = "field_name"; 
 	public static final String field_name_comment = "field_name_comment"; 
-	public static final String field_key_type = "field_key_type"; 
-	public static final String field_key_type_comment = "field_key_type_comment"; 
+	public static final String field_type = "field_type"; 
+	public static final String field_type_comment = "field_type_comment";
+	public static final String field_show_type = "field_show_type"; 
+	public static final String field_show_type_comment = "field_show_type_comment";
 	public static final String field_constraint = "field_constraint"; 
 	public static final String field_constraint_comment = "field_constraint_comment"; 
 	public static final String field_reference = "field_reference"; 
@@ -34,8 +36,10 @@ public class DictionaryField extends BBJEntity {
 				table_id, 
 				field_name,
 				field_name_comment,
-				field_key_type,
-				field_key_type_comment,
+				field_type,
+				field_type_comment,
+				field_show_type,
+				field_show_type_comment,
 				field_constraint,
 				field_constraint_comment,
 				field_reference,

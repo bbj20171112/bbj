@@ -99,7 +99,11 @@ public class DictionaryFieldController {
 		// 分页查询
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.field_name) != null){
+		if(field.getAttr(DictionaryField.table_id) != null && !"".equals(field.getAttr(DictionaryField.table_id))){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=", field.getAttr(DictionaryField.table_id));
+			list.add(whereFilter );
+		}
+		if(field.getAttr(DictionaryField.field_name) != null && !"".equals(field.getAttr(DictionaryField.field_name))){
 			WhereFilter whereFilter = new WhereFilter(DictionaryField.field_name, "like", "%" + searchValue + "%");
 			list.add(whereFilter );
 		}
@@ -118,6 +122,32 @@ public class DictionaryFieldController {
 		
 		return map;
 	}
+	
+	/**
+	 * 查（不分页）
+	 * @param start
+	 * @param length
+	 * @param draw
+	 * @param searchValue
+	 * @return
+	 */
+	@RequestMapping(value="/all",method=RequestMethod.GET)
+	@ResponseBody
+	public Object query(HttpServletRequest request){
+		
+		DictionaryField field = BBJEntityUtils.parseFrom(request, DictionaryField.class);
+		// 分页查询
+		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
+		List<WhereFilter> list = new ArrayList<WhereFilter>();
+		if(field.getAttr(DictionaryField.table_id) != null){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=",  field.getAttr(DictionaryField.table_id));
+			list.add(whereFilter );
+		}
+		sqlFilter.addWhereFilter(list );
+		int tagPage = 1;
+		return dictionaryFieldService.queryByPage(tagPage, 1000, sqlFilter);
+	}
+	
 	@RequestMapping(value="/page")
 	public Object page(HttpServletRequest request){
 		return "../framework/dictionary/dictionaryField";

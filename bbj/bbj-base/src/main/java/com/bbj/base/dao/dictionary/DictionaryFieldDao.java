@@ -50,7 +50,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		sb.append(" " + tableName + " ");
 		sb.append(" add ");
 		sb.append(" " + field.getAttr(DictionaryField.field_name) + " ");
-		sb.append(" " + field.getAttr(DictionaryField.field_key_type) + " ");
+		sb.append(" " + field.getAttr(DictionaryField.field_type) + " ");
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put(key_sql, sb.toString());
