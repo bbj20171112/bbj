@@ -13,52 +13,67 @@ $(document).ready(function() {
 	    compress: false
 	});
 	
-	$(".item").click(function (){
-		/*$(this).children().each(function (){
-			var itemField = $(this);
-			if(itemField.attr("class").indexOf("selected") >=0 ){
-				itemField.removeClass("selected");
-			} else {
-				itemField.addClass("selected");
-			}
-		});*/
-	});
-
-	context.attach('.box-body', [
-		{header: 'Menu1'},
-		{text: 'float', subMenu: [
-			{header: '左右'},
-			{text: 'left', target:'', action: function(e){
-					/*$(".selected").each(function(){
-						$(this).addClass("pull-left");
-					});*/
+	
+	context.attach('.item', [
+		{header: '排列'},
+		{text: '浮动', subMenu: [
+			{text: '居左', target:'', action: function(e){
+				var itemChildren = $(".selected").children();
+				// 清空原浮动样式
+				itemChildren.removeClass("text-center");
+				itemChildren.removeClass("center-block ");
+				itemChildren.removeClass("pull-right");
+				// 设置居左
+				itemChildren.addClass("pull-left");
 			}},
-			{text: 'right', target:'', action: function(e){
-				$(".selected").addClass("pull-right");
-		}}
+			{text: '居中', target:'', action: function(e){
+				$(".selected").children().each(function (){
+					var itemField = $(this);
+					var tagName = itemField.get(0).tagName;
+					if("IMG" == tagName.toUpperCase() || "INPUT" == tagName.toUpperCase()){
+						// 清空原浮动样式
+						itemField.removeClass("pull-right");
+						itemField.removeClass("pull-left");
+						// 设置居中
+						itemField.addClass("center-block");
+					}else {
+						// 清空原浮动样式
+						itemField.removeClass("pull-right");
+						itemField.removeClass("pull-left");
+						// 设置居中
+						itemField.addClass("text-center");
+					}						
+				});
+			}},
+			{text: '居右', target:'', action: function(e){
+				var itemChildren = $(".selected").children();
+				// 清空原浮动样式
+				itemChildren.removeClass("text-center");
+				itemChildren.removeClass("center-block ");
+				itemChildren.removeClass("pull-left");
+				// 设置居右
+				itemChildren.addClass("pull-right");
+			}}
 		]},
 		{divider: true},
-		{header: 'Menu2'},
-		{text: 'todo', subMenu: [
-			{header: 'menu21'},
-			{text: '2nd Level', subMenu: [
-				{header: 'You like?'},
-				{text: '3rd Level!?', subMenu: [
-					{header: 'Of course you do'},
-					{text: 'todo1', subMenu: [
-						{header:'todo2'},
-						{text: 'todo3', subMenu: [
-							{header: 'todo4!'},
-							{text: 'Shieeet', subMenu: [
-								{header: 'todo5'},
-								{text: '_blank', href: '', target:'_blank', action: function(){
-									alert(this.pathname + "," + this.innerHTML);
-								}}
-							]}
-						]}
-					]}
-				]}
-			]}
+		{header: '操作'},
+		{text: '选择', subMenu: [
+			{text: '全选', target:'', action: function(e){
+				$(".item").addClass("selected");
+			}},
+			{text: '清空', target:'', action: function(e){
+				$(".item").removeClass("selected");
+			}},
+			{text: '反选', target:'', action: function(e){
+				$(".item").each(function (){
+					var itemField = $(this);
+					if(itemField.attr("class").indexOf("selected") >=0 ){
+						itemField.removeClass("selected");
+					} else {
+						itemField.addClass("selected");
+					}
+				});
+			}}
 		]}
 	]);
 	
@@ -174,7 +189,17 @@ function newPage(){
 		containerHtml += colHtml[i]; // 进行拼接容器HTML
 	}
 	$("#container-form").html(containerHtml);
+	
 	Utils.initWidgets();
+	$(".item").click(function (){
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("selected") >=0 ){
+			itemField.removeClass("selected");
+		} else {
+			itemField.addClass("selected");
+		}
+	});
+	
 	var colDiv = [];
 	for (var i = 0; i < colNum; i++) {
 		colDiv[i] = getElementById("item-parent-" + i);

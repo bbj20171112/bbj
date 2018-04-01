@@ -95,6 +95,10 @@ document.writeln('<script src="' + contextPath + '/resources/plugins/timepicker/
 document.writeln('<!-- bootstrap-datetimepicker.js -->');
 document.writeln('<script src="' + contextPath + '/resources/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>');
 
+document.writeln('<!-- CK Editor -->');
+document.writeln('<script src="' + contextPath + '/resources/bower_components/ckeditor/ckeditor.js"></script>');
+
+
 
 
 

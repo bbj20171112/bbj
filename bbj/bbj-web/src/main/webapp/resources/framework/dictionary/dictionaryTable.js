@@ -26,7 +26,7 @@ function initGrid(){
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit(\''+row.attr.id+'\')" >编辑</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_delete(\''+row.attr.id+'\')" >删除</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit_field(\''+row.attr.id+'\')" >字段维护</button>'
-	          	+'<button class = "btn btn-link btn-sm" onclick="row_design(\''+row.attr.id+'\')" >设计</button>'
+	          	+'<button class = "btn btn-link btn-sm" onclick="row_design(\''+row.attr.id+'\')" >Form设计</button>'
 	          	+'</div>';
           	return operatorDiv;
          }

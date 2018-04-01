@@ -23,7 +23,9 @@
 	cursor: -webkit-grab;
 	cursor: move;
 }
-
+.selected{
+	background-color: #f4f4f4;
+}
 /* .item {
 	background-color: #ad9d9d;
 } */
@@ -71,7 +73,7 @@
 							<a href="#field-source" onclick="showSource()"	data-toggle="tab" aria-expanded="false">源代码</a>
 						</li>
 						<li class="active">
-							<a href="#revenue-form" data-toggle="tab" aria-expanded="true">Form内容</a>
+							<a href="#revenue-form" data-toggle="tab" aria-expanded="true">内容</a>
 						</li>
 					</ul>
 					<div class="tab-content no-padding">
@@ -82,9 +84,9 @@
 							</div>
 						</div>
 						<div class="chart tab-pane" id="field-source">
-							<div id="container-source" class="container" style="border: 1px;border-color: gray;">
+							<xmp id="container-source" class="container" >
 					
-							</div>
+							</xmp>
 						</div>
 					</div>
 				</div>										
@@ -100,6 +102,7 @@
 	<script th:src="@{/resources/plugins/dragula/dragula.js}" src='../../resources/plugins/dragula/dragula.js'></script>
 	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../resources/plugins/ContextJS/js/context.js'></script>
 	<script th:src="@{/resources/framework/designer/js/form.js}" src='../../resources/framework/designer/js/new.js'></script>
+	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../resources/plugins/ContextJS/js/context.js'></script>
 
 </body>
 </html>
