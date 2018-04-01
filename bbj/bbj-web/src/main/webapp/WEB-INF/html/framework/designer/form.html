@@ -55,17 +55,40 @@
 		              </div>
 		              <!-- /.box-body -->
 		              <div class="box-footer">
-		                <button type="button" class="btn btn-default">Cancel</button>
-		                <button type="button" onclick="newPage()" class="btn btn-info pull-right">新建</button>
+		                <button type="button" class="btn btn-default">返回</button>
+		                <button type="button" onclick="newPage()" class="btn btn-info pull-right">重绘</button>
 		              </div>
 		              <!-- /.box-footer -->
 					<!-- /.box-body -->
 				</form>
 			</div>
 			<div class="box box-info">
-				<div id="container" class="container" style="border: 1px;border-color: gray;">
-						
-				</div>
+				<div class="nav-tabs-custom">
+					<!-- Tabs within a box -->
+					<ul class="nav nav-tabs pull-right ui-sortable-handle">
+						<li class="pull-left header">Form页面</li>
+						<li>
+							<a href="#field-source" onclick="showSource()"	data-toggle="tab" aria-expanded="false">源代码</a>
+						</li>
+						<li class="active">
+							<a href="#revenue-form" data-toggle="tab" aria-expanded="true">Form内容</a>
+						</li>
+					</ul>
+					<div class="tab-content no-padding">
+						<!-- Morris chart - Sales -->
+						<div class="chart tab-pane active" id="revenue-form" >
+							<div id="container-form" class="container" style="border: 1px;border-color: gray;">
+					
+							</div>
+						</div>
+						<div class="chart tab-pane" id="field-source">
+							<div id="container-source" class="container" style="border: 1px;border-color: gray;">
+					
+							</div>
+						</div>
+					</div>
+				</div>										
+				
 			</div>
 		</section>
 		<!-- /.content -->

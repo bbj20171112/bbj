@@ -93,13 +93,24 @@ function getFieldItem(field){
 	}else if (fieldKeyType == 'checkbox'){
 		return '<div name="item_check" class="checkbox checkbox-info">		<input type="checkbox" class="styled" aria-label="Single checkbox One">   	<label>'+field.attr.field_name_comment+'</label>   </div>';
 	}else if (fieldKeyType == 'img'){
-		return '<img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'"></img>';
+		return '<img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>';
 	}else if (fieldKeyType == 'button'){
 		return '<button>'+field.attr.field_name_comment+'</button>';
 	}else if(fieldKeyType == 'date'){
-		return '<label>'+field.attr.field_name_comment+'</label>';
+		return '<div class="input-group date">'
+        +'<div class="input-group-addon">'
+         	+'<i class="fa fa-calendar"></i>'
+        +'</div>'
+        +'<input type="text" class="datepicker form-control pull-right">'
+		+'</div>';
 	}else if(fieldKeyType == 'datetime'){
-		return '<label>'+field.attr.field_name_comment+'</label>';
+		 return '<div class="input-group">'
+	     +   '<div class="input-group-addon">'
+	     +     '<i class="fa fa-clock-o"></i>'
+	     +   '</div>'
+	     +   '<input type="text" class="form-control pull-right datetimepicker">'
+	     + '</div>';
+      
 	}else if(fieldKeyType == 'textarea'){
 		return '<textarea class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>';
 	}else if(fieldKeyType == 'select'){
@@ -110,6 +121,8 @@ function getFieldItem(field){
 		return '<label>'+field.attr.field_name_comment+'</label>';
 	}
 }
+
+
 function getFieldItems(){
 	var fields = getDictionaryFields($("#field-item-table_id").val());
 	var fieldItems = [];
@@ -123,6 +136,11 @@ function getFieldItems(){
 	return fieldItems;
 }
 
+
+function showSource(){
+	$("#container-source").html($("#container-form").html());
+}
+
 /**
  * 新建一个页面设计布局
  * 
@@ -130,7 +148,7 @@ function getFieldItems(){
  */
 
 function newPage(){
-	$("#container").html("");
+	$("#container-form").html("");
 
 	var colNum = $("#field-item-col_num").val();
 	var baseWidth = 12;
@@ -155,7 +173,8 @@ function newPage(){
 		colHtml[i] += '</div>'; // 结束标签
 		containerHtml += colHtml[i]; // 进行拼接容器HTML
 	}
-	$("#container").html(containerHtml);
+	$("#container-form").html(containerHtml);
+	Utils.initWidgets();
 	var colDiv = [];
 	for (var i = 0; i < colNum; i++) {
 		colDiv[i] = getElementById("item-parent-" + i);

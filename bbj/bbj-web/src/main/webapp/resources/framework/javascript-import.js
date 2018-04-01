@@ -81,3 +81,21 @@ document.writeln('<script src="' + contextPath + '/resources/bower_components/se
 
 document.writeln('<!-- base.js -->');
 document.writeln('<script src="' + contextPath + '/resources/framework/common/js/base.js"></script>');
+
+document.writeln('<!-- daterangepicker.js -->');
+document.writeln('<script src="' + contextPath + '/resources/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>');
+
+document.writeln('<!-- bootstrap-datepicker.min.js -->');
+document.writeln('<script src="' + contextPath + '/resources/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>');
+document.writeln('<script src="' + contextPath + '/resources/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js"></script>');
+
+document.writeln('<!-- bootstrap-timepicker -->');
+document.writeln('<script src="' + contextPath + '/resources/plugins/timepicker/bootstrap-timepicker.min.js"></script>');
+
+document.writeln('<!-- bootstrap-datetimepicker.js -->');
+document.writeln('<script src="' + contextPath + '/resources/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>');
+
+
+
+
+  

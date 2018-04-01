@@ -210,5 +210,25 @@ function Utils() {
 		}
 		return bbjEntity;
 	}
+	
+	this.initWidgets = function(){
+		//Date picker
+	    $('.datepicker').datepicker({
+	      autoclose: true,
+	      language: 'zh-CN',
+	      orientation: "bottom"
+	    });
+	    
+	    //Timepicker
+	    $('.timepicker').timepicker({
+	      showInputs: false
+	    });
+
+	    $('.datetimepicker').datetimepicker({
+	      format: 'yyyy-mm-dd hh:ii'
+	    });
+	    
+	    
+	}
 
 }

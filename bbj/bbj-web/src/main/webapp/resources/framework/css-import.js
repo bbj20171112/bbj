@@ -60,4 +60,16 @@ document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bow
 document.writeln('<!-- base.css -->');
 document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/framework/common/css/base.css">');
 
+document.writeln('<!-- daterangepicker.css -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/bootstrap-daterangepicker/daterangepicker.css">');
+
+document.writeln('<!-- bootstrap-datepicker.min.css -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">');
+
+document.writeln('<!-- bootstrap-timepicker.min.css -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/plugins/timepicker/bootstrap-timepicker.min.css">');
+
+document.writeln('<!-- bootstrap-datetimepicker.css -->');
+document.writeln('<link rel="stylesheet" href="' + contextPath + '/resources/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">');
+
 
