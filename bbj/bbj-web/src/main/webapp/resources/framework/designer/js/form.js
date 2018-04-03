@@ -106,7 +106,7 @@ function getFieldItem(field){
 	if(fieldKeyType == 'input'){
 		return '<input value='+field.attr.field_name_comment+'></input>';
 	}else if (fieldKeyType == 'checkbox'){
-		return '<div name="item_check" class="checkbox checkbox-info">		<input type="checkbox" class="styled" aria-label="Single checkbox One">   	<label>'+field.attr.field_name_comment+'</label>   </div>';
+		return '<div name="item_check" class="checkbox checkbox-info">		<input type="checkbox" class="styled" aria-label="Single checkbox One"></input>   	<label>'+field.attr.field_name_comment+'</label>   </div>';
 	}else if (fieldKeyType == 'img'){
 		return '<img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>';
 	}else if (fieldKeyType == 'button'){
@@ -116,14 +116,14 @@ function getFieldItem(field){
         +'<div class="input-group-addon">'
          	+'<i class="fa fa-calendar"></i>'
         +'</div>'
-        +'<input type="text" class="datepicker form-control pull-right">'
+        +'<input type="text" class="datepicker form-control pull-right"></input>'
 		+'</div>';
 	}else if(fieldKeyType == 'datetime'){
 		 return '<div class="input-group">'
 	     +   '<div class="input-group-addon">'
 	     +     '<i class="fa fa-clock-o"></i>'
 	     +   '</div>'
-	     +   '<input type="text" class="form-control pull-right datetimepicker">'
+	     +   '<input type="text" class="form-control pull-right datetimepicker"></input>'
 	     + '</div>';
       
 	}else if(fieldKeyType == 'textarea'){
@@ -153,9 +153,21 @@ function getFieldItems(){
 
 
 function showSource(){
-	$("#container-source").html($("#container-form").html());
+	var containerSource = document.getElementById('container-source');
+	containerSource.value = $("#container-form").html();
+	var editor = CodeMirror.fromTextArea(containerSource, {
+	    mode: "xml",
+	    tabMode: "indent",
+	    lineWrapping: true,
+	    lineNumbers: true
+	});
 }
-
+function autoFormatRange(){
+	var containerSource = document.getElementById('container-source');
+	var editor = CodeMirror.fromTextArea(containerSource, {
+	});
+	editor.autoFormatRange({line:0, ch:0}, {line:totalLines});
+}
 /**
  * 新建一个页面设计布局
  * 
