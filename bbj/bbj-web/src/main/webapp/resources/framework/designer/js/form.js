@@ -1,4 +1,4 @@
-
+var fieldItems = [];
 $(document).ready(function() {
 	dragula([
 		getElementById('item-parent1'), 
@@ -78,8 +78,8 @@ $(document).ready(function() {
 	]);
 	
 	$("#field-item-col_num").val("3");
+	initFieldItems();
 	newPage();
-	
 } );
 
 function getElementById (id) {
@@ -110,7 +110,7 @@ function getFieldItem(field){
 	}else if (fieldKeyType == 'img'){
 		return '<img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>';
 	}else if (fieldKeyType == 'button'){
-		return '<button>'+field.attr.field_name_comment+'</button>';
+		return '<button class="btn btn-info">'+field.attr.field_name_comment+'</button>';
 	}else if(fieldKeyType == 'date'){
 		return '<div class="input-group date">'
         +'<div class="input-group-addon">'
@@ -137,10 +137,62 @@ function getFieldItem(field){
 	}
 }
 
+function addComponent(){
+	$("#modal-new-field").modal('show');
+}
+
+function newFieldSave() {
+	var itemData = {};
+	itemData.attr = {};
+	itemData.attr.id = $("#item-field-id").val();
+	itemData.attr.table_id = $("#item-field-table_id").val();
+	itemData.attr.field_name = $("#item-field-field_name").val();
+	itemData.attr.field_name_comment = $("#item-field-field_name_comment")
+			.val();
+	itemData.attr.field_type = $("#item-field-field_type").val();
+	if(!itemData.attr.field_type){
+		itemData.attr.field_type = 'varchar(64)';
+	}
+	itemData.attr.field_type_comment = $(
+			"#item-field-field_type_comment").val();
+	itemData.attr.field_show_type = $("#item-field-field_show_type").val();
+	if(!itemData.attr.field_show_type){
+		itemData.attr.field_show_type = 'label';
+	}
+	itemData.attr.field_show_type_comment = $(
+			"#item-field-field_show_type_comment").val();
+	
+	
+	itemData.attr.field_constraint = $("#item-field-field_constraint").val();
+	itemData.attr.field_constraint_comment = $(
+			"#item-field-field_constraint_comment").val();
+	itemData.attr.field_reference = $("#item-field-field_reference").val();
+	itemData.attr.field_reference_comment = $(
+			"#item-field-field_reference_comment").val();
+	itemData.attr.field_remark = $("#item-field-field_remark").val();
+
+	//Utils.getBBJEntityValue(jsonData);
+	$("#modal-new-field").modal('hide');
+	var colNum = $("#field-item-col_num").val();
+	var tagCol = fieldItems.length % colNum;
+	
+	fieldItems[fieldItems.length] = itemData;
+	var htmlValue = '<div'+
+	' class="col-sm-12 item"' +
+	' id="item-' + tagCol + '-' + (fieldItems.length - 1) +'">'
+	+getFieldItem(itemData)+
+	'</div>';
+	
+	$('#item-'+tagCol +'-'+(fieldItems.length - 1 - colNum)).parent().append(htmlValue);
+	initWidgets();
+}
 
 function getFieldItems(){
+	return fieldItems;
+}
+function initFieldItems(){
 	var fields = getDictionaryFields($("#field-item-table_id").val());
-	var fieldItems = [];
+	fieldItems = [];
 	if(fields){
 		for (var i = 0; i < fields.length; i++) {
 			fields[i].attr.field_show_default = "FieldValue" + i;
@@ -148,7 +200,7 @@ function getFieldItems(){
 			fieldItems[fieldItems.length] = item;
 		}
 	}
-	return fieldItems;
+	//return fieldItems;
 }
 
 
@@ -202,16 +254,7 @@ function newPage(){
 	}
 	$("#container-form").html(containerHtml);
 	
-	Utils.initWidgets();
-	$(".item").click(function (){
-		var itemField = $(this);
-		if(itemField.attr("class").indexOf("selected") >=0 ){
-			itemField.removeClass("selected");
-		} else {
-			itemField.addClass("selected");
-		}
-	});
-	
+	initWidgets();
 	var colDiv = [];
 	for (var i = 0; i < colNum; i++) {
 		colDiv[i] = getElementById("item-parent-" + i);
@@ -219,7 +262,17 @@ function newPage(){
 	dragula(colDiv);
 }
 
-
+function initWidgets(){
+	Utils.initWidgets();
+	$(".item").unbind('click').bind('click',function(){
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("selected") >=0 ){
+			itemField.removeClass("selected");
+		} else {
+			itemField.addClass("selected");
+		}
+	});
+}
 
 
 
