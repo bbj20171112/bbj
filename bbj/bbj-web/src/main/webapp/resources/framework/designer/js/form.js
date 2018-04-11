@@ -104,36 +104,38 @@ function getDictionaryFields(tableId) {
 function getFieldItem(field){
 	var fieldKeyType = field.attr.field_show_type;
 	if(fieldKeyType == 'input'){
-		return '<input value='+field.attr.field_name_comment+'></input>';
+		return 	'    <input value='+field.attr.field_name_comment+'></input>\n';
 	}else if (fieldKeyType == 'checkbox'){
-		return '<div name="item_check" class="checkbox checkbox-info">		<input type="checkbox" class="styled" aria-label="Single checkbox One"></input>   	<label>'+field.attr.field_name_comment+'</label>   </div>';
+		return 	'    <div name="item_check" class="checkbox checkbox-info">\n'		
+			  	+'        <input type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n'
+			  	+'        <label>'+field.attr.field_name_comment+'</label>\n'
+			  	+'    </div>\n';
 	}else if (fieldKeyType == 'img'){
-		return '<img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>';
+		return 	'    <img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>\n';
 	}else if (fieldKeyType == 'button'){
-		return '<button class="btn btn-info">'+field.attr.field_name_comment+'</button>';
+		return 	'    <button class="btn btn-info">'+field.attr.field_name_comment+'</button>\n';
 	}else if(fieldKeyType == 'date'){
-		return '<div class="input-group date">'
-        +'<div class="input-group-addon">'
-         	+'<i class="fa fa-calendar"></i>'
-        +'</div>'
-        +'<input type="text" class="datepicker form-control pull-right"></input>'
-		+'</div>';
+		return 	'    <div class="input-group date">\n'
+        	  	+'        <div class="input-group-addon">\n'
+        	  	+'            <i class="fa fa-calendar"></i>\n'
+        	  	+'        </div>\n'
+        	  	+'        <input type="text" class="datepicker form-control pull-right"></input>\n'
+        	  	+'    </div>\n';
 	}else if(fieldKeyType == 'datetime'){
-		 return '<div class="input-group">'
-	     +   '<div class="input-group-addon">'
-	     +     '<i class="fa fa-clock-o"></i>'
-	     +   '</div>'
-	     +   '<input type="text" class="form-control pull-right datetimepicker"></input>'
-	     + '</div>';
-      
+		 return '    <div class="input-group">\n'
+	     	   	+'        <div class="input-group-addon">\n'
+	     	   	+'            <i class="fa fa-clock-o"></i>\n'
+	     	   	+'        </div>\n'
+	     	   	+'        <input type="text" class="form-control pull-right datetimepicker"></input>\n'
+	     	   	+'    </div>\n';
 	}else if(fieldKeyType == 'textarea'){
-		return '<textarea class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>';
+		return 	'    <textarea class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>\n';
 	}else if(fieldKeyType == 'select'){
-		return '<select class="form-control select2" style="width: 100%">'
-					+'<option value="0">'+field.attr.field_name_comment+'</option>'
-				+'</select>';
+		return 	'    <select class="form-control select2" style="width: 100%">\n'
+			  	+'        <option value="0">'+field.attr.field_name_comment+'</option>\n'
+			  	+'    </select>\n';
 	}else { // 当成label
-		return '<label>'+field.attr.field_name_comment+'</label>';
+		return 	'    <label>'+field.attr.field_name_comment+'</label>\n';
 	}
 }
 
@@ -176,15 +178,44 @@ function newFieldSave() {
 	var colNum = $("#field-item-col_num").val();
 	var tagCol = fieldItems.length % colNum;
 	
-	fieldItems[fieldItems.length] = itemData;
+	fieldItems[fieldItems.length] = getFieldItem(itemData);
 	var htmlValue = '<div'+
 	' class="col-sm-12 item"' +
 	' id="item-' + tagCol + '-' + (fieldItems.length - 1) +'">'
 	+getFieldItem(itemData)+
 	'</div>';
-	
-	$('#item-'+tagCol +'-'+(fieldItems.length - 1 - colNum)).parent().append(htmlValue);
-	initWidgets();
+	if(fieldItems.length - 1 - colNum > 0){
+		$('#item-'+tagCol +'-'+(fieldItems.length - 1 - colNum)).parent().append(htmlValue);
+		initWidgets();
+	} else {
+		$("#container-form").html("");
+
+		var baseWidth = 12;
+		var colHtml = [];
+		for (var i = 0; i < colNum; i++) {
+			colHtml[i] = '<div' + ' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + ' id="item-parent-' + i +'">\n';
+		}
+		var name = "";
+		var clazz = "";
+		for (var i = 0; i < fieldItems.length; i++) {
+				colHtml[i % colNum] += '    <div'+ ' class="col-sm-12 item"' + ' id="item-' + (i % colNum) + '-' + i +'">\n'
+									    +fieldItems[i]+ '\n' + 
+									   '    </div>\n';
+		}
+		var containerHtml = "";
+		for (var i = 0; i < colNum; i++) {
+			colHtml[i] += '</div>\n'; // 结束标签
+			containerHtml += colHtml[i]; // 进行拼接容器HTML
+		}
+		$("#container-form").html(containerHtml);
+		
+		initWidgets();
+		var colDiv = [];
+		for (var i = 0; i < colNum; i++) {
+			colDiv[i] = getElementById("item-parent-" + i);
+		}
+		dragula(colDiv);
+	}
 }
 
 function getFieldItems(){
@@ -236,23 +267,23 @@ function newPage(){
 	for (var i = 0; i < colNum; i++) {
 		colHtml[i] = '<div' + 
 		' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + 
-		' id="item-parent-' + i +'">';
+		' id="item-parent-' + i +'">\n';
 	}
 	var name = "";
 	var clazz = "";
 	for (var i = 0; i < fieldItems.length; i++) {
 			colHtml[i % colNum] += '<div'+
 								' class="col-sm-12 item"' +
-								' id="item-' + (i % colNum) + '-' + i +'">'
-								+fieldItems[i]+
-								'</div>';
+								' id="item-' + (i % colNum) + '-' + i +'">\n'
+								+fieldItems[i]+ 
+								'</div>\n';
 	}
 	var containerHtml = "";
 	for (var i = 0; i < colNum; i++) {
-		colHtml[i] += '</div>'; // 结束标签
+		colHtml[i] += '</div>\n'; // 结束标签
 		containerHtml += colHtml[i]; // 进行拼接容器HTML
 	}
-	$("#container-form").html(containerHtml);
+	$("#container-form").html('\n' + containerHtml + '\n');
 	
 	initWidgets();
 	var colDiv = [];
