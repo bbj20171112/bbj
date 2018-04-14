@@ -1,10 +1,6 @@
 var fieldItems = [];
 $(document).ready(function() {
-	dragula([
-		getElementById('item-parent1'), 
-		getElementById('item-parent2'),
-		getElementById('item-parent3')
-		]);
+	
 	context.init({
 	    fadeSpeed: 100,
 	    filter: function ($obj){},
@@ -85,21 +81,41 @@ $(document).ready(function() {
 function initGrid(fields){
 	if(fields && fields.length > 0){
 		var dataColumns = [];
+		var liFields = $("#li-fields");
+		var liFieldsHtml = '<button type="button" onclick="showSelectItems()" class="btn btn-info">字段显示</button> ';
+		liFields.html(liFieldsHtml);
+		liFieldsHtml += '<div name="item_check" class="checkbox checkbox-inline">'+
+							'<input type="checkbox" checked="checked" class="styled item-field" aria-label="Single checkbox One">'+
+							'<label data-column="0">勾选框</label>'+
+						'</div>';
 		for (var i = 0; i < fields.length; i++) {
 			var item = {};
 			item.data = "attr." + fields[i].attr.field_name;
 			item.title = fields[i].attr.field_name_comment;
+			liFieldsHtml += '<div name="item_check" id="item-field-'+i+'" class="checkbox checkbox-inline">'+
+								'<input type="checkbox" checked="checked" class="styled item-field" aria-label="Single checkbox One">'+
+								'<label data-column="'+(i + 1)+'">'+fields[i].attr.field_name_comment+'</label>'+
+							'</div>';
 			dataColumns.push(item);
 		}
-		
+		liFields.html(liFieldsHtml);
 		var tableId = $("#field-item-table_id").val();
 		var tableExp = $('#example').DataTable({
 			ajax: {
 	            url: contextPath + "/base/designer/grid/simulatedata?table_id=" + tableId,
 	        },
-	        lengthChange: false	,        
+	        lengthChange: false	,    
+	        scrollCollapse: true,
 	        columns: dataColumns
 		});
+		$('.item-field').change(function (){
+			 // Get the column API object
+	        var column = tableExp.column($(this).parent().find('label').attr('data-column') );
+	 
+	        // Toggle the visibility
+	        column.visible( ! column.visible() );
+		});
+		dragula(getElementById ('li-fields'));
 	}
 }
 

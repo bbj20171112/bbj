@@ -69,7 +69,8 @@
 					<!-- Tabs within a box -->
 					<ul class="nav nav-tabs pull-right ui-sortable-handle">
 						<li class="pull-left header">Grid页面</li>
-						<li class="pull-left" onclick = "addComponent()"><button type="button" class="btn btn-info">添加组件</button></li>
+						<li class="pull-left" id="li-fields">
+						</li>
 						<li>
 							<a href="#revenue-source" onclick="showSource()"	data-toggle="tab" aria-expanded="false">源代码</a>
 						</li>
@@ -123,42 +124,10 @@
 						<div class="tab-content no-padding">
 							<div class="chart tab-pane active" id="field-columns">
 								<div class="form-horizontal">
-									<div class="box-body">
-										<div class="row form-group" style="display:none">
-											<div class="col-sm-2">
-												<label>ID</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-id" />
-											</div>
-										</div>
-										<div class="row form-group" style="display:none">
-											<div class="col-sm-2">
-												<label>表ID</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-table_id"
-													th:value="${param.id}" />
-											</div>
-										</div>
+									<div class="box-body">										
 										<div class="row form-group">
 											<div class="col-sm-2">
-												<label>字段名称</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-field_name"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>字段说明</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-field-field_name_comment"></input>
-											</div>
-										</div>
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>字段类型</label>
+												<label>字段显示</label>
 											</div>
 											<div class="col-sm-4">
 												<select class="form-control select2"
@@ -172,92 +141,6 @@
 													<option value="text">文本[text]</option>
 													<option value="blob">blob[blob]</option>
 												</select>
-											</div>
-											<div class="col-sm-2">
-												<label>字段描述</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-field-field_type_comment"></input>
-											</div>
-										</div>
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>字段展示类型</label>
-											</div>
-											<div class="col-sm-4">
-												<select class="form-control select2"
-													id="item-field-field_show_type" style="width: 100%">
-													<option value="label" selected="selected">标签[label]</option>
-													<option value="input">输入框[input]</option>
-													<option value="button">按钮[button]</option>
-													<option value="img">图片[img]</option>
-													<option value="checkbox">选择框[checkbox]</option>
-													<option value="date">日期[date]</option>
-													<option value="datetime">日期时间[datetime]</option>
-													<option value="textarea">大文本框[textarea]</option>
-													<option value="select">下拉框[select]</option>
-	
-												</select>
-											</div>
-											<div class="col-sm-2">
-												<label>字段展示描述</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-field-field_show_type_comment"></input>
-											</div>
-										</div>
-										<div class="row form-group" style="display:none">
-											<div class="col-sm-2">
-												<label>键值</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-field-key"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>键值说明</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-field-keycomm"></input>
-											</div>
-										</div>
-										<div class="row form-group" style="display:none">
-											<div class="col-sm-2">
-												<label>约束</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-field_constraint"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>约束说明</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-field-field_constraint_comment"></input>
-											</div>
-										</div>
-										<div class="row form-group" style="display:none">
-											<div class="col-sm-2">
-												<label>参照</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-field_reference"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>参照说明</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-field-field_reference_comment"></input>
-											</div>
-										</div>
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>备注</label>
-											</div>
-											<div class="col-sm-10">
-												<input class="form-control" id="item-field-field_remark"></input>
 											</div>
 										</div>
 									</div>
