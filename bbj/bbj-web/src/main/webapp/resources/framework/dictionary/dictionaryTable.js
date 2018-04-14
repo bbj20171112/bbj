@@ -26,7 +26,8 @@ function initGrid(){
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit(\''+row.attr.id+'\')" >编辑</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_delete(\''+row.attr.id+'\')" >删除</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit_field(\''+row.attr.id+'\')" >字段维护</button>'
-	          	+'<button class = "btn btn-link btn-sm" onclick="row_design(\''+row.attr.id+'\')" >Form设计</button>'
+	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_form(\''+row.attr.id+'\')" >Form设计</button>'
+	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_grid(\''+row.attr.id+'\')" >Grid设计</button>'
 	          	+'</div>';
           	return operatorDiv;
          }
@@ -82,8 +83,11 @@ function row_delete(id){
 	});
 }
 
-function row_design(id){
+function row_design_form(id){
 	location.href = contextPath + "/base/designer/form?table_id=" +id ;
+}
+function row_design_grid(id){
+	location.href = contextPath + "/base/designer/grid?table_id=" +id ;
 }
 
 function row_edit_field(id){

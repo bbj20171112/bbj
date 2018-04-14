@@ -49,9 +49,9 @@
 		                  </div>
 		                </div>
 		                <div class="form-group">
-		                  <label for="field-item-col_num" class="col-sm-2 control-label">cols</label>
+		                  <label for="field-item-col_num" class="col-sm-2 control-label">url</label>
 		                  <div class="col-sm-10">
-		                    <input type="number" class="form-control" id="field-item-col_num" placeholder="cols">
+		                    <input type="number" class="form-control" id="field-item-url" placeholder="cols">
 		                  </div>
 		                </div>
 		              </div>
@@ -68,27 +68,28 @@
 				<div class="nav-tabs-custom">
 					<!-- Tabs within a box -->
 					<ul class="nav nav-tabs pull-right ui-sortable-handle">
-						<li class="pull-left header">Form页面</li>
+						<li class="pull-left header">Grid页面</li>
 						<li class="pull-left" onclick = "addComponent()"><button type="button" class="btn btn-info">添加组件</button></li>
 						<li>
-							<a href="#field-source" onclick="showSource()"	data-toggle="tab" aria-expanded="false">源代码</a>
+							<a href="#revenue-source" onclick="showSource()"	data-toggle="tab" aria-expanded="false">源代码</a>
 						</li>
 						<li class="active">
-							<a href="#revenue-form" data-toggle="tab" aria-expanded="true">内容</a>
+							<a href="#revenue-view" data-toggle="tab" aria-expanded="true">内容</a>
 						</li>
 					</ul>
 					<div class="tab-content no-padding">
 						<!-- Morris chart - Sales -->
-						<div class="chart tab-pane active" id="revenue-form" >
-							<div id="container-form" class="container" style="border: 1px;border-color: gray;">
-					
+						<div class="chart tab-pane active" id="revenue-view" >
+							<div id="container-view" class="container" style="border: 1px;border-color: gray;">
+								<table id="example" class="table table-bordered table-hover dataTable" width="100%">
+								</table>
 							</div>
 						</div>
-						<div class="chart tab-pane" id="field-source">
+						<div class="chart tab-pane" id="revenue-source">
 							<textarea id="container-source">
 					
 							</textarea>
-							<a href="#field-source" onclick="autoFormatRange()"	>格式化</a>
+							<a onclick="autoFormatRange()"	>格式化</a>
 							
 						</div>
 					</div>
@@ -286,7 +287,7 @@
 	<script th:src="@{/resources/framework/javascript-import.js}" src="../../resources/framework/javascript-import.js" ></script>
 	<script th:src="@{/resources/plugins/dragula/dragula.js}" src='../../resources/plugins/dragula/dragula.js'></script>
 	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../resources/plugins/ContextJS/js/context.js'></script>
-	<script th:src="@{/resources/framework/designer/js/form.js}" src='../../resources/framework/designer/js/form.js'></script>
+	<script th:src="@{/resources/framework/designer/js/grid.js}" src='../../resources/framework/designer/js/grid.js'></script>
 	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../resources/plugins/ContextJS/js/context.js'></script>
 	<script th:src="@{/resources/plugins/CodeMirror/lib/codemirror.js}" src='../../resources/plugins/CodeMirror/src/codemirror.js'></script>
 	<script th:src="@{/resources/plugins/CodeMirror/mode/javascript/javascript.js}" src='../../resources/plugins/CodeMirror/mode/javascript/javascript.js'></script>

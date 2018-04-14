@@ -1172,6 +1172,9 @@
 					checkBoxAllHtml += '   	<label></label>';
 					checkBoxAllHtml += '   </div>';
 					oInit.aoColumns.unshift({data: null , title: checkBoxAllHtml });
+					if(oInit.aoColumnDefs == null){
+						oInit.aoColumnDefs = [];
+					}
 					oInit.aoColumnDefs.unshift({
 						targets: 0,
 						render: function(data, type, row) {
