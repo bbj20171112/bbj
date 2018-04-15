@@ -1167,7 +1167,7 @@
 			{
 				// 增加默认支持全选、单选 start  bage 2018-01-28
 				if ( nThead.length == 0 ){ // 如果没有写thead
-					var checkBoxAllHtml = '<div name="item_check_all" class="checkbox checkbox-info">';
+					var checkBoxAllHtml = '<div name="item_check_all" class="checkbox checkbox-info" style="30px">';
 					checkBoxAllHtml += '		<input type="checkbox" class="styled" aria-label="Single checkbox One">';
 					checkBoxAllHtml += '   	<label></label>';
 					checkBoxAllHtml += '   </div>';
@@ -1178,7 +1178,7 @@
 					oInit.aoColumnDefs.unshift({
 						targets: 0,
 						render: function(data, type, row) {
-							var checkBoxHtml = '<div name="item_check" class="checkbox checkbox-info">';
+							var checkBoxHtml = '<div name="item_check" class="checkbox checkbox-info" style="30px">';
 							checkBoxHtml += '		<input type="checkbox" class="styled" aria-label="Single checkbox One">';
 							checkBoxHtml += '   	<label></label>';
 							checkBoxHtml += '   </div>';

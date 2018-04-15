@@ -224,6 +224,14 @@ public class MenuService
         menu = new MenuObject(attr);
         list.add(menu);
         
+        attr = new HashMap<String, String>();
+        attr.put("id", "20");
+        attr.put("upId", "1");
+        attr.put("text", "Layout设计");
+        attr.put("link", "base/designer/layout");
+        menu = new MenuObject(attr);
+        list.add(menu);
+        
         return list;
 
     }

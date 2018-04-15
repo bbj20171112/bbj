@@ -1,78 +1,5 @@
-var fieldItems = [];
-$(document).ready(function() {
-	
-	context.init({
-	    fadeSpeed: 100,
-	    filter: function ($obj){},
-	    above: 'auto',
-	    preventDoubleContext: true,
-	    compress: false
-	});
-	
-	
-	context.attach('.item', [
-		{header: '排列'},
-		{text: '浮动', subMenu: [
-			{text: '居左', target:'', action: function(e){
-				var itemChildren = $(".selected").children();
-				// 清空原浮动样式
-				itemChildren.removeClass("text-center");
-				itemChildren.removeClass("center-block ");
-				itemChildren.removeClass("pull-right");
-				// 设置居左
-				itemChildren.addClass("pull-left");
-			}},
-			{text: '居中', target:'', action: function(e){
-				$(".selected").children().each(function (){
-					var itemField = $(this);
-					var tagName = itemField.get(0).tagName;
-					if("IMG" == tagName.toUpperCase() || "INPUT" == tagName.toUpperCase()){
-						// 清空原浮动样式
-						itemField.removeClass("pull-right");
-						itemField.removeClass("pull-left");
-						// 设置居中
-						itemField.addClass("center-block");
-					}else {
-						// 清空原浮动样式
-						itemField.removeClass("pull-right");
-						itemField.removeClass("pull-left");
-						// 设置居中
-						itemField.addClass("text-center");
-					}						
-				});
-			}},
-			{text: '居右', target:'', action: function(e){
-				var itemChildren = $(".selected").children();
-				// 清空原浮动样式
-				itemChildren.removeClass("text-center");
-				itemChildren.removeClass("center-block ");
-				itemChildren.removeClass("pull-left");
-				// 设置居右
-				itemChildren.addClass("pull-right");
-			}}
-		]},
-		{divider: true},
-		{header: '操作'},
-		{text: '选择', subMenu: [
-			{text: '全选', target:'', action: function(e){
-				$(".item").addClass("selected");
-			}},
-			{text: '清空', target:'', action: function(e){
-				$(".item").removeClass("selected");
-			}},
-			{text: '反选', target:'', action: function(e){
-				$(".item").each(function (){
-					var itemField = $(this);
-					if(itemField.attr("class").indexOf("selected") >=0 ){
-						itemField.removeClass("selected");
-					} else {
-						itemField.addClass("selected");
-					}
-				});
-			}}
-		]}
-	]);
-	
+
+$(document).ready(function() {	
 	var fields = getDictionary($("#field-item-table_id").val());
 	initGrid(fields);
 } );
@@ -81,6 +8,7 @@ $(document).ready(function() {
 function initGrid(fields){
 	if(fields && fields.length > 0){
 		var dataColumns = [];
+		var columnDefs = [];
 		var liFields = $("#li-fields");
 		var liFieldsHtml = '<button type="button" onclick="showSelectItems()" class="btn btn-info">字段显示</button> ';
 		liFields.html(liFieldsHtml);
@@ -98,6 +26,25 @@ function initGrid(fields){
 							'</div>';
 			dataColumns.push(item);
 		}
+		columnDefs.push({// 列渲染
+			targets: -1,
+        	render: function(data, type, row) {
+        		var operatorDiv = '<div>'
+    	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit(\''+row.attr.id+'\')" >编辑</button>'
+    	          	+'<button class = "btn btn-link btn-sm" onclick="row_delete(\''+row.attr.id+'\')" >删除</button>'
+    	          	+'</div>';
+            	return operatorDiv;
+        	}
+        });
+		// 增加操作列
+		dataColumns.push({
+			data: null,
+			title : '操作'
+		}); 
+		liFieldsHtml += '<div name="item_check" class="checkbox checkbox-inline">'+
+							'<input type="checkbox" checked="checked" class="styled item-field" aria-label="Single checkbox One">'+
+							'<label data-column="-1">操作</label>'+
+						'</div>';
 		liFields.html(liFieldsHtml);
 		var tableId = $("#field-item-table_id").val();
 		var tableExp = $('#example').DataTable({
@@ -106,6 +53,7 @@ function initGrid(fields){
 	        },
 	        lengthChange: false	,    
 	        scrollCollapse: true,
+	        columnDefs : columnDefs,
 	        columns: dataColumns
 		});
 		$('.item-field').change(function (){
@@ -115,7 +63,7 @@ function initGrid(fields){
 	        // Toggle the visibility
 	        column.visible( ! column.visible() );
 		});
-		dragula(getElementById ('li-fields'));
+		//dragula(getElementById ('li-fields'));
 	}
 }
 

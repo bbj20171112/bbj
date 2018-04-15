@@ -43,7 +43,7 @@ public class GridController {
 		DictionaryField field = BBJEntityUtils.parseFrom(request, DictionaryField.class);
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.table_id) != null){
+		if(field.getAttr(DictionaryField.table_id) != null && !"".equals(field.getAttr(DictionaryField.table_id))){
 			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=",  field.getAttr(DictionaryField.table_id));
 			list.add(whereFilter );
 		}
@@ -64,6 +64,9 @@ public class GridController {
 			for (int j = 0; j < fields.size(); j++) {
 				field = fields.get(j);
 				e.put(field.getAttr(DictionaryField.field_name), tagPage + "" + i + "" + j);
+			}
+			if(!("" + e.get(field.getAttr(DictionaryField.field_name))).contains(searchValue)){
+				continue;
 			}
 			Map<String, Object> ee = new HashMap<String, Object>();
 			ee.put("attr", e);
