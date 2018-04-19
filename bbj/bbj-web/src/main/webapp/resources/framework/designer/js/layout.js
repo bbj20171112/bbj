@@ -1,77 +1,279 @@
-var currentRowCols = [];
-var fieldItems = [];
+
+var componentItems = []; // 组件数组[二位数组]
 $(document).ready(function() {
-	$("#field-item-row_num").val("3");
-	newPage();
+	dragula([getElementById('container-view')]);
+	context.init({
+	    fadeSpeed: 100,
+	    filter: function ($obj){},
+	    above: 'auto',
+	    preventDoubleContext: true,
+	    compress: false
+	});
+	
+	newRowLayout(); // 新建一个布局
+	initRowRightMenu();
 	
 } );
+
+function initRowRightMenu(){
+	context.attach('.row-component', [
+		{header: '操作'},
+		{text: '列', subMenu: [
+			{text: '增加', target:'', action: function(e){
+				var itemChildren = $(".selected").children();
+				// 清空原浮动样式
+				itemChildren.removeClass("text-center");
+				itemChildren.removeClass("center-block ");
+				itemChildren.removeClass("pull-right");
+				// 设置居左
+				itemChildren.addClass("pull-left");
+			}},
+			{text: '居中', target:'', action: function(e){
+				$(".selected").children().each(function (){
+					var itemField = $(this);
+					var tagName = itemField.get(0).tagName;
+					if("IMG" == tagName.toUpperCase() || "INPUT" == tagName.toUpperCase()){
+						// 清空原浮动样式
+						itemField.removeClass("pull-right");
+						itemField.removeClass("pull-left");
+						// 设置居中
+						itemField.addClass("center-block");
+					}else {
+						// 清空原浮动样式
+						itemField.removeClass("pull-right");
+						itemField.removeClass("pull-left");
+						// 设置居中
+						itemField.addClass("text-center");
+					}						
+				});
+			}},
+			{text: '居右', target:'', action: function(e){
+				var itemChildren = $(".selected").children();
+				// 清空原浮动样式
+				itemChildren.removeClass("text-center");
+				itemChildren.removeClass("center-block ");
+				itemChildren.removeClass("pull-left");
+				// 设置居右
+				itemChildren.addClass("pull-right");
+			}}
+		]},
+		{divider: true},
+		{header: '列操作'},
+		{text: '选择', subMenu: [
+			{text: '选择', target:'', action: function(e){
+				$(this).addClass("selected");
+			}},
+			{text: '清空', target:'', action: function(e){
+				$(".item").removeClass("selected");
+			}},
+			{text: '反选', target:'', action: function(e){
+				$(".item").each(function (){
+					var itemField = $(this);
+					if(itemField.attr("class").indexOf("selected") >=0 ){
+						itemField.removeClass("selected");
+					} else {
+						itemField.addClass("selected");
+					}
+				});
+			}}
+		]}
+	]);
+}
+/**
+ * 新建一个页面设计布局
+ * 
+ * @returns
+ */
+function newRowLayout(){
+	$("#container-view").html(""); // 清空
+
+	var rowNum = $("#field-item-row_num").val();
+	var containerHtml = "";
+	for (var row = 0; row < rowNum; row++) {
+		containerHtml  += '<div class = "row row-component" row-data="'+row+'" id="row-component-' + row +'"  ></div>\n';
+		componentItems[row] = []; // 组件数组[二位数组]
+	}
+	$("#container-view").html(containerHtml + '\n');
+	
+	var dragulaElements = [];
+	for (var row = 0; row < rowNum; row++) {
+		dragulaElements[row] = getElementById("row-component-" + row);
+	}
+	dragula(dragulaElements);
+	initWidgets(); // 初始化
+	// 增加事件监听事件
+	$(".row-component").unbind('click').bind('click',function(e){
+		e.stopPropagation();
+        e.preventDefault();
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("selected") >=0 ){
+			itemField.removeClass("selected");
+		} else {
+			itemField.addClass("selected");
+		}
+	});
+	$(".row-component").unbind('dblclick').bind('dblclick',function(e){
+		var isFocus = $(this).attr('class').indexOf('row-component-focusing') >= 0;
+		if(isFocus){
+			e.stopPropagation();
+	        e.preventDefault();
+			var row = $(this).attr('row-data');
+			$("#item-field-col_num").val(componentItems[row].length);
+			$("#item-field-row").val(row);
+			newColLayout();
+		}
+	});
+	$(".row-component").unbind('mouseover').bind('mouseover',function(e){
+		e.stopPropagation();
+        e.preventDefault();
+        var itemField = $(this);
+		if(itemField.attr("class").indexOf("row-component-focusing") <= 0 ){
+			itemField.addClass("row-component-focusing");
+		} 
+	});
+	$(".row-component").unbind('mouseout').bind('mouseout',function(e){
+		e.stopPropagation();
+        e.preventDefault();
+        var itemField = $(this);
+		if(itemField.attr("class").indexOf("row-component-focusing") >=0 ){
+			itemField.removeClass("row-component-focusing");
+		} 
+	});
+}
+
+function newColLayout(){
+	$("#modal-new-col").modal('show');
+}
+
+function newColLayoutSave(){
+	var row = $("#item-field-row").val();
+	$("#row-component-" + row).html("");
+
+	var colNum = $("#item-field-col_num").val();
+	var baseWidth = 12;
+	var colHtml = [];
+	for (var col = 0; col < colNum; col++) {
+		colHtml[col] = '<div' + 
+		' class = "col-sm-'+(baseWidth / colNum)+' col-component' + '" ' + 
+		' row-data="'+row+'"' + ' col-data="'+col+'"' + 
+		' id="col-component-' + row + '-' + col +'">\n';
+		componentItems[row][col] = "";
+	}
+	for (var i = 0; i < componentItems[row].length; i++) {
+			colHtml[i % colNum] += '<div'+
+								' class="col-sm-12 item"' +
+								' id="item-' + (i % colNum) + '-' + row + '-' + i +'">\n'
+								+componentItems[row][i]+ 
+								'</div>\n';
+	}
+	var containerHtml = "";
+	for (var i = 0; i < colNum; i++) {
+		colHtml[i] += '</div>\n'; // 结束标签
+		containerHtml += colHtml[i]; // 进行拼接容器HTML
+	}
+	$("#row-component-" + row).html('\n' + containerHtml + '\n');
+	
+	var colDiv = [];
+	for (var col = 0; col < colNum; col++) {
+		colDiv[col] = getElementById("col-component-" + row + '-' +col);
+	}
+	dragula(colDiv);
+	
+	initWidgets();
+	$(".col-component").unbind('click').bind('click',function(e){
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("selected") >=0 ){
+			itemField.removeClass("selected");
+		} else {
+			itemField.addClass("selected");
+		}
+		e.stopPropagation();
+        e.preventDefault();
+	});
+	$(".col-component").unbind('mouseover').bind('mouseover',function(e){
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("col-component-focusing") <= 0 ){
+			itemField.addClass("col-component-focusing");
+		} 
+		e.stopPropagation();
+        e.preventDefault();
+	});
+	$(".col-component").unbind('mouseout').bind('mouseout',function(e){
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("col-component-focusing") >=0 ){
+			itemField.removeClass("col-component-focusing");
+		} 
+		e.stopPropagation();
+        e.preventDefault();
+	});
+	$(".col-component").unbind('dblclick').bind('dblclick',function(e){
+		e.stopPropagation();
+        e.preventDefault();
+        var isFocus = $(this).attr('class').indexOf('col-component-focusing') >= 0;
+		if(isFocus){
+			var row = $(this).attr('row-data');
+			var col = $(this).attr('col-data');
+			$("#item-field-col").val(col);
+			$("#item-field-col_row").val(row);
+			newComponentLayout();
+		}
+	});
+	$("#modal-new-col").modal('hide');
+}
+
+
+function newComponentLayout(){
+	$("#modal-new-component").modal('show');
+}
+
+function initWidgets(){
+	Utils.initWidgets();
+}
 
 function getElementById (id) {
   return document.getElementById(id);
 }
 
-function addComponent(){
-	$("#modal-new-field").modal('show');
-}
 
-function newFieldSave() {
+function newCoSave() {
 	var itemData = {};
 	itemData.attr = {};
-	itemData.attr.id = $("#item-field-id").val();
-	itemData.attr.table_id = $("#item-field-table_id").val();
-	itemData.attr.field_name = $("#item-field-field_name").val();
-	itemData.attr.field_name_comment = $("#item-field-field_name_comment")
+	itemData.col_name = $("#item-field-col_name").val();
+	itemData.col_name_comment = $("#item-field-col_name_comment")
 			.val();
-	itemData.attr.field_type = $("#item-field-field_type").val();
-	if(!itemData.attr.field_type){
-		itemData.attr.field_type = 'varchar(64)';
+	itemData.col_type = $("#item-field-col_type").val();
+	if(!itemData.col_type){
+		itemData.col_type = 'form';
 	}
-	itemData.attr.field_type_comment = $(
-			"#item-field-field_type_comment").val();
-	itemData.attr.field_show_type = $("#item-field-field_show_type").val();
-	if(!itemData.attr.field_show_type){
-		itemData.attr.field_show_type = 'label';
-	}
-	itemData.attr.field_show_type_comment = $(
-			"#item-field-field_show_type_comment").val();
+	itemData.col_type_comment = $(
+			"#item-field-col_type_comment").val();
 	
+	$("#modal-new-col").modal('hide');
+	var rowNum = $("#item-field-col_num").val();
+	var row = $("#item-field-row").val();
+	var tagCol = componentItems[row].length % rowNum;
 	
-	itemData.attr.field_constraint = $("#item-field-field_constraint").val();
-	itemData.attr.field_constraint_comment = $(
-			"#item-field-field_constraint_comment").val();
-	itemData.attr.field_reference = $("#item-field-field_reference").val();
-	itemData.attr.field_reference_comment = $(
-			"#item-field-field_reference_comment").val();
-	itemData.attr.field_remark = $("#item-field-field_remark").val();
-
-	//Utils.getBBJEntityValue(jsonData);
-	$("#modal-new-field").modal('hide');
-	var rowNum = $("#field-item-col_num").val();
-	var row = $("#item-field-row_id").val();
-	var tagCol = fieldItems[row].length % rowNum;
-	
-	fieldItems[row][fieldItems[row].length] = getFieldItem(itemData);
 	var htmlValue = '<div'+
 	' class="col-sm-12 item"' +
-	' id="item-' + tagCol + '-' + (fieldItems[row].length - 1) +'">'
+	' id="item-' + tagCol + '-' + (componentItems[row].length - 1) +'">'
 	+getFieldItem(itemData)+
 	'</div>';
-	if(fieldItems[row].length - 1 - rowNum > 0){
-		$('#item-'+tagCol +'-'+(fieldItems[row].length - 1 - rowNum)).parent().append(htmlValue);
+	if(componentItems[row].length - 1 - rowNum > 0){
+		$('#item-'+tagCol +'-'+(componentItems[row].length - 1 - rowNum)).parent().append(htmlValue);
 		initWidgets();
 	} else {
-		$("#item-parent-" + row).html("");
+		$("#row-component-" + row).html("");
 
 		var baseWidth = 12;
 		var colHtml = [];
 		for (var i = 0; i < rowNum; i++) {
-			colHtml[i] = '<div' + ' class = "col-sm-'+(baseWidth / rowNum)+' item-parent' + '" ' + ' id="item-parent-' + i +'">\n';
+			colHtml[i] = '<div' + ' class = "col-sm-'+(baseWidth / rowNum)+' row-component' + '" ' + ' id="row-component-' + i +'">\n';
 		}
 		var name = "";
 		var clazz = "";
-		for (var i = 0; i < fieldItems[row].length; i++) {
+		for (var i = 0; i < componentItems[row].length; i++) {
 				colHtml[i % rowNum] += '    <div'+ ' class="col-sm-12 item"' + ' id="item-' + (i % rowNum) + '-' + i +'">\n'
-									    +fieldItems[row][i]+ '\n' + 
+									    +componentItems[row][i]+ '\n' + 
 									   '    </div>\n';
 		}
 		var containerHtml = "";
@@ -79,17 +281,45 @@ function newFieldSave() {
 			colHtml[i] += '</div>\n'; // 结束标签
 			containerHtml += colHtml[i]; // 进行拼接容器HTML
 		}
-		$("#item-parent-" + row).html(containerHtml);
-		
-		initWidgets();
-		var colDiv = [];
-		for (var i = 0; i < rowNum; i++) {
-			colDiv[i] = getElementById("item-parent-" + row + '-' + i);
-		}
-		dragula(colDiv);
+		$("#row-component-" + row).html(containerHtml);
+
 	}
 }
 
+function newComponentSave() {
+	var itemData = {};
+	itemData.attr = {};
+	itemData.col_name = $("#item-field-col_name").val();
+	itemData.col_name_comment = $("#item-field-col_name_comment")
+			.val();
+	itemData.col_type = $("#item-field-col_type").val();
+	if(!itemData.col_type){
+		itemData.col_type = 'form';
+	}
+	itemData.col_type_comment = $(
+			"#item-field-col_type_comment").val();
+	
+	$("#modal-new-component").modal('hide');
+	var rowNum = $("#item-field-col_num").val();
+	var col = $("#item-field-col").val();
+	var row = $("#item-field-col_row").val();
+	
+	var item = getComponent(itemData);
+	
+	$("#col-component-" + row + '-' + col).html("");
+}
+
+function getComponent(component){
+	var componentType = component.component_type;
+	if(componentType == 'form'){
+		return 	'    <form>'+component.component__name+'</form>\n';
+	}else if (componentType == 'grid'){
+		return 	'    <table title="'+component.component__name+'">\n'		
+			  	+'    </table>\n';
+	}else { // 当成form
+		return 	'    <label>'+component.component__name+'</label>\n';
+	}
+}
 function showSource(){
 	var containerSource = document.getElementById('container-source');
 	containerSource.value = $("#container-view").html();
@@ -106,8 +336,8 @@ function autoFormatRange(){
 	});
 	editor.autoFormatRange({line:0, ch:0}, {line:totalLines});
 }
-function getFieldItems(){
-	return fieldItems;
+function getComponentItems(){
+	return componentItems;
 }
 
 function getFieldItem(field){
@@ -148,89 +378,7 @@ function getFieldItem(field){
 	}
 }
 
-function drowRow(){
-	var row = $("#item-field-row_id").val();
-	$("#item-parent-" + row).html("");
 
-	var colNum = $("#field-item-col_num").val();
-	var baseWidth = 12;
-	var fieldItems = getFieldItems();
-	var colHtml = [];
-	for (var i = 0; i < colNum; i++) {
-		colHtml[i] = '<div' + 
-		' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + 
-		' id="item-parent-' + row + '-' + i +'">\n';
-	}
-	var name = "";
-	var clazz = "";
-	for (var i = 0; i < fieldItems[row].length; i++) {
-			colHtml[i % colNum] += '<div'+
-								' class="col-sm-12 item"' +
-								' id="item-' + (i % colNum) + '-' + row + '-' + i +'">\n'
-								+fieldItems[row][i]+ 
-								'</div>\n';
-	}
-	var containerHtml = "";
-	for (var i = 0; i < colNum; i++) {
-		colHtml[i] += '</div>\n'; // 结束标签
-		containerHtml += colHtml[i]; // 进行拼接容器HTML
-	}
-	$("#item-parent-" + row).html('\n' + containerHtml + '\n');
-	
-	initWidgets();
-	var colDiv = [];
-	for (var i = 0; i < colNum; i++) {
-		colDiv[i] = getElementById("item-parent-" + row + i);
-	}
-	dragula(colDiv);
-}
-/**
- * 新建一个页面设计布局
- * 
- * @returns
- */
-function newPage(){
-	$("#container-view").html("");
-
-	var rowNum = $("#field-item-row_num").val();
-	var rowHtml = [];
-	for (var i = 0; i < rowNum; i++) {
-		rowHtml[i] = '<div class = "row item-row" id="item-parent-' + i +'">row'+i+'\n</div>\n';
-		currentRowCols[i] = 3;
-		fieldItems[i] = [];
-	}
-	
-	var containerHtml = "";
-	for (var i = 0; i < rowNum; i++) {
-		containerHtml += rowHtml[i]; // 进行拼接容器HTML
-	}
-	$("#container-view").html('\n' + containerHtml + '\n');
-	
-	initWidgets();
-	var colDiv = [];
-	for (var i = 0; i < rowNum; i++) {
-		colDiv[i] = getElementById("item-parent-" + i);
-	}
-	dragula(colDiv);
-}
-
-function initWidgets(){
-	Utils.initWidgets();
-	$(".item-row").unbind('click').bind('click',function(){
-		var itemField = $(this);
-		if(itemField.attr("class").indexOf("selected") >=0 ){
-			itemField.removeClass("selected");
-		} else {
-			itemField.addClass("selected");
-		}
-	});
-	$(".item-row").unbind('dblclick').bind('dblclick',function(){
-		var id = $(this).attr('id').split('-')[2];
-		$("#field-item-col_num").val(currentRowCols[id]);
-		$("#item-field-row_id").val(id);
-		addComponent();
-	});
-}
 
 
 
