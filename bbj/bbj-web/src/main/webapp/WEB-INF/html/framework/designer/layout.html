@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,47 +7,34 @@
 <title>页面设计</title>
 
 <!-- 引入全局css样式 -->
-<script th:src="@{/resources/framework/css-import.js}"
-	src="../../resources/framework/css-import.js"></script>
-<link rel="stylesheet"
-	th:href="@{/resources/plugins/dragula/dragula.css}"
-	href="../../resources/plugins/dragula/dragula.css">
-<link rel="stylesheet"
-	th:href="@{/resources/plugins/ContextJS/css/context.standalone.css}"
-	href="../../resources/plugins/ContextJS/css/context.standalone.css">
-<link rel="stylesheet"
-	th:href="@{/resources/plugins/CodeMirror/lib/codemirror.css}"
-	href="../../resources/plugins/CodeMirror/lib/codemirror.css">
+<script th:src="@{/resources/framework/css-import.js}" src="../../../../resources/framework/css-import.js"></script>
+<link rel="stylesheet" th:href="@{/resources/plugins/dragula/dragula.css}"
+	href="../../../../resources/plugins/dragula/dragula.css">
+<link rel="stylesheet" th:href="@{/resources/plugins/ContextJS/css/context.standalone.css}"
+	href="../../../../resources/plugins/ContextJS/css/context.standalone.css">
 
 <style type="text/css">
-.row-component {
-	min-height: 50px;
-	padding: 10px;
-	border: 1px solid #DDDDDD;
-}
-
-.col-component {
-	min-height: 50px;
-	padding: 5px;
-	border: 1px solid #DDDDDD;
-}
-
-.row-component-focusing {
-	background-color: #f4f4f4;
-}
-
-.col-component-focusing {
-	background-color: #f4f4f4;
-}
-
-.selected {
-	background-color: #f4f4f4;
-	/*  background-color: #e6e6e6; */
-}
+	.item-parent .item {
+		min-height: 48px;
+		cursor: move;
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+		cursor: move;
+	}
+	.row {
+		min-height: 48px;
+	}
+	.selected{
+		background-color: #f4f4f4;
+	}
+	.item-row-focusing {
+		
+	}
 </style>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper">		
 		<section class="content">
 			<div class="box box-info">
 				<div class="box-header with-border">
@@ -56,23 +42,12 @@
 				</div>
 				<!-- /.box-header -->
 				<!-- form start -->
-				<form class="form-horizontal">
-					<div class="box-body">
-						<div class="form-group">
-							<label for="item-field-row_num" class="col-sm-2 control-label">行</label>
-							<div class="col-sm-10">
-								<input type="number" class="form-control" value="1"
-									id="field-item-row_num" placeholder="行">
-							</div>
-						</div>
-					</div>
-					<!-- /.box-body -->
-					<div class="box-footer">
-						<button type="button" class="btn btn-default">返回</button>
-						<button type="button" onclick="newRowLayout()"
-							class="btn btn-info pull-right">绘制</button>
-					</div>
-					<!-- /.box-footer -->
+				<form class="form-horizontal">		              
+		              <!-- /.box-body -->
+		              <div class="box-footer">
+		                <button type="button" class="btn btn-info" onclick = "addRow()">添加行</button>
+		              </div>
+		              <!-- /.box-footer -->
 					<!-- /.box-body -->
 				</form>
 			</div>
@@ -80,31 +55,19 @@
 				<div class="nav-tabs-custom">
 					<!-- Tabs within a box -->
 					<ul class="nav nav-tabs pull-right ui-sortable-handle">
-						<li class="pull-left header">Layout效果</li>
-						<li><a href="#revenue-source" onclick="showSource()"
-							data-toggle="tab" aria-expanded="false">源代码</a></li>
-						<li class="active"><a href="#revenue-view" data-toggle="tab"
-							aria-expanded="true">内容</a></li>
-					</ul>
-					<div class="tab-content no-padding">
-						<!-- Morris chart - Sales -->
-						<div class="chart tab-pane active" id="revenue-view">
-							<div id="container-view"></div>
-						</div>
-						<div class="chart tab-pane" id="revenue-source">
-							<textarea id="container-source">
-					
-							</textarea>
-						</div>
-					</div>
-				</div>
-
+						<li class="pull-left header">Layout页面</li>						
+					</ul>	
+					<div id = "div-row-list">
+		
+					</div>				
+				</div>	
 			</div>
 		</section>
 		<!-- /.content -->
 	</div>
-
-	<div class="modal fade" id="modal-new-col" style="display: none;">
+	</div>
+	
+	<div class="modal fade" id="modal-edit-form" style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -112,65 +75,68 @@
 						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
-					<h4 class="modal-title">New Col</h4>
+					<h4 class="modal-title">Form设计</h4>
 				</div>
 				<div class="modal-body">
-					<div class="nav-tabs-custom">
-						<!-- Tabs within a box -->
-						<div class="tab-content no-padding">
-							<div class="chart tab-pane active" id="field-columns">
-								<div class="form-horizontal">
-									<div class="box-body">
-										<div class="row form-group" style="display: none">
-											<div class="col-sm-2">
-												<label>row</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-row" />
-											</div>
-										</div>
-										<div class="row form-group">
-											<label for="item-field-col_num"
-												class="col-sm-2 control-label">列</label>
-											<div class="col-sm-10">
-												<input type="number" class="form-control"
-													id="item-field-col_num" placeholder="列">
-											</div>
-										</div>
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>列名称</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-col_name"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>列说明</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-col_name_comment"></input>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
+					<iframe src="form.html" th:src="@{/base/designer/form}" id="iframe-content-wrapper-main" frameBorder="0" class="content-wrapper" style="margin-left: 0px" width="100%" scrolling="yes"></iframe>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default pull-left"
 						data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary"
-						onclick="newColLayoutSave()">确定</button>
+					<button id="button-addrowsure" type="button" class="btn btn-primary" data-column=false
+						onclick="editFormSure()">确定</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
 		<!-- /.modal-dialog -->
-
 	</div>
+	
+	<div class="modal fade" id="modal-add-row" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title">添加行</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+		              <div class="box-body">		                
+		                <div class="form-group">
+		                  <label for="select-col_num" class="col-sm-2 control-label">列</label>
+		                  <div class="col-sm-10">
+		                    <select class="form-control select2"
+								id="select-col_num" style="width: 100%">
+								<option value="1" selected="selected">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="6">6</option>
+								<option value="12">12</option>													
+							</select>
+		                  </div>
+		                </div>
+		              </div>
+		              <!-- /.box-body -->		             
+					<!-- /.box-body -->
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left"
+						data-dismiss="modal">取消</button>
+					<button id="button-addrowsure" type="button" class="btn btn-primary" data-column=false
+						onclick="addRowSure()">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
 	<div class="modal fade" id="modal-new-component" style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -179,53 +145,48 @@
 						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
-					<h4 class="modal-title">New Component</h4>
+					<h4 class="modal-title">添加组件</h4>
 				</div>
 				<div class="modal-body">
-					<div class="nav-tabs-custom">
-						<!-- Tabs within a box -->
+					<div class="nav-tabs-custom">						
 						<div class="tab-content no-padding">
-							<div class="chart tab-pane active" id="field-columns">
+							<div class="chart tab-pane active" id="component-columns">
 								<div class="form-horizontal">
-									<div class="box-body">
-										<div class="row form-group" style="display: none">
+									<div class="box-body">										
+										<div class="row form-group">
 											<div class="col-sm-2">
-												<label>col</label>
+												<label>组件名称</label>
 											</div>
 											<div class="col-sm-4">
-												<input class="form-control" id="item-field-col" />
+												<input class="form-control"
+													id="item-component-component_name"></input>
 											</div>
 											<div class="col-sm-2">
-												<label>row</label>
+												<label>组件标题</label>
 											</div>
 											<div class="col-sm-4">
-												<input class="form-control" id="item-field-col_row" />
+												<input class="form-control"
+													id="item-component-component_title"></input>
 											</div>
 										</div>
 										<div class="row form-group">
 											<div class="col-sm-2">
-												<label>列名称</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-col_name"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>列说明</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control" id="item-field-col_name_comment"></input>
-											</div>
-										</div>
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>列类型</label>
+												<label>展示类型</label>
 											</div>
 											<div class="col-sm-4">
 												<select class="form-control select2"
-													id="item-field-col_type" style="width: 100%">
-													<option value="form" selected="selected">Form</option>
-													<option value="grid">Grid</option>
-													<option value="card">Card</option>
+													id="item-component-component_show_type" style="width: 100%">
+													<option value="label" selected="selected">标签[label]</option>
+													<option value="input">输入框[input]</option>
+													<option value="button">按钮[button]</option>
+													<option value="img">图片[img]</option>
+													<option value="checkbox">选择框[checkbox]</option>
+													<option value="date">日期[date]</option>
+													<option value="datetime">日期时间[datetime]</option>
+													<option value="textarea">大文本框[textarea]</option>
+													<option value="select">下拉框[select]</option>
+													<option value="form">表单[Form]</option>
+													<option value="grid">表格[Grid]</option>
 												</select>
 											</div>
 										</div>
@@ -234,47 +195,30 @@
 							</div>
 						</div>
 					</div>
+
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default pull-left"
 						data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-primary"
-						onclick="newComponentSave()">确定</button>
+						onclick="addComponentSure()">保存</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
-
-
-
+	
+	
+	
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
-	<script th:src="@{/resources/framework/javascript-import.js}"
-		src="../../resources/framework/javascript-import.js"></script>
-	<script th:src="@{/resources/plugins/dragula/dragula.js}"
-		src='../../resources/plugins/dragula/dragula.js'></script>
-	<script th:src="@{/resources/plugins/ContextJS/js/context.js}"
-		src='../../resources/plugins/ContextJS/js/context.js'></script>
-	<script th:src="@{/resources/framework/designer/js/layout.js}"
-		src='../../resources/framework/designer/js/layout.js'></script>
-	<script th:src="@{/resources/plugins/ContextJS/js/context.js}"
-		src='../../resources/plugins/ContextJS/js/context.js'></script>
-	<script th:src="@{/resources/plugins/CodeMirror/lib/codemirror.js}"
-		src='../../resources/plugins/CodeMirror/src/codemirror.js'></script>
-	<script
-		th:src="@{/resources/plugins/CodeMirror/mode/javascript/javascript.js}"
-		src='../../resources/plugins/CodeMirror/mode/javascript/javascript.js'></script>
-	<script th:src="@{/resources/plugins/CodeMirror/mode/xml/xml.js}"
-		src='../../resources/plugins/CodeMirror/mode/xml/xml.js'></script>
-	<script th:src="@{/resources/plugins/CodeMirror/mode/css/css.js}"
-		src='../../resources/plugins/CodeMirror/mode/css/css.js'></script>
-	<script
-		th:src="@{/resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js}"
-		src='../../resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js'></script>
-	<script
-		th:src="@{/resources/plugins/CodeMirror/lib/util/formatting.js}"
-		src='../../resources/plugins/CodeMirror/lib/util/formatting.js'></script>
+	<script th:src="@{/resources/framework/javascript-import.js}" src="../../../../resources/framework/javascript-import.js" ></script>
+	<script th:src="@{/resources/plugins/dragula/dragula.js}" src='../../../../resources/plugins/dragula/dragula.js'></script>
+	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../../../resources/plugins/ContextJS/js/context.js'></script>
+	<script th:src="@{/resources/framework/designer/js/layout.js}" src='../../../../resources/framework/designer/js/layout.js'></script>
+	
+
 </body>
 </html>

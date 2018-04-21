@@ -4,7 +4,11 @@
  * MIT License
  */
 
+// 参考 ： https://segmentfault.com/q/1010000004467811
+// 增加获取当前单击的元素
 var context = context || (function () {
+    
+    var clicker = {};
     
 	var options = {
 		fadeSpeed: 100,
@@ -125,17 +129,23 @@ var context = context || (function () {
 					}).fadeIn(options.fadeSpeed);
 				}
 			}
+			
+			clicker = $(this);
+			
 		});
 	}
 	
 	function destroyContext(selector) {
 		$(document).off('contextmenu', selector).off('click', '.context-event');
 	}
-	
+	function getClicker(){ // 自定义方法给 调用者使用
+	   return clicker;
+	}
 	return {
 		init: initialize,
 		settings: updateOptions,
 		attach: addContext,
-		destroy: destroyContext
+		destroy: destroyContext,
+		getClicker: getClicker // 新添加的方法
 	};
 })();

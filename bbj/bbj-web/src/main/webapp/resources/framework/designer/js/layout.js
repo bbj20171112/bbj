@@ -1,25 +1,251 @@
+var fieldItems = [];
 
-var componentItems = []; // 组件数组[二位数组]
-$(document).ready(function() {
-	dragula([getElementById('container-view')]);
+var items = [];
+var clicker = {};
+
+$(document).ready(function() {	
+	
+	// addRow();
+	
+	initContext();
+	
+} );
+
+
+/**
+ * 新建一个页面设计布局
+ * 
+ * @returns
+ */
+
+function addRow(){
+	$("#modal-add-row").modal('show');
+}
+
+function addRowSure(){
+	var colNum = $("#select-col_num").val();
+	if(colNum){} else {
+		colNum = 1;
+	}
+	var baseNum = 12;
+	var colHtml = []; // 拼凑列的HTML
+	
+	var currentRow = items.length;
+	var rowHtml = '<div class="row item-row" data-column="'+currentRow+'" >';
+	for (var i = 0; i < colNum; i++) {
+		colHtml[i] = '<div' + 
+		' class = "col-sm-'+(baseNum / colNum)+' item-col' + '" ' + 
+		' id="item-col-' + currentRow + '-' + i +'">\n';
+		
+	}	
+	items[currentRow] = {};
+	items[currentRow].data = [];
+	items[currentRow].colNum = colNum;
+		
+	for (var i = 0; i < colNum; i++) {
+		colHtml[i] += '</div>\n'; // 结束标签
+		rowHtml += colHtml[i]; // 进行拼接容器HTML
+	}
+	rowHtml += "</div>";
+	
+	if(items.length == 1){ // 首次加入
+		$("#div-row-list").html("");
+	}
+	$("#div-row-list").html($("#div-row-list").html() + '\n' + rowHtml + '\n');
+	
+	$("#modal-add-row").modal('hide'); // 隐藏对话框
+	// 可拖动
+	var dragulaItems = [];
+	for(var row = 0; row < items.length; row++){
+		colNum = items[row].colNum;
+		for (var col = 0; col < colNum; col++) {
+			dragulaItems[dragulaItems.length] = getElementById("item-col-" + row + '-' + col);
+		}
+	}
+	dragula(dragulaItems);
+	initWidgets();
+}
+
+
+function addComponent(){
+	$("#modal-new-component").modal('show');
+}
+
+
+function addComponentSure() {
+	
+	var currentRow = new Number(clicker.attr('data-column'));
+	
+	var component = {};
+	component.attr = {};
+	component.attr.component_name = $("#item-component-component_name").val();
+	component.attr.component_title = $("#item-component-component_title")
+			.val();
+	component.attr.component_show_type = $("#item-component-component_show_type").val();
+	if(!component.attr.component_show_type){
+		component.attr.component_show_type = 'label';
+	}
+	
+	var colNum = items[currentRow].colNum; // 列数
+	var length = items[currentRow].data.length;
+	var tagCol = length % colNum;
+	
+	items[currentRow].data[length] = getComponentItem(component);
+	
+	var htmlValue = '<div class="col-sm-12 item"  id="item-' + currentRow + '-' + length +'">'
+						+items[currentRow].data[length]+
+					'</div>';
+	if(length - colNum >= 0){ // 超出原数目，直接在后面进行添加
+		$('#item-' + currentRow + '-'+tagCol).parent().append(htmlValue);
+	} else { // 还能挂组件		
+		$("#item-col-" + currentRow + '-' + length).html(htmlValue);		
+	}
+	$("#modal-new-component").modal('hide');
+	initWidgets();
+}
+
+
+function getComponentItem(component){
+	component.attr.component_name = $("#item-component-component_name").val();
+	component.attr.component_title = $("#item-component-component_title")
+			.val();
+	component.attr.component_show_type = $("#item-component-component_show_type").val();
+	if(!component.attr.component_show_type){
+		component.attr.component_show_type = 'label';
+	}
+	
+	var componentShowType = component.attr.component_show_type;
+	if(componentShowType == 'form'){
+		return 	'    <form>'+component.attr.component_name+'</form>\n';
+	}else if (componentShowType == 'grid'){
+		return 	'    <table title="'+component.attr.component_name+'">\n'		
+			  	+'    </table>\n';
+	}else if(componentShowType == 'input'){
+		return 	'    <input value='+component.attr.component_name+'></input>\n';
+	}else if (componentShowType == 'checkbox'){
+		return 	'    <div name="item_check" class="checkbox checkbox-info">\n'		
+			  	+'        <input type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n'
+			  	+'        <label>'+component.attr.component_name+'</label>\n'
+			  	+'    </div>\n';
+	}else if (componentShowType == 'img'){
+		return 	'    <img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+component.attr.component_title+'" class="img-circle"></img>\n';
+	}else if (componentShowType == 'button'){
+		return 	'    <button class="btn btn-info">'+component.attr.component_name+'</button>\n';
+	}else if(componentShowType == 'date'){
+		return 	'    <div class="input-group date">\n'
+        	  	+'        <div class="input-group-addon">\n'
+        	  	+'            <i class="fa fa-calendar"></i>\n'
+        	  	+'        </div>\n'
+        	  	+'        <input type="text" class="datepicker form-control pull-right"></input>\n'
+        	  	+'    </div>\n';
+	}else if(componentShowType == 'datetime'){
+		 return '    <div class="input-group">\n'
+	     	   	+'        <div class="input-group-addon">\n'
+	     	   	+'            <i class="fa fa-clock-o"></i>\n'
+	     	   	+'        </div>\n'
+	     	   	+'        <input type="text" class="form-control pull-right datetimepicker"></input>\n'
+	     	   	+'    </div>\n';
+	}else if(componentShowType == 'textarea'){
+		return 	'    <textarea class="form-control" rows="3" placeholder="'+component.attr.component_name+'"></textarea>\n';
+	}else if(componentShowType == 'select'){
+		return 	'    <select class="form-control select2" style="width: 100%">\n'
+			  	+'        <option value="0">'+component.attr.component_name+'</option>\n'
+			  	+'    </select>\n';
+	}else { // 当成label
+		return 	'    <label>'+component.attr.component_name+'</label>\n';
+	}
+}
+
+function initWidgets(){
+	Utils.initWidgets();
+	$(".item").unbind('click').bind('click',function(){
+		var itemField = $(this);
+		if(itemField.attr("class").indexOf("selected") >=0 ){
+			itemField.removeClass("selected");
+		} else {
+			itemField.addClass("selected");
+		}
+	});
+	var itemRow = $(".item-row");
+	itemRow.unbind('dblclick').bind('dblclick',function(e){
+		e.stopPropagation();
+        e.preventDefault();
+        clicker = $(this);
+		addComponent();
+	});	
+}
+
+
+function getElementById (id) {
+  return document.getElementById(id);
+}
+
+function editFormSure(){
+	$("#modal-edit-form").modal('hide');
+}
+function getDictionaryFields(tableId) {
+	var returnData = {};
+	Utils.ajax({
+		url : contextPath + "/base/dictionary/field/all?table_id=" + tableId,
+		type : 'GET',
+		async : false, // 同步
+		success : function(data) {
+			if(true){
+				returnData = data.data;
+			}
+		}
+	});
+	return returnData;
+}
+
+
+function getFieldItems(){
+	return fieldItems;
+}
+function initFieldItems(){
+	var fields = getDictionaryFields($("#field-item-table_id").val());
+	fieldItems = [];
+	if(fields){
+		for (var i = 0; i < fields.length; i++) {
+			fields[i].attr.field_show_default = "FieldValue" + i;
+			var item = getFieldItem(fields[i]);
+			fieldItems[fieldItems.length] = item;
+		}
+	}
+	//return fieldItems;
+}
+
+
+function showSource(){
+	var containerSource = document.getElementById('container-source');
+	containerSource.value = $("#container-form").html();
+	var editor = CodeMirror.fromTextArea(containerSource, {
+	    mode: "xml",
+	    tabMode: "indent",
+	    lineWrapping: true,
+	    lineNumbers: true
+	});
+}
+function autoFormatRange(){
+	var containerSource = document.getElementById('container-source');
+	var editor = CodeMirror.fromTextArea(containerSource, {
+	});
+	editor.autoFormatRange({line:0, ch:0}, {line:totalLines});
+}
+
+
+function initContext(){
 	context.init({
 	    fadeSpeed: 100,
 	    filter: function ($obj){},
 	    above: 'auto',
 	    preventDoubleContext: true,
 	    compress: false
-	});
-	
-	newRowLayout(); // 新建一个布局
-	initRowRightMenu();
-	
-} );
-
-function initRowRightMenu(){
-	context.attach('.row-component', [
-		{header: '操作'},
-		{text: '列', subMenu: [
-			{text: '增加', target:'', action: function(e){
+	});		
+	context.attach('.item', [
+		{header: '排列'},
+		{text: '浮动', subMenu: [
+			{text: '居左', target:'', action: function(e){
 				var itemChildren = $(".selected").children();
 				// 清空原浮动样式
 				itemChildren.removeClass("text-center");
@@ -58,10 +284,10 @@ function initRowRightMenu(){
 			}}
 		]},
 		{divider: true},
-		{header: '列操作'},
+		{header: '操作'},
 		{text: '选择', subMenu: [
-			{text: '选择', target:'', action: function(e){
-				$(this).addClass("selected");
+			{text: '全选', target:'', action: function(e){
+				$(".item").addClass("selected");
 			}},
 			{text: '清空', target:'', action: function(e){
 				$(".item").removeClass("selected");
@@ -76,313 +302,27 @@ function initRowRightMenu(){
 					}
 				});
 			}}
+		]},
+//		{text: '组件', subMenu: [
+//			{text: '添加', target:'', action: function(e){
+//				clicker = context.getClicker().parent();
+//				addComponent();
+//			}}
+//		]}
+		
+	]);
+	
+	context.attach('.item > form', [		
+		{header: '表单操作'},		
+		{text: '子组件', subMenu: [
+			{text: '添加', target:'', action: function(e){
+				clicker = context.getClicker();
+				$("#modal-edit-form").modal('show');
+			}}
 		]}
 	]);
+
 }
-/**
- * 新建一个页面设计布局
- * 
- * @returns
- */
-function newRowLayout(){
-	$("#container-view").html(""); // 清空
-
-	var rowNum = $("#field-item-row_num").val();
-	var containerHtml = "";
-	for (var row = 0; row < rowNum; row++) {
-		containerHtml  += '<div class = "row row-component" row-data="'+row+'" id="row-component-' + row +'"  ></div>\n';
-		componentItems[row] = []; // 组件数组[二位数组]
-	}
-	$("#container-view").html(containerHtml + '\n');
-	
-	var dragulaElements = [];
-	for (var row = 0; row < rowNum; row++) {
-		dragulaElements[row] = getElementById("row-component-" + row);
-	}
-	dragula(dragulaElements);
-	initWidgets(); // 初始化
-	// 增加事件监听事件
-	$(".row-component").unbind('click').bind('click',function(e){
-		e.stopPropagation();
-        e.preventDefault();
-		var itemField = $(this);
-		if(itemField.attr("class").indexOf("selected") >=0 ){
-			itemField.removeClass("selected");
-		} else {
-			itemField.addClass("selected");
-		}
-	});
-	$(".row-component").unbind('dblclick').bind('dblclick',function(e){
-		var isFocus = $(this).attr('class').indexOf('row-component-focusing') >= 0;
-		if(isFocus){
-			e.stopPropagation();
-	        e.preventDefault();
-			var row = $(this).attr('row-data');
-			$("#item-field-col_num").val(componentItems[row].length);
-			$("#item-field-row").val(row);
-			newColLayout();
-		}
-	});
-	$(".row-component").unbind('mouseover').bind('mouseover',function(e){
-		e.stopPropagation();
-        e.preventDefault();
-        var itemField = $(this);
-		if(itemField.attr("class").indexOf("row-component-focusing") <= 0 ){
-			itemField.addClass("row-component-focusing");
-		} 
-	});
-	$(".row-component").unbind('mouseout').bind('mouseout',function(e){
-		e.stopPropagation();
-        e.preventDefault();
-        var itemField = $(this);
-		if(itemField.attr("class").indexOf("row-component-focusing") >=0 ){
-			itemField.removeClass("row-component-focusing");
-		} 
-	});
-}
-
-function newColLayout(){
-	$("#modal-new-col").modal('show');
-}
-
-function newColLayoutSave(){
-	var row = $("#item-field-row").val();
-	$("#row-component-" + row).html("");
-
-	var colNum = $("#item-field-col_num").val();
-	var baseWidth = 12;
-	var colHtml = [];
-	for (var col = 0; col < colNum; col++) {
-		colHtml[col] = '<div' + 
-		' class = "col-sm-'+(baseWidth / colNum)+' col-component' + '" ' + 
-		' row-data="'+row+'"' + ' col-data="'+col+'"' + 
-		' id="col-component-' + row + '-' + col +'">\n';
-		componentItems[row][col] = "";
-	}
-	for (var i = 0; i < componentItems[row].length; i++) {
-			colHtml[i % colNum] += '<div'+
-								' class="col-sm-12 item"' +
-								' id="item-' + (i % colNum) + '-' + row + '-' + i +'">\n'
-								+componentItems[row][i]+ 
-								'</div>\n';
-	}
-	var containerHtml = "";
-	for (var i = 0; i < colNum; i++) {
-		colHtml[i] += '</div>\n'; // 结束标签
-		containerHtml += colHtml[i]; // 进行拼接容器HTML
-	}
-	$("#row-component-" + row).html('\n' + containerHtml + '\n');
-	
-	var colDiv = [];
-	for (var col = 0; col < colNum; col++) {
-		colDiv[col] = getElementById("col-component-" + row + '-' +col);
-	}
-	dragula(colDiv);
-	
-	initWidgets();
-	$(".col-component").unbind('click').bind('click',function(e){
-		var itemField = $(this);
-		if(itemField.attr("class").indexOf("selected") >=0 ){
-			itemField.removeClass("selected");
-		} else {
-			itemField.addClass("selected");
-		}
-		e.stopPropagation();
-        e.preventDefault();
-	});
-	$(".col-component").unbind('mouseover').bind('mouseover',function(e){
-		var itemField = $(this);
-		if(itemField.attr("class").indexOf("col-component-focusing") <= 0 ){
-			itemField.addClass("col-component-focusing");
-		} 
-		e.stopPropagation();
-        e.preventDefault();
-	});
-	$(".col-component").unbind('mouseout').bind('mouseout',function(e){
-		var itemField = $(this);
-		if(itemField.attr("class").indexOf("col-component-focusing") >=0 ){
-			itemField.removeClass("col-component-focusing");
-		} 
-		e.stopPropagation();
-        e.preventDefault();
-	});
-	$(".col-component").unbind('dblclick').bind('dblclick',function(e){
-		e.stopPropagation();
-        e.preventDefault();
-        var isFocus = $(this).attr('class').indexOf('col-component-focusing') >= 0;
-		if(isFocus){
-			var row = $(this).attr('row-data');
-			var col = $(this).attr('col-data');
-			$("#item-field-col").val(col);
-			$("#item-field-col_row").val(row);
-			newComponentLayout();
-		}
-	});
-	$("#modal-new-col").modal('hide');
-}
-
-
-function newComponentLayout(){
-	$("#modal-new-component").modal('show');
-}
-
-function initWidgets(){
-	Utils.initWidgets();
-}
-
-function getElementById (id) {
-  return document.getElementById(id);
-}
-
-
-function newCoSave() {
-	var itemData = {};
-	itemData.attr = {};
-	itemData.col_name = $("#item-field-col_name").val();
-	itemData.col_name_comment = $("#item-field-col_name_comment")
-			.val();
-	itemData.col_type = $("#item-field-col_type").val();
-	if(!itemData.col_type){
-		itemData.col_type = 'form';
-	}
-	itemData.col_type_comment = $(
-			"#item-field-col_type_comment").val();
-	
-	$("#modal-new-col").modal('hide');
-	var rowNum = $("#item-field-col_num").val();
-	var row = $("#item-field-row").val();
-	var tagCol = componentItems[row].length % rowNum;
-	
-	var htmlValue = '<div'+
-	' class="col-sm-12 item"' +
-	' id="item-' + tagCol + '-' + (componentItems[row].length - 1) +'">'
-	+getFieldItem(itemData)+
-	'</div>';
-	if(componentItems[row].length - 1 - rowNum > 0){
-		$('#item-'+tagCol +'-'+(componentItems[row].length - 1 - rowNum)).parent().append(htmlValue);
-		initWidgets();
-	} else {
-		$("#row-component-" + row).html("");
-
-		var baseWidth = 12;
-		var colHtml = [];
-		for (var i = 0; i < rowNum; i++) {
-			colHtml[i] = '<div' + ' class = "col-sm-'+(baseWidth / rowNum)+' row-component' + '" ' + ' id="row-component-' + i +'">\n';
-		}
-		var name = "";
-		var clazz = "";
-		for (var i = 0; i < componentItems[row].length; i++) {
-				colHtml[i % rowNum] += '    <div'+ ' class="col-sm-12 item"' + ' id="item-' + (i % rowNum) + '-' + i +'">\n'
-									    +componentItems[row][i]+ '\n' + 
-									   '    </div>\n';
-		}
-		var containerHtml = "";
-		for (var i = 0; i < rowNum; i++) {
-			colHtml[i] += '</div>\n'; // 结束标签
-			containerHtml += colHtml[i]; // 进行拼接容器HTML
-		}
-		$("#row-component-" + row).html(containerHtml);
-
-	}
-}
-
-function newComponentSave() {
-	var itemData = {};
-	itemData.attr = {};
-	itemData.col_name = $("#item-field-col_name").val();
-	itemData.col_name_comment = $("#item-field-col_name_comment")
-			.val();
-	itemData.col_type = $("#item-field-col_type").val();
-	if(!itemData.col_type){
-		itemData.col_type = 'form';
-	}
-	itemData.col_type_comment = $(
-			"#item-field-col_type_comment").val();
-	
-	$("#modal-new-component").modal('hide');
-	var rowNum = $("#item-field-col_num").val();
-	var col = $("#item-field-col").val();
-	var row = $("#item-field-col_row").val();
-	
-	var item = getComponent(itemData);
-	
-	$("#col-component-" + row + '-' + col).html("");
-}
-
-function getComponent(component){
-	var componentType = component.component_type;
-	if(componentType == 'form'){
-		return 	'    <form>'+component.component__name+'</form>\n';
-	}else if (componentType == 'grid'){
-		return 	'    <table title="'+component.component__name+'">\n'		
-			  	+'    </table>\n';
-	}else { // 当成form
-		return 	'    <label>'+component.component__name+'</label>\n';
-	}
-}
-function showSource(){
-	var containerSource = document.getElementById('container-source');
-	containerSource.value = $("#container-view").html();
-	var editor = CodeMirror.fromTextArea(containerSource, {
-	    mode: "xml",
-	    tabMode: "indent",
-	    lineWrapping: true,
-	    lineNumbers: true
-	});
-}
-function autoFormatRange(){
-	var containerSource = document.getElementById('container-source');
-	var editor = CodeMirror.fromTextArea(containerSource, {
-	});
-	editor.autoFormatRange({line:0, ch:0}, {line:totalLines});
-}
-function getComponentItems(){
-	return componentItems;
-}
-
-function getFieldItem(field){
-	var fieldKeyType = field.attr.field_show_type;
-	if(fieldKeyType == 'input'){
-		return 	'    <input value='+field.attr.field_name_comment+'></input>\n';
-	}else if (fieldKeyType == 'checkbox'){
-		return 	'    <div name="item_check" class="checkbox checkbox-info">\n'		
-			  	+'        <input type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n'
-			  	+'        <label>'+field.attr.field_name_comment+'</label>\n'
-			  	+'    </div>\n';
-	}else if (fieldKeyType == 'img'){
-		return 	'    <img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>\n';
-	}else if (fieldKeyType == 'button'){
-		return 	'    <button class="btn btn-info">'+field.attr.field_name_comment+'</button>\n';
-	}else if(fieldKeyType == 'date'){
-		return 	'    <div class="input-group date">\n'
-        	  	+'        <div class="input-group-addon">\n'
-        	  	+'            <i class="fa fa-calendar"></i>\n'
-        	  	+'        </div>\n'
-        	  	+'        <input type="text" class="datepicker form-control pull-right"></input>\n'
-        	  	+'    </div>\n';
-	}else if(fieldKeyType == 'datetime'){
-		 return '    <div class="input-group">\n'
-	     	   	+'        <div class="input-group-addon">\n'
-	     	   	+'            <i class="fa fa-clock-o"></i>\n'
-	     	   	+'        </div>\n'
-	     	   	+'        <input type="text" class="form-control pull-right datetimepicker"></input>\n'
-	     	   	+'    </div>\n';
-	}else if(fieldKeyType == 'textarea'){
-		return 	'    <textarea class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>\n';
-	}else if(fieldKeyType == 'select'){
-		return 	'    <select class="form-control select2" style="width: 100%">\n'
-			  	+'        <option value="0">'+field.attr.field_name_comment+'</option>\n'
-			  	+'    </select>\n';
-	}else { // 当成label
-		return 	'    <label>'+field.attr.field_name_comment+'</label>\n';
-	}
-}
-
-
-
-
-
-
 
 
 
