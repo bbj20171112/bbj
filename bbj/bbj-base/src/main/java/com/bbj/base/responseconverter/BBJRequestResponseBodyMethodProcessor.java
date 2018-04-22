@@ -21,7 +21,6 @@ public class BBJRequestResponseBodyMethodProcessor extends RequestResponseBodyMe
 	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest)
 			throws IOException, HttpMediaTypeNotAcceptableException, HttpMessageNotWritableException {
-		System.out.println("returnValue:" + returnValue);
 		super.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
 	}
 

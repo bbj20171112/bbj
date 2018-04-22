@@ -14,7 +14,12 @@ public class BBJMappingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	@Override
 	protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
-		super.writeInternal(new BBJResponse("success", object), type, outputMessage);
+		if(object instanceof BBJResponse){
+		} else {
+			object = new BBJResponse(BBJResponse.code_success,"", object);
+		}
+		System.out.println(object);
+		super.writeInternal(object, type, outputMessage);
 	}
 
 	

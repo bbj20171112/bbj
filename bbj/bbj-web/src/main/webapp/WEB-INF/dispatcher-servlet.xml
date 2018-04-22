@@ -97,7 +97,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="testtest"
+	<bean id="bbjRequestResponseBodyMethodProcessor"
 		class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
 	</bean>
  	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->

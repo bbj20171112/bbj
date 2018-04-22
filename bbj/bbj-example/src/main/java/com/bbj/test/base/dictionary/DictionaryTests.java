@@ -2,13 +2,9 @@ package com.bbj.test.base.dictionary;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.context.WebApplicationContext;
-
-import com.bbj.base.dao.dictionary.DictionaryTableDao;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -16,13 +12,12 @@ import com.bbj.base.dao.dictionary.DictionaryTableDao;
 public class DictionaryTests
 {
 
-    @Autowired
-    private WebApplicationContext wac;
+    //@Autowired private WebApplicationContext wac;
 
     @Test
     public void dictionaryTableTests() throws Exception {
 
-        DictionaryTableDao dictionaryTableDao = wac.getBean("dictionaryTableDao", DictionaryTableDao.class);
+        // DictionaryTableDao dictionaryTableDao = wac.getBean("dictionaryTableDao", DictionaryTableDao.class);
         //        DictionaryTable bbjEntity = null;
         //        for (int i = 0; i < 97; i++) {
         //        	bbjEntity = new DictionaryTable();
@@ -36,12 +31,12 @@ public class DictionaryTests
         //		}
 
         // dictionaryTableDao.deleteById("dictb_38");
-        System.out.println(dictionaryTableDao.queryById("dictb_39"));
+        //System.out.println(dictionaryTableDao.queryById("dictb_39"));
         //        DictionaryTable dictionaryTable = dictionaryTableDao.queryById("dictb_39");
         //        dictionaryTable.setAttr("table_comment", "tbcomm_for_update");
         //        dictionaryTableDao.update(dictionaryTable);
 
-        System.out.println(dictionaryTableDao.queryByPage(1, 2).size());
+        //System.out.println(dictionaryTableDao.queryByPage(1, 2).size());
 
     }
 
