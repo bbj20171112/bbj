@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbj.base.constant.Constants;
+
 /**
  * 组件控制器
  * @author bage
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @Controller
-@RequestMapping({"/base/widgets" })
+@RequestMapping({Constants.module_base + "/widgets" })
 public class WidgetsController
 {
 
@@ -30,26 +32,26 @@ public class WidgetsController
      */
     @RequestMapping({"/grid" })
     public String grid(HttpServletRequest request) {
-        return "widgets/grid";
+        return Constants.module_base + "/widgets/grid";
     }
 
     @RequestMapping({"/button" })
     public String getButton(HttpServletRequest request) {
         request.setAttribute("test", "abcd");
-        return "widgets/button";
+        return Constants.module_base + "/widgets/button";
     }
 
     @RequestMapping({"/login" })
     public String login(HttpServletRequest request) {
         request.setAttribute("test", "abcd");
         //System.out.println(request.getParameter("userName").toString()+request.getParameter("password").toString());
-        return "widgets/login";
+        return Constants.module_base + "/widgets/login";
     }
 
     @RequestMapping({"/register" })
     public String register(HttpServletRequest request) {
         request.setAttribute("test", "abcd");
-        return "widgets/register-new";
+        return Constants.module_base + "/widgets/register-new";
     }
 
     /**
@@ -59,7 +61,7 @@ public class WidgetsController
      */
     @RequestMapping({"/grid-extends" })
     public String gridExtends(HttpServletRequest request) {
-        return "widgets/grid-extends";
+        return Constants.module_base + "/widgets/grid-extends";
     }
 
     /**
@@ -90,7 +92,7 @@ public class WidgetsController
      */
     @RequestMapping({"/alert" })
     public String alert(HttpServletRequest request) {
-        return "widgets/alert";
+        return Constants.module_base + "/widgets/alert";
     }
 
     /**
@@ -100,7 +102,7 @@ public class WidgetsController
      */
     @RequestMapping({"/progress" })
     public String progress(HttpServletRequest request) {
-        return "widgets/progress";
+        return Constants.module_base + "/widgets/progress";
     }
 
     /**
@@ -110,7 +112,7 @@ public class WidgetsController
      */
     @RequestMapping({"/layer" })
     public String layer(HttpServletRequest request) {
-        return "widgets/layer";
+        return Constants.module_base + "/widgets/layer";
     }
 
     /**
@@ -120,7 +122,7 @@ public class WidgetsController
      */
     @RequestMapping({"/boxdemo" })
     public String boxdemo(HttpServletRequest request) {
-        return "widgets/boxdemo";
+        return Constants.module_base + "/widgets/boxdemo";
     }
 
     /**
@@ -130,7 +132,7 @@ public class WidgetsController
      */
     @RequestMapping({"/cardlistdemo" })
     public String cardlistdemo(HttpServletRequest request) {
-        return "widgets/cardlistdemo";
+        return Constants.module_base + "/widgets/cardlistdemo";
     }
 
     /**
@@ -140,7 +142,7 @@ public class WidgetsController
      */
     @RequestMapping({"/echartdemo" })
     public String echartdemo(HttpServletRequest request) {
-        return "widgets/echartdemo";
+        return Constants.module_base + "/widgets/echartdemo";
     }
 
     /**
@@ -150,7 +152,7 @@ public class WidgetsController
      */
     @RequestMapping({"/richtexteditordemo" })
     public String richtexteditordemo(HttpServletRequest request) {
-        return "widgets/richtexteditordemo";
+        return Constants.module_base + "/widgets/richtexteditordemo";
     }
 
     /**
@@ -160,7 +162,7 @@ public class WidgetsController
      */
     @RequestMapping({"/swiperdemo" })
     public String swiperdemo(HttpServletRequest request) {
-        return "widgets/swiperdemo";
+        return Constants.module_base + "/widgets/swiperdemo";
     }
 
 }

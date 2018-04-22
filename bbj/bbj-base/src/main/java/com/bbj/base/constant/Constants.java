@@ -2,7 +2,13 @@ package com.bbj.base.constant;
 
 public class Constants {
 
+	// 页面大小常量 == page
 	public static final String pageSize = "10";
 	public static final String pageSizeString = "" + pageSize;
+	
+	// 各个模块常量
+	public static final String module_base = "/base";
+	public static final String module_admin = "/admin";
+
 	
 }

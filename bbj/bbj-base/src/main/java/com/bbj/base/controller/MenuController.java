@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbj.base.constant.Constants;
+
 @Controller
 @RequestMapping(value={"/menu"})
 public class MenuController {
@@ -14,12 +16,12 @@ public class MenuController {
 	
 	@RequestMapping(value={"/","/index"})
 	public String index(){
-		return "menu/index";
+		return Constants.module_base + "/menu/index";
 	}
 	
 	@RequestMapping(value={"/starter"})
 	public String starter(){
-		return "/AdminLTE/starter";
+		return Constants.module_base + "//AdminLTE/starter";
 	}
 	
 	@RequestMapping(value={"/json"})
@@ -39,7 +41,7 @@ public class MenuController {
 
 	@RequestMapping(value={"/header"})
 	public String header(){
-		return "/menu/header";
+		return Constants.module_base + "/menu/header";
 	}
 	
 }

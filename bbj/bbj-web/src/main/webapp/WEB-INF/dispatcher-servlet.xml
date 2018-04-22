@@ -43,7 +43,7 @@
 	<!--springMVC+thymeleaf的跳转页面配置-->
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-         <property name="prefix" value="/WEB-INF/html/framework/" />
+         <property name="prefix" value="/WEB-INF/html/" />
          <property name="suffix" value=".html" />
          <property name="templateMode" value="HTML5" />
          <property name="characterEncoding" value="UTF-8"/>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbj.base.constant.Constants;
 import com.bbj.base.utils.CreateImageCode;
 
 @Controller
@@ -25,7 +26,7 @@ public class RgstAndLoginController {
 	public String register(@RequestParam("hobby") String[] hoppy, HttpServletRequest request){
 		String gender = request.getParameter("gender");
 		System.out.println(gender + hoppy[0]);
-		return "/base/widgets/register";
+		return Constants.module_base + "/widgets/register";
 	}
 	
 	@RequestMapping(value={"/login/vacount"})

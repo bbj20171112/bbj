@@ -11,6 +11,7 @@
 		<module>bbj-web</module>
 		<module>bbj-base</module>
 		<module>bbj-example</module>
+    <module>bbj-admin</module>
   </modules>
 
 <properties>

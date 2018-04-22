@@ -180,7 +180,7 @@ public class MenuService
         attr.put("id", "14");
         attr.put("upId", "1");
         attr.put("text", "表维护");
-        attr.put("link", "base/dictionary/table/page");
+        attr.put("link", "admin/dictionary/table/page");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -188,7 +188,7 @@ public class MenuService
         attr.put("id", "15");
         attr.put("upId", "1");
         attr.put("text", "Form设计");
-        attr.put("link", "base/designer/form");
+        attr.put("link", "admin/designer/form");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -196,7 +196,7 @@ public class MenuService
         attr.put("id", "16");
         attr.put("upId", "14");
         attr.put("text", "字段维护");
-        attr.put("link", "base/dictionary/field/page");
+        attr.put("link", "admin/dictionary/field/page");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -204,7 +204,7 @@ public class MenuService
         attr.put("id", "17");
         attr.put("upId", "1");
         attr.put("text", "参照值");
-        attr.put("link", "base/dictionary/reference/page");
+        attr.put("link", "admin/dictionary/reference/page");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -212,7 +212,7 @@ public class MenuService
 //        attr.put("id", "18");
 //        attr.put("upId", "1");
 //        attr.put("text", "页面设计");
-//        attr.put("link", "base/designer/new");
+//        attr.put("link", "admin/dictionary/new");
 //        menu = new MenuObject(attr);
 //        list.add(menu);
         
@@ -220,7 +220,7 @@ public class MenuService
         attr.put("id", "19");
         attr.put("upId", "1");
         attr.put("text", "Grid设计");
-        attr.put("link", "base/designer/grid");
+        attr.put("link", "admin/designer/grid");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -228,7 +228,7 @@ public class MenuService
         attr.put("id", "20");
         attr.put("upId", "1");
         attr.put("text", "Layout设计");
-        attr.put("link", "base/designer/layout");
+        attr.put("link", "admin/designer/layout");
         menu = new MenuObject(attr);
         list.add(menu);
         

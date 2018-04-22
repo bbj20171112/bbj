@@ -7,13 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bbj.base.constant.Constants;
+
 /**
  *  组件控制器2
  * @作者 liulve
  * @version [版本号, 2018年1月7日]
  */
 @Controller
-@RequestMapping({"/base/codeshow" })
+@RequestMapping({Constants.module_base + "/codeshow" })
 public class CodeshowController
 {
     /**
@@ -25,9 +27,9 @@ public class CodeshowController
         List<String> list = Arrays
                 .asList(new String[] {"cardlistdemo", "echartdemo", "richtexteditordemo", "swiperdemo" });
         if (list.contains(url)) {
-            return "widgets/" + url;
+            return Constants.module_base + "/widgets/" + url;
         }
-        return "widgets/boxdemo"; // 默认跳转页面
+        return Constants.module_base + "/widgets/boxdemo"; // 默认跳转页面
     }
     //    /**
     //     * 跳转到boxdemo页面
