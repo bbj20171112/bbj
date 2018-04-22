@@ -3,8 +3,8 @@ var fieldItems = [];
 var items = [];
 var clicker = {};
 
-$(document).ready(function() {	
-	
+$(document).ready(function() {		
+				
 	// addRow();
 	
 	initContext();
@@ -32,10 +32,10 @@ function addRowSure(){
 	
 	var currentRow = items.length;
 	var rowHtml = '<div class="row item-row" data-column="'+currentRow+'" >';
-	for (var i = 0; i < colNum; i++) {
-		colHtml[i] = '<div' + 
-		' class = "col-sm-'+(baseNum / colNum)+' item-col' + '" ' + 
-		' id="item-col-' + currentRow + '-' + i +'">\n';
+	for (var col = 0; col < colNum; col++) {
+		colHtml[col] = '<div' + 
+		' class = "col-sm-'+(baseNum / colNum)+' item-col' + '" data-column="'+currentRow + '-' + col +'"' + 
+		' id="item-col-' + currentRow + '-' + col +'">\n';
 		
 	}	
 	items[currentRow] = {};
@@ -71,10 +71,20 @@ function addComponent(){
 	$("#modal-new-component").modal('show');
 }
 
+function editComponent(){
+	var dataColumns = clicker.attr('data-column').split("-");
+	var currentRow = new Number(dataColumns[0]);
+	var currentCol = new Number(dataColumns[1]);
+	
+	var component = items[currentRow].data[currentCol];
+	$("#item-component-component_name").val(component.attr.component_name);
+	$("#item-component-component_title").val(component.attr.component_title);
+	$("#item-component-component_show_type").val(component.attr.component_show_type).trigger("change");
+	$("#modal-new-component").modal('show');
+	
+}
 
 function addComponentSure() {
-	
-	var currentRow = new Number(clicker.attr('data-column'));
 	
 	var component = {};
 	component.attr = {};
@@ -86,19 +96,32 @@ function addComponentSure() {
 		component.attr.component_show_type = 'label';
 	}
 	
+	var dataColumns = clicker.attr('data-column').split("-");
+	var currentRow = new Number(dataColumns[0]);
+	var currentCol = -1;
+	if(dataColumns.length > 1){
+		currentCol = new Number(dataColumns[1]);
+	}
+	
 	var colNum = items[currentRow].colNum; // 列数
 	var length = items[currentRow].data.length;
 	var tagCol = length % colNum;
 	
-	items[currentRow].data[length] = getComponentItem(component);
 	
-	var htmlValue = '<div class="col-sm-12 item"  id="item-' + currentRow + '-' + length +'">'
-						+items[currentRow].data[length]+
+	if(currentCol == -1){ // 新增
+		items[currentRow].data[length] = component;
+		currentCol = length;
+	} else {  // 编辑
+		items[currentRow].data[currentCol] = component;
+	} 
+	
+	var htmlValue = '<div class="col-sm-12 item"  id="item-' + currentRow + '-' + currentCol +'">'
+						+getComponentItem(component)+
 					'</div>';
-	if(length - colNum >= 0){ // 超出原数目，直接在后面进行添加
+	if(currentCol - colNum >= 0){ // 超出原数目，直接在后面进行添加
 		$('#item-' + currentRow + '-'+tagCol).parent().append(htmlValue);
 	} else { // 还能挂组件		
-		$("#item-col-" + currentRow + '-' + length).html(htmlValue);		
+		$("#item-col-" + currentRow + '-' + currentCol).html(htmlValue);		
 	}
 	$("#modal-new-component").modal('hide');
 	initWidgets();
@@ -173,6 +196,21 @@ function initWidgets(){
         clicker = $(this);
 		addComponent();
 	});	
+	var itemCol = $(".item-col");
+	itemCol.unbind('dblclick').bind('dblclick',function(e){
+		e.stopPropagation();
+        e.preventDefault();
+        clicker = $(this);
+		editComponent();
+	});	
+//	var item = $(".item");
+//	item.unbind('dblclick').bind('dblclick',function(e){
+//		e.stopPropagation();
+//      e.preventDefault();
+//      clicker = $(this);
+//		editComponent();
+//	});	
+
 }
 
 
@@ -303,12 +341,6 @@ function initContext(){
 				});
 			}}
 		]},
-//		{text: '组件', subMenu: [
-//			{text: '添加', target:'', action: function(e){
-//				clicker = context.getClicker().parent();
-//				addComponent();
-//			}}
-//		]}
 		
 	]);
 	
@@ -316,8 +348,10 @@ function initContext(){
 		{header: '表单操作'},		
 		{text: '子组件', subMenu: [
 			{text: '添加', target:'', action: function(e){
-				clicker = context.getClicker();
+				clicker = context.getClicker();		
+				$("#div-modal-body").load( "layout2.html" );
 				$("#modal-edit-form").modal('show');
+				
 			}}
 		]}
 	]);
