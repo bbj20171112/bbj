@@ -26,7 +26,7 @@ public class DictionaryField extends BBJEntity {
 	
 	@Override
 	public String initTable() {
-		return "dictionary_field";
+		return "admin_dictionary_field";
 	}
 
 	@Override

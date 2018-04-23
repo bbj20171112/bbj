@@ -12,6 +12,8 @@
 		<module>bbj-base</module>
 		<module>bbj-example</module>
     <module>bbj-admin</module>
+    <module>bbj-authorization</module>
+    <module>bbj-organization</module>
   </modules>
 
 <properties>

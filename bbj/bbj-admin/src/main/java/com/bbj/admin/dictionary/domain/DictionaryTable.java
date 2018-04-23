@@ -20,7 +20,7 @@ public class DictionaryTable extends BBJEntity {
 	
 	@Override
 	public String initTable() {
-		return "dictionary_table";
+		return "admin_dictionary_table";
 	}
 
 	@Override
