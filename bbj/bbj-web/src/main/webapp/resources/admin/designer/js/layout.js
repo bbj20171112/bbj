@@ -361,4 +361,193 @@ function initContext(){
 }
 
 
+////////////// 程序生成
+
+function generateProgramCode(tableName){
+	var classNameObj = getClassNameObj(tableName);
+	var controllerStr = getControllerStr(classNameObj);
+	$("#input-program-controller-name").val(classNameObj.controllerName);
+	$("#input-program-controller-source").html(controllerStr);
+	$("#modal-program-view").modal("show");
+}
+
+
+function getClassNameObj(tableName){
+	var domainName = "User";
+	var daoName = domainName + "Dao";
+	var serviceName = domainName + "Service";
+	var controllerName = domainName + "Controller";
+	
+	var domainNameParam = "user";
+	var daoNameParam = domainNameParam + "Dao";
+	var serviceNameParam = domainNameParam + "Service";
+	var controllerNameParam = domainNameParam + "Controller";
+	
+	return {
+		domainName : domainName,
+		domainNameParam : domainNameParam,
+		daoName : daoName,
+		daoNameParam : daoNameParam,
+		serviceName : serviceName,
+		serviceNameParam : serviceNameParam,
+		controllerName : controllerName,
+		controllerNameParam : controllerNameParam
+	}; 
+}
+
+function getControllerStr(classNameObj){
+	
+	var importStr = "import java.util.ArrayList;\n" + 
+					"import java.util.HashMap;\n" + 
+					"import java.util.List;\n" + 
+					"import java.util.Map;\n" + 
+					"\n" + 
+					"import javax.servlet.http.HttpServletRequest;\n" + 
+					"\n" + 
+					"import org.springframework.beans.factory.annotation.Autowired;\n" + 
+					"import org.springframework.stereotype.Controller;\n" + 
+					"import org.springframework.web.bind.annotation.PathVariable;\n" + 
+					"import org.springframework.web.bind.annotation.RequestMapping;\n" + 
+					"import org.springframework.web.bind.annotation.RequestMethod;\n" + 
+					"import org.springframework.web.bind.annotation.RequestParam;\n" + 
+					"import org.springframework.web.bind.annotation.ResponseBody;\n" + 
+					"\n" + 
+					"import com.bbj.base.constant.Constants;\n" + 
+					"import com.bbj.base.domain.BBJSqlFilter;\n" + 
+					"import com.bbj.base.domain.SqlFilter;\n" + 
+					"import com.bbj.base.domain.WhereFilter;\n" + 
+					"import com.bbj.base.utils.BBJEntityUtils;\n" ;
+			
+	var classDefHeader ="\n" +
+						"@Controller\n" + 
+						"@RequestMapping(value={Constants.module_admin+\"/dictionary/field\"})\n" + 
+						"public class " + classNameObj.controllerName + " {\n" +
+						"\n";
+	var classPropertyTabsStr = "\t"
+	var classPropertyStr =	classPropertyTabsStr + "\n" +
+							classPropertyTabsStr + "@Autowired\n" +
+							classPropertyTabsStr + "private " + classNameObj.serviceName + " " + classNameObj.serviceNameParam + ";\n" + 
+							classPropertyTabsStr + "\n";
+	
+	var classDefFooter ="\n}\n";
+	
+	var classMethodsTabsStr = "\t";
+	var classMethodsStr = 	classMethodsTabsStr + "\n" +
+						classMethodsTabsStr + "/**\n" + 
+						classMethodsTabsStr + " * 增\n" + 
+						classMethodsTabsStr + " * @param request\n" + 
+						classMethodsTabsStr + " * @return\n" + 
+						classMethodsTabsStr + " */\n" + 
+						classMethodsTabsStr + "@RequestMapping(method=RequestMethod.POST)\n" + 
+						classMethodsTabsStr + "@ResponseBody\n" + 
+						classMethodsTabsStr + "public Object insert(HttpServletRequest request){\n" + 
+						classMethodsTabsStr + "	" + classNameObj.domainName + " " + classNameObj.domainNameParam + " = BBJEntityUtils.parseFrom(request, " + classNameObj.domainName + ".class);\n" + 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".insert(" + classNameObj.domainNameParam + " );\n" + 
+						classMethodsTabsStr + "}\n"+ 
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "/**\n"+ 
+						classMethodsTabsStr +  "* 删\n"+ 
+						classMethodsTabsStr +  "* @param id\n"+ 
+						classMethodsTabsStr +  "* @return\n"+ 
+						classMethodsTabsStr +  "*/\n"+ 
+						classMethodsTabsStr + "@RequestMapping(value=\"/{id}\",method=RequestMethod.DELETE)\n"+ 
+						classMethodsTabsStr + "@ResponseBody\n"+ 
+						classMethodsTabsStr + "public Object deleteById(@PathVariable(\"id\")String id,HttpServletRequest request){\n"+ 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".deleteById(id);\n"+ 
+						classMethodsTabsStr + "}\n" +
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "/**\n"+ 
+						classMethodsTabsStr + " * 改\n"+ 
+						classMethodsTabsStr + " * @param id\n"+ 
+						classMethodsTabsStr + " * @return\n"+ 
+						classMethodsTabsStr + " */\n"+ 
+						classMethodsTabsStr + "@RequestMapping(method=RequestMethod.PUT)\n"+ 
+						classMethodsTabsStr + "@ResponseBody\n"+ 
+						classMethodsTabsStr + "public Object update(HttpServletRequest request){\n"+ 
+						classMethodsTabsStr + "	" + classNameObj.domainName + " " + classNameObj.domainNameParam + " = BBJEntityUtils.parseFrom(request, " + classNameObj.domainName + ".class);\n" + 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".update(" + classNameObj.domainNameParam + " );\n"+ 
+						classMethodsTabsStr + "}\n"+ 
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "/**\n"+ 
+						classMethodsTabsStr + " * 查（单个）\n"+ 
+						classMethodsTabsStr + " * @param id\n"+ 
+						classMethodsTabsStr + " * @return\n"+ 
+						classMethodsTabsStr + " */\n"+ 
+						classMethodsTabsStr + "@RequestMapping(value=\"/{id}\",method=RequestMethod.GET)\n"+ 
+						classMethodsTabsStr + "@ResponseBody\n"+ 
+						classMethodsTabsStr + "public Object get(@PathVariable(\"id\")String id,HttpServletRequest request){\n"+ 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".queryById(id);\n"+ 
+						classMethodsTabsStr + "}\n"+ 
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "\n"+
+						classMethodsTabsStr + "/**\n"+
+						classMethodsTabsStr + " * 查（分页）\n"+
+						classMethodsTabsStr + " * @param start\n"+
+						classMethodsTabsStr + " * @param length\n"+
+						classMethodsTabsStr + " * @param draw\n"+
+						classMethodsTabsStr + " * @param searchValue\n"+
+						classMethodsTabsStr + " * @return\n"+
+						classMethodsTabsStr + " */\n"+
+						classMethodsTabsStr + "@RequestMapping(method=RequestMethod.GET)\n"+
+						classMethodsTabsStr + "@ResponseBody\n"+
+						classMethodsTabsStr + "public Object queryByPage(@RequestParam(value=\"start\",defaultValue=\"1\")int start,\n"+
+						classMethodsTabsStr + "		@RequestParam(value=\"length\",defaultValue=\"10\")int length,\n"+
+						classMethodsTabsStr + "		@RequestParam(value=\"draw\",defaultValue=\"0\")int draw,\n"+
+						classMethodsTabsStr + "		@RequestParam(value=\"search[value]\",defaultValue=\"\")String searchValue,\n"+
+						classMethodsTabsStr + "		HttpServletRequest request\n"+
+						classMethodsTabsStr + "		){\n"+
+						classMethodsTabsStr + "	\n"+
+						classMethodsTabsStr + "	// 分页查询\n"+
+						classMethodsTabsStr + "	SqlFilter sqlFilter = null;	\n"+	
+						classMethodsTabsStr + "	Map<String, Object> map = new HashMap<String, Object>();\n"+
+						classMethodsTabsStr + "	int tagPage = start / length;\n"+
+						classMethodsTabsStr + "	if(tagPage < 1){\n"+
+						classMethodsTabsStr + "		tagPage = 1;\n"+
+						classMethodsTabsStr + "	} else {\n"+
+						classMethodsTabsStr + "		tagPage = tagPage + 1;\n"+
+						classMethodsTabsStr + "	}\n"+
+						classMethodsTabsStr + "	map.put(\"data\", " + classNameObj.serviceNameParam + ".queryByPage(tagPage, length, sqlFilter));\n"+
+						classMethodsTabsStr + "	map.put(\"recordsTotal\", " + classNameObj.serviceNameParam + ".getTotalRow(sqlFilter));\n"+
+						classMethodsTabsStr + "	map.put(\"recordsFiltered\", " + classNameObj.serviceNameParam + ".getTotalRow(sqlFilter));\n"+
+						classMethodsTabsStr + "	map.put(\"draw\", draw);\n"+
+						classMethodsTabsStr + "	\n"+
+						classMethodsTabsStr + "	return map;\n"+
+						classMethodsTabsStr + "}\n"+
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "\n"+
+						classMethodsTabsStr + "\n"+
+						classMethodsTabsStr + "@RequestMapping(value=\"/page\")\n"+ 
+						classMethodsTabsStr + "public Object page(HttpServletRequest request){\n"+ 
+						classMethodsTabsStr + "	return Constants.module_admin + \"/dictionary/dictionaryField\";\n"+ 
+						classMethodsTabsStr + "}";
+						
+	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
+}
+function getImportStr(){
+	return  "import java.util.ArrayList;\n" + 
+			"import java.util.HashMap;\n" + 
+			"import java.util.List;\n" + 
+			"import java.util.Map;\n" + 
+			"\n" + 
+			"import javax.servlet.http.HttpServletRequest;\n" + 
+			"\n" + 
+			"import org.springframework.beans.factory.annotation.Autowired;\n" + 
+			"import org.springframework.stereotype.Controller;\n" + 
+			"import org.springframework.web.bind.annotation.PathVariable;\n" + 
+			"import org.springframework.web.bind.annotation.RequestMapping;\n" + 
+			"import org.springframework.web.bind.annotation.RequestMethod;\n" + 
+			"import org.springframework.web.bind.annotation.RequestParam;\n" + 
+			"import org.springframework.web.bind.annotation.ResponseBody;\n" + 
+			"\n" + 
+			"import com.bbj.base.constant.Constants;\n" + 
+			"import com.bbj.base.domain.BBJSqlFilter;\n" + 
+			"import com.bbj.base.domain.SqlFilter;\n" + 
+			"import com.bbj.base.domain.WhereFilter;\n" + 
+			"import com.bbj.base.utils.BBJEntityUtils;\n" ;
+}
+
+
 

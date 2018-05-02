@@ -92,8 +92,7 @@ function row_edit(id) {
 		success : function(data) {
 			data = data.data.attr;
 
-			Utils.setBBJEntityValue(data);
-			/*
+			// Utils.setBBJEntityValue(data);
 			$("#item-field-id").val(data.id);
 			//$("#item-field-table_id").val(data.table_id);
 			$("#item-field-field_name").val(data.field_name);
@@ -111,7 +110,6 @@ function row_edit(id) {
 			$("#item-field-field_reference_comment").val(
 					data.field_reference_comment);
 			$("#item-field-field_remark").val(data.field_remark);
-			 */
 			$("#modal-new-field").modal('show');
 		}
 	});

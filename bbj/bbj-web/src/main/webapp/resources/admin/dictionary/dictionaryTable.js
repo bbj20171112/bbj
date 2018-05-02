@@ -45,13 +45,14 @@ function initGrid(){
 }
 	 	
 // 获取选中
-    function showSelectItems() {
+function showSelectItems() {
 	
 		// $('#example').DataTable().ajax.reload();
 	console.log( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );
         /* console.log( $('#example').DataTable().rows('.selected').data()[0]);
     	alert( $('#example').DataTable().rows('.selected').data().length +' row(s) selected' );*/
 }
+
 
 function row_edit(id){
 	Utils.ajax({
@@ -144,6 +145,7 @@ function newTableSave(){
 		});
 	}
 }
+
 
 function getSql(){
 	

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class TimeHandlerAnnotation {
 
-	@Pointcut("execution(* com.bbj.base.service.MenuService.*(..))") // 切入点
+	@Pointcut("execution(* com.bbj.base.service.MenuReaderService.*(..))") // 切入点
 	public void testPointCut() {
 
 	}

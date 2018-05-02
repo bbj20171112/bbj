@@ -11,12 +11,12 @@ import com.bbj.base.domain.MenuObject;
 import com.bbj.base.utils.JsonUtils;
 import com.bbj.base.utils.PrintUtils;
 
-@Service(value = "menuService")
-public class MenuService
+@Service
+public class MenuReaderService
 {
 
     public static void main(String[] args) {
-        List<MenuObject> list = new MenuService().retrieve();
+        List<MenuObject> list = new MenuReaderService().retrieve();
         PrintUtils.println(list);
         System.out.println(JsonUtils.toJson(list));
     }

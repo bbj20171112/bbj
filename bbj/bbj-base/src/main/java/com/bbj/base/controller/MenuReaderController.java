@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bbj.base.constant.Constants;
+import com.bbj.base.service.MenuReaderService;
 
 @Controller
 @RequestMapping(value={"/menu"})
-public class MenuController {
+public class MenuReaderController {
 
 	@Autowired
-	private com.bbj.base.service.MenuService MenuService;
+	private MenuReaderService MenuService;
 	
 	@RequestMapping(value={"/","/index"})
 	public String index(){
