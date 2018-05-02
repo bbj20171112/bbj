@@ -1,6 +1,6 @@
 package com.bbj.admin.dictionary.dao;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.bbj.admin.dictionary.domain.DictionaryReference;
 import com.bbj.base.dao.BBJDaoImp;
@@ -11,7 +11,7 @@ import com.bbj.base.dao.BBJDaoImp;
  * @author bage
  *
  */
-@Component("dictionaryReferenceDao")
+@Repository
 public class DictionaryReferenceDao extends BBJDaoImp<DictionaryReference> {
 
 	

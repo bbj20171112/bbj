@@ -44,11 +44,11 @@
 				</div>
 				<!-- /.box-header -->
 				<!-- form start -->
-				<form class="form-horizontal">		              
+				<form class="form-horizontal" onreadystatechange="" >		              
 		              <!-- /.box-body -->
 		              <div class="box-footer">
 		                <button type="button" class="btn btn-info" onclick = "addRow()">添加行</button>
-		                <button type="button" class="btn btn-info" onclick = "generateProgramCode('')">程序生成</button>
+		                <button type="button" class="btn btn-info" onclick = "generateProgramCode('user')">程序生成</button>
 		              </div>
 		              <!-- /.box-footer -->
 					<!-- /.box-body -->
@@ -88,7 +88,7 @@
 					<div class="nav-tabs-custom">
 						<!-- Tabs within a box -->
 						<ul class="nav nav-tabs pull-right ui-sortable-handle">
-							<li class="">
+							<li class="active">
 								<a href="#tab-pane-domain" data-toggle="tab" aria-expanded="true">Domain</a>
 							</li>
 							<li class="">
@@ -102,47 +102,62 @@
 							</li>
 						</ul>
 						<div class="tab-content no-padding">
-							<!-- Morris chart - Sales -->
-							<div class="chart tab-pane active" id="tab-pane-controller" >
+							<div class="chart tab-pane active" id="tab-pane-domain" >
+								<div class="row form-group">
+									<div class="col-sm-2">
+										<label>类名</label>
+									</div>
+									<div class="col-sm-4">
+										<input class="form-control" id="input-program-domain-name"></input>
+									</div>
+								</div>
+								<div>
+									<pre id="input-program-domain-source" class="brush: java;">	
+									</pre>	
+								</div>
+							</div>
+							<div class="chart tab-pane" id="tab-pane-dao" >
+								<div class="row form-group">
+									<div class="col-sm-2">
+										<label>类名</label>
+									</div>
+									<div class="col-sm-4">
+										<input class="form-control" id="input-program-dao-name"></input>
+									</div>
+								</div>
+								<div>
+									<pre id="input-program-dao-source" class="brush: java;">	
+									</pre>	
+								</div>
+							</div>
+							<div class="chart tab-pane" id="tab-pane-service" >
+								<div class="row form-group">
+									<div class="col-sm-2">
+										<label>类名</label>
+									</div>
+									<div class="col-sm-4">
+										<input class="form-control" id="input-program-service-name"></input>
+									</div>
+								</div>
+								<div>
+									<pre id="input-program-service-source" class="brush: java;">	
+									</pre>	
+								</div>
+							</div>
+							<div class="chart tab-pane" id="tab-pane-controller" >
 								<div class="row form-group">
 									<div class="col-sm-1">
 										<label>类名</label>
 									</div>
 									<div class="col-sm-3">
 										<input class="form-control" id="input-program-controller-name"></input>
-									</div>
-									<div class="col-sm-1">
-										<label>模块</label>
-									</div>
-									<div class="col-sm-3">
-										<input class="form-control" id="input-program-controller-module"></input>
-									</div>
+									</div>									
 									<div class="col-sm-1">
 										<label>URL</label>
 									</div>
 									<div class="col-sm-3">
 										<input class="form-control" id="input-program-controller-baseurl"></input>
 									</div>
-								</div>
-								<div>
-									<pre id="input-program-controller-source" class="brush: java;">	
-									</pre>	
-								</div>
-							</div>
-							<div class="chart tab-pane" id="tab-pane-service" >
-								service
-							</div>
-							<div class="chart tab-pane" id="tab-pane-dao" >
-								dao
-							</div>
-							<div class="chart tab-pane" id="tab-pane-domain" >
-								<div class="row form-group">
-									<div class="col-sm-1">
-										<label>类名</label>
-									</div>
-									<div class="col-sm-3">
-										<input class="form-control" id="input-program-controller-name"></input>
-									</div>
 									<div class="col-sm-1">
 										<label>模块</label>
 									</div>
@@ -151,8 +166,8 @@
 									</div>
 								</div>
 								<div>
-									<pre id="input-program-domain-source" class="brush: java;">	
-									</pre>	
+									<pre id="input-program-controller-source" class="brush: java;">	
+									</pre>
 								</div>
 							</div>
 						</div>
@@ -296,7 +311,7 @@
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
 	<script th:src="@{/resources/base/javascript-import.js}" src="../../../../resources/base/javascript-import.js" ></script>
-	<script th:src="@{/resources/plugins/dragula/dragula.js}" src='../../../../resources/plugins/dragula/dragula.js'></script>
+	<script th:src="@{/resources/plugins/dragula/dragula.js}" src="../../../../resources/plugins/dragula/dragula.js'></script>
 	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../../../resources/plugins/ContextJS/js/context.js'></script>
 	<script th:src="@{/resources/admin/designer/js/layout.js}" src='../../../../resources/admin/designer/js/layout.js'></script>
 	

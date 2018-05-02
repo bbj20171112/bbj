@@ -364,15 +364,32 @@ function initContext(){
 ////////////// 程序生成
 
 function generateProgramCode(tableName){
+	
 	var classNameObj = getClassNameObj(tableName);
+	
+	// "&lt;" 代表 "<"，"&gt;" 代表 ">"
 	var controllerStr = getControllerStr(classNameObj);
 	$("#input-program-controller-name").val(classNameObj.controllerName);
-	$("#input-program-controller-source").html(controllerStr);
+	$("#input-program-controller-source").html(controllerStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	
+	var serviceStr = getServiceStr(classNameObj);
+	$("#input-program-service-name").val(classNameObj.serviceName);
+	$("#input-program-service-source").html(serviceStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	
+	var daoStr = getDaoStr(classNameObj);
+	$("#input-program-dao-name").val(classNameObj.daoName);
+	$("#input-program-dao-source").html(daoStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	
+	var domainStr = getDomainStr(classNameObj);
+	$("#input-program-domain-name").val(classNameObj.domainName);
+	$("#input-program-domain-source").html(domainStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	
 	$("#modal-program-view").modal("show");
 }
 
 
 function getClassNameObj(tableName){
+	
 	var domainName = "User";
 	var daoName = domainName + "Dao";
 	var serviceName = domainName + "Service";
@@ -384,6 +401,7 @@ function getClassNameObj(tableName){
 	var controllerNameParam = domainNameParam + "Controller";
 	
 	return {
+		tableName : tableName,
 		domainName : domainName,
 		domainNameParam : domainNameParam,
 		daoName : daoName,
@@ -395,11 +413,162 @@ function getClassNameObj(tableName){
 	}; 
 }
 
+function getDomainStr(classNameObj){
+	
+	var importStr = "import com.bbj.base.domain.BBJEntity;\n" ;
+	
+			
+	var classDefHeader ="\n" +
+						"public class " + classNameObj.domainName + " extends BBJEntity {\n";
+	var classPropertyTabsStr = "\t"
+	var classPropertyStr =	classPropertyTabsStr + "\n" +
+							classPropertyTabsStr + "private static final long serialVersionUID = 1L;\n" +
+							classPropertyTabsStr + "\n" +
+							classPropertyTabsStr + "public static final String tableName = \"" + classNameObj.tableName + "\"; \n" + 
+							classPropertyTabsStr + "\n" +
+							classPropertyTabsStr + "public static final String id = \"id\"; \n" +
+							classPropertyTabsStr + "\n";
+	
+	var classDefFooter ="\n\n}\n";
+	
+	var classMethodsTabsStr = "\t";
+	var classMethodsStr = 	classMethodsTabsStr + "\n" +
+						classMethodsTabsStr + "@Override\n"+
+						classMethodsTabsStr + "public String initTable() {\n"+
+						classMethodsTabsStr + "	return tableName;\n"+
+						classMethodsTabsStr + "}\n"+
+						classMethodsTabsStr + "\n"+ 
+						classMethodsTabsStr + "\n"+
+						classMethodsTabsStr + "@Override\n"+
+						classMethodsTabsStr + "public String[] initAttr() {\n"+
+						classMethodsTabsStr + "	String attrs[] = new String[]{\n"+
+						classMethodsTabsStr + "			id, \n"+
+						classMethodsTabsStr + "	};\n"+
+						classMethodsTabsStr + "	return attrs;\n"+
+						classMethodsTabsStr + "}\n";
+						
+	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
+}
+
+
+function getDaoStr(classNameObj){
+	
+	var importStr = "import org.springframework.stereotype.Repository;\n"  + 
+					"import com.bbj.base.dao.BBJDaoImp;\n" ;
+			
+	var classDefHeader ="\n" +
+						"@Repository\n" +
+						"public class " + classNameObj.daoName + " extends BBJDaoImp<"+ classNameObj.domainName +">{\n";
+	
+	var classPropertyTabsStr = "\t"
+	var classPropertyStr =	"";
+	
+	var classDefFooter ="\n\n}\n";
+	
+	var classMethodsTabsStr = "\t";
+	var classMethodsStr = 	"";
+						
+	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
+}
+
+function getServiceStr(classNameObj){
+	
+	var importStr = "import java.util.List;\n" + 
+					"\n" + 
+					"import org.springframework.beans.factory.annotation.Autowired;\n" + 
+					"import org.springframework.stereotype.Service;\n" + 
+					"\n" + 
+					"import com.bbj.base.domain.SqlFilter;\n" ;
+			
+	var classDefHeader ="\n" +
+						"@Service\n" +
+						"public class "+ classNameObj.serviceName +" {\n" +
+						"\n";
+	var classPropertyTabsStr = "\t"
+	var classPropertyStr =	classPropertyTabsStr + "\n" +
+							classPropertyTabsStr + "@Autowired\n" +
+							classPropertyTabsStr + "private " + classNameObj.daoName + " " + classNameObj.daoNameParam + ";\n" + 
+							classPropertyTabsStr + "\n";
+	
+	var classDefFooter ="\n\n}\n";
+	
+	var classMethodsTabsStr = "\t";
+	var classMethodsStr = 	classMethodsTabsStr + "\n" +
+							classMethodsTabsStr + "/**\n"+ 
+							classMethodsTabsStr + " * 增\n"+ 
+							classMethodsTabsStr + " * @param "+ classNameObj.domainNameParam +"\n"+ 
+							classMethodsTabsStr + " * @return\n"+ 
+							classMethodsTabsStr + " */\n"+ 
+							classMethodsTabsStr + "public int insert("+ classNameObj.domainName +" "+ classNameObj.domainNameParam +"){\n"+ 
+							classMethodsTabsStr + "	if("+ classNameObj.domainNameParam +" == null){\n"+ 
+							classMethodsTabsStr + "		return 0;\n"+ 
+							classMethodsTabsStr + "	}\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".insert("+ classNameObj.domainNameParam+");\n"+
+							classMethodsTabsStr + "}\n"+ 
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "/**\n"+ 
+							classMethodsTabsStr + " * 删\n"+ 
+							classMethodsTabsStr + " * @param id\n"+ 
+							classMethodsTabsStr + " * @return\n"+ 
+							classMethodsTabsStr + " */\n"+ 
+							classMethodsTabsStr + "public int deleteById(String id){\n"+ 
+							classMethodsTabsStr + "	if(id == null){\n"+ 
+							classMethodsTabsStr + "		return 0;\n"+ 
+							classMethodsTabsStr + "	}\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".deleteById(id);\n"+ 
+							classMethodsTabsStr + "}\n" +
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "/**\n"+ 
+							classMethodsTabsStr + " * 改\n"+ 
+							classMethodsTabsStr + " * @param "+ classNameObj.domainNameParam +"\n"+ 
+							classMethodsTabsStr + " * @return\n"+ 
+							classMethodsTabsStr + " */\n"+ 
+							classMethodsTabsStr + "public int update("+ classNameObj.domainName +" "+ classNameObj.domainNameParam +"){\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".update("+ classNameObj.domainNameParam +");\n"+ 
+							classMethodsTabsStr + "}\n"+ 
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "/**\n"+ 
+							classMethodsTabsStr + " * 查\n"+ 
+							classMethodsTabsStr + " * @param id\n"+ 
+							classMethodsTabsStr + " * @return\n"+ 
+							classMethodsTabsStr + " */\n"+ 
+							classMethodsTabsStr + "public "+ classNameObj.domainName +" queryById(String id){\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".queryById(id);\n"+ 
+							classMethodsTabsStr + "}\n"+ 
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "\n"+
+							classMethodsTabsStr + "/**\n"+
+							classMethodsTabsStr + " * 查（分页）\n"+
+							classMethodsTabsStr + " * @param tagPage\n"+
+							classMethodsTabsStr + " * @param pageSize\n"+
+							classMethodsTabsStr + " * @param sqlFilter\n"+
+							classMethodsTabsStr + " * @return\n"+
+							classMethodsTabsStr + " */\n"+
+							classMethodsTabsStr + "public List<" + classNameObj.domainName + "> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){\n"+
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".queryByPage(tagPage, pageSize, sqlFilter);\n"+
+							classMethodsTabsStr + "}\n"+
+							
+							classMethodsTabsStr + "\n"+ 
+							classMethodsTabsStr + "\n"+
+							classMethodsTabsStr + "/**\n"+
+							classMethodsTabsStr + " * 获取总数\n"+
+							classMethodsTabsStr + " * @param sqlFilter\n"+
+							classMethodsTabsStr + " * @return\n"+
+							classMethodsTabsStr + " */\n"+
+							classMethodsTabsStr + "public int getTotalRow(SqlFilter sqlFilter){\n"+
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".getTotalRow(sqlFilter);\n"+
+							classMethodsTabsStr + "}\n";
+						
+	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
+}
+
+
 function getControllerStr(classNameObj){
 	
-	var importStr = "import java.util.ArrayList;\n" + 
-					"import java.util.HashMap;\n" + 
-					"import java.util.List;\n" + 
+	var importStr = "import java.util.HashMap;\n" + 
 					"import java.util.Map;\n" + 
 					"\n" + 
 					"import javax.servlet.http.HttpServletRequest;\n" + 
@@ -413,9 +582,7 @@ function getControllerStr(classNameObj){
 					"import org.springframework.web.bind.annotation.ResponseBody;\n" + 
 					"\n" + 
 					"import com.bbj.base.constant.Constants;\n" + 
-					"import com.bbj.base.domain.BBJSqlFilter;\n" + 
 					"import com.bbj.base.domain.SqlFilter;\n" + 
-					"import com.bbj.base.domain.WhereFilter;\n" + 
 					"import com.bbj.base.utils.BBJEntityUtils;\n" ;
 			
 	var classDefHeader ="\n" +
@@ -429,7 +596,7 @@ function getControllerStr(classNameObj){
 							classPropertyTabsStr + "private " + classNameObj.serviceName + " " + classNameObj.serviceNameParam + ";\n" + 
 							classPropertyTabsStr + "\n";
 	
-	var classDefFooter ="\n}\n";
+	var classDefFooter ="\n\n}\n";
 	
 	var classMethodsTabsStr = "\t";
 	var classMethodsStr = 	classMethodsTabsStr + "\n" +
@@ -467,7 +634,7 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "@ResponseBody\n"+ 
 						classMethodsTabsStr + "public Object update(HttpServletRequest request){\n"+ 
 						classMethodsTabsStr + "	" + classNameObj.domainName + " " + classNameObj.domainNameParam + " = BBJEntityUtils.parseFrom(request, " + classNameObj.domainName + ".class);\n" + 
-						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".update(" + classNameObj.domainNameParam + " );\n"+ 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".update(" + classNameObj.domainNameParam + ");\n"+ 
 						classMethodsTabsStr + "}\n"+ 
 						classMethodsTabsStr + "\n"+ 
 						classMethodsTabsStr + "\n"+ 
@@ -522,32 +689,11 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "@RequestMapping(value=\"/page\")\n"+ 
 						classMethodsTabsStr + "public Object page(HttpServletRequest request){\n"+ 
 						classMethodsTabsStr + "	return Constants.module_admin + \"/dictionary/dictionaryField\";\n"+ 
-						classMethodsTabsStr + "}";
+						classMethodsTabsStr + "}\n";
 						
 	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
 }
-function getImportStr(){
-	return  "import java.util.ArrayList;\n" + 
-			"import java.util.HashMap;\n" + 
-			"import java.util.List;\n" + 
-			"import java.util.Map;\n" + 
-			"\n" + 
-			"import javax.servlet.http.HttpServletRequest;\n" + 
-			"\n" + 
-			"import org.springframework.beans.factory.annotation.Autowired;\n" + 
-			"import org.springframework.stereotype.Controller;\n" + 
-			"import org.springframework.web.bind.annotation.PathVariable;\n" + 
-			"import org.springframework.web.bind.annotation.RequestMapping;\n" + 
-			"import org.springframework.web.bind.annotation.RequestMethod;\n" + 
-			"import org.springframework.web.bind.annotation.RequestParam;\n" + 
-			"import org.springframework.web.bind.annotation.ResponseBody;\n" + 
-			"\n" + 
-			"import com.bbj.base.constant.Constants;\n" + 
-			"import com.bbj.base.domain.BBJSqlFilter;\n" + 
-			"import com.bbj.base.domain.SqlFilter;\n" + 
-			"import com.bbj.base.domain.WhereFilter;\n" + 
-			"import com.bbj.base.utils.BBJEntityUtils;\n" ;
-}
+
 
 
 

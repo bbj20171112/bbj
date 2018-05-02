@@ -1,6 +1,6 @@
 package com.bbj.base.dao.organization;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.bbj.base.dao.BBJDaoImp;
 import com.bbj.base.domain.organization.User;
@@ -10,7 +10,7 @@ import com.bbj.base.domain.organization.User;
  * @author bage
  *
  */
-@Component
+@Repository
 public class UserDao extends BBJDaoImp<User>{
 
 }

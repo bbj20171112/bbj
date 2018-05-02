@@ -3,7 +3,7 @@ package com.bbj.admin.dictionary.dao;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.base.dao.BBJDaoImp;
@@ -14,7 +14,7 @@ import com.bbj.base.dao.BBJDaoImp;
  * @author bage
  *
  */
-@Component("dictionaryTableDao")
+@Repository
 public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 
 	private static final String key_sql = "key_sql";

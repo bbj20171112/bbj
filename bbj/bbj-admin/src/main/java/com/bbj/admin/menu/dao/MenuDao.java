@@ -1,11 +1,11 @@
 package com.bbj.admin.menu.dao;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.bbj.admin.menu.domain.Menu;
 import com.bbj.base.dao.BBJDaoImp;
 
-@Component
+@Repository
 public class MenuDao extends BBJDaoImp<Menu>{
 	
 }
