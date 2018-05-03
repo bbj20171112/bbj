@@ -367,22 +367,25 @@ function generateProgramCode(tableName){
 	
 	var classNameObj = getClassNameObj(tableName);
 	
-	// "&lt;" 代表 "<"，"&gt;" 代表 ">"
+	var htmlStr = getHTMLStr(classNameObj);
+	$("#input-program-html-name").val('');
+	$("#input-program-html-source").html(escapeSpecialChars(htmlStr));
+	
 	var controllerStr = getControllerStr(classNameObj);
 	$("#input-program-controller-name").val(classNameObj.controllerName);
-	$("#input-program-controller-source").html(controllerStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	$("#input-program-controller-source").html(escapeSpecialChars(controllerStr));
 	
 	var serviceStr = getServiceStr(classNameObj);
 	$("#input-program-service-name").val(classNameObj.serviceName);
-	$("#input-program-service-source").html(serviceStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	$("#input-program-service-source").html(escapeSpecialChars(serviceStr));
 	
 	var daoStr = getDaoStr(classNameObj);
 	$("#input-program-dao-name").val(classNameObj.daoName);
-	$("#input-program-dao-source").html(daoStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	$("#input-program-dao-source").html(escapeSpecialChars(daoStr));
 	
 	var domainStr = getDomainStr(classNameObj);
 	$("#input-program-domain-name").val(classNameObj.domainName);
-	$("#input-program-domain-source").html(domainStr.replace(/</g,"&lt;").replace(/>/g,"&gt;"));
+	$("#input-program-domain-source").html(escapeSpecialChars(domainStr));
 	
 	$("#modal-program-view").modal("show");
 }
@@ -565,7 +568,6 @@ function getServiceStr(classNameObj){
 	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
 }
 
-
 function getControllerStr(classNameObj){
 	
 	var importStr = "import java.util.HashMap;\n" + 
@@ -695,5 +697,44 @@ function getControllerStr(classNameObj){
 }
 
 
+function getHTMLStr(classNameObj){
+				
+	var htmlDefHeader ="<!DOCTYPE html>\n" + 
+						"<html xmlns=\"http://www.w3.org/1999/xhtml\"\n" + 
+						"	xmlns:th=\"http://www.thymeleaf.org\">\n" + 
+						"	\n" + 
+						"	<head>\n" + 
+						"		<meta charset=\"UTF-8\">\n" + 
+						"		<title>数据字典</title>\n" +
+						"		\n" + 
+						"		<!-- 引入全局css样式 -->\n" + 
+						"		<script th:src=\"@{/resources/base/css-import.js}\" src=\"../../../../resources/base/css-import.js\"></script>\n" + 
+						"	<head>\n" +
+						"	\n" ;
+	
+	var bodyStrTabsStr = "\t";
+	var bodyStr = 	bodyStrTabsStr + "<body>\n" + 
+					bodyStrTabsStr + "	<div class=\"wrapper\">\n" + 
+					bodyStrTabsStr + "		\n" + 
+					bodyStrTabsStr + "	</div>\n" + 
+					bodyStrTabsStr + "</body>\n" ;
+	
+	var importJsStrTabsStr = "\t";
+	var importJsStr = 	importJsStrTabsStr + "\n" + 
+						importJsStrTabsStr + "<!-- 引入全局JavaScript -->\n" + 
+						importJsStrTabsStr + "<script th:src=\"@{/resources/base/javascript-import.js}\" src=\"../../../../resources/base/javascript-import.js\"></script>\n" + 
+						importJsStrTabsStr + "<script th:src=\"@{/resources/admin/dictionary/dictionaryField.js}\" src=\"../../../../resources/admin/dictionary/dictionaryField.js\" ></script>\n" + 
+						importJsStrTabsStr + "\n"; 
+
+	var htmlDefFooter ="\n</html>\n";
+	
+						
+	return htmlDefHeader + bodyStr + importJsStr + htmlDefFooter ;
+}
+
+
+function escapeSpecialChars(sourceStr){
+	return sourceStr.replace(/</g,"&lt;").replace(/>/g,"&gt;")
+}
 
 

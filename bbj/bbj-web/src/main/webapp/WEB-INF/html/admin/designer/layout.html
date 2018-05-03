@@ -100,6 +100,12 @@
 							<li class="">
 								<a href="#tab-pane-controller" data-toggle="tab" aria-expanded="false">Controller</a>
 							</li>
+							<li class="">
+								<a href="#tab-pane-html" data-toggle="tab" aria-expanded="true">HTML</a>
+							</li>
+							<li class="">
+								<a href="#tab-pane-js" data-toggle="tab" aria-expanded="true">Js</a>
+							</li>
 						</ul>
 						<div class="tab-content no-padding">
 							<div class="chart tab-pane active" id="tab-pane-domain" >
@@ -167,6 +173,36 @@
 								</div>
 								<div>
 									<pre id="input-program-controller-source" class="brush: java;">	
+									</pre>
+								</div>
+							</div>
+							<div class="chart tab-pane" id="tab-pane-html" >
+								<div class="row form-group">
+									<div class="col-sm-1">
+										<label>文件名</label>
+									</div>
+									<div class="col-sm-3">
+										<input class="form-control" id="input-program-html-name"></input>
+									</div>							
+								</div>
+								<div>
+									<pre id="input-program-html-source" class="brush: java;">
+										html
+									</pre>
+								</div>
+							</div>
+							<div class="chart tab-pane" id="tab-pane-js" >
+								<div class="row form-group">
+									<div class="col-sm-1">
+										<label>文件名</label>
+									</div>
+									<div class="col-sm-3">
+										<input class="form-control" id="input-program-js-name"></input>
+									</div>									
+								</div>
+								<div>
+									<pre id="input-program-js-source" class="brush: java;">	
+											js
 									</pre>
 								</div>
 							</div>
@@ -311,9 +347,9 @@
 	<!-- ./wrapper -->
 	<!-- 引入JavaScripts样式 -->
 	<script th:src="@{/resources/base/javascript-import.js}" src="../../../../resources/base/javascript-import.js" ></script>
-	<script th:src="@{/resources/plugins/dragula/dragula.js}" src="../../../../resources/plugins/dragula/dragula.js'></script>
-	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src='../../../../resources/plugins/ContextJS/js/context.js'></script>
-	<script th:src="@{/resources/admin/designer/js/layout.js}" src='../../../../resources/admin/designer/js/layout.js'></script>
+	<script th:src="@{/resources/plugins/dragula/dragula.js}" src="../../../../resources/plugins/dragula/dragula.js"></script>
+	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src="../../../../resources/plugins/ContextJS/js/context.js"></script>
+	<script th:src="@{/resources/admin/designer/js/layout.js}" src="../../../../resources/admin/designer/js/layout.js"></script>
 	
 
 </body>
