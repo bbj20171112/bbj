@@ -3,10 +3,16 @@ var fieldItems = [];
 var items = [];
 var clicker = {};
 
+var dictionary = null;
+
 $(document).ready(function() {		
-				
-	// addRow();
-	
+		
+	var tableId = $("#input-table_id").val();
+	if(tableId){
+		dictionary = bbj.getBBJEntityDictionary(tableId);
+		var tableName = $('#input-table_name').val();
+		$("#input-program-controller-baseurl").val(tableName.substring(tableName.indexOf("_")).replace(/_/g,"/"));
+	}
 	initContext();
 	
 } );
@@ -30,12 +36,11 @@ function addRowSure(){
 	var baseNum = 12;
 	var colHtml = []; // 拼凑列的HTML
 	
+	var rowTabStr = "			";
 	var currentRow = items.length;
-	var rowHtml = '<div class="row item-row" data-column="'+currentRow+'" >';
+	var rowHtml = rowTabStr + '<div class="row item-row" data-column="'+currentRow+'" >\n';
 	for (var col = 0; col < colNum; col++) {
-		colHtml[col] = '<div' + 
-		' class = "col-sm-'+(baseNum / colNum)+' item-col' + '" data-column="'+currentRow + '-' + col +'"' + 
-		' id="item-col-' + currentRow + '-' + col +'">\n';
+		colHtml[col] = rowTabStr + '	<div' + ' class = "col-sm-'+(baseNum / colNum)+' item-col' + '" data-column="'+currentRow + '-' + col +'"' + ' id="item-col-' + currentRow + '-' + col +'">\n';
 		
 	}	
 	items[currentRow] = {};
@@ -43,15 +48,15 @@ function addRowSure(){
 	items[currentRow].colNum = colNum;
 		
 	for (var i = 0; i < colNum; i++) {
-		colHtml[i] += '</div>\n'; // 结束标签
+		colHtml[i] += rowTabStr + '	</div>\n'; // 结束标签
 		rowHtml += colHtml[i]; // 进行拼接容器HTML
 	}
-	rowHtml += "</div>";
+	rowHtml += rowTabStr + "</div>\n";
 	
 	if(items.length == 1){ // 首次加入
 		$("#div-row-list").html("");
 	}
-	$("#div-row-list").html($("#div-row-list").html() + '\n' + rowHtml + '\n');
+	$("#div-row-list").html($("#div-row-list").html() + '\n' + rowHtml);
 	
 	$("#modal-add-row").modal('hide'); // 隐藏对话框
 	// 可拖动
@@ -117,13 +122,14 @@ function addComponentSure() {
 		items[currentRow].data[currentCol] = component;
 	} 
 	
-	var htmlValue = '<div class="col-sm-12 item"  id="item-' + currentRow + '-' + currentCol +'">'
-						+getComponentItem(component)+
-					'</div>';
+	var componentTabStr = "					";
+	var htmlValue = componentTabStr + '<div class="col-sm-12 item"  id="item-' + currentRow + '-' + currentCol +'">\n'
+									+ getComponentItem(component) +
+					componentTabStr + '</div>\n';
 	if(currentCol - colNum >= 0){ // 超出原数目，直接在后面进行添加
-		$('#item-' + currentRow + '-'+tagCol).parent().append(htmlValue);
+		$('#item-' + currentRow + '-'+tagCol).parent().append("\n" + htmlValue);
 	} else { // 还能挂组件		
-		$("#item-col-" + currentRow + '-' + currentCol).html(htmlValue);		
+		$("#item-col-" + currentRow + '-' + currentCol).html("\n" + htmlValue + "				"); 
 	}
 	$("#modal-new-component").modal('hide');
 	initWidgets();
@@ -139,45 +145,46 @@ function getComponentItem(component){
 		component.attr.component_show_type = 'label';
 	}
 	
+	var componentItemTabStr = "					";
 	var componentShowType = component.attr.component_show_type;
 	if(componentShowType == 'form'){
-		return 	'    <form>'+component.attr.component_name+'</form>\n';
+		return 	componentItemTabStr + '    <form>'+component.attr.component_name+'</form>\n';
 	}else if (componentShowType == 'grid'){
-		return 	'    <table title="'+component.attr.component_name+'">\n'		
-			  	+'    </table>\n';
+		return 	componentItemTabStr + '    <table title="'+component.attr.component_name+'">\n'	+	
+				componentItemTabStr +'    </table>\n';
 	}else if(componentShowType == 'input'){
-		return 	'    <input value='+component.attr.component_name+'></input>\n';
+		return 	componentItemTabStr + '    <input value='+component.attr.component_name+'></input>\n';
 	}else if (componentShowType == 'checkbox'){
-		return 	'    <div name="item_check" class="checkbox checkbox-info">\n'		
-			  	+'        <input type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n'
-			  	+'        <label>'+component.attr.component_name+'</label>\n'
-			  	+'    </div>\n';
+		return 	componentItemTabStr + '    <div name="item_check" class="checkbox checkbox-info">\n' +		
+				componentItemTabStr + '        <input type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n' + 
+				componentItemTabStr + '        <label>'+component.attr.component_name+'</label>\n' + 
+				componentItemTabStr + '    </div>\n';
 	}else if (componentShowType == 'img'){
-		return 	'    <img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+component.attr.component_title+'" class="img-circle"></img>\n';
+		return 	componentItemTabStr + '    <img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+component.attr.component_title+'" class="img-circle"></img>\n';
 	}else if (componentShowType == 'button'){
-		return 	'    <button class="btn btn-info">'+component.attr.component_name+'</button>\n';
+		return 	componentItemTabStr + '    <button class="btn btn-info">'+component.attr.component_name+'</button>\n';
 	}else if(componentShowType == 'date'){
-		return 	'    <div class="input-group date">\n'
-        	  	+'        <div class="input-group-addon">\n'
-        	  	+'            <i class="fa fa-calendar"></i>\n'
-        	  	+'        </div>\n'
-        	  	+'        <input type="text" class="datepicker form-control pull-right"></input>\n'
-        	  	+'    </div>\n';
+		return 	componentItemTabStr + '    <div class="input-group date">\n' + 
+				componentItemTabStr + '        <div class="input-group-addon">\n' + 
+				componentItemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
+				componentItemTabStr + '        </div>\n' + 
+				componentItemTabStr + '        <input type="text" class="datepicker form-control pull-right"></input>\n' + 
+				componentItemTabStr + '    </div>\n';
 	}else if(componentShowType == 'datetime'){
-		 return '    <div class="input-group">\n'
-	     	   	+'        <div class="input-group-addon">\n'
-	     	   	+'            <i class="fa fa-clock-o"></i>\n'
-	     	   	+'        </div>\n'
-	     	   	+'        <input type="text" class="form-control pull-right datetimepicker"></input>\n'
-	     	   	+'    </div>\n';
+		 return componentItemTabStr + '    <div class="input-group">\n' + 
+		 		componentItemTabStr + '        <div class="input-group-addon">\n' + 
+		 		componentItemTabStr + '            <i class="fa fa-clock-o"></i>\n' + 
+		 		componentItemTabStr + '        </div>\n' + 
+		 		componentItemTabStr + '        <input type="text" class="form-control pull-right datetimepicker"></input>\n' + 
+		 		componentItemTabStr + '    </div>\n';
 	}else if(componentShowType == 'textarea'){
-		return 	'    <textarea class="form-control" rows="3" placeholder="'+component.attr.component_name+'"></textarea>\n';
+		return 	componentItemTabStr + '    <textarea class="form-control" rows="3" placeholder="'+component.attr.component_name+'"></textarea>\n';
 	}else if(componentShowType == 'select'){
-		return 	'    <select class="form-control select2" style="width: 100%">\n'
-			  	+'        <option value="0">'+component.attr.component_name+'</option>\n'
-			  	+'    </select>\n';
+		return 	componentItemTabStr + '    <select class="form-control select2" style="width: 100%">\n' + 
+				componentItemTabStr + '        <option value="0">'+component.attr.component_name+'</option>\n' + 
+				componentItemTabStr + '    </select>\n';
 	}else { // 当成label
-		return 	'    <label>'+component.attr.component_name+'</label>\n';
+		return 	componentItemTabStr + '    <label>'+component.attr.component_name+'</label>\n';
 	}
 }
 
@@ -363,9 +370,14 @@ function initContext(){
 
 ////////////// 程序生成
 
-function generateProgramCode(tableName){
+function generateProgramCode(){
 	
+	var tableName = $('#input-table_name').val();
 	var classNameObj = getClassNameObj(tableName);
+	
+	var jsStr = getJsStr(classNameObj);
+	$("#input-program-js-name").val('');
+	$("#input-program-js-source").html(escapeSpecialChars(jsStr));
 	
 	var htmlStr = getHTMLStr(classNameObj);
 	$("#input-program-html-name").val('');
@@ -393,12 +405,13 @@ function generateProgramCode(tableName){
 
 function getClassNameObj(tableName){
 	
-	var domainName = "User";
+	var domainName = Utils.getCamelCaseName("_" + tableName.substring(tableName.indexOf("_")));
+	
 	var daoName = domainName + "Dao";
 	var serviceName = domainName + "Service";
 	var controllerName = domainName + "Controller";
 	
-	var domainNameParam = "user";
+	var domainNameParam = domainName.substring(0,1).toLowerCase() + domainName.substring(1);;
 	var daoNameParam = domainNameParam + "Dao";
 	var serviceNameParam = domainNameParam + "Service";
 	var controllerNameParam = domainNameParam + "Controller";
@@ -425,12 +438,18 @@ function getDomainStr(classNameObj){
 						"public class " + classNameObj.domainName + " extends BBJEntity {\n";
 	var classPropertyTabsStr = "\t"
 	var classPropertyStr =	classPropertyTabsStr + "\n" +
-							classPropertyTabsStr + "private static final long serialVersionUID = 1L;\n" +
-							classPropertyTabsStr + "\n" +
-							classPropertyTabsStr + "public static final String tableName = \"" + classNameObj.tableName + "\"; \n" + 
-							classPropertyTabsStr + "\n" +
-							classPropertyTabsStr + "public static final String id = \"id\"; \n" +
-							classPropertyTabsStr + "\n";
+							classPropertyTabsStr + "private static final long serialVersionUID = 1L;\n" + 
+							classPropertyTabsStr + "\n" ;
+	if(dictionary){
+		var attributePropertyStr = "";
+		for(var i in dictionary){
+			attributePropertyStr += classPropertyTabsStr + "public static final String " +
+									Utils.getCamelCaseName(dictionary[i].attr.field_name)+
+									" = \"" + dictionary[i].attr.field_name + "\"; // "+
+									dictionary[i].attr.field_name_comment+" \n"; 
+		}
+		classPropertyStr += attributePropertyStr + "\n";
+	}
 	
 	var classDefFooter ="\n\n}\n";
 	
@@ -444,9 +463,13 @@ function getDomainStr(classNameObj){
 						classMethodsTabsStr + "\n"+
 						classMethodsTabsStr + "@Override\n"+
 						classMethodsTabsStr + "public String[] initAttr() {\n"+
-						classMethodsTabsStr + "	String attrs[] = new String[]{\n"+
-						classMethodsTabsStr + "			id, \n"+
-						classMethodsTabsStr + "	};\n"+
+						classMethodsTabsStr + "	String attrs[] = new String[]{\n";
+	if(dictionary){ // 增加字段
+		for(var i in dictionary){
+			classMethodsStr += classMethodsTabsStr + "\t\t" + Utils.getCamelCaseName(dictionary[i].attr.field_name) + ", \n"; 
+		}
+	}
+	classMethodsStr +=  classMethodsTabsStr + "	};\n"+
 						classMethodsTabsStr + "	return attrs;\n"+
 						classMethodsTabsStr + "}\n";
 						
@@ -570,6 +593,9 @@ function getServiceStr(classNameObj){
 
 function getControllerStr(classNameObj){
 	
+	var module = $("#input-program-controller-module").val();
+	var baseurl = $("#input-program-controller-baseurl").val();
+	
 	var importStr = "import java.util.HashMap;\n" + 
 					"import java.util.Map;\n" + 
 					"\n" + 
@@ -589,7 +615,7 @@ function getControllerStr(classNameObj){
 			
 	var classDefHeader ="\n" +
 						"@Controller\n" + 
-						"@RequestMapping(value={Constants.module_admin+\"/dictionary/field\"})\n" + 
+						"@RequestMapping(value={" + module + " + \""+baseurl+"\"})\n" + 
 						"public class " + classNameObj.controllerName + " {\n" +
 						"\n";
 	var classPropertyTabsStr = "\t"
@@ -690,12 +716,11 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "\n"+
 						classMethodsTabsStr + "@RequestMapping(value=\"/page\")\n"+ 
 						classMethodsTabsStr + "public Object page(HttpServletRequest request){\n"+ 
-						classMethodsTabsStr + "	return Constants.module_admin + \"/dictionary/dictionaryField\";\n"+ 
+						classMethodsTabsStr + "	return " + module + " + \""+baseurl+"\";\n"+ 
 						classMethodsTabsStr + "}\n";
 						
 	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
 }
-
 
 function getHTMLStr(classNameObj){
 				
@@ -715,6 +740,7 @@ function getHTMLStr(classNameObj){
 	var bodyStrTabsStr = "\t";
 	var bodyStr = 	bodyStrTabsStr + "<body>\n" + 
 					bodyStrTabsStr + "	<div class=\"wrapper\">\n" + 
+					bodyStrTabsStr + "		" + $("#div-row-list").html() + 
 					bodyStrTabsStr + "		\n" + 
 					bodyStrTabsStr + "	</div>\n" + 
 					bodyStrTabsStr + "</body>\n" ;
@@ -732,6 +758,56 @@ function getHTMLStr(classNameObj){
 	return htmlDefHeader + bodyStr + importJsStr + htmlDefFooter ;
 }
 
+function getJsStr(classNameObj){
+				
+	var initMethod ="$(document).ready(function(){\n" + 
+					"	\n" + 
+					"});\n\n\n";
+						
+	var insertMethod = "function insertEdit(id){\n" + 
+						"	Utils.ajax({\n" + 
+						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
+						"        type : \"GET\",\n" + 
+						"        success: function(data){\n" + 
+						"        	$(\"#modal-new-table\").modal('show');\n" + 
+						"		}\n" + 
+						"	});\n" + 
+						"}\n" +
+						"\n\n";
+	var deleteMethod = "function insertEdit(id){\n" + 
+						"	Utils.ajax({\n" + 
+						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
+						"        type : \"GET\",\n" + 
+						"        success: function(data){\n" + 
+						"        	$(\"#modal-new-table\").modal('show');\n" + 
+						"		}\n" + 
+						"	});\n" + 
+						"}\n" +
+						"\n\n";
+	var updateMethod = "function insertEdit(id){\n" + 
+						"	Utils.ajax({\n" + 
+						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
+						"        type : \"GET\",\n" + 
+						"        success: function(data){\n" + 
+						"        	$(\"#modal-new-table\").modal('show');\n" + 
+						"		}\n" + 
+						"	});\n" + 
+						"}\n" +
+						"\n\n";
+	var searchMethod = "function insertEdit(id){\n" + 
+						"	Utils.ajax({\n" + 
+						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
+						"        type : \"GET\",\n" + 
+						"        success: function(data){\n" + 
+						"        	$(\"#modal-new-table\").modal('show');\n" + 
+						"		}\n" + 
+						"	});\n" + 
+						"}\n" +
+						"\n\n";
+	
+						
+	return initMethod + insertMethod + deleteMethod + updateMethod + searchMethod;
+}
 
 function escapeSpecialChars(sourceStr){
 	return sourceStr.replace(/</g,"&lt;").replace(/>/g,"&gt;")

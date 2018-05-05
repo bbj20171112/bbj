@@ -28,6 +28,7 @@ function initGrid(){
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit_field(\''+row.attr.id+'\')" >字段维护</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_form(\''+row.attr.id+'\')" >Form设计</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_grid(\''+row.attr.id+'\')" >Grid设计</button>'
+	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_layout(\''+row.attr.id+'\',\''+row.attr.table_name+'\')" >Layout设计</button>'
 	          	+'</div>';
           	return operatorDiv;
          }
@@ -82,6 +83,10 @@ function row_delete(id){
         	$('#example').DataTable().ajax.reload();
 		}
 	});
+}
+
+function row_design_layout(id,table_name){
+	location.href = contextPath + "/admin/designer/layout?table_id=" +id + "&table_name=" + table_name;
 }
 
 function row_design_form(id){

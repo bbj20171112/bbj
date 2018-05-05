@@ -82,6 +82,9 @@ document.writeln('<script src="' + contextPath + '/resources/bower_components/se
 document.writeln('<!-- base.js -->');
 document.writeln('<script src="' + contextPath + '/resources/base/common/js/base.js"></script>');
 
+document.writeln('<!-- BBJEntity.js -->');
+document.writeln('<script src="' + contextPath + '/resources/base/common/js/BBJEntity.js"></script>');
+
 document.writeln('<!-- daterangepicker.js -->');
 document.writeln('<script src="' + contextPath + '/resources/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>');
 

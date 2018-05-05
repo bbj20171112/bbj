@@ -47,8 +47,10 @@
 				<form class="form-horizontal" onreadystatechange="" >		              
 		              <!-- /.box-body -->
 		              <div class="box-footer">
+		                <input type="text" class="form-control" id="input-table_id" th:value="${param.table_id}" placeholder="table_id">
+		                <input type="text" class="form-control" id="input-table_name" th:value="${param.table_name}"  placeholder="table_name">
 		                <button type="button" class="btn btn-info" onclick = "addRow()">添加行</button>
-		                <button type="button" class="btn btn-info" onclick = "generateProgramCode('user')">程序生成</button>
+		                <button type="button" class="btn btn-info" onclick = "generateProgramCode()">程序生成</button>
 		              </div>
 		              <!-- /.box-footer -->
 					<!-- /.box-body -->
@@ -86,7 +88,11 @@
 				</div>
 				<div class="modal-body">
 					<div class="nav-tabs-custom">
-						<!-- Tabs within a box -->
+						<ul class="nav nav-tabs pull-left ui-sortable-handle">
+							<li class="">
+								<button class="btn btn-link btn-sm" onclick="generateProgramCode()">重新生成</button>
+							</li>
+						</ul>
 						<ul class="nav nav-tabs pull-right ui-sortable-handle">
 							<li class="active">
 								<a href="#tab-pane-domain" data-toggle="tab" aria-expanded="true">Domain</a>
@@ -168,7 +174,10 @@
 										<label>模块</label>
 									</div>
 									<div class="col-sm-3">
-										<input class="form-control" id="input-program-controller-module"></input>
+										<select class="form-control select2" id="input-program-controller-module" style="width: 100%">
+											<option value="Constants.module_admin" selected="selected">admin</option>
+											<option value="Constants.module_base">base</option>
+										</select>
 									</div>
 								</div>
 								<div>

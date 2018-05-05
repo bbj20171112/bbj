@@ -23,9 +23,9 @@ jQuery.extend(bbj, (function(win, $) {
 				url : contextPath + "/admin/dictionary/field/all?table_id=" + tableId,
 				type : 'GET',
 				async : false, // 同步
-				success : function(data) {
-					if(data.code = '200'){
-						dictionary = data.data;
+				success : function(response) {
+					if(response.code = '200'){
+						dictionary = response.data;
 					}
 				}
 			});

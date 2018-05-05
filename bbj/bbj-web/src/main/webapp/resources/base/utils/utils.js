@@ -160,5 +160,16 @@ function Utils() {
 	    
 	    
 	}
+	
+	this.getCamelCaseName = function(name){
+		var strArray = name.split("_");
+		var camelCaseName = strArray[0];
+		if(strArray.length > 1){
+			for (var i = 0; i < strArray.length - 1; i++) {
+				camelCaseName += strArray[i + 1].substring(0,1).toUpperCase() + strArray[i + 1].substring(1);
+			}
+		}
+		return camelCaseName;
+	}
 
 }
