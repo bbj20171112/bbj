@@ -376,27 +376,21 @@ function generateProgramCode(){
 	var classNameObj = getClassNameObj(tableName);
 	
 	var jsStr = getJsStr(classNameObj);
-	$("#input-program-js-name").val('');
 	$("#input-program-js-source").html(escapeSpecialChars(jsStr));
 	
 	var htmlStr = getHTMLStr(classNameObj);
-	$("#input-program-html-name").val('');
 	$("#input-program-html-source").html(escapeSpecialChars(htmlStr));
 	
 	var controllerStr = getControllerStr(classNameObj);
-	$("#input-program-controller-name").val(classNameObj.controllerName);
 	$("#input-program-controller-source").html(escapeSpecialChars(controllerStr));
 	
 	var serviceStr = getServiceStr(classNameObj);
-	$("#input-program-service-name").val(classNameObj.serviceName);
 	$("#input-program-service-source").html(escapeSpecialChars(serviceStr));
 	
 	var daoStr = getDaoStr(classNameObj);
-	$("#input-program-dao-name").val(classNameObj.daoName);
 	$("#input-program-dao-source").html(escapeSpecialChars(daoStr));
 	
 	var domainStr = getDomainStr(classNameObj);
-	$("#input-program-domain-name").val(classNameObj.domainName);
 	$("#input-program-domain-source").html(escapeSpecialChars(domainStr));
 	
 	$("#modal-program-view").modal("show");
@@ -406,18 +400,65 @@ function generateProgramCode(){
 function getClassNameObj(tableName){
 	
 	var domainName = Utils.getCamelCaseName("_" + tableName.substring(tableName.indexOf("_")));
+	var domainElement = $("#input-program-domain-name");
+	if(Utils.isNotEmpty(domainElement.val())){
+		domainName = domainElement.val();
+	} else {
+		domainElement.val(domainName);
+	}
 	
 	var daoName = domainName + "Dao";
-	var serviceName = domainName + "Service";
-	var controllerName = domainName + "Controller";
+	var daoElement = $("#input-program-dao-name");
+	if(Utils.isNotEmpty(daoElement.val())){
+		daoName = daoElement.val();
+	} else {
+		daoElement.val(daoName);
+	}
 	
-	var domainNameParam = domainName.substring(0,1).toLowerCase() + domainName.substring(1);;
-	var daoNameParam = domainNameParam + "Dao";
-	var serviceNameParam = domainNameParam + "Service";
-	var controllerNameParam = domainNameParam + "Controller";
+	var serviceName = domainName + "Service";
+	var serviceElement = $("#input-program-service-name");
+	if(Utils.isNotEmpty(serviceElement.val())){
+		serviceName = serviceElement.val();
+	} else {
+		serviceElement.val(serviceName);
+	}
+	
+	var controllerName = domainName + "Controller";
+	var controllerElement = $("#input-program-controller-name");
+	if(Utils.isNotEmpty(controllerElement.val())){
+		controllerName = controllerElement.val();
+	} else {
+		controllerElement.val(controllerName);
+	}
+	
+	var moduleName =  $("#input-program-controller-module").val();;
+	
+	var domainNameParam = domainName.substring(0,1).toLowerCase() + domainName.substring(1);
+	var daoNameParam = daoName.substring(0,1).toLowerCase() + daoName.substring(1);;
+	var serviceNameParam = serviceName.substring(0,1).toLowerCase() + serviceName.substring(1);;
+	var controllerNameParam = controllerName.substring(0,1).toLowerCase() + controllerName.substring(1);;
+	
+	var jsName = moduleName + "/" + domainName.substring(0,1).toLowerCase() + domainName.substring(1) + ".js";
+	var jsElement = $("#input-program-js-name");
+	if(Utils.isNotEmpty(jsElement.val())){
+		jsName = jsElement.val();
+	} else {
+		jsElement.val(jsName);
+	}
+	
+	var htmlName = domainName.substring(0,1).toLowerCase() + domainName.substring(1);
+	var htmlElement = $("#input-program-html-name");
+	if(Utils.isNotEmpty(htmlElement.val())){
+		htmlElement.val('');
+	} else {
+		htmlElement.val(htmlName);
+	}
 	
 	return {
 		tableName : tableName,
+		moduleName : moduleName,
+		htmlName : htmlName,
+		jsName : jsName,
 		domainName : domainName,
 		domainNameParam : domainNameParam,
 		daoName : daoName,
@@ -593,7 +634,7 @@ function getServiceStr(classNameObj){
 
 function getControllerStr(classNameObj){
 	
-	var module = $("#input-program-controller-module").val();
+	var moduleName = "Constants.module_" + classNameObj.moduleName;
 	var baseurl = $("#input-program-controller-baseurl").val();
 	
 	var importStr = "import java.util.HashMap;\n" + 
@@ -615,7 +656,7 @@ function getControllerStr(classNameObj){
 			
 	var classDefHeader ="\n" +
 						"@Controller\n" + 
-						"@RequestMapping(value={" + module + " + \""+baseurl+"\"})\n" + 
+						"@RequestMapping(value={" + moduleName + " + \""+baseurl+"\"})\n" + 
 						"public class " + classNameObj.controllerName + " {\n" +
 						"\n";
 	var classPropertyTabsStr = "\t"
@@ -716,7 +757,7 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "\n"+
 						classMethodsTabsStr + "@RequestMapping(value=\"/page\")\n"+ 
 						classMethodsTabsStr + "public Object page(HttpServletRequest request){\n"+ 
-						classMethodsTabsStr + "	return " + module + " + \""+baseurl+"\";\n"+ 
+						classMethodsTabsStr + "	return " + moduleName + " + \""+baseurl+"\";\n"+ 
 						classMethodsTabsStr + "}\n";
 						
 	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
@@ -749,7 +790,7 @@ function getHTMLStr(classNameObj){
 	var importJsStr = 	importJsStrTabsStr + "\n" + 
 						importJsStrTabsStr + "<!-- 引入全局JavaScript -->\n" + 
 						importJsStrTabsStr + "<script th:src=\"@{/resources/base/javascript-import.js}\" src=\"../../../../resources/base/javascript-import.js\"></script>\n" + 
-						importJsStrTabsStr + "<script th:src=\"@{/resources/admin/dictionary/dictionaryField.js}\" src=\"../../../../resources/admin/dictionary/dictionaryField.js\" ></script>\n" + 
+						importJsStrTabsStr + "<script th:src=\"@{/resources/"+classNameObj.jsName+"}\" src=\"../../../../resources/"+classNameObj.jsName+"\" ></script>\n" + 
 						importJsStrTabsStr + "\n"; 
 
 	var htmlDefFooter ="\n</html>\n";

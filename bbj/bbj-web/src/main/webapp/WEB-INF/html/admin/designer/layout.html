@@ -107,10 +107,10 @@
 								<a href="#tab-pane-controller" data-toggle="tab" aria-expanded="false">Controller</a>
 							</li>
 							<li class="">
-								<a href="#tab-pane-html" data-toggle="tab" aria-expanded="true">HTML</a>
+								<a href="#tab-pane-js" data-toggle="tab" aria-expanded="true">Js</a>
 							</li>
 							<li class="">
-								<a href="#tab-pane-js" data-toggle="tab" aria-expanded="true">Js</a>
+								<a href="#tab-pane-html" data-toggle="tab" aria-expanded="true">HTML</a>
 							</li>
 						</ul>
 						<div class="tab-content no-padding">
@@ -175,13 +175,28 @@
 									</div>
 									<div class="col-sm-3">
 										<select class="form-control select2" id="input-program-controller-module" style="width: 100%">
-											<option value="Constants.module_admin" selected="selected">admin</option>
-											<option value="Constants.module_base">base</option>
+											<option value="admin" selected="selected">admin</option>
+											<option value="base">base</option>
 										</select>
 									</div>
 								</div>
 								<div>
 									<pre id="input-program-controller-source" class="brush: java;">	
+									</pre>
+								</div>
+							</div>
+							<div class="chart tab-pane" id="tab-pane-js" >
+								<div class="row form-group">
+									<div class="col-sm-3">
+										<label>文件路径[含文件名]</label>
+									</div>
+									<div class="col-sm-9">
+										<input class="form-control" id="input-program-js-name"></input>
+									</div>									
+								</div>
+								<div>
+									<pre id="input-program-js-source" class="brush: java;">	
+											js
 									</pre>
 								</div>
 							</div>
@@ -197,21 +212,6 @@
 								<div>
 									<pre id="input-program-html-source" class="brush: java;">
 										html
-									</pre>
-								</div>
-							</div>
-							<div class="chart tab-pane" id="tab-pane-js" >
-								<div class="row form-group">
-									<div class="col-sm-1">
-										<label>文件名</label>
-									</div>
-									<div class="col-sm-3">
-										<input class="form-control" id="input-program-js-name"></input>
-									</div>									
-								</div>
-								<div>
-									<pre id="input-program-js-source" class="brush: java;">	
-											js
 									</pre>
 								</div>
 							</div>
