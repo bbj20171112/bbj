@@ -178,6 +178,22 @@ public abstract class BBJEntity extends BBJObject	{
 		return keySb.toString();
 	}
 
+	/**
+	 * 获取key的string，中间用逗号隔开
+	 * @param alias
+	 * @return
+	 */
+	public String getAttrKeysStr(String alias) {
+		StringBuffer keySb = new StringBuffer();
+		for (Entry<String, String> entrySet : this.attr.entrySet()) {
+			keySb.append(alias + "." + entrySet.getKey() + ",");
+		}
+		if(keySb.length() > 0){
+			keySb.deleteCharAt(keySb.length() - 1);
+		}
+		return keySb.toString();
+	}
+	
 	public String getId() {
 		return id;
 	}

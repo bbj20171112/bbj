@@ -3,11 +3,15 @@ package com.bbj.base.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 
 public interface BBJDao<T extends BBJEntity> {
 
+	public JdbcTemplate getJdbcTemplate();
+	
 	public Map<String, Object> queryForMap(String prepareSql,Object... args);
 	
 	public List<T> queryForList(String prepareSql,Object[] args, Class<T> elementType);

@@ -11,6 +11,8 @@ public class DictionaryTable extends BBJEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String tableName = "admin_dictionary_table";
+	
 	public static final String ID = "id";
 	public static final String table_name = "table_name";
 	public static final String table_comment = "table_comment";
@@ -20,7 +22,7 @@ public class DictionaryTable extends BBJEntity {
 	
 	@Override
 	public String initTable() {
-		return "admin_dictionary_table";
+		return tableName;
 	}
 
 	@Override

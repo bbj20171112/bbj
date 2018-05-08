@@ -60,26 +60,26 @@ jQuery.extend(bbj, (function(win, $) {
 		},
 		
 		/**
-		 * bbjEntity : 对象
 		 * dictionary : 实体对象的数据字典
 		 * idPrefix : ID 前缀
 		 * 
 		 */
-		getBBJEntityValue : function(bbjEntity,dictionary,idPrefix){
+		getBBJEntityValue : function(dictionary,idPrefix){
 			
 			if(idPrefix){
 			} else { // 如果没有前置，默认为 item-field
 				idPrefix = "item-field";
 			}
-			
-			for (var attr in bbjEntity) { // 便利对象
-				var e = $("#"+idPrefix+"-" + attr);
-				if(e){
-					var value = e.val();
+			var bbjEntity = {};
+			for (var i = 0;i < dictionary.length ;i ++) { // 便利对象
+				var fieldName = dictionary[i].attr.field_name;
+				var element = $("#"+idPrefix + "-" + dictionary[i].attr.table_name +"-" + fieldName);
+				if(element){
+					var value = element.val();
 					if(value){
-						bbjEntity[attr] = value; // 赋值
+						bbjEntity[fieldName] = value; // 赋值
 					} else {
-						bbjEntity[attr] = null;
+						bbjEntity[fieldName] = null;
 					}
 				}
 			}

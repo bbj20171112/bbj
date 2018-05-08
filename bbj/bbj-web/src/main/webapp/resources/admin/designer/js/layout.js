@@ -480,6 +480,8 @@ function getDomainStr(classNameObj){
 	var classPropertyTabsStr = "\t"
 	var classPropertyStr =	classPropertyTabsStr + "\n" +
 							classPropertyTabsStr + "private static final long serialVersionUID = 1L;\n" + 
+							classPropertyTabsStr + "\n" + 
+							classPropertyTabsStr + "public static final String tableName = \"" + classNameObj.tableName + "\";\n" + 
 							classPropertyTabsStr + "\n" ;
 	if(dictionary){
 		var attributePropertyStr = "";

@@ -273,5 +273,9 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	public Map<String, Object> queryForMap(String prepareSql,Object... args){
 		return jdbcTemplate.queryForMap(prepareSql, args);
 	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
 	
 }
