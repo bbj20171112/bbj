@@ -45,14 +45,14 @@ jQuery.extend(bbj, (function(win, $) {
 				idPrefix = "item-field";
 			}
 			
-			for (var attr in bbjEntity) { // 便利对象
-				var e = $("#"+idPrefix+"-" + attr);
-				if(e){
-					var value = bbjEntity[attr];
-					if(value){
-						e.val(value); // 赋值
+			for (var i = 0;i < dictionary.length ;i ++) { // 便利对象
+				var fieldName = dictionary[i].attr.field_name;
+				var element = $("#"+idPrefix + "-" + dictionary[i].attr.table_name +"-" + fieldName);
+				if(element){
+					if(bbjEntity && bbjEntity.attr){
+						element.val(bbjEntity.attr[fieldName]); // 赋值
 					} else {
-						e.val("");
+						element.val("");
 					}
 				}
 			}
@@ -77,7 +77,7 @@ jQuery.extend(bbj, (function(win, $) {
 				if(element){
 					var value = element.val();
 					if(value){
-						bbjEntity[fieldName] = value; // 赋值
+						bbjEntity[fieldName] = value; // 获取值
 					} else {
 						bbjEntity[fieldName] = null;
 					}
