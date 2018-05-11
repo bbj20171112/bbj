@@ -803,53 +803,135 @@ function getHTMLStr(classNameObj){
 
 function getJsStr(classNameObj){
 				
-	var initMethod ="$(document).ready(function(){\n" + 
+	var globalVars = "\n" + 
+					"var tableId = \"1525515537026\"; // 当前表ID\n" + 
+					"var dictionary = {}; // 数据字典\n" + 
+					"var baseURL = contextPath + \"/admin/testDomain\"; // 基URL\n" + 
+					"var tableDataTable = {}; // 表格对象\n" + 
+					"\n\n";
+
+	var initMethod ="/**\n" + 
+					" * 页面初始化\n" + 
+					" */\n" + 
+					"$(document).ready(function(){\n" + 
 					"	\n" + 
-					"});\n\n\n";
+					"	// 获取数据字典\n" + 
+					"	dictionary = bbj.getBBJEntityDictionary(tableId);\n" + 
+					"	\n" + 
+					"	// 初始化表格\n" + 
+					"	initTable(dictionary);\n" + 
+					"	\n" + 
+					"});\n\n\n" + 
+					"/**\n" + 
+					" * 初始化表格数据\n" + 
+					" * @param dictionary\n" + 
+					" * @returns\n" + 
+					" */\n" + 
+					"function initTable(dictionary){\n" + 
+					"	// 获取配置信息[默认全部进行展示，当数据库新增表结构时候会进行同步更新展示]\n" + 
+					"	var columns = [];\n" + 
+					"	for(var i = 0; i < dictionary.length ;i ++){\n" + 
+					"		columns.push({\n" + 
+					"			data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义\n" + 
+					"			title : dictionary[i].attr.field_name_comment , // 数据列标题\n" + 
+					"		});\n" + 
+					"	}\n" + 
+					"	// 增加操作列\n" + 
+					"	columns.push({\n" + 
+					"		data : null,\n" + 
+					"		title : \"编辑\" ,\n" + 
+					"	});\n" + 
+					"	\n" + 
+					"	// 初始化DataTable\n" + 
+					"	tableDataTable = $('#example').DataTable({\n" + 
+					"		ajax: { \n" + 
+					"            url: baseURL\n" + 
+					"        },\n" + 
+					"        lengthChange: false,\n" + 
+					"        columnDefs: [{\n" + 
+					" 			targets: -1,\n" + 
+					" 			render: function(data, type, row) { \n" + 
+					"	          	var operatorDiv = '<div>'\n" + 
+					"	          	+'<i class=\"fa fa-edit\" title=\"编辑\"></i>'\n" + 
+					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"updateOption(\''+row.attr.id+'\')\" >编辑</button>'\n" + 
+					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"deleteOption(\''+row.attr.id+'\')\" >删除</button>'\n" + 
+					"	          	+'</div>';\n" + 
+					"          	return operatorDiv;\n" + 
+					"         }\n" + 
+					"      }],\n" + 
+					"      columns: columns\n" + 
+					"	});\n" + 
+					"}\n" + 
+					"\n\n";
 						
-	var insertMethod = "function insertEdit(id){\n" + 
-						"	Utils.ajax({\n" + 
-						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
-						"        type : \"GET\",\n" + 
-						"        success: function(data){\n" + 
-						"        	$(\"#modal-new-table\").modal('show');\n" + 
-						"		}\n" + 
-						"	});\n" + 
+	var insertMethod = "/**\n" + 
+						" * 插入[新增]操作\n" + 
+						" * @returns\n" + 
+						" */\n" + 
+						"function insertOption(){\n" + 
+						"	bbj.setBBJEntityValue({},dictionary); // 清空Form数据\n" + 
+						"	$(\"#modal-new-option-testdomain\").modal('show'); // 打开输入Form模态框\n" + 
 						"}\n" +
 						"\n\n";
-	var deleteMethod = "function insertEdit(id){\n" + 
-						"	Utils.ajax({\n" + 
-						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
-						"        type : \"GET\",\n" + 
-						"        success: function(data){\n" + 
-						"        	$(\"#modal-new-table\").modal('show');\n" + 
-						"		}\n" + 
-						"	});\n" + 
+	var deleteMethod = "/**\n" +
+						" * 删除操作\n" +
+						" * @param id\n" +
+						" * @returns\n" +
+						" */\n" +
+						"function deleteOption(id){\n" +
+						"	Utils.ajax({ \n" +
+						" 		url : baseURL + \"/\" + id,\n" +
+						"		type : 'DELETE',\n" +
+						"		success : function(data) {\n" +
+						"			tableDataTable.ajax.reload();// 刷新页面\n" +
+						"		}\n" +
+						"	});\n" +
 						"}\n" +
 						"\n\n";
-	var updateMethod = "function insertEdit(id){\n" + 
-						"	Utils.ajax({\n" + 
-						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
-						"        type : \"GET\",\n" + 
-						"        success: function(data){\n" + 
-						"        	$(\"#modal-new-table\").modal('show');\n" + 
-						"		}\n" + 
-						"	});\n" + 
+	var updateMethod = "/**\n" +
+						" * 更新[修改]操作\n" +
+						" * @param id\n" +
+						" * @returns\n" +
+						" */\n" +
+						"function updateOption(id){\n" +
+						"	// 根据主键获取对应行数据\n" +
+						"	Utils.ajax({ \n" +
+						"		url : baseURL + \"/\" + id,\n" +
+						"		type : 'GET',\n" +
+						"		success : function(data) {\n" +
+						"			bbj.setBBJEntityValue(data.data,dictionary); // 设置Form值\n" +
+						"			$(\"#modal-new-option-testdomain\").modal('show'); // 打开输入Form模态框\n" +
+						"		}\n" +
+						"	});\n" +
 						"}\n" +
 						"\n\n";
-	var searchMethod = "function insertEdit(id){\n" + 
-						"	Utils.ajax({\n" + 
-						"        url: contextPath + \"/admin/dictionary/table/\"+id,\n" + 
-						"        type : \"GET\",\n" + 
-						"        success: function(data){\n" + 
-						"        	$(\"#modal-new-table\").modal('show');\n" + 
-						"		}\n" + 
-						"	});\n" + 
-						"}\n" +
-						"\n\n";
+	var insertOrUpdateSaveMethod = "/**\n" + 
+									" * 新增或修改保存函数\n" + 
+									" * @returns\n" + 
+									" */\n" + 
+									"function insertOrUpdateSave(){\n" + 
+									"	$(\"#modal-new-option-testdomain\").modal('hide'); // 隐藏Form模态框\n" + 
+									"	var entity= bbj.getBBJEntityValue(dictionary); // 获取输入的值\n" + 
+									"	\n" + 
+									"	var type = \"POST\"; // 新增操作\n" + 
+									"	if (entity.id) { // 如果主键不为有效\n" + 
+									"		type = \"PUT\"; // 修改操作\n" + 
+									"	}\n" + 
+									"	// 提交给后台进行保存\n" + 
+									"	Utils.ajax({ \n" + 
+									"		type : type,\n" + 
+									"		url : baseURL,\n" + 
+									"		data : entity,\n" + 
+									"		success : function(data) {\n" + 
+									"			tableDataTable.ajax.reload();// 刷新页面\n" + 
+									"		}\n" + 
+									"	});\n" + 
+									"}\n" +
+									"\n\n";
 	
+	var searchMethod = "";
 						
-	return initMethod + insertMethod + deleteMethod + updateMethod + searchMethod;
+	return globalVars + initMethod + insertMethod + deleteMethod + updateMethod + insertOrUpdateSaveMethod + searchMethod;
 }
 
 function escapeSpecialChars(sourceStr){
