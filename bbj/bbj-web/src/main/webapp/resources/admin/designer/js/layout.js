@@ -372,8 +372,7 @@ function initContext(){
 
 function generateProgramCode(){
 	
-	var tableName = $('#input-table_name').val();
-	var classNameObj = getClassNameObj(tableName);
+	var classNameObj = getClassNameObj();
 	
 	var jsStr = getJsStr(classNameObj);
 	$("#input-program-js-source").html(escapeSpecialChars(jsStr));
@@ -397,7 +396,10 @@ function generateProgramCode(){
 }
 
 
-function getClassNameObj(tableName){
+function getClassNameObj(){
+	
+	var tableId = $('#input-table_id').val();
+	var tableName = $('#input-table_name').val();
 	
 	var domainName = Utils.getCamelCaseName("_" + tableName.substring(tableName.indexOf("_")));
 	var domainElement = $("#input-program-domain-name");
@@ -446,7 +448,7 @@ function getClassNameObj(tableName){
 		jsElement.val(jsName);
 	}
 	
-	var htmlName = domainName.substring(0,1).toLowerCase() + domainName.substring(1);
+	var htmlName = moduleName + "/" + domainName.substring(0,1).toLowerCase() + domainName.substring(1) + ".html";
 	var htmlElement = $("#input-program-html-name");
 	if(Utils.isNotEmpty(htmlElement.val())){
 		htmlElement.val('');
@@ -455,6 +457,7 @@ function getClassNameObj(tableName){
 	}
 	
 	return {
+		tableId : tableId,
 		tableName : tableName,
 		moduleName : moduleName,
 		htmlName : htmlName,
@@ -802,12 +805,14 @@ function getHTMLStr(classNameObj){
 }
 
 function getJsStr(classNameObj){
-				
+	
 	var globalVars = "\n" + 
-					"var tableId = \"1525515537026\"; // 当前表ID\n" + 
+					"var tableId = \""+classNameObj.tableId+"\"; // 当前表ID\n" + 
 					"var dictionary = {}; // 数据字典\n" + 
-					"var baseURL = contextPath + \"/admin/testDomain\"; // 基URL\n" + 
+					"var baseURL = contextPath + \"/admin/"+classNameObj.domainNameParam+"\"; // 基URL\n" + 
 					"var tableDataTable = {}; // 表格对象\n" + 
+					"var tableElementId = \"table-"+classNameObj.tableName+"\"; // 当前表ID\n" + 
+					"var modalElementId = \"modal-"+classNameObj.tableName+"\"; // 当前表ID\n" + 
 					"\n\n";
 
 	var initMethod ="/**\n" + 
@@ -843,7 +848,7 @@ function getJsStr(classNameObj){
 					"	});\n" + 
 					"	\n" + 
 					"	// 初始化DataTable\n" + 
-					"	tableDataTable = $('#example').DataTable({\n" + 
+					"	tableDataTable = $('#'+tableElementId).DataTable({\n" + 
 					"		ajax: { \n" + 
 					"            url: baseURL\n" + 
 					"        },\n" + 
@@ -853,8 +858,8 @@ function getJsStr(classNameObj){
 					" 			render: function(data, type, row) { \n" + 
 					"	          	var operatorDiv = '<div>'\n" + 
 					"	          	+'<i class=\"fa fa-edit\" title=\"编辑\"></i>'\n" + 
-					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"updateOption(\''+row.attr.id+'\')\" >编辑</button>'\n" + 
-					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"deleteOption(\''+row.attr.id+'\')\" >删除</button>'\n" + 
+					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"updateOption(\'+row.attr.id+\')\" >编辑</button>'\n" + 
+					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"deleteOption(\'+row.attr.id+\')\" >删除</button>'\n" + 
 					"	          	+'</div>';\n" + 
 					"          	return operatorDiv;\n" + 
 					"         }\n" + 
@@ -870,7 +875,7 @@ function getJsStr(classNameObj){
 						" */\n" + 
 						"function insertOption(){\n" + 
 						"	bbj.setBBJEntityValue({},dictionary); // 清空Form数据\n" + 
-						"	$(\"#modal-new-option-testdomain\").modal('show'); // 打开输入Form模态框\n" + 
+						"	$(\"#\"+modalElementId).modal('show'); // 打开输入Form模态框\n" + 
 						"}\n" +
 						"\n\n";
 	var deleteMethod = "/**\n" +
@@ -900,7 +905,7 @@ function getJsStr(classNameObj){
 						"		type : 'GET',\n" +
 						"		success : function(data) {\n" +
 						"			bbj.setBBJEntityValue(data.data,dictionary); // 设置Form值\n" +
-						"			$(\"#modal-new-option-testdomain\").modal('show'); // 打开输入Form模态框\n" +
+						"			$(\"#\"+modalElementId).modal('show'); // 打开输入Form模态框\n" +
 						"		}\n" +
 						"	});\n" +
 						"}\n" +
@@ -910,7 +915,7 @@ function getJsStr(classNameObj){
 									" * @returns\n" + 
 									" */\n" + 
 									"function insertOrUpdateSave(){\n" + 
-									"	$(\"#modal-new-option-testdomain\").modal('hide'); // 隐藏Form模态框\n" + 
+									"	$(\"#\"+modalElementId).modal('hide'); // 隐藏Form模态框\n" + 
 									"	var entity= bbj.getBBJEntityValue(dictionary); // 获取输入的值\n" + 
 									"	\n" + 
 									"	var type = \"POST\"; // 新增操作\n" + 
