@@ -7,5 +7,6 @@ import com.bbj.base.dao.BBJDaoImp;
 
 @Repository
 public class MenuDao extends BBJDaoImp<Menu>{
-	
+
+
 }

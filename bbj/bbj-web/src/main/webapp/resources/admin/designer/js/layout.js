@@ -370,9 +370,9 @@ function initContext(){
 
 ////////////// 程序生成
 
-function generateProgramCode(){
+function generateProgramCode(isRebuild){
 	
-	var classNameObj = getClassNameObj();
+	var classNameObj = getClassNameObj(isRebuild);
 	
 	var jsStr = getJsStr(classNameObj);
 	$("#input-program-js-source").html(escapeSpecialChars(jsStr));
@@ -396,70 +396,97 @@ function generateProgramCode(){
 }
 
 
-function getClassNameObj(){
+function getClassNameObj(isRebuild){
 	
 	var tableId = $('#input-table_id').val();
 	var tableName = $('#input-table_name').val();
 	
 	var domainName = Utils.getCamelCaseName("_" + tableName.substring(tableName.indexOf("_")));
 	var domainElement = $("#input-program-domain-name");
-	if(Utils.isNotEmpty(domainElement.val())){
-		domainName = domainElement.val();
-	} else {
+	if(isRebuild){
 		domainElement.val(domainName);
+	} else {
+		if(Utils.isNotEmpty(domainElement.val())){
+			domainName = domainElement.val();
+		} else {
+			domainElement.val(domainName);
+		}
 	}
+	
 	
 	var daoName = domainName + "Dao";
 	var daoElement = $("#input-program-dao-name");
-	if(Utils.isNotEmpty(daoElement.val())){
-		daoName = daoElement.val();
-	} else {
+	if(isRebuild){
 		daoElement.val(daoName);
+	} else {
+		if(Utils.isNotEmpty(daoElement.val())){
+			daoName = daoElement.val();
+		} else {
+			daoElement.val(daoName);
+		}
 	}
 	
 	var serviceName = domainName + "Service";
 	var serviceElement = $("#input-program-service-name");
-	if(Utils.isNotEmpty(serviceElement.val())){
-		serviceName = serviceElement.val();
-	} else {
+	if(isRebuild){
 		serviceElement.val(serviceName);
+	} else {
+		if(Utils.isNotEmpty(serviceElement.val())){
+			serviceName = serviceElement.val();
+		} else {
+			serviceElement.val(serviceName);
+		}
 	}
 	
 	var controllerName = domainName + "Controller";
 	var controllerElement = $("#input-program-controller-name");
-	if(Utils.isNotEmpty(controllerElement.val())){
-		controllerName = controllerElement.val();
-	} else {
+	if(isRebuild){
 		controllerElement.val(controllerName);
+	} else {
+		if(Utils.isNotEmpty(controllerElement.val())){
+			controllerName = controllerElement.val();
+		} else {
+			controllerElement.val(controllerName);
+		}
 	}
 	
 	var moduleName =  $("#input-program-controller-module").val();;
+	var baseUrl = $("#input-program-controller-baseurl").val();
 	
 	var domainNameParam = domainName.substring(0,1).toLowerCase() + domainName.substring(1);
 	var daoNameParam = daoName.substring(0,1).toLowerCase() + daoName.substring(1);;
 	var serviceNameParam = serviceName.substring(0,1).toLowerCase() + serviceName.substring(1);;
 	var controllerNameParam = controllerName.substring(0,1).toLowerCase() + controllerName.substring(1);;
 	
-	var jsName = moduleName + "/" + domainName.substring(0,1).toLowerCase() + domainName.substring(1) + ".js";
+	var jsName = moduleName + "" + baseUrl + ".js";
 	var jsElement = $("#input-program-js-name");
-	if(Utils.isNotEmpty(jsElement.val())){
-		jsName = jsElement.val();
-	} else {
+	if(isRebuild){
 		jsElement.val(jsName);
+	} else {
+		if(Utils.isNotEmpty(jsElement.val())){
+			jsName = jsElement.val();
+		} else {
+			jsElement.val(jsName);
+		}
 	}
 	
-	var htmlName = moduleName + "/" + domainName.substring(0,1).toLowerCase() + domainName.substring(1) + ".html";
+	var htmlName = moduleName + "/" + baseUrl + ".html";
 	var htmlElement = $("#input-program-html-name");
-	if(Utils.isNotEmpty(htmlElement.val())){
-		htmlElement.val('');
-	} else {
+	if(isRebuild){
 		htmlElement.val(htmlName);
+	} else {
+		if(Utils.isNotEmpty(htmlElement.val())){
+			htmlElement.val('');
+		} else {
+			htmlElement.val(htmlName);
+		}
 	}
 	
 	return {
 		tableId : tableId,
 		tableName : tableName,
 		moduleName : moduleName,
+		baseUrl : baseUrl,
 		htmlName : htmlName,
 		jsName : jsName,
 		domainName : domainName,
@@ -639,9 +666,6 @@ function getServiceStr(classNameObj){
 
 function getControllerStr(classNameObj){
 	
-	var moduleName = "Constants.module_" + classNameObj.moduleName;
-	var baseurl = $("#input-program-controller-baseurl").val();
-	
 	var importStr = "import java.util.HashMap;\n" + 
 					"import java.util.Map;\n" + 
 					"\n" + 
@@ -661,7 +685,7 @@ function getControllerStr(classNameObj){
 			
 	var classDefHeader ="\n" +
 						"@Controller\n" + 
-						"@RequestMapping(value={" + moduleName + " + \""+baseurl+"\"})\n" + 
+						"@RequestMapping(value={Constants.module_" + classNameObj.moduleName + " + \""+classNameObj.baseUrl+"\"})\n" + 
 						"public class " + classNameObj.controllerName + " {\n" +
 						"\n";
 	var classPropertyTabsStr = "\t"
@@ -762,7 +786,7 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "\n"+
 						classMethodsTabsStr + "@RequestMapping(value=\"/page\")\n"+ 
 						classMethodsTabsStr + "public Object page(HttpServletRequest request){\n"+ 
-						classMethodsTabsStr + "	return " + moduleName + " + \""+baseurl+"\";\n"+ 
+						classMethodsTabsStr + "	return Constants.module_" + classNameObj.moduleName + " + \""+classNameObj.baseUrl+"\";\n"+ 
 						classMethodsTabsStr + "}\n";
 						
 	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
@@ -805,11 +829,10 @@ function getHTMLStr(classNameObj){
 }
 
 function getJsStr(classNameObj){
-	
-	var globalVars = "\n" + 
+	var globalVars = "\n\n" + 
 					"var tableId = \""+classNameObj.tableId+"\"; // 当前表ID\n" + 
 					"var dictionary = {}; // 数据字典\n" + 
-					"var baseURL = contextPath + \"/admin/"+classNameObj.domainNameParam+"\"; // 基URL\n" + 
+					"var baseURL = contextPath + \"/"+classNameObj.moduleName+""+classNameObj.baseUrl+"\"; // 基URL\n" + 
 					"var tableDataTable = {}; // 表格对象\n" + 
 					"var tableElementId = \"table-"+classNameObj.tableName+"\"; // 当前表ID\n" + 
 					"var modalElementId = \"modal-"+classNameObj.tableName+"\"; // 当前表ID\n" + 

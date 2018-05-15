@@ -77,7 +77,7 @@ $(document).ready(function() {
 		]}
 	]);
 	
-	$("#field-item-col_num").val("3");
+	$("#field-item-col_num").val("1");
 	initFieldItems();
 	newPage();
 } );
@@ -102,40 +102,102 @@ function getDictionaryFields(tableId) {
 }
 
 function getFieldItem(field){
+		
+	var labelCol = "3";
+	var contentCol = "9";
+	var itemTabStr = "\t\t\t";
 	var fieldKeyType = field.attr.field_show_type;
+	var idStr = "item_field-"+field.attr.table_name+"-" + field.attr.field_name;
 	if(fieldKeyType == 'input'){
-		return 	'    <input value='+field.attr.field_name_comment+'></input>\n';
+		var hiddenAttr = "";
+		if(field.id == field.attr.field_name){ // 主键ID
+			hiddenAttr = "hidden";
+		}
+		var item =  itemTabStr + '<div class="form-group ' + hiddenAttr + '">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '  		<input id="'+idStr+'" type="input" class="form-control" placeholder="'+field.attr.field_name_comment+'">\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else if (fieldKeyType == 'checkbox'){
-		return 	'    <div name="item_check" class="checkbox checkbox-info">\n'		
-			  	+'        <input type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n'
-			  	+'        <label>'+field.attr.field_name_comment+'</label>\n'
-			  	+'    </div>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<div class="col-sm-offset-'+labelCol+' col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '    <div name="item_check" class="checkbox checkbox-info">\n'	+
+					itemTabStr + '        <input id="'+idStr+'" type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n' + 
+					itemTabStr + '        <label>'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '    </div>\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else if (fieldKeyType == 'img'){
-		return 	'    <img src="'+contextPath+'/resources/dist/img/avatar5.png" title="'+field.attr.field_name_comment+'" class="img-circle"></img>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '    <input type="file" id="'+idStr+'">\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else if (fieldKeyType == 'button'){
-		return 	'    <button class="btn btn-info">'+field.attr.field_name_comment+'</button>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '    <button id="'+idStr+'" class="btn btn-info"></button>\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else if(fieldKeyType == 'date'){
-		return 	'    <div class="input-group date">\n'
-        	  	+'        <div class="input-group-addon">\n'
-        	  	+'            <i class="fa fa-calendar"></i>\n'
-        	  	+'        </div>\n'
-        	  	+'        <input type="text" class="datepicker form-control pull-right"></input>\n'
-        	  	+'    </div>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '		<div class="input-group">\n' + 
+					itemTabStr + '        <div class="input-group-addon">\n' + 
+					itemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
+					itemTabStr + '        </div>\n' + 
+					itemTabStr + '        <input type="text" class="form-control pull-right datepicker"></input>\n' + 
+					itemTabStr + '    	</div>\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;				
 	}else if(fieldKeyType == 'datetime'){
-		 return '    <div class="input-group">\n'
-	     	   	+'        <div class="input-group-addon">\n'
-	     	   	+'            <i class="fa fa-clock-o"></i>\n'
-	     	   	+'        </div>\n'
-	     	   	+'        <input type="text" class="form-control pull-right datetimepicker"></input>\n'
-	     	   	+'    </div>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '		<div class="input-group">\n' + 
+					itemTabStr + '        <div class="input-group-addon">\n' + 
+					itemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
+					itemTabStr + '        </div>\n' + 
+					itemTabStr + '        <input type="text" class="form-control pull-right datetimepicker"></input>\n' + 
+					itemTabStr + '    	</div>\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else if(fieldKeyType == 'textarea'){
-		return 	'    <textarea class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+' date">\n' + 
+					itemTabStr + '    <textarea id="'+idStr+'" class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>\n' + 
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else if(fieldKeyType == 'select'){
-		return 	'    <select class="form-control select2" style="width: 100%">\n'
-			  	+'        <option value="0">'+field.attr.field_name_comment+'</option>\n'
-			  	+'    </select>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '    <select id="'+idStr+'" class="form-control select2" style="width: 100%">\n' +
+					itemTabStr + '    	<option value="0">'+field.attr.field_name_comment+'</option>\n' +
+					itemTabStr + '    </select>\n' +
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}else { // 当成label
-		return 	'    <label>'+field.attr.field_name_comment+'</label>\n';
+		var item =  itemTabStr + '<div class="form-group">\n' + 
+					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+					itemTabStr + '    <label id="'+idStr+'" >'+field.attr.field_name_comment+'</label>\n' +
+					itemTabStr + '	</div>\n' + 
+					itemTabStr + '</div>\n';
+		return 	item;
 	}
 }
 
@@ -188,26 +250,27 @@ function newFieldSave() {
 		$('#item-'+tagCol +'-'+(fieldItems.length - 1 - colNum)).parent().append(htmlValue);
 		initWidgets();
 	} else {
-		$("#container-form").html("");
+		$("#container-form").find("div[class=box-body]").html("");
 
+		var tabStr = "\t\t";
 		var baseWidth = 12;
 		var colHtml = [];
 		for (var i = 0; i < colNum; i++) {
-			colHtml[i] = '<div' + ' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + ' id="item-parent-' + i +'">\n';
+			colHtml[i] = tabStr + '<div' + ' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + ' id="item-parent-' + i +'">\n';
 		}
 		var name = "";
 		var clazz = "";
 		for (var i = 0; i < fieldItems.length; i++) {
-				colHtml[i % colNum] += '    <div'+ ' class="col-sm-12 item"' + ' id="item-' + (i % colNum) + '-' + i +'">\n'
+				colHtml[i % colNum] += tabStr + '    <div'+ ' class="col-sm-12 item"' + ' id="item-' + (i % colNum) + '-' + i +'">\n'
 									    +fieldItems[i]+ '\n' + 
-									   '    </div>\n';
+									    tabStr + '    </div>\n';
 		}
 		var containerHtml = "";
 		for (var i = 0; i < colNum; i++) {
-			colHtml[i] += '</div>\n'; // 结束标签
+			colHtml[i] += tabStr + '</div>\n'; // 结束标签
 			containerHtml += colHtml[i]; // 进行拼接容器HTML
 		}
-		$("#container-form").html(containerHtml);
+		$("#container-form").find("div[class=box-body]").html("\n" + containerHtml + "\n");
 		
 		initWidgets();
 		var colDiv = [];
@@ -235,22 +298,51 @@ function initFieldItems(){
 }
 
 
-function showSource(){
-	var containerSource = document.getElementById('container-source');
-	containerSource.value = $("#container-form").html();
-	var editor = CodeMirror.fromTextArea(containerSource, {
-	    mode: "xml",
-	    tabMode: "indent",
-	    lineWrapping: true,
-	    lineNumbers: true
-	});
+
+function generateProgramCode(){
+	
+	var formStr = getFormStr();
+	$("#input-program-form-source").html(escapeSpecialChars(formStr));
+	
+	var modalStr = getModalStr($('#field-item-table_name').val());
+	$("#input-program-modal-source").html(escapeSpecialChars(modalStr));
+	
+	$("#modal-source-view").modal("show");
 }
-function autoFormatRange(){
-	var containerSource = document.getElementById('container-source');
-	var editor = CodeMirror.fromTextArea(containerSource, {
-	});
-	editor.autoFormatRange({line:0, ch:0}, {line:totalLines});
+function escapeSpecialChars(sourceStr){
+	return sourceStr.replace(/</g,"&lt;").replace(/>/g,"&gt;")
 }
+
+function getModalStr(tableName){
+	var modalStr = '<!-- Modal -->\n'  +
+		'<div class="modal fade" id="modal-'+tableName+'" aria-labelledby="modal-'+tableName+'">\n'  +
+		'  <div class="modal-dialog">\n'  +
+		'    <div class="modal-content">\n'  +
+		'      <div class="modal-header">\n'  +
+		'        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n'  +
+		'        <h4 class="modal-title">Modal title</h4>\n'  +
+		'      </div>\n'  +
+		'      <div class="modal-body">\n'  +
+		'      	<form class="form-horizontal">\n'  +
+		'         <div class="box-body">\n'  +                
+		$("#container-form").find("div[class=box-body]").html() + 
+		'         </div>\n'  +
+		'      </div>\n'  +
+		'     </div>\n'  +
+		'     <div class="modal-footer">\n'  +
+		'        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>\n'  +
+		'        <button type="button" class="btn btn-primary" onclick="insertOrUpdateSave()">Save</button>\n'  +
+		'     </div>\n'  +
+		'    </div>\n'  +
+		'  </div>\n'  +
+		'</div>';
+	return modalStr;
+}
+function getFormStr(){
+	var formStr = $("#container-form").html();
+	return formStr ;
+}
+
 /**
  * 新建一个页面设计布局
  * 
@@ -258,32 +350,29 @@ function autoFormatRange(){
  */
 
 function newPage(){
-	$("#container-form").html("");
+	$("#container-form").find("div[class=box-body]").html("");
 
 	var colNum = $("#field-item-col_num").val();
 	var baseWidth = 12;
 	var fieldItems = getFieldItems();
 	var colHtml = [];
+	var tabStr = "\t";
 	for (var i = 0; i < colNum; i++) {
-		colHtml[i] = '<div' + 
-		' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + 
-		' id="item-parent-' + i +'">\n';
+		colHtml[i] = tabStr + '<div' + ' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + ' id="item-parent-' + i +'">\n';
 	}
 	var name = "";
 	var clazz = "";
 	for (var i = 0; i < fieldItems.length; i++) {
-			colHtml[i % colNum] += '<div'+
-								' class="col-sm-12 item"' +
-								' id="item-' + (i % colNum) + '-' + i +'">\n'
-								+fieldItems[i]+ 
-								'</div>\n';
+			colHtml[i % colNum] += tabStr +  '	<div'+' class="col-sm-12 item"' + ' id="item-' + (i % colNum) + '-' + i +'">\n'
+									+fieldItems[i]+ 
+								tabStr + '	</div>\n';
 	}
 	var containerHtml = "";
 	for (var i = 0; i < colNum; i++) {
-		colHtml[i] += '</div>\n'; // 结束标签
+		colHtml[i] += tabStr + '</div>\n'; // 结束标签
 		containerHtml += colHtml[i]; // 进行拼接容器HTML
 	}
-	$("#container-form").html('\n' + containerHtml + '\n');
+	$("#container-form").find("div[class=box-body]").html('\n' + containerHtml + '\n');
 	
 	initWidgets();
 	var colDiv = [];

@@ -1,5 +1,4 @@
 package com.bbj.admin.menu.service;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +8,13 @@ import com.bbj.admin.menu.dao.MenuDao;
 import com.bbj.admin.menu.domain.Menu;
 import com.bbj.base.domain.SqlFilter;
 
-/**
- * 
- * @author bage
- *
- */
 @Service
 public class MenuService {
+
 	
 	@Autowired
 	private MenuDao menuDao;
+	
 	
 	/**
 	 * 增
@@ -32,6 +28,7 @@ public class MenuService {
 		return menuDao.insert(menu);
 	}
 	
+	
 	/**
 	 * 删
 	 * @param id
@@ -43,7 +40,8 @@ public class MenuService {
 		}
 		return menuDao.deleteById(id);
 	}
-
+	
+	
 	/**
 	 * 改
 	 * @param menu
@@ -52,7 +50,8 @@ public class MenuService {
 	public int update(Menu menu){
 		return menuDao.update(menu);
 	}
-
+	
+	
 	/**
 	 * 查
 	 * @param id
@@ -61,9 +60,10 @@ public class MenuService {
 	public Menu queryById(String id){
 		return menuDao.queryById(id);
 	}
-
+	
+	
 	/**
-	 * 分页查
+	 * 查（分页）
 	 * @param tagPage
 	 * @param pageSize
 	 * @param sqlFilter
@@ -73,6 +73,7 @@ public class MenuService {
 		return menuDao.queryByPage(tagPage, pageSize, sqlFilter);
 	}
 	
+	
 	/**
 	 * 获取总数
 	 * @param sqlFilter
@@ -80,6 +81,7 @@ public class MenuService {
 	 */
 	public int getTotalRow(SqlFilter sqlFilter){
 		return menuDao.getTotalRow(sqlFilter);
-	}	
-	
+	}
+
+
 }

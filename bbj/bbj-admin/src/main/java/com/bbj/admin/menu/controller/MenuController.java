@@ -1,8 +1,5 @@
 package com.bbj.admin.menu.controller;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,17 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.admin.menu.domain.Menu;
 import com.bbj.admin.menu.service.MenuService;
 import com.bbj.base.constant.Constants;
-import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
-import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.utils.BBJEntityUtils;
 
 @Controller
-@RequestMapping(value={Constants.module_admin+"/menu"})
+@RequestMapping(value={Constants.module_admin + "/menu/menu"})
 public class MenuController {
 
+	
 	@Autowired
 	private MenuService menuService;
+	
 	
 	/**
 	 * 增
@@ -38,22 +35,23 @@ public class MenuController {
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
-		Menu bbjEntity = BBJEntityUtils.parseFrom(request, Menu.class);
-		return menuService.insert(bbjEntity );
+		Menu menu = BBJEntityUtils.parseFrom(request, Menu.class);
+		return menuService.insert(menu );
 	}
 	
-
+	
 	/**
-	 * 删
-	 * @param id
-	 * @return
-	 */
+	* 删
+	* @param id
+	* @return
+	*/
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
 		return menuService.deleteById(id);
 	}
-
+	
+	
 	/**
 	 * 改
 	 * @param id
@@ -62,8 +60,8 @@ public class MenuController {
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
 	public Object update(HttpServletRequest request){
-		Menu bbjEntity = BBJEntityUtils.parseFrom(request, Menu.class);
-		return menuService.update(bbjEntity );
+		Menu menu = BBJEntityUtils.parseFrom(request, Menu.class);
+		return menuService.update(menu);
 	}
 	
 	
@@ -77,6 +75,7 @@ public class MenuController {
 	public Object get(@PathVariable("id")String id,HttpServletRequest request){
 		return menuService.queryById(id);
 	}
+	
 	
 	/**
 	 * 查（分页）
@@ -95,16 +94,8 @@ public class MenuController {
 			HttpServletRequest request
 			){
 		
-		Menu field = BBJEntityUtils.parseFrom(request, Menu.class);
 		// 分页查询
-		SqlFilter sqlFilter = new BBJSqlFilter(Menu.class);
-		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		
-		if(field.getAttr(Menu.menu_name) != null && !"".equals(field.getAttr(Menu.menu_name))){
-			WhereFilter whereFilter = new WhereFilter(Menu.menu_name, "like", "%" + searchValue + "%");
-			list.add(whereFilter );
-		}
-		sqlFilter.addWhereFilter(list );
+		SqlFilter sqlFilter = null;	
 		Map<String, Object> map = new HashMap<String, Object>();
 		int tagPage = start / length;
 		if(tagPage < 1){
@@ -120,8 +111,12 @@ public class MenuController {
 		return map;
 	}
 	
+	
+	
 	@RequestMapping(value="/page")
 	public Object page(HttpServletRequest request){
-		return Constants.module_admin + "/dictionary/Menu";
+		return Constants.module_admin + "/menu/menu";
 	}
+
+
 }

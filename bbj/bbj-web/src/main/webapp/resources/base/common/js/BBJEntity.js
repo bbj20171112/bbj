@@ -41,8 +41,8 @@ jQuery.extend(bbj, (function(win, $) {
 		setBBJEntityValue : function(bbjEntity,dictionary,idPrefix){
 			
 			if(idPrefix){
-			} else { // 如果没有前置，默认为 item-field
-				idPrefix = "item-field";
+			} else { // 如果没有前置，默认为 item_field
+				idPrefix = "item_field";
 			}
 			
 			for (var i = 0;i < dictionary.length ;i ++) { // 便利对象
@@ -67,8 +67,8 @@ jQuery.extend(bbj, (function(win, $) {
 		getBBJEntityValue : function(dictionary,idPrefix){
 			
 			if(idPrefix){
-			} else { // 如果没有前置，默认为 item-field
-				idPrefix = "item-field";
+			} else { // 如果没有前置，默认为 item_field
+				idPrefix = "item_field";
 			}
 			var bbjEntity = {};
 			for (var i = 0;i < dictionary.length ;i ++) { // 便利对象

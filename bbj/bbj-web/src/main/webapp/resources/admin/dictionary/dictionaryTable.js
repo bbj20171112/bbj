@@ -26,7 +26,7 @@ function initGrid(){
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit(\''+row.attr.id+'\')" >编辑</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_delete(\''+row.attr.id+'\')" >删除</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_edit_field(\''+row.attr.id+'\')" >字段维护</button>'
-	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_form(\''+row.attr.id+'\')" >Form设计</button>'
+	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_form(\''+row.attr.id+'\',\''+row.attr.table_name+'\')" >Form设计</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_grid(\''+row.attr.id+'\')" >Grid设计</button>'
 	          	+'<button class = "btn btn-link btn-sm" onclick="row_design_layout(\''+row.attr.id+'\',\''+row.attr.table_name+'\')" >Layout设计</button>'
 	          	+'</div>';
@@ -89,8 +89,8 @@ function row_design_layout(id,table_name){
 	location.href = contextPath + "/admin/designer/layout?table_id=" +id + "&table_name=" + table_name;
 }
 
-function row_design_form(id){
-	location.href = contextPath + "/admin/designer/form?table_id=" +id ;
+function row_design_form(id,table_name){
+	location.href = contextPath + "/admin/designer/form?table_id=" +id + "&table_name=" + table_name;
 }
 function row_design_grid(id){
 	location.href = contextPath + "/admin/designer/grid?table_id=" +id ;
