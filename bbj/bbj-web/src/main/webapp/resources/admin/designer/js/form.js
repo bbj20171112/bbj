@@ -328,10 +328,10 @@ function getModalStr(tableName){
 		$("#container-form").find("div[class=box-body]").html() + 
 		'         </div>\n'  +
 		'      </div>\n'  +
-		'     </div>\n'  +
-		'     <div class="modal-footer">\n'  +
+		'      <div class="modal-footer">\n'  +
 		'        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>\n'  +
 		'        <button type="button" class="btn btn-primary" onclick="insertOrUpdateSave()">Save</button>\n'  +
+		'      </div>\n'  +
 		'     </div>\n'  +
 		'    </div>\n'  +
 		'  </div>\n'  +

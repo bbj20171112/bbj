@@ -800,7 +800,7 @@ function getHTMLStr(classNameObj){
 						"	\n" + 
 						"	<head>\n" + 
 						"		<meta charset=\"UTF-8\">\n" + 
-						"		<title>数据字典</title>\n" +
+						"		<title>"+classNameObj.tableName+"</title>\n" +
 						"		\n" + 
 						"		<!-- 引入全局css样式 -->\n" + 
 						"		<script th:src=\"@{/resources/base/css-import.js}\" src=\"../../../../resources/base/css-import.js\"></script>\n" + 
@@ -810,10 +810,18 @@ function getHTMLStr(classNameObj){
 	var bodyStrTabsStr = "\t";
 	var bodyStr = 	bodyStrTabsStr + "<body>\n" + 
 					bodyStrTabsStr + "	<div class=\"wrapper\">\n" + 
-					bodyStrTabsStr + "		" + $("#div-row-list").html() + 
-					bodyStrTabsStr + "		\n" + 
+					bodyStrTabsStr + '		<div class=\"box box-info\">\n' + 
+					bodyStrTabsStr + '			<div class="box-header with-border">\n' + 
+					bodyStrTabsStr + '				<h3 class="box-title">'+classNameObj.tableName+'</h3>\n' + 
+					bodyStrTabsStr + '				<button type="button" onclick="insertOption()" class="btn btn-info">新建</button>\n' + 
+					bodyStrTabsStr + '				<table id="table-'+classNameObj.tableName+'" class="table table-bordered table-hover"></table>\n' + 
+					bodyStrTabsStr + '			</div>\n' + 
+					bodyStrTabsStr + '		</div>\n' + 
+					bodyStrTabsStr + '		' + $("#div-row-list").html() + 
+					bodyStrTabsStr + '		\n' + 
 					bodyStrTabsStr + "	</div>\n" + 
 					bodyStrTabsStr + "</body>\n" ;
+	
 	
 	var importJsStrTabsStr = "\t";
 	var importJsStr = 	importJsStrTabsStr + "\n" + 
