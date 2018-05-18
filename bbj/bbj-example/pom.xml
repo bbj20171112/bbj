@@ -26,6 +26,12 @@
 			<artifactId>bbj-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.bbj</groupId>
+			<artifactId>bbj-admin</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>

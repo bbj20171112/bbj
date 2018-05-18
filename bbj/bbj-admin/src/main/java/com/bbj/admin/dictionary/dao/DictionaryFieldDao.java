@@ -54,7 +54,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 			sb.append(" and " + sqlFilter.getSqlString());
 			listParam.addAll(sqlFilter.getListParam());
 		}
-		sb.append(" order by " + temp.getId());
+		sb.append(" order by if(isnull("+DictionaryField.fieldOrderNumber+"),1,0),"+DictionaryField.fieldOrderNumber+" ");
 		sb.append(" limit ?,? ");
 		listParam.add(startId);
 		listParam.add(pageSize);
@@ -70,7 +70,6 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 			list.add(temp);
 		}
 		return list;
-		// return super.queryByPage(tagPage, pageSize, sqlFilter);
 	}
 
 	/**
@@ -102,8 +101,8 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		sb.append(" alter table ");
 		sb.append(" " + tableName + " ");
 		sb.append(" add ");
-		sb.append(" " + field.getAttr(DictionaryField.field_name) + " ");
-		sb.append(" " + field.getAttr(DictionaryField.field_type) + " ");
+		sb.append(" " + field.getAttr(DictionaryField.fieldName) + " ");
+		sb.append(" " + field.getAttr(DictionaryField.fieldType) + " ");
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put(key_sql, sb.toString());
@@ -146,12 +145,90 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		sb.append(" " + tableName + " ");
 		sb.append(" drop ");
 		sb.append(" column ");
-		sb.append(" " + field.getAttr(DictionaryField.field_name) + " ");
+		sb.append(" " + field.getAttr(DictionaryField.fieldName) + " ");
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put(key_sql, sb.toString());
 		map.put(key_parameter, new Object[]{});
 		return map;
 	}
+	
+	/**
+	 * 找到第一个小于当前条件的最大值
+	 * @param id
+	 * @param tableId
+	 * @return
+	 */
+	public DictionaryField queryMaxSmallerThan(SqlFilter sqlFilter) {
+		DictionaryField currentBBJEntity = new DictionaryField();
+		String sql = "  select "+currentBBJEntity.getAttrKeysStr() + " from " + currentBBJEntity.getTableName() 
+					+ " where " + DictionaryField.fieldOrderNumber + " = ("
+					+ "select max("+ DictionaryField.fieldOrderNumber+" ) from " + currentBBJEntity.getTableName() + " where " + sqlFilter.getSqlString() 
+					+ ")" 
+					+ " and " + BBJEntity.delete_state + " <>  " + BBJEntity.delete_state_yes;
+		SqlRowSet rs = getJdbcTemplate().queryForRowSet(sql, sqlFilter.getListParam().toArray(new Object[0]));
+		if(rs.next()){
+			List<String> keys = currentBBJEntity.getAttrKeys();
+			for (int i = 0; i < keys.size(); i++) {
+				currentBBJEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
+			}
+			return currentBBJEntity;
+		} 
+		
+		return null;
+	}
+	 
+	/**
+	 * 找到第一个大于当前条件的最小值
+	 * @param id
+	 * @param tableId
+	 * @return
+	 */
+	public DictionaryField queryMinBiggerThan(SqlFilter sqlFilter) {
+		DictionaryField currentBBJEntity = new DictionaryField();
+		String sql = "  select "+currentBBJEntity.getAttrKeysStr() + " from " + currentBBJEntity.getTableName() 
+					+ " where " + currentBBJEntity.getId() + " = ("
+					+ "select min("+ currentBBJEntity.getId()+" ) from " + currentBBJEntity.getTableName() + " where " + sqlFilter.getSqlString() 
+					+ ")" 
+					+ " and " + BBJEntity.delete_state + " <>  " + BBJEntity.delete_state_yes;
+		SqlRowSet rs = getJdbcTemplate().queryForRowSet(sql, sqlFilter.getListParam().toArray(new Object[0]));
+		if(rs.next()){
+			List<String> keys = currentBBJEntity.getAttrKeys();
+			for (int i = 0; i < keys.size(); i++) {
+				currentBBJEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
+			}
+			return currentBBJEntity;
+		} 
+		
+		return null;
+	}
+
+	public int getMinOrderNumber(SqlFilter sqlFilter) {
+		DictionaryField current = new DictionaryField();
+		String sql = "select min("+DictionaryField.fieldOrderNumber+") from "+current.getTableName();
+		if(sqlFilter.getSqlString().length() > 0){
+			sql += " where " + sqlFilter.getSqlString() ; 
+		}
+		SqlRowSet rs = getJdbcTemplate().queryForRowSet(sql, sqlFilter.getListParam().toArray(new Object[0]));
+		if(rs.next()){
+			return rs.getInt(1);
+		} 
+		return 0;
+	}
+	
+
+	public int getMaxOrderNumber(SqlFilter sqlFilter) {
+		DictionaryField current = new DictionaryField();
+		String sql = "select max("+DictionaryField.fieldOrderNumber+") from "+current.getTableName();
+		if(sqlFilter.getSqlString().length() > 0){
+			sql += " where " + sqlFilter.getSqlString() ; 
+		}
+		SqlRowSet rs = getJdbcTemplate().queryForRowSet(sql, sqlFilter.getListParam().toArray(new Object[0]));
+		if(rs.next()){
+			return rs.getInt(1);
+		} 
+		return 0;
+	}
+	 
 
 }

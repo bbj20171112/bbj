@@ -63,6 +63,15 @@ public class DictionaryFieldController {
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
 	public Object update(HttpServletRequest request){
+		String action = request.getParameter("action");
+		// 更改顺序
+		if("ordernumber".equalsIgnoreCase(action)){
+			String id = request.getParameter(DictionaryField.id);
+			String type = request.getParameter("type");
+			return dictionaryFieldService.updateOrdernumber(id ,type);
+		}
+		
+		// 默认进行update
 		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
 		return dictionaryFieldService.update(bbjEntity );
 	}
@@ -100,12 +109,12 @@ public class DictionaryFieldController {
 		// 分页查询
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.table_id) != null && !"".equals(field.getAttr(DictionaryField.table_id))){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=", field.getAttr(DictionaryField.table_id));
+		if(field.getAttr(DictionaryField.tableId) != null && !"".equals(field.getAttr(DictionaryField.tableId))){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.tableId, "=", field.getAttr(DictionaryField.tableId));
 			list.add(whereFilter );
 		}
-		if(field.getAttr(DictionaryField.field_name) != null && !"".equals(field.getAttr(DictionaryField.field_name))){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.field_name, "like", "%" + searchValue + "%");
+		if(field.getAttr(DictionaryField.fieldName) != null && !"".equals(field.getAttr(DictionaryField.fieldName))){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.fieldName, "like", "%" + searchValue + "%");
 			list.add(whereFilter );
 		}
 		sqlFilter.addWhereFilter(list );
@@ -140,8 +149,8 @@ public class DictionaryFieldController {
 		// 分页查询
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.table_id) != null){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.table_id, "=",  field.getAttr(DictionaryField.table_id));
+		if(field.getAttr(DictionaryField.tableId) != null){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.tableId, "=",  field.getAttr(DictionaryField.tableId));
 			list.add(whereFilter );
 		}
 		sqlFilter.addWhereFilter(list );

@@ -63,10 +63,12 @@ public class BBJSqlFilter extends BBJObject implements SqlFilter{
 			whereString.append(whereFilter.getConn());
 		}
 		whereString.append(whereFilter.toString());
-		if(where_opt_like.equals(whereFilter.getOpt())){
-			listParam.add("%" + whereFilter.getValue() + "%");
-		} else {
-			listParam.add(whereFilter.getValue());
+		if(whereFilter.getValue() != null){
+			if(where_opt_like.equals(whereFilter.getOpt())){
+				listParam.add("%" + whereFilter.getValue() + "%");
+			} else {
+				listParam.add(whereFilter.getValue());
+			}
 		}
 	}
 
@@ -92,6 +94,17 @@ public class BBJSqlFilter extends BBJObject implements SqlFilter{
 	public String toString() {
 		return "SqlFilter [whereString=" + whereString + ", orderbyString=" + orderbyString + ", havingString="
 				+ havingString + ", listParam=" + listParam + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see com.bbj.base.domain.SqlFilter2#clear()
+	 */
+	public SqlFilter clear() {
+		whereString = new StringBuilder(); // 过滤语句
+		orderbyString = new StringBuilder(); // 排序语句
+		havingString = new StringBuilder(); // having语句
+		listParam = new ArrayList<Object>(); // 参数列表
+		return this;
 	}
 
 }

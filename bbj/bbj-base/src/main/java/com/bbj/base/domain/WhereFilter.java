@@ -4,6 +4,10 @@ public class WhereFilter extends BBJObject{
 	
 	private static final long serialVersionUID = 1L;
 	
+	public static final String EQUALS = "=";
+	public static final String LT = ">";
+
+	
 	private String attr = "";
 	private String opt = "";
 	private String value = "";
@@ -58,6 +62,9 @@ public class WhereFilter extends BBJObject{
 
 	@Override
 	public String toString() {
+		if(value == null){
+			return " " + attr + " " + opt + " ";
+		}
 		return " " + attr + " " + opt + " ? ";
 	}
 	

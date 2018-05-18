@@ -10,6 +10,12 @@ public interface SqlFilter {
 	 * @return
 	 */
 	SqlFilter addWhereFilter(List<WhereFilter> list);
+	
+	/**
+	 * 清空条件
+	 * @return
+	 */
+	SqlFilter clear();
 
 	/**
 	 * 变成SQL语句

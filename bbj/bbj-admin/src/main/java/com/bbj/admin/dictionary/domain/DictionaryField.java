@@ -12,17 +12,18 @@ public class DictionaryField extends BBJEntity {
 	private static final long serialVersionUID = 1L;
 
 	public static final String id = "id"; 
-	public static final String table_id = "table_id";
-	public static final String field_name = "field_name"; 
-	public static final String field_name_comment = "field_name_comment"; 
-	public static final String field_type = "field_type"; 
-	public static final String field_type_comment = "field_type_comment";
-	public static final String field_show_type = "field_show_type"; 
-	public static final String field_show_type_comment = "field_show_type_comment";
-	public static final String field_constraint = "field_constraint"; 
-	public static final String field_constraint_comment = "field_constraint_comment"; 
-	public static final String field_reference = "field_reference"; 
-	public static final String field_reference_comment="field_reference_comment"; 
+	public static final String tableId = "table_id"; // 表ID
+	public static final String fieldName = "field_name"; // 名称
+	public static final String fieldNameComment = "field_name_comment"; // 说明 
+	public static final String fieldType = "field_type";  // 类型
+	public static final String fieldTypeComment = "field_type_comment"; // 类型说明
+	public static final String fieldShowType = "field_show_type"; // 显示类型
+	public static final String fieldShowTypeComment = "field_show_type_comment"; // 显示说明
+	public static final String fieldOrderNumber = "field_order_number"; // 排序序号
+	public static final String fieldConstraint = "field_constraint";  
+	public static final String fieldConstraintComment = "field_constraint_comment"; 
+	public static final String fieldReference = "field_reference"; 
+	public static final String fieldReferenceComment="field_reference_comment"; 
 	
 	@Override
 	public String initTable() {
@@ -33,17 +34,18 @@ public class DictionaryField extends BBJEntity {
 	public String[] initAttr() {
 		String attrs[] = new String[]{
 				id, 
-				table_id, 
-				field_name,
-				field_name_comment,
-				field_type,
-				field_type_comment,
-				field_show_type,
-				field_show_type_comment,
-				field_constraint,
-				field_constraint_comment,
-				field_reference,
-				field_reference_comment,
+				tableId, 
+				fieldName,
+				fieldNameComment,
+				fieldType,
+				fieldTypeComment,
+				fieldShowType,
+				fieldShowTypeComment,
+				fieldOrderNumber,
+				fieldConstraint,
+				fieldConstraintComment,
+				fieldReference,
+				fieldReferenceComment,
 				BBJEntity.create_time,
 				BBJEntity.update_time,
 				BBJEntity.create_staff_id,

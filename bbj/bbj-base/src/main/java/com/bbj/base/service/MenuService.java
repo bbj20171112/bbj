@@ -11,12 +11,12 @@ import com.bbj.base.domain.MenuObject;
 import com.bbj.base.utils.JsonUtils;
 import com.bbj.base.utils.PrintUtils;
 
-@Service
-public class MenuReaderService
+@Service("baseMenuService")
+public class MenuService
 {
 
     public static void main(String[] args) {
-        List<MenuObject> list = new MenuReaderService().retrieve();
+        List<MenuObject> list = new MenuService().retrieve();
         PrintUtils.println(list);
         System.out.println(JsonUtils.toJson(list));
     }
@@ -68,7 +68,7 @@ public class MenuReaderService
         attr.put("id", "0");
         attr.put("upId", "-1");
         attr.put("text", "");
-        attr.put("link", "template/blank");
+        attr.put("link", "/template/blank");
         MenuObject menu = new MenuObject(attr);
         list.add(menu);
 
@@ -76,7 +76,7 @@ public class MenuReaderService
         attr.put("id", "1");
         attr.put("upId", "0");
         attr.put("text", "陆瑞华");
-        attr.put("link", "base/widgets/progress");
+        attr.put("link", "/base/widgets/progress");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -84,7 +84,7 @@ public class MenuReaderService
         attr.put("id", "2");
         attr.put("upId", "1");
         attr.put("text", "Alert");
-        attr.put("link", "base/widgets/alert");
+        attr.put("link", "/base/widgets/alert");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -92,7 +92,7 @@ public class MenuReaderService
         attr.put("id", "3");
         attr.put("upId", "0");
         attr.put("text", "汪建明");
-        attr.put("link", "base/widgets/button");
+        attr.put("link", "/base/widgets/button");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -100,7 +100,7 @@ public class MenuReaderService
         attr.put("id", "9");
         attr.put("upId", "3");
         attr.put("text", "register");
-        attr.put("link", "base/widgets/register");
+        attr.put("link", "/base/widgets/register");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -108,7 +108,7 @@ public class MenuReaderService
         attr.put("id", "10");
         attr.put("upId", "3");
         attr.put("text", "login");
-        attr.put("link", "base/widgets/login");
+        attr.put("link", "/base/widgets/login");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -116,7 +116,7 @@ public class MenuReaderService
 //        attr.put("id", "4");
 //        attr.put("upId", "1");
 //        attr.put("text", "Layer");
-//        attr.put("link", "base/widgets/layer");
+//        attr.put("link", "/base/widgets/layer");
 //        menu = new MenuObject(attr);
 //        list.add(menu);
 
@@ -124,7 +124,7 @@ public class MenuReaderService
         attr.put("id", "5");
         attr.put("upId", "1");
         attr.put("text", "Grid");
-        attr.put("link", "base/widgets/grid");
+        attr.put("link", "/base/widgets/grid");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -132,7 +132,7 @@ public class MenuReaderService
         attr.put("id", "6");
         attr.put("upId", "0");
         attr.put("text", "刘略");
-        attr.put("link", "template/login");
+        attr.put("link", "/template/login");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -140,7 +140,7 @@ public class MenuReaderService
         attr.put("id", "7");
         attr.put("upId", "6");
         attr.put("text", "信息框");
-        attr.put("link", "base/widgets/boxdemo");
+        attr.put("link", "/base/widgets/boxdemo");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -148,7 +148,7 @@ public class MenuReaderService
         attr.put("id", "8");
         attr.put("upId", "6");
         attr.put("text", "卡片列表");
-        attr.put("link", "base/widgets/cardlistdemo");
+        attr.put("link", "/base/widgets/cardlistdemo");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -156,7 +156,7 @@ public class MenuReaderService
         attr.put("id", "11");
         attr.put("upId", "6");
         attr.put("text", "echart图表");
-        attr.put("link", "base/widgets/echartdemo");
+        attr.put("link", "/base/widgets/echartdemo");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -164,7 +164,7 @@ public class MenuReaderService
         attr.put("id", "12");
         attr.put("upId", "6");
         attr.put("text", "富文本编辑器");
-        attr.put("link", "base/widgets/richtexteditordemo");
+        attr.put("link", "/base/widgets/richtexteditordemo");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -172,7 +172,7 @@ public class MenuReaderService
         attr.put("id", "13");
         attr.put("upId", "6");
         attr.put("text", "Swiper轮播");
-        attr.put("link", "base/widgets/swiperdemo");
+        attr.put("link", "/base/widgets/swiperdemo");
         menu = new MenuObject(attr);
         list.add(menu);
 
@@ -180,7 +180,7 @@ public class MenuReaderService
         attr.put("id", "14");
         attr.put("upId", "1");
         attr.put("text", "表维护");
-        attr.put("link", "admin/dictionary/table/page");
+        attr.put("link", "/admin/dictionary/table/page");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -196,7 +196,7 @@ public class MenuReaderService
         attr.put("id", "16");
         attr.put("upId", "14");
         attr.put("text", "字段维护");
-        attr.put("link", "admin/dictionary/field/page");
+        attr.put("link", "/admin/dictionary/field/page");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -204,7 +204,7 @@ public class MenuReaderService
         attr.put("id", "17");
         attr.put("upId", "1");
         attr.put("text", "参照值");
-        attr.put("link", "admin/dictionary/reference/page");
+        attr.put("link", "/admin/dictionary/reference/page");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -220,7 +220,7 @@ public class MenuReaderService
         attr.put("id", "19");
         attr.put("upId", "1");
         attr.put("text", "Grid设计");
-        attr.put("link", "admin/designer/grid");
+        attr.put("link", "/admin/designer/grid");
         menu = new MenuObject(attr);
         list.add(menu);
         
@@ -228,7 +228,7 @@ public class MenuReaderService
         attr.put("id", "20");
         attr.put("upId", "1");
         attr.put("text", "Layout设计");
-        attr.put("link", "admin/designer/layout");
+        attr.put("link", "/admin/designer/layout");
         menu = new MenuObject(attr);
         list.add(menu);
         

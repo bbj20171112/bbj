@@ -11,6 +11,7 @@ function init() {
 	headers.push("字段类型");
 	headers.push("字段说明");
 	headers.push("字段展示类型");
+	headers.push("序号");
 	headers.push("键值");
 	headers.push("键值说明");
 	headers.push("约束");
@@ -18,6 +19,7 @@ function init() {
 	headers.push("参照");
 	headers.push("参照说明");
 	headers.push("备注");
+	headers.push("排序");
 	headers.push("操作");
 	// console.log(data);
 	var tableExp = $('#example')
@@ -32,6 +34,17 @@ function init() {
 							}
 						},
 						columnDefs : [ {
+							targets : -2,
+							render : function(data, type, row) {
+								var operatorDiv = '<div class="btn-group">'
+								+ '<span onclick="row_order_update(\''+row.attr.id+'\',\'previous\')" class="btn btn-info">上移</span>'
+								+ '<span onclick="row_order_update(\''+ row.attr.id+ '\',\'next\')" class="btn btn-danger">下移</span>'
+								+ '<span onclick="row_order_update(\''+ row.attr.id+ '\',\'first\')" class="btn btn-info">置顶</span>'
+								+ '<span onclick="row_order_update(\''+ row.attr.id+ '\',\'last\')" class="btn btn-danger">置底</span>'
+								+ '</div>'
+								return operatorDiv;
+							}
+						} ,{
 							targets : -1,
 							render : function(data, type, row) {
 								var operatorDiv = '<div class="btn-group">'
@@ -44,7 +57,7 @@ function init() {
 										+ '</div>';
 								return operatorDiv;
 							}
-						} ],
+						}],
 						columns : [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
 						{
 							data : 'attr.id',
@@ -62,21 +75,28 @@ function init() {
 							data : 'attr.field_show_type',
 							title : headers[4]
 						}, {
-							data : 'attr.field_reference',
+							data : 'attr.field_order_number',
 							title : headers[5]
 						}, {
-							data : 'attr.field_constraint_comment',
+							data : 'attr.field_reference',
 							title : headers[6]
+						}, {
+							data : 'attr.field_constraint_comment',
+							title : headers[7]
 						},
-						/* { data: 'field_cons', title: headers[7]},
-						{ data: 'field_consdesc', title: headers[8]},
-						{ data: 'field_ref', title: headers[9]},
-						{ data: 'field_refdesc', title: headers[10]},
-						{ data: 'field_remark', title: headers[11]}, */
+						/* { data: 'field_cons', title: headers[8]},
+						{ data: 'field_consdesc', title: headers[9]},
+						{ data: 'field_ref', title: headers[10]},
+						{ data: 'field_refdesc', title: headers[11]},
+						{ data: 'field_remark', title: headers[12]}, */
 						{
 							data : null,
-							title : headers[12]
-						}, ]
+							title : headers[13]
+						},
+						{
+							data : null,
+							title : headers[14]
+						},]
 					});
 }
 // 获取选中
@@ -84,6 +104,16 @@ function showSelectItems() {
 	console.log($('#example').DataTable().rows('.selected').data()[0]);
 }
 
+function row_order_update(id,type){
+	Utils.ajax({
+		url : contextPath + "/admin/dictionary/field",
+		type : 'PUT',
+		data : "action=ordernumber&type=" + type + "&id=" + id,
+		success : function(data) {
+			$('#example').DataTable().ajax.reload();
+		}
+	});
+}
 function row_edit(id) {
 	var ss = "";
 	Utils.ajax({

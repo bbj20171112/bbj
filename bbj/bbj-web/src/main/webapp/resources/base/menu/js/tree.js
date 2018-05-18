@@ -49,7 +49,7 @@ function openMenu(menuId){
 	getMenuTreePath(menuId,menuItem,pathArray,0,isFoundObj);// isFoundObj 直接给boolean值会因为递归保存现场问题出问题
 	
 	// 切换页面
-	$("#iframe-content-wrapper-main").attr("src",contextPath+"/" + isFoundObj.currentMenu.attributes.link);
+	$("#iframe-content-wrapper-main").attr("src",contextPath + isFoundObj.currentMenu.attributes.link);
 	
 	
 	// console.log(pathArray);

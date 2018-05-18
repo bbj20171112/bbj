@@ -112,7 +112,7 @@
 	<aop:config>
         <aop:aspect id="time" ref="timeHandler">
         <aop:before method="printTime"
-				pointcut="execution(* com.bbj.base.service.MenuReaderService.retrieve(..))"></aop:before>
+				pointcut="execution(* com.bbj.base.service.MenuService.retrieve(..))"></aop:before>
             
         </aop:aspect>
     </aop:config>
