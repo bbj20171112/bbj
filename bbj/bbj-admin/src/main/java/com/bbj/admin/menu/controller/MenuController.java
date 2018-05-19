@@ -111,7 +111,11 @@ public class MenuController {
 		return map;
 	}
 	
-	
+	@RequestMapping(value={"/all"})
+	@ResponseBody
+	public Object all(){
+		return menuService.queryAll();
+	}
 	
 	@RequestMapping(value="/page")
 	public Object page(HttpServletRequest request){

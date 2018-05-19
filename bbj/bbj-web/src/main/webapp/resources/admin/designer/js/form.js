@@ -329,8 +329,8 @@ function getModalStr(tableName){
 		'         </div>\n'  +
 		'      </div>\n'  +
 		'      <div class="modal-footer">\n'  +
-		'        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>\n'  +
-		'        <button type="button" class="btn btn-primary" onclick="insertOrUpdateSave()">Save</button>\n'  +
+		'        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>\n'  +
+		'        <button type="button" class="btn btn-primary" onclick="insertOrUpdateSave()">保存</button>\n'  +
 		'      </div>\n'  +
 		'     </div>\n'  +
 		'    </div>\n'  +

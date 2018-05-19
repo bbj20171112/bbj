@@ -11,7 +11,7 @@ var menuArray = [];
 function initOnload() {
 	Utils.ajax({
 		type: "GET",
-        url: "retrieve",
+        url:  contextPath + "/admin/menu/menu/all",
         //data: "tagPage=1&pageSize=10",
         success: function(data){
         	menuArray = data.data;
@@ -47,9 +47,11 @@ function openMenu(menuId){
 		liSubMenuAuto.remove();
 	}
 	getMenuTreePath(menuId,menuItem,pathArray,0,isFoundObj);// isFoundObj 直接给boolean值会因为递归保存现场问题出问题
-	
+	if(Utils.isEmpty(isFoundObj.currentMenu.current.attr.menu_link)){
+		return ;
+	}
 	// 切换页面
-	$("#iframe-content-wrapper-main").attr("src",contextPath + isFoundObj.currentMenu.attributes.link);
+	$("#iframe-content-wrapper-main").attr("src",contextPath + isFoundObj.currentMenu.current.attr.menu_link);
 	
 	
 	// console.log(pathArray);
@@ -64,12 +66,12 @@ function openMenu(menuId){
 //		}
 		// 足记
 		if(i == 1){
-			menuFootprint.find("span[name=parent-menu]").html(pathArray[i].text);
+			menuFootprint.find("span[name=parent-menu]").html(pathArray[i].menu_name);
 		} else {
 			var subMenuItem = liSubMenu.clone(true);
 			subMenuItem.insertBefore(liSubMenu);
 			subMenuItem.attr("name","li-sub-menu-auto");
-			subMenuItem.html(pathArray[i].text);
+			subMenuItem.html(pathArray[i].menu_name);
 			subMenuItem.show();
 		}
 	}
@@ -79,9 +81,9 @@ function getMenuTreePath(menuId,menuItem,pathArray,deepIndex,isFoundObj){
 	if(isEmpty(menuItem)){ // 空，直接返回
 		return ;
 	}
-	pathArray[deepIndex] = {"id":0,"text":""};
-	pathArray[deepIndex].id = menuItem.attributes.id ; // 保存当前节点作为树路径
-	pathArray[deepIndex].text = menuItem.attributes.text ; 
+	pathArray[deepIndex] = {"id":0,"menu_name":""};
+	pathArray[deepIndex].id = menuItem.current.attr.id ; // 保存当前节点作为树路径
+	pathArray[deepIndex].menu_name = menuItem.current.attr.menu_name ; 
 	// 移除当前节点之后的多余的数据
 	var removeCount = pathArray.length - deepIndex - 1;
 	while (removeCount > 0) {
@@ -89,7 +91,7 @@ function getMenuTreePath(menuId,menuItem,pathArray,deepIndex,isFoundObj){
 		pathArray.splice(deepIndex + 1,1);
 	}
 	
-	if(menuItem.attributes.id == menuId){ // 已经找到
+	if(menuItem.current.attr.id == menuId){ // 已经找到
 		isFoundObj.isFound = true;
 		isFoundObj.currentMenu = menuItem;
 		return ;
@@ -118,9 +120,9 @@ function buildMenuTreeRecursion(menuArray) {
 		var subMenuItemData = root.children[i];
 		var subMenuItem = templateItem.clone(true);
 		subMenuItem.insertAfter(templateItem);
-		subMenuItem.find("span[name=li-level-menu-text]").html(subMenuItemData.attributes.text);
-		subMenuItem.find("a[name=a-level-menu]").attr("onclick","menuItemOnclick("+subMenuItemData.attributes.id+")");
-		subMenuItem.attr("id","li-level-menu-id-"+subMenuItemData.attributes.id);
+		subMenuItem.find("span[name=li-level-menu-text]").html(subMenuItemData.current.attr.menu_name);
+		subMenuItem.find("a[name=a-level-menu]").attr("onclick","menuItemOnclick("+subMenuItemData.current.attr.id+")");
+		subMenuItem.attr("id","li-level-menu-id-"+subMenuItemData.current.attr.id);
 		subMenuItem.show();
 		buildMenuTreeRecursionItem(subMenuItemData,subMenuItem,templateItem);
 	}
@@ -139,14 +141,14 @@ function buildMenuTreeRecursionItem(menuItemData,menuItem,templateItem){
 	}
 	if (menuItemData.children.length > 0) {
 		var mountPoint = menuItem.find("ul[name=ul-level-menu]");
-		mountPoint.attr("id","ul-level-menu-id-"+menuItemData.attributes.id);
+		mountPoint.attr("id","ul-level-menu-id-"+menuItemData.current.attr.id);
 		for (var i = 0; i < menuItemData.children.length; i++) { // 下级菜单
 			var subMenuItemData = menuItemData.children[i];
 			var subMenuItem = templateItem.clone(true);
 			subMenuItem.appendTo(mountPoint);
-			subMenuItem.find("span[name=li-level-menu-text]").html(subMenuItemData.attributes.text);
-			subMenuItem.find("a[name=a-level-menu]").attr("onclick","menuItemOnclick("+subMenuItemData.attributes.id+")");
-			subMenuItem.attr("id","li-level-menu-id-"+subMenuItemData.attributes.id);
+			subMenuItem.find("span[name=li-level-menu-text]").html(subMenuItemData.current.attr.menu_name);
+			subMenuItem.find("a[name=a-level-menu]").attr("onclick","menuItemOnclick("+subMenuItemData.current.attr.id+")");
+			subMenuItem.attr("id","li-level-menu-id-"+subMenuItemData.current.attr.id);
 			subMenuItem.show();
 			// 递归调用
 			buildMenuTreeRecursionItem(subMenuItemData,subMenuItem,templateItem);
@@ -170,7 +172,7 @@ function buildMenuTreeFor(menuArray) {
 		var menuItem1 = menuItem.clone(true); // TRUE 包含事件处理
 		menuItem1.insertAfter(menuItem);
 		menuItem1.find("span[name=li-level-menu-text]").html(
-				menuItemData1.attributes.text); // 赋值
+				menuItemData1.current.attr.menu_name); // 赋值
 		menuItem1.show();
 
 		if (menuItemData1.children.length > 0) { // 如果有子节点
@@ -181,7 +183,7 @@ function buildMenuTreeFor(menuArray) {
 				var menuItem2 = menuItem.clone(true);
 				menuItem2.appendTo(mountPoint1);
 				menuItem2.find("span[name=li-level-menu-text]").html(
-						menuItemData2.attributes.text);
+						menuItemData2.current.attr.menu_name);
 				menuItem2.show();
 
 				if (menuItemData2.children.length > 0) {
@@ -192,7 +194,7 @@ function buildMenuTreeFor(menuArray) {
 						var menuItem3 = menuItem.clone(true);
 						menuItem3.appendTo(mountPoint2);
 						menuItem3.find("span[name=li-level-menu-text]").html(
-								menuItemData3.attributes.text);
+								menuItemData3.current.attr.menu_name);
 						menuItem3.show();
 
 						if (menuItemData3.children.length > 0) {
@@ -204,7 +206,7 @@ function buildMenuTreeFor(menuArray) {
 								var menuItem4 = menuItem.clone(true);
 								menuItem4.appendTo(mountPoint3);
 								menuItem4.find("span[name=li-level-menu-text]")
-										.html(menuItemData4.attributes.text);
+										.html(menuItemData4.current.attr.menu_name);
 								menuItem4.show();
 							}
 
@@ -219,7 +221,7 @@ function buildMenuTreeFor(menuArray) {
 									menuItem5
 											.find(
 													"span[name=li-level-menu-text]")
-											.html(menuItemData5.attributes.text);
+											.html(menuItemData5.current.attr.menu_name);
 									menuItem5.show();
 								}
 
@@ -235,7 +237,7 @@ function buildMenuTreeFor(menuArray) {
 												.find(
 														"span[name=li-level-menu-text]")
 												.html(
-														menuItemData6.attributes.text);
+														menuItemData6.current.attr.menu_name);
 										menuItem6.show();
 										// 最后一级全部隐藏下拉图标
 										menuItem6.find("span[class=pull-right-container]").remove();

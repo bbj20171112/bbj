@@ -1,6 +1,11 @@
 package com.bbj.admin.menu.domain;
 import com.bbj.base.domain.BBJEntity;
 
+/**
+ * 菜单对象
+ * @author bage
+ *
+ */
 public class Menu extends BBJEntity {
 	
 	private static final long serialVersionUID = 1L;
@@ -14,8 +19,9 @@ public class Menu extends BBJEntity {
 	public static final String programId = "program_id"; // 程序ID 
 	public static final String menuIcon = "menu_icon"; // 菜单图标 
 	public static final String menuLink = "menu_link"; // 菜单链接 
+	public static final String menuOrderNumber = "menu_order_number"; // 菜单序号
 	public static final String menuRemark = "menu_remark"; // 菜单备注 
-
+	
 	
 	@Override
 	public String initTable() {
@@ -33,6 +39,7 @@ public class Menu extends BBJEntity {
 			programId, 
 			menuIcon, 
 			menuLink, 
+			menuOrderNumber,
 			menuRemark, 
 		};
 		return attrs;
