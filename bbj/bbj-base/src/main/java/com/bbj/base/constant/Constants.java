@@ -9,6 +9,7 @@ public class Constants {
 	// 各个模块常量
 	public static final String module_base = "/base";
 	public static final String module_admin = "/admin";
+	public static final String module_security = "/security";
 
 	
 }

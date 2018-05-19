@@ -14,7 +14,8 @@
     <module>bbj-admin</module>
     <module>bbj-authorization</module>
     <module>bbj-organization</module>
-  </modules>
+    <module>bbj-security</module>
+	</modules>
 
 <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,6 +23,7 @@
 		<jsp.base.version>2.1</jsp.base.version>
 		<servlet.base.version>3.0-alpha-1</servlet.base.version>
 		<spring.base.version>4.3.8.RELEASE</spring.base.version>
+		<spring.security.base.version>5.0.0.RELEASE</spring.security.base.version>
 		<gson.base.version>2.8.0</gson.base.version>
 		<mysql.base.version>5.1.39</mysql.base.version>
 		<jackson.base.version>2.8.9</jackson.base.version>
@@ -161,6 +163,17 @@
 		    <version>1.0</version>
 		</dependency>
 		
-		
+		<!-- spring 安全 Securing the application start added by bage 2018.05.19-->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${spring.security.base.version}</version>
+	  	</dependency>
+	  	<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${spring.security.base.version}</version>
+	  	</dependency>
+		<!-- spring 安全 Securing the application end  added by bage 2018.05.19-->
 	</dependencies>
 </project>
