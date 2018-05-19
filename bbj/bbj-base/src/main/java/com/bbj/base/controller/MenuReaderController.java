@@ -9,7 +9,7 @@ import com.bbj.base.constant.Constants;
 import com.bbj.base.service.MenuService;
 
 @Controller
-@RequestMapping(value={"/menu"})
+@RequestMapping(value={Constants.module_base + "/menu"})
 public class MenuReaderController {
 
 	@Autowired

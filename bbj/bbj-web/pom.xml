@@ -43,11 +43,11 @@
 			<artifactId>bbj-admin</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.bbj</groupId>
 			<artifactId>bbj-security</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>
