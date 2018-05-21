@@ -9,20 +9,40 @@ import com.bbj.base.constant.Constants;
 import com.bbj.base.service.MenuService;
 
 @Controller
-@RequestMapping(value={Constants.module_base + "/menu"})
-public class MenuReaderController {
+@RequestMapping(value={Constants.module_base})
+public class HomeController {
 
 	@Autowired
 	private MenuService MenuService;
 	
 	@RequestMapping(value={"/","/index"})
 	public String index(){
-		return Constants.module_base + "/menu/index";
+		return Constants.module_base + "/index";
+	}
+	
+	@RequestMapping(value={"/header"})
+	public String header(){
+		return Constants.module_base + "/header";
+	}
+	
+	@RequestMapping(value={"/footer"})
+	public String footer(){
+		return Constants.module_base + "/footer";
+	}
+	
+	@RequestMapping(value={"/settings"})
+	public String settings(){
+		return Constants.module_base + "/settings";
+	}
+	
+	@RequestMapping(value={"/menu"})
+	public String menu(){
+		return Constants.module_base + "/menu";
 	}
 	
 	@RequestMapping(value={"/starter"})
 	public String starter(){
-		return Constants.module_base + "//AdminLTE/starter";
+		return Constants.module_base + "/AdminLTE/starter";
 	}
 	
 	@RequestMapping(value={"/json"})
@@ -40,9 +60,4 @@ public class MenuReaderController {
 	}
 	
 
-	@RequestMapping(value={"/header"})
-	public String header(){
-		return Constants.module_base + "/menu/header";
-	}
-	
 }
