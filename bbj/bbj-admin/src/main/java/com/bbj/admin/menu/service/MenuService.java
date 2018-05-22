@@ -145,7 +145,7 @@ public class MenuService {
         menu.setAttr(Menu.id, "1");
         menu.setAttr(Menu.upMenuId, "0");
         menu.setAttr(Menu.menuName, "陆瑞华");
-        menu.setAttr(Menu.menuLink, "/base/widgets/progress");
+        menu.setAttr(Menu.menuLink, "");// /base/widgets/progress
         menuObj = new MenuTree(menu);
         list.add(menuObj);
 
@@ -161,7 +161,7 @@ public class MenuService {
         menu.setAttr(Menu.id, "3");
         menu.setAttr(Menu.upMenuId, "0");
         menu.setAttr(Menu.menuName, "汪建明");
-        menu.setAttr(Menu.menuLink, "/base/widgets/button");
+        menu.setAttr(Menu.menuLink, "");///base/widgets/button
         menuObj = new MenuTree(menu);
         list.add(menuObj);
 
@@ -201,7 +201,7 @@ public class MenuService {
         menu.setAttr(Menu.id, "6");
         menu.setAttr(Menu.upMenuId, "0");
         menu.setAttr(Menu.menuName, "刘略");
-        menu.setAttr(Menu.menuLink, "/template/login");
+        menu.setAttr(Menu.menuLink, "");///template/login
         menuObj = new MenuTree(menu);
         list.add(menuObj);
 
@@ -249,7 +249,7 @@ public class MenuService {
         menu.setAttr(Menu.id, "14");
         menu.setAttr(Menu.upMenuId, "1");
         menu.setAttr(Menu.menuName, "表维护");
-        menu.setAttr(Menu.menuLink, "/admin/dictionary/table/page");
+        menu.setAttr(Menu.menuLink, "");///admin/dictionary/table/page
         menuObj = new MenuTree(menu);
         list.add(menuObj);
         

@@ -101,7 +101,7 @@ document.writeln('<script src="' + contextPath + '/resources/plugins/bootstrap-d
 document.writeln('<!-- CK Editor -->');
 document.writeln('<script src="' + contextPath + '/resources/bower_components/ckeditor/ckeditor.js"></script>');
 
-document.writeln('<!-- menu -- tree.js  --> -->');
+document.writeln('<!-- menu -- tree.js  -->');
 document.writeln('<script src="' + contextPath + '/resources/base/menu/js/tree.js"></script>');
 
 

@@ -7,13 +7,15 @@
 <title>数据字典</title>
 
 <!-- 引入全局css样式 -->
-<script th:src="@{/resources/base/css-import.js}"  src="../../../../resources/base/css-import.js"></script>
+<script th:src="@{/resources/base/css-import.js}"
+	src="../../../../resources/base/css-import.js"></script>
 
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
-		<h3 class="box-title">数据字典</h3>
-		<section class="content">
+		<div th:replace="~{base/header :: header}"></div>
+		<div th:replace="~{base/menu :: menu}"></div>
+		<section class="content-wrapper">
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box">
@@ -23,9 +25,10 @@
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
-							<table id="example" class="table table-bordered table-hover dataTable" width="100%">
+							<table id="example"
+								class="table table-bordered table-hover dataTable" width="100%">
 							</table>
-							
+
 						</div>
 						<!-- /.box-body -->
 					</div>
@@ -33,113 +36,117 @@
 				</div>
 				<!-- /.row -->
 		</section>
-		<!-- /.content -->
+		<div th:replace="~{base/footer :: footer}"></div>
+		<div th:replace="~{base/settings :: settings}"></div>
 	</div>
-	</div>
-	
-	
-	<!-- 表维护对话框 -->
-	<div class="modal fade" id="modal-new-table" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title"><span class="pull-left header"><i class="fa fa-inbox"></i>
-								表维护</span></h4>
-				</div>
-				<div class="modal-body">
-					<div class="nav-tabs-custom">
-						<!-- Tabs within a box -->
-						<ul class="nav nav-tabs pull-right ui-sortable-handle">
-							<li class=""><a href="#revenue-chart" data-toggle="tab"
-								aria-expanded="false">SQL 预览</a></li>
-							<li class="active"><a href="#field-columns"
-								data-toggle="tab" aria-expanded="true">表 新增</a></li>
-						</ul>
-						<div class="tab-content no-padding">
-							<!-- Morris chart - Sales -->
-							<div class="chart tab-pane" id="revenue-chart"
-								style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-								SQL</div>
-							<div class="chart tab-pane active" id="field-columns"
-								style="position: relative; height: 300px;">
-								<div class="form-horizontal">
-									<div class="box-body">
-										<div class="row form-group" style="display:none">
-											<div class="col-sm-2 item">
-												<label>ID</label>
-											</div>
-											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-id"></input>
-											</div>
+	<!-- ./wrapper -->
+</body>
+
+<!-- 表维护对话框 -->
+<div class="modal fade" id="modal-new-table" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">
+					<span class="pull-left header"><i class="fa fa-inbox"></i>
+						表维护</span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-custom">
+					<!-- Tabs within a box -->
+					<ul class="nav nav-tabs pull-right ui-sortable-handle">
+						<li class=""><a href="#revenue-chart" data-toggle="tab"
+							aria-expanded="false">SQL 预览</a></li>
+						<li class="active"><a href="#field-columns" data-toggle="tab"
+							aria-expanded="true">表 新增</a></li>
+					</ul>
+					<div class="tab-content no-padding">
+						<!-- Morris chart - Sales -->
+						<div class="chart tab-pane" id="revenue-chart"
+							style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+							SQL</div>
+						<div class="chart tab-pane active" id="field-columns"
+							style="position: relative; height: 300px;">
+							<div class="form-horizontal">
+								<div class="box-body">
+									<div class="row form-group" style="display: none">
+										<div class="col-sm-2 item">
+											<label>ID</label>
 										</div>
-										<div class="row form-group">
-											<div class="col-sm-2 item">
-												<label>表名称</label>
-											</div>
-											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-name"></input>
-											</div>
-											<div class="col-sm-2 item">
-												<label>表说明</label>
-											</div>
-											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-comment"></input>
-											</div>
+										<div class="col-sm-4 item">
+											<input class="form-control" id="item-field-id"></input>
 										</div>
-										<div class="row form-group">											
-											<div class="col-sm-2 item">
-												<label>表描述</label>
-											</div>
-											<div class="col-sm-4 item">
-												<input class="form-control" id="item-field-table-description"></input>
-											</div>
-											<div class="col-sm-2 item">
-												<label>序列</label>
-											</div>
-											<div class="col-sm-4 item">
-												<select class="form-control select2"
-													id="item-field-sequence-id" style="width: 100%">
-													<option value="1" selected="selected">默认</option>
-												</select>
-											</div>
-											
-										</div>										
-										<div class="row form-group">
-											<div class="col-sm-2 item">
-												<label>备注</label>
-											</div>
-											<div class="col-sm-10 item">
-												<input class="form-control" id="item-field-table-remark"></input>
-											</div>
+									</div>
+									<div class="row form-group">
+										<div class="col-sm-2 item">
+											<label>表名称</label>
+										</div>
+										<div class="col-sm-4 item">
+											<input class="form-control" id="item-field-table-name"></input>
+										</div>
+										<div class="col-sm-2 item">
+											<label>表说明</label>
+										</div>
+										<div class="col-sm-4 item">
+											<input class="form-control" id="item-field-table-comment"></input>
+										</div>
+									</div>
+									<div class="row form-group">
+										<div class="col-sm-2 item">
+											<label>表描述</label>
+										</div>
+										<div class="col-sm-4 item">
+											<input class="form-control" id="item-field-table-description"></input>
+										</div>
+										<div class="col-sm-2 item">
+											<label>序列</label>
+										</div>
+										<div class="col-sm-4 item">
+											<select class="form-control select2"
+												id="item-field-sequence-id" style="width: 100%">
+												<option value="1" selected="selected">默认</option>
+											</select>
+										</div>
+
+									</div>
+									<div class="row form-group">
+										<div class="col-sm-2 item">
+											<label>备注</label>
+										</div>
+										<div class="col-sm-10 item">
+											<input class="form-control" id="item-field-table-remark"></input>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left"
-						data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary"
-						onclick="newTableSave()">Save</button>
-				</div>
 			</div>
-			<!-- /.modal-content -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left"
+					data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary"
+					onclick="newTableSave()">Save</button>
+			</div>
 		</div>
-		<!-- /.modal-dialog -->
+		<!-- /.modal-content -->
 	</div>
-	
-	<!-- ./wrapper -->
-	<!-- 引入JavaScripts样式 -->
-	<script th:src="@{/resources/base/javascript-import.js}" src="../../../../resources/base/javascript-import.js"></script>
-	<script th:src="@{/resources/admin/dictionary/dictionaryTable.js}" src="../../../../resources/admin/dictionary/dictionaryTable.js" ></script>
+	<!-- /.modal-dialog -->
+</div>
 
-</body>
+<!-- ./wrapper -->
+<!-- 引入JavaScripts样式 -->
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/admin/dictionary/dictionaryTable.js}"
+	src="../../../../resources/admin/dictionary/dictionaryTable.js"></script>
+
 </html>

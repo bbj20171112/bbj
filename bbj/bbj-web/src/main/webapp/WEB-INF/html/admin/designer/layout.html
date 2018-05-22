@@ -1,4 +1,5 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,52 +8,60 @@
 <title>页面设计</title>
 
 <!-- 引入全局css样式 -->
-<script th:src="@{/resources/base/css-import.js}" src="../../../../resources/base/css-import.js"></script>
-<link rel="stylesheet" th:href="@{/resources/plugins/dragula/dragula.css}"
+<script th:src="@{/resources/base/css-import.js}"
+	src="../../../../resources/base/css-import.js"></script>
+<link rel="stylesheet"
+	th:href="@{/resources/plugins/dragula/dragula.css}"
 	href="../../../../resources/plugins/dragula/dragula.css">
-<link rel="stylesheet" th:href="@{/resources/plugins/ContextJS/css/context.standalone.css}"
+<link rel="stylesheet"
+	th:href="@{/resources/plugins/ContextJS/css/context.standalone.css}"
 	href="../../../../resources/plugins/ContextJS/css/context.standalone.css">
-
 <style type="text/css">
-	.item-col .item {
-		min-height: 48px;
-	}
-	.item-col {
-		cursor: move;
-		cursor: grab;
-		cursor: -moz-grab;
-		cursor: -webkit-grab;
-		cursor: move;
-	}
-	.row {
-		min-height: 48px;
-	}
-	.selected{
-		background-color: #f4f4f4;
-	}
-	.item-row-focusing {
-		
-	}
+.item-col .item {
+	min-height: 48px;
+}
+.item-col {
+	cursor: move;
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+	cursor: move;
+}
+.row {
+	min-height: 48px;
+}
+.selected {
+	background-color: #f4f4f4;
+}
+.item-row-focusing {
+	
+}
 </style>
+
 </head>
-<body>
-	<div class="wrapper">		
-		<section class="content">
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div th:replace="~{base/header :: header}"></div>
+		<div th:replace="~{base/menu :: menu}"></div>
+		<section class="content-wrapper">
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<h3 class="box-title">Layout设计</h3>
 				</div>
 				<!-- /.box-header -->
 				<!-- form start -->
-				<form class="form-horizontal" onreadystatechange="" >		              
-		              <!-- /.box-body -->
-		              <div class="box-footer">
-		                <input type="text" class="form-control" id="input-table_id" th:value="${param.table_id}" placeholder="table_id">
-		                <input type="text" class="form-control" id="input-table_name" th:value="${param.table_name}"  placeholder="table_name">
-		                <button type="button" class="btn btn-info" onclick = "addRow()">添加行</button>
-		                <button type="button" class="btn btn-info" onclick = "generateProgramCode()">程序生成</button>
-		              </div>
-		              <!-- /.box-footer -->
+				<form class="form-horizontal" onreadystatechange="">
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<input type="text" class="form-control" id="input-table_id"
+							th:value="${param.table_id}" placeholder="table_id"> <input
+							type="text" class="form-control" id="input-table_name"
+							th:value="${param.table_name}" placeholder="table_name">
+						<button type="button" class="btn btn-info" onclick="addRow()">添加行</button>
+						<button type="button" class="btn btn-info"
+							onclick="generateProgramCode()">程序生成</button>
+					</div>
+					<!-- /.box-footer -->
 					<!-- /.box-body -->
 				</form>
 			</div>
@@ -60,308 +69,305 @@
 				<div class="nav-tabs-custom">
 					<!-- Tabs within a box -->
 					<ul class="nav nav-tabs pull-right ui-sortable-handle">
-						<li class="pull-left header">Layout页面</li>						
-					</ul>	
-					<div id = "div-row-list">
-		
-					</div>				
-				</div>	
+						<li class="pull-left header">Layout页面</li>
+					</ul>
+					<div id="div-row-list"></div>
+				</div>
 			</div>
 		</section>
-		<!-- /.content -->
-		
+		<div th:replace="~{base/footer :: footer}"></div>
+		<div th:replace="~{base/settings :: settings}"></div>
 	</div>
-	</div>
-	
-	
-	
-	<!-- 程序生成对话框  start -->
-	<div class="modal fade" id="modal-program-view" style="display: none;">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title"><span class="pull-left header">程序生成</span></h4>
-				</div>
-				<div class="modal-body">
-					<div class="nav-tabs-custom">
-						<ul class="nav nav-tabs pull-left ui-sortable-handle">
-							<li class="">
-								<button class="btn btn-link btn-sm" onclick="generateProgramCode(true)">重新生成</button>
-								<button class="btn btn-link btn-sm" onclick="generateProgramCode(false)">更新代码</button>
-							</li>
-						</ul>
-						<ul class="nav nav-tabs pull-right ui-sortable-handle">
-							<li class="active">
-								<a href="#tab-pane-domain" data-toggle="tab" aria-expanded="true">Domain</a>
-							</li>
-							<li class="">
-								<a href="#tab-pane-dao" data-toggle="tab" aria-expanded="true">Dao</a>
-							</li>
-							<li class="">
-								<a href="#tab-pane-service" data-toggle="tab" aria-expanded="true">Service</a>
-							</li>
-							<li class="">
-								<a href="#tab-pane-controller" data-toggle="tab" aria-expanded="false">Controller</a>
-							</li>
-							<li class="">
-								<a href="#tab-pane-js" data-toggle="tab" aria-expanded="true">Js</a>
-							</li>
-							<li class="">
-								<a href="#tab-pane-html" data-toggle="tab" aria-expanded="true">HTML</a>
-							</li>
-						</ul>
-						<div class="tab-content no-padding">
-							<div class="chart tab-pane active" id="tab-pane-domain" >
-								<div class="row form-group">
-									<div class="col-sm-2">
-										<label>类名</label>
-									</div>
-									<div class="col-sm-4">
-										<input class="form-control" id="input-program-domain-name"></input>
-									</div>
+	<!-- ./wrapper -->
+</body>
+
+<!-- 程序生成对话框  start -->
+<div class="modal fade" id="modal-program-view" style="display: none;">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">
+					<span class="pull-left header">程序生成</span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs pull-left ui-sortable-handle">
+						<li class="">
+							<button class="btn btn-link btn-sm"
+								onclick="generateProgramCode(true)">重新生成</button>
+							<button class="btn btn-link btn-sm"
+								onclick="generateProgramCode(false)">更新代码</button>
+						</li>
+					</ul>
+					<ul class="nav nav-tabs pull-right ui-sortable-handle">
+						<li class="active"><a href="#tab-pane-domain"
+							data-toggle="tab" aria-expanded="true">Domain</a></li>
+						<li class=""><a href="#tab-pane-dao" data-toggle="tab"
+							aria-expanded="true">Dao</a></li>
+						<li class=""><a href="#tab-pane-service" data-toggle="tab"
+							aria-expanded="true">Service</a></li>
+						<li class=""><a href="#tab-pane-controller" data-toggle="tab"
+							aria-expanded="false">Controller</a></li>
+						<li class=""><a href="#tab-pane-js" data-toggle="tab"
+							aria-expanded="true">Js</a></li>
+						<li class=""><a href="#tab-pane-html" data-toggle="tab"
+							aria-expanded="true">HTML</a></li>
+					</ul>
+					<div class="tab-content no-padding">
+						<div class="chart tab-pane active" id="tab-pane-domain">
+							<div class="row form-group">
+								<div class="col-sm-2">
+									<label>类名</label>
 								</div>
-								<div>
-									<pre id="input-program-domain-source" class="highlight">	
-									</pre>	
+								<div class="col-sm-4">
+									<input class="form-control" id="input-program-domain-name"></input>
 								</div>
 							</div>
-							<div class="chart tab-pane" id="tab-pane-dao" >
-								<div class="row form-group">
-									<div class="col-sm-2">
-										<label>类名</label>
-									</div>
-									<div class="col-sm-4">
-										<input class="form-control" id="input-program-dao-name"></input>
-									</div>
-								</div>
-								<div>
-									<pre id="input-program-dao-source" class="brush: java;">	
-									</pre>	
-								</div>
-							</div>
-							<div class="chart tab-pane" id="tab-pane-service" >
-								<div class="row form-group">
-									<div class="col-sm-2">
-										<label>类名</label>
-									</div>
-									<div class="col-sm-4">
-										<input class="form-control" id="input-program-service-name"></input>
-									</div>
-								</div>
-								<div>
-									<pre id="input-program-service-source" class="brush: java;">	
-									</pre>	
-								</div>
-							</div>
-							<div class="chart tab-pane" id="tab-pane-controller" >
-								<div class="row form-group">
-									<div class="col-sm-1">
-										<label>类名</label>
-									</div>
-									<div class="col-sm-3">
-										<input class="form-control" id="input-program-controller-name"></input>
-									</div>									
-									<div class="col-sm-1">
-										<label>URL</label>
-									</div>
-									<div class="col-sm-3">
-										<input class="form-control" id="input-program-controller-baseurl"></input>
-									</div>
-									<div class="col-sm-1">
-										<label>模块</label>
-									</div>
-									<div class="col-sm-3">
-										<select class="form-control select2" id="input-program-controller-module" style="width: 100%">
-											<option value="organization" selected="selected">organization</option>
-											<option value="admin">admin</option>
-											<option value="base">base</option>
-										</select>
-									</div>
-								</div>
-								<div>
-									<pre id="input-program-controller-source" class="brush: java;">	
+							<div>
+								<pre id="input-program-domain-source" class="highlight">	
 									</pre>
+							</div>
+						</div>
+						<div class="chart tab-pane" id="tab-pane-dao">
+							<div class="row form-group">
+								<div class="col-sm-2">
+									<label>类名</label>
+								</div>
+								<div class="col-sm-4">
+									<input class="form-control" id="input-program-dao-name"></input>
 								</div>
 							</div>
-							<div class="chart tab-pane" id="tab-pane-js" >
-								<div class="row form-group">
-									<div class="col-sm-3">
-										<label>文件路径[含文件名]</label>
-									</div>
-									<div class="col-sm-9">
-										<input class="form-control" id="input-program-js-name"></input>
-									</div>									
+							<div>
+								<pre id="input-program-dao-source" class="brush: java;">	
+									</pre>
+							</div>
+						</div>
+						<div class="chart tab-pane" id="tab-pane-service">
+							<div class="row form-group">
+								<div class="col-sm-2">
+									<label>类名</label>
 								</div>
-								<div>
-									<pre id="input-program-js-source" class="brush: java;">	
+								<div class="col-sm-4">
+									<input class="form-control" id="input-program-service-name"></input>
+								</div>
+							</div>
+							<div>
+								<pre id="input-program-service-source" class="brush: java;">	
+									</pre>
+							</div>
+						</div>
+						<div class="chart tab-pane" id="tab-pane-controller">
+							<div class="row form-group">
+								<div class="col-sm-1">
+									<label>类名</label>
+								</div>
+								<div class="col-sm-3">
+									<input class="form-control" id="input-program-controller-name"></input>
+								</div>
+								<div class="col-sm-1">
+									<label>URL</label>
+								</div>
+								<div class="col-sm-3">
+									<input class="form-control"
+										id="input-program-controller-baseurl"></input>
+								</div>
+								<div class="col-sm-1">
+									<label>模块</label>
+								</div>
+								<div class="col-sm-3">
+									<select class="form-control select2"
+										id="input-program-controller-module" style="width: 100%">
+										<option value="organization" selected="selected">organization</option>
+										<option value="admin">admin</option>
+										<option value="base">base</option>
+									</select>
+								</div>
+							</div>
+							<div>
+								<pre id="input-program-controller-source" class="brush: java;">	
+									</pre>
+							</div>
+						</div>
+						<div class="chart tab-pane" id="tab-pane-js">
+							<div class="row form-group">
+								<div class="col-sm-3">
+									<label>文件路径[含文件名]</label>
+								</div>
+								<div class="col-sm-9">
+									<input class="form-control" id="input-program-js-name"></input>
+								</div>
+							</div>
+							<div>
+								<pre id="input-program-js-source" class="brush: java;">	
 											js
 									</pre>
+							</div>
+						</div>
+						<div class="chart tab-pane" id="tab-pane-html">
+							<div class="row form-group">
+								<div class="col-sm-1">
+									<label>文件名</label>
+								</div>
+								<div class="col-sm-3">
+									<input class="form-control" id="input-program-html-name"></input>
 								</div>
 							</div>
-							<div class="chart tab-pane" id="tab-pane-html" >
-								<div class="row form-group">
-									<div class="col-sm-1">
-										<label>文件名</label>
-									</div>
-									<div class="col-sm-3">
-										<input class="form-control" id="input-program-html-name"></input>
-									</div>							
-								</div>
-								<div>
-									<pre id="input-program-html-source" class="brush: java;">
+							<div>
+								<pre id="input-program-html-source" class="brush: java;">
 										html
 									</pre>
-								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left"
-						data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary"
-						onclick="newTableSave()">Save</button>
-				</div>
 			</div>
-			<!-- /.modal-content -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left"
+					data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary"
+					onclick="newTableSave()">Save</button>
+			</div>
 		</div>
-		<!-- /.modal-dialog -->
+		<!-- /.modal-content -->
 	</div>
-	<!-- 程序生成对话框  end -->
-	
-	
-	
-	<div class="modal fade" id="modal-add-row" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title">添加行</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-		              <div class="box-body">		                
-		                <div class="form-group">
-		                  <label for="select-col_num" class="col-sm-2 control-label">列</label>
-		                  <div class="col-sm-10">
-		                    <select class="form-control select2"
-								id="select-col_num" style="width: 100%">
-								<option value="1" selected="selected">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="6">6</option>
-								<option value="12">12</option>													
-							</select>
-		                  </div>
-		                </div>
-		              </div>
-		              <!-- /.box-body -->		             
+	<!-- /.modal-dialog -->
+</div>
+<!-- 程序生成对话框  end -->
+
+
+
+<div class="modal fade" id="modal-add-row" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">添加行</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="select-col_num" class="col-sm-2 control-label">列</label>
+							<div class="col-sm-10">
+								<select class="form-control select2" id="select-col_num"
+									style="width: 100%">
+									<option value="1" selected="selected">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="6">6</option>
+									<option value="12">12</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<!-- /.box-body -->
-					</form>
+					<!-- /.box-body -->
+				</form>
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left"
-						data-dismiss="modal">取消</button>
-					<button id="button-addrowsure" type="button" class="btn btn-primary" data-column=false
-						onclick="addRowSure()">确定</button>
-				</div>
 			</div>
-			<!-- /.modal-content -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left"
+					data-dismiss="modal">取消</button>
+				<button id="button-addrowsure" type="button" class="btn btn-primary"
+					data-column=false onclick="addRowSure()">确定</button>
+			</div>
 		</div>
-		<!-- /.modal-dialog -->
+		<!-- /.modal-content -->
 	</div>
-	
-	<div class="modal fade" id="modal-new-component" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title" id="h4-modal-title">添加组件</h4>
-				</div>
-				<div class="modal-body">
-					<div class="nav-tabs-custom">						
-						<div class="tab-content no-padding">
-							<div class="chart tab-pane active" id="component-columns">
-								<div class="form-horizontal">
-									<div class="box-body">										
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>组件名称</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-component-component_name"></input>
-											</div>
-											<div class="col-sm-2">
-												<label>组件标题</label>
-											</div>
-											<div class="col-sm-4">
-												<input class="form-control"
-													id="item-component-component_title"></input>
-											</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-new-component" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title" id="h4-modal-title">添加组件</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-custom">
+					<div class="tab-content no-padding">
+						<div class="chart tab-pane active" id="component-columns">
+							<div class="form-horizontal">
+								<div class="box-body">
+									<div class="row form-group">
+										<div class="col-sm-2">
+											<label>组件名称</label>
 										</div>
-										<div class="row form-group">
-											<div class="col-sm-2">
-												<label>展示类型</label>
-											</div>
-											<div class="col-sm-4">
-												<select class="form-control select2"
-													id="item-component-component_show_type" style="width: 100%">
-													<option value="label" selected="selected">标签[label]</option>
-													<option value="input">输入框[input]</option>
-													<option value="button">按钮[button]</option>
-													<option value="img">图片[img]</option>
-													<option value="checkbox">选择框[checkbox]</option>
-													<option value="date">日期[date]</option>
-													<option value="datetime">日期时间[datetime]</option>
-													<option value="textarea">大文本框[textarea]</option>
-													<option value="select">下拉框[select]</option>
-													<option value="form">表单[Form]</option>
-													<option value="grid">表格[Grid]</option>
-												</select>
-											</div>
+										<div class="col-sm-4">
+											<input class="form-control"
+												id="item-component-component_name"></input>
+										</div>
+										<div class="col-sm-2">
+											<label>组件标题</label>
+										</div>
+										<div class="col-sm-4">
+											<input class="form-control"
+												id="item-component-component_title"></input>
+										</div>
+									</div>
+									<div class="row form-group">
+										<div class="col-sm-2">
+											<label>展示类型</label>
+										</div>
+										<div class="col-sm-4">
+											<select class="form-control select2"
+												id="item-component-component_show_type" style="width: 100%">
+												<option value="label" selected="selected">标签[label]</option>
+												<option value="input">输入框[input]</option>
+												<option value="button">按钮[button]</option>
+												<option value="img">图片[img]</option>
+												<option value="checkbox">选择框[checkbox]</option>
+												<option value="date">日期[date]</option>
+												<option value="datetime">日期时间[datetime]</option>
+												<option value="textarea">大文本框[textarea]</option>
+												<option value="select">下拉框[select]</option>
+												<option value="form">表单[Form]</option>
+												<option value="grid">表格[Grid]</option>
+											</select>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left"
-						data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary"
-						onclick="addComponentSure()">保存</button>
-				</div>
+
 			</div>
-			<!-- /.modal-content -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left"
+					data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary"
+					onclick="addComponentSure()">保存</button>
+			</div>
 		</div>
-		<!-- /.modal-dialog -->
-	</div>			
-	
-	<!-- ./wrapper -->
-	<!-- 引入JavaScripts样式 -->
-	<script th:src="@{/resources/base/javascript-import.js}" src="../../../../resources/base/javascript-import.js" ></script>
-	<script th:src="@{/resources/plugins/dragula/dragula.js}" src="../../../../resources/plugins/dragula/dragula.js"></script>
-	<script th:src="@{/resources/plugins/ContextJS/js/context.js}" src="../../../../resources/plugins/ContextJS/js/context.js"></script>
-	<script th:src="@{/resources/admin/designer/js/layout.js}" src="../../../../resources/admin/designer/js/layout.js"></script>
-	
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
 
-</body>
+<!-- 引入JavaScripts样式 -->
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/plugins/dragula/dragula.js}"
+	src="../../../../resources/plugins/dragula/dragula.js"></script>
+<script th:src="@{/resources/plugins/ContextJS/js/context.js}"
+	src="../../../../resources/plugins/ContextJS/js/context.js"></script>
+<script th:src="@{/resources/admin/designer/js/layout.js}"
+	src="../../../../resources/admin/designer/js/layout.js"></script>
+
 </html>

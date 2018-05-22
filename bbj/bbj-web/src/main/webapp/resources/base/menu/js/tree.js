@@ -51,7 +51,7 @@ function openMenu(menuId){
 		return ;
 	}
 	// 切换页面
-	$("#iframe-content-wrapper-main").attr("src",contextPath + isFoundObj.currentMenu.current.attr.menu_link);
+	window.location.href = contextPath + "" +  isFoundObj.currentMenu.current.attr.menu_link;
 	
 	
 	// console.log(pathArray);
@@ -126,6 +126,7 @@ function buildMenuTreeRecursion(menuArray) {
 		subMenuItem.show();
 		buildMenuTreeRecursionItem(subMenuItemData,subMenuItem,templateItem);
 	}
+	$("#menu-tree").removeClass("hidden");
 	templateItem.hide();
 }
 /**
