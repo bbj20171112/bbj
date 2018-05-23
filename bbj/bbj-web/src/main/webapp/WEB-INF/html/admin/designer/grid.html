@@ -36,77 +36,90 @@
 }
 </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body th:class="${session.currentSkin}">
 	<div class="wrapper">
 		<div th:replace="~{base/header :: header}"></div>
 		<div th:replace="~{base/menu :: menu}"></div>
-		<section class="content-wrapper">
-			<div class="box box-info">
-				<div class="box-header with-border">
-					<h3 class="box-title">Form设计</h3>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
+			<section class="content">
+			    <div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Form设计</h3>
+					</div>
+					<!-- /.box-header -->
+					<!-- form start -->
+					<form class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label for="field-item-table_id" class="col-sm-2 control-label">table_id</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="field-item-table_id"
+										th:value="${param.table_id}" placeholder="table_id">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="field-item-col_num" class="col-sm-2 control-label">url</label>
+								<div class="col-sm-10">
+									<input type="number" class="form-control" id="field-item-url"
+										placeholder="cols">
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+						<div class="box-footer">
+							<button type="button" class="btn btn-default">返回</button>
+							<button type="button" onclick="newPage()"
+								class="btn btn-info pull-right">重绘</button>
+						</div>
+						<!-- /.box-footer -->
+						<!-- /.box-body -->
+					</form>
 				</div>
-				<!-- /.box-header -->
-				<!-- form start -->
-				<form class="form-horizontal">
-					<div class="box-body">
-						<div class="form-group">
-							<label for="field-item-table_id" class="col-sm-2 control-label">table_id</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="field-item-table_id"
-									th:value="${param.table_id}" placeholder="table_id">
+				<div class="box box-info">
+					<div class="nav-tabs-custom">
+						<!-- Tabs within a box -->
+						<ul class="nav nav-tabs pull-right ui-sortable-handle">
+							<li class="pull-left header">Grid页面</li>
+							<li class="pull-left" id="li-fields"></li>
+							<li><a href="#revenue-source" onclick="showSource()"
+								data-toggle="tab" aria-expanded="false">源代码</a></li>
+							<li class="active"><a href="#revenue-view" data-toggle="tab"
+								aria-expanded="true">内容</a></li>
+						</ul>
+						<div class="tab-content no-padding">
+							<!-- Morris chart - Sales -->
+							<div class="chart tab-pane active" id="revenue-view">
+								<div id="container-view" class="container"
+									style="border: 1px; border-color: gray;">
+									<table id="example"
+										class="table table-bordered table-hover dataTable" width="100%">
+									</table>
+								</div>
+							</div>
+							<div class="chart tab-pane" id="revenue-source">
+								<textarea id="container-source">
+						
+								</textarea>
+								<a onclick="autoFormatRange()">格式化</a>
+	
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="field-item-col_num" class="col-sm-2 control-label">url</label>
-							<div class="col-sm-10">
-								<input type="number" class="form-control" id="field-item-url"
-									placeholder="cols">
-							</div>
-						</div>
-					</div>
-					<!-- /.box-body -->
-					<div class="box-footer">
-						<button type="button" class="btn btn-default">返回</button>
-						<button type="button" onclick="newPage()"
-							class="btn btn-info pull-right">重绘</button>
-					</div>
-					<!-- /.box-footer -->
-					<!-- /.box-body -->
-				</form>
-			</div>
-			<div class="box box-info">
-				<div class="nav-tabs-custom">
-					<!-- Tabs within a box -->
-					<ul class="nav nav-tabs pull-right ui-sortable-handle">
-						<li class="pull-left header">Grid页面</li>
-						<li class="pull-left" id="li-fields"></li>
-						<li><a href="#revenue-source" onclick="showSource()"
-							data-toggle="tab" aria-expanded="false">源代码</a></li>
-						<li class="active"><a href="#revenue-view" data-toggle="tab"
-							aria-expanded="true">内容</a></li>
-					</ul>
-					<div class="tab-content no-padding">
-						<!-- Morris chart - Sales -->
-						<div class="chart tab-pane active" id="revenue-view">
-							<div id="container-view" class="container"
-								style="border: 1px; border-color: gray;">
-								<table id="example"
-									class="table table-bordered table-hover dataTable" width="100%">
-								</table>
-							</div>
-						</div>
-						<div class="chart tab-pane" id="revenue-source">
-							<textarea id="container-source">
-					
-							</textarea>
-							<a onclick="autoFormatRange()">格式化</a>
-
-						</div>
-					</div>
+					  </div>
 				</div>
-
-			</div>
-		</section>
+			</section>
+		</div>
 		<div th:replace="~{base/footer :: footer}"></div>
 		<div th:replace="~{base/settings :: settings}"></div>
 	</div>

@@ -1,7 +1,8 @@
-$(function() {
-
+/**
+ * 初始化
+ */
+$(document).ready(function(){
 	init();
-	
 });
 
 function init() {

@@ -10,32 +10,47 @@
 <script src="../../../resources/base/css-import.js"></script>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body th:class="${session.currentSkin}">
 	<div class="wrapper">
 		<div th:replace="~{base/header :: header}"></div>
 		<div th:replace="~{base/menu :: menu}"></div>
-		<section class="content-wrapper">
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">基本表格</h3>
-							<button type="button" onclick="showSelectItems()"
-								class="btn btn-info">查看选中</button>
-							<button type="button" onclick="newData()" class="btn btn-info">新建</button>
-
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
+			<section class="content">
+			    <div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">基本表格</h3>
+								<button type="button" onclick="showSelectItems()"
+									class="btn btn-info">查看选中</button>
+								<button type="button" onclick="newData()" class="btn btn-info">新建</button>
+	
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="example" class="table table-bordered table-hover">
+								</table>
+							</div>
+							<!-- /.box-body -->
 						</div>
-						<!-- /.box-header -->
-						<div class="box-body">
-							<table id="example" class="table table-bordered table-hover">
-							</table>
-						</div>
-						<!-- /.box-body -->
+						<!-- /.col -->
 					</div>
-					<!-- /.col -->
-				</div>
 				<!-- /.row -->
-		</section>
+				</div>
+			</section>
+		</div>
 		<div th:replace="~{base/footer :: footer}"></div>
 		<div th:replace="~{base/settings :: settings}"></div>
 	</div>
@@ -129,7 +144,9 @@
 </div>
 
 <!-- 引入JavaScripts样式 -->
-<script src="../../../resources/base/javascript-import.js"></script>
-<script src="../../../resources/admin/dictionary/dictionaryReference.js"></script>
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/admin/dictionary/dictionaryReference.js}"
+	src="../../../resources/admin/dictionary/dictionaryReference.js"></script>
 
 </html>

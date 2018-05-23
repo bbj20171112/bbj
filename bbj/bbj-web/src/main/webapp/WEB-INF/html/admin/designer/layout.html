@@ -39,42 +39,56 @@
 </style>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body th:class="${session.currentSkin}">
 	<div class="wrapper">
 		<div th:replace="~{base/header :: header}"></div>
 		<div th:replace="~{base/menu :: menu}"></div>
-		<section class="content-wrapper">
-			<div class="box box-info">
-				<div class="box-header with-border">
-					<h3 class="box-title">Layout设计</h3>
-				</div>
-				<!-- /.box-header -->
-				<!-- form start -->
-				<form class="form-horizontal" onreadystatechange="">
-					<!-- /.box-body -->
-					<div class="box-footer">
-						<input type="text" class="form-control" id="input-table_id"
-							th:value="${param.table_id}" placeholder="table_id"> <input
-							type="text" class="form-control" id="input-table_name"
-							th:value="${param.table_name}" placeholder="table_name">
-						<button type="button" class="btn btn-info" onclick="addRow()">添加行</button>
-						<button type="button" class="btn btn-info"
-							onclick="generateProgramCode()">程序生成</button>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
+			<section class="content">
+			    <div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Layout设计</h3>
 					</div>
-					<!-- /.box-footer -->
-					<!-- /.box-body -->
-				</form>
-			</div>
-			<div class="box box-info">
-				<div class="nav-tabs-custom">
-					<!-- Tabs within a box -->
-					<ul class="nav nav-tabs pull-right ui-sortable-handle">
-						<li class="pull-left header">Layout页面</li>
-					</ul>
-					<div id="div-row-list"></div>
+					<!-- /.box-header -->
+					<!-- form start -->
+					<form class="form-horizontal" onreadystatechange="">
+						<!-- /.box-body -->
+						<div class="box-footer">
+							<input type="text" class="form-control" id="input-table_id"
+								th:value="${param.table_id}" placeholder="table_id"> <input
+								type="text" class="form-control" id="input-table_name"
+								th:value="${param.table_name}" placeholder="table_name">
+							<button type="button" class="btn btn-info" onclick="addRow()">添加行</button>
+							<button type="button" class="btn btn-info"
+								onclick="generateProgramCode()">程序生成</button>
+						</div>
+						<!-- /.box-footer -->
+						<!-- /.box-body -->
+					</form>
 				</div>
-			</div>
-		</section>
+				<div class="box box-info">
+					<div class="nav-tabs-custom">
+						<!-- Tabs within a box -->
+						<ul class="nav nav-tabs pull-right ui-sortable-handle">
+							<li class="pull-left header">Layout页面</li>
+						</ul>
+						<div id="div-row-list"></div>
+					</div>
+				</div>
+			</section>
+		</div>
 		<div th:replace="~{base/footer :: footer}"></div>
 		<div th:replace="~{base/settings :: settings}"></div>
 	</div>

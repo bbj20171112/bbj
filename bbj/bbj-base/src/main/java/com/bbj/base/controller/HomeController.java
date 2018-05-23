@@ -1,5 +1,7 @@
 package com.bbj.base.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,8 @@ public class HomeController {
 	private MenuService MenuService;
 	
 	@RequestMapping(value={"/","/index"})
-	public String index(){
+	public String index(HttpServletRequest request){
+		request.getSession().setAttribute(Constants.sessionAttr_currentSkin, Constants.sessionAttr_Skin_greenLight);
 		return Constants.module_base + "/index";
 	}
 	

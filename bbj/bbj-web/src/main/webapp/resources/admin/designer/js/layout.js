@@ -798,39 +798,54 @@ function getHTMLStr(classNameObj){
 						"<html xmlns=\"http://www.w3.org/1999/xhtml\"\n" + 
 						"	xmlns:th=\"http://www.thymeleaf.org\">\n" + 
 						"	\n" + 
-						"	<head>\n" + 
-						"		<meta charset=\"UTF-8\">\n" + 
-						"		<title>"+classNameObj.tableName+"</title>\n" +
-						"		\n" + 
-						"		<!-- 引入全局css样式 -->\n" + 
-						"		<script th:src=\"@{/resources/base/css-import.js}\" src=\"../../../../resources/base/css-import.js\"></script>\n" + 
-						"	<head>\n" +
-						"	\n" ;
+						"<head>\n" + 
+						"	<meta charset=\"UTF-8\">\n" + 
+						"	<title>"+classNameObj.tableName+"</title>\n" +
+						"	\n" + 
+						"	<!-- 引入全局css样式 -->\n" + 
+						"	<script th:src=\"@{/resources/base/css-import.js}\" src=\"../../../../resources/base/css-import.js\"></script>\n" + 
+						"<head>\n" +
+						"\n" ;
 	
-	var bodyStrTabsStr = "\t";
-	var bodyStr = 	bodyStrTabsStr + "<body>\n" + 
-					bodyStrTabsStr + "	<div class=\"wrapper\">\n" + 
-					bodyStrTabsStr + '		<div class=\"box box-info\">\n' + 
+	var bodyStrTabsStr = "";
+	var bodyStr = 	bodyStrTabsStr + '<body th:class="${session.currentSkin}">\n' + 
+					bodyStrTabsStr + '	<div class="wrapper">\n' +
+					bodyStrTabsStr + '	  <div th:replace="~{base/header :: header}"></div>\n' +
+					bodyStrTabsStr + '	  <div th:replace="~{base/menu :: menu}"></div>\n' +
+					bodyStrTabsStr + '	  <div class="content-wrapper">\n' +
+					bodyStrTabsStr + '	    <section class="content-header">\n' +
+					bodyStrTabsStr + '	      <h1>Page Header</h1>\n' +
+					bodyStrTabsStr + '	      <ol class="breadcrumb" id="menu-footprint">\n' +
+					bodyStrTabsStr + '	      <li><a href="#"><i class="fa fa-dashboard"></i> <span\n' +
+					bodyStrTabsStr + '	      name="parent-menu">Level</span></a></li>\n' +
+					bodyStrTabsStr + '	      <li name="li-sub-menu" style="display: none">Here</li>\n' +
+					bodyStrTabsStr + '	      </ol>\n' +
+					bodyStrTabsStr + '	    </section>\n' +
+					bodyStrTabsStr + '	    <section class="content">\n' +
+					bodyStrTabsStr + '		  <div class=\"box box-info\">\n' + 
 					bodyStrTabsStr + '			<div class="box-header with-border">\n' + 
 					bodyStrTabsStr + '				<h3 class="box-title">'+classNameObj.tableName+'</h3>\n' + 
 					bodyStrTabsStr + '				<button type="button" onclick="insertOption()" class="btn btn-info">新建</button>\n' + 
 					bodyStrTabsStr + '				<table id="table-'+classNameObj.tableName+'" class="table table-bordered table-hover"></table>\n' + 
 					bodyStrTabsStr + '			</div>\n' + 
-					bodyStrTabsStr + '		</div>\n' + 
+					bodyStrTabsStr + '		  </div>\n' + 
 					bodyStrTabsStr + '		' + $("#div-row-list").html() + 
-					bodyStrTabsStr + '		\n' + 
-					bodyStrTabsStr + "	</div>\n" + 
+					bodyStrTabsStr + '		</section>\n' + 
+					bodyStrTabsStr + '	  </div>\n' + 
+					bodyStrTabsStr + '	  <div th:replace="~{base/footer :: footer}"></div>\n' + 
+					bodyStrTabsStr + '	  <div th:replace="~{base/settings :: settings}"></div>\n' + 
+					bodyStrTabsStr + '	</div>\n' + 
 					bodyStrTabsStr + "</body>\n" ;
 	
 	
-	var importJsStrTabsStr = "\t";
+	var importJsStrTabsStr = "";
 	var importJsStr = 	importJsStrTabsStr + "\n" + 
 						importJsStrTabsStr + "<!-- 引入全局JavaScript -->\n" + 
 						importJsStrTabsStr + "<script th:src=\"@{/resources/base/javascript-import.js}\" src=\"../../../../resources/base/javascript-import.js\"></script>\n" + 
 						importJsStrTabsStr + "<script th:src=\"@{/resources/"+classNameObj.jsName+"}\" src=\"../../../../resources/"+classNameObj.jsName+"\" ></script>\n" + 
 						importJsStrTabsStr + "\n"; 
 
-	var htmlDefFooter ="\n</html>\n";
+	var htmlDefFooter ="</html>\n";
 	
 						
 	return htmlDefHeader + bodyStr + importJsStr + htmlDefFooter ;

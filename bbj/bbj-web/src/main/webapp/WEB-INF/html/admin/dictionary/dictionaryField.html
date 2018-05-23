@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,16 +6,27 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>数据字典</title>
 
-<!-- 引入全局css样式 -->
 <script th:src="@{/resources/base/css-import.js}"
 	src="../../../../resources/base/css-import.js"></script>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body th:class="${session.currentSkin}">
 	<div class="wrapper">
 		<div th:replace="~{base/header :: header}"></div>
 		<div th:replace="~{base/menu :: menu}"></div>
 		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
 			<section class="content">
 				<div class="row">
 					<div class="col-xs-12">
@@ -26,22 +37,18 @@
 									class="btn btn-info">查看选中</button>
 								<button type="button" onclick="newField()" class="btn btn-info">新建</button>
 							</div>
-							<!-- /.box-header -->
 							<div class="box-body">
 								<table id="example" class="table table-bordered table-hover">
 								</table>
 							</div>
-							<!-- /.box-body -->
 						</div>
-						<!-- /.col -->
 					</div>
-					<!-- /.row -->
+				</div>
 			</section>
 		</div>
 		<div th:replace="~{base/footer :: footer}"></div>
 		<div th:replace="~{base/settings :: settings}"></div>
 	</div>
-	<!-- ./wrapper -->
 </body>
 <div class="modal fade" id="modal-new-field" style="display: none;">
 	<div class="modal-dialog">
@@ -55,7 +62,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="nav-tabs-custom">
-					<!-- Tabs within a box -->
+					Tabs within a box
 					<ul class="nav nav-tabs pull-right ui-sortable-handle">
 						<li class=""><a href="#revenue-chart" data-toggle="tab"
 							aria-expanded="false">SQL 预览</a></li>
@@ -64,7 +71,7 @@
 						<li class="pull-left header"><i class="fa fa-inbox"></i> 字段维护</li>
 					</ul>
 					<div class="tab-content no-padding">
-						<!-- Morris chart - Sales -->
+						Morris chart - Sales
 						<div class="chart tab-pane" id="revenue-chart"
 							style="position: relative; height: 300px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 							SQL</div>
@@ -220,15 +227,10 @@
 					onclick="newFieldSave()">Save</button>
 			</div>
 		</div>
-		<!-- /.modal-content -->
 	</div>
-	<!-- /.modal-dialog -->
 </div>
 
-<!-- 引入JavaScripts样式 -->
 <script th:src="@{/resources/base/javascript-import.js}"
 	src="../../../../resources/base/javascript-import.js"></script>
 <script th:src="@{/resources/admin/dictionary/dictionaryField.js}"
 	src="../../../../resources/admin/dictionary/dictionaryField.js"></script>
-
-</html>

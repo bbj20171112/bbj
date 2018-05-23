@@ -19,7 +19,7 @@ document.writeln('<!-- AdminLTE App -->');
 document.writeln('<script src="' + contextPath + '/resources/dist/js/adminlte.js"></script>');
 
 document.writeln('<!-- PACE -->');
-document.writeln('<script src="' + contextPath + '/resources/bower_components/PACE/pace.min.js"></script>');
+//document.writeln('<script src="' + contextPath + '/resources/bower_components/PACE/pace.min.js"></script>');
 
 document.writeln('<!-- SlimScroll -->');
 document.writeln('<script src="' + contextPath + '/resources/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>');

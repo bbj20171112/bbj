@@ -11,5 +11,10 @@ public class Constants {
 	public static final String module_admin = "/admin";
 	public static final String module_security = "/security";
 
+	// 当前皮肤
+	public static final String sessionAttr_currentSkin = "currentSkin";
+	public static final String sessionAttr_Skin_greenLight = "sidebar-mini wysihtml5-supported skin-green-light";
+
+
 	
 }

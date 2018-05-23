@@ -10,7 +10,7 @@
 <script th:src="@{/resources/base/css-import.js}" src="../../../../resources/base/css-import.js"></script>
 
 </head>
-<body>
+<body th:class="${session.currentSkin}">
 	<div class="wrapper">	
 		<div class="box box-info">
             <div class="box-header with-border">
