@@ -79,7 +79,7 @@ function init() {
 							data : 'attr.field_order_number',
 							title : headers[5]
 						}, {
-							data : 'attr.field_reference',
+							data : 'attr.field_reference_table_id',
 							title : headers[6]
 						}, {
 							data : 'attr.field_constraint_comment',

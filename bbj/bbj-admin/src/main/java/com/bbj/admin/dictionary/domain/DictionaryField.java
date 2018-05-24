@@ -22,7 +22,8 @@ public class DictionaryField extends BBJEntity {
 	public static final String fieldOrderNumber = "field_order_number"; // 排序序号
 	public static final String fieldConstraint = "field_constraint";  
 	public static final String fieldConstraintComment = "field_constraint_comment"; 
-	public static final String fieldReference = "field_reference"; 
+	public static final String fieldReferenceTableId = "field_reference_table_id"; 
+	public static final String fieldReferenceTableFieldName = "field_reference_table_field_name"; 
 	public static final String fieldReferenceComment="field_reference_comment"; 
 	
 	@Override
@@ -44,7 +45,8 @@ public class DictionaryField extends BBJEntity {
 				fieldOrderNumber,
 				fieldConstraint,
 				fieldConstraintComment,
-				fieldReference,
+				fieldReferenceTableId,
+				fieldReferenceTableFieldName,
 				fieldReferenceComment,
 				BBJEntity.create_time,
 				BBJEntity.update_time,
