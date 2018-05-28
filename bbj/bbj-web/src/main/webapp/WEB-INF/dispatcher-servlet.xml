@@ -13,7 +13,7 @@
   
   
 	<!-- 配置自动扫描的包 -->
-	<context:component-scan base-package="com.bbj"></context:component-scan>
+	<context:component-scan base-package="com.bbj" name-generator="com.bbj.base.BBJAnnotationBeanNameGenerator"></context:component-scan>
 	
 	<mvc:annotation-driven>
 		<mvc:message-converters>

@@ -1,5 +1,5 @@
 
-package com.bbj.admin.dictionary.controller;
+package com.bbj.base.dictionary.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.admin.Constants;
-import com.bbj.admin.dictionary.domain.DictionaryField;
-import com.bbj.admin.dictionary.domain.DictionaryReference;
-import com.bbj.admin.dictionary.service.DictionaryReferenceService;
+import com.bbj.base.constant.Constants;
+import com.bbj.base.dictionary.domain.DictionaryField;
+import com.bbj.base.dictionary.service.DictionaryReferenceService;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
-import com.bbj.base.utils.BBJEntityUtils;
 
 @Controller
 @RequestMapping(value={Constants.module_current+"/dictionary/reference"})
@@ -28,42 +26,6 @@ public class DictionaryReferenceController {
 
 	@Autowired
 	private DictionaryReferenceService dictionaryReferenceService;
-	
-	/**
-	 * 增
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(method=RequestMethod.POST)
-	@ResponseBody
-	public Object insert(HttpServletRequest request){
-		DictionaryReference bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryReference.class);
-		return dictionaryReferenceService.insert(bbjEntity );
-	}
-	
-
-	/**
-	 * 删
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@ResponseBody
-	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryReferenceService.deleteById(id);
-	}
-
-	/**
-	 * 改
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(method=RequestMethod.PUT)
-	@ResponseBody
-	public Object update(HttpServletRequest request){
-		DictionaryReference bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryReference.class);
-		return dictionaryReferenceService.update(bbjEntity );
-	}
 	
 	
 	/**

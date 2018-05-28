@@ -17,7 +17,8 @@ import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
 
-@Service(value = "dictionaryFieldService")
+
+@Service
 public class DictionaryFieldService
 {
 	@Autowired

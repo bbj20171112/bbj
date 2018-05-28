@@ -1,5 +1,5 @@
 
-package com.bbj.admin.dictionary.controller;
+package com.bbj.base.dictionary.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.admin.Constants;
-import com.bbj.admin.dictionary.domain.DictionaryField;
-import com.bbj.admin.dictionary.service.DictionaryFieldService;
+import com.bbj.base.constant.Constants;
+import com.bbj.base.dictionary.domain.DictionaryField;
+import com.bbj.base.dictionary.service.DictionaryFieldService;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
@@ -30,52 +30,6 @@ public class DictionaryFieldController {
 
 	@Autowired
 	private DictionaryFieldService dictionaryFieldService;
-	
-	/**
-	 * 增
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(method=RequestMethod.POST)
-	@ResponseBody
-	public Object insert(HttpServletRequest request){
-		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
-		return dictionaryFieldService.insert(bbjEntity );
-	}
-	
-
-	/**
-	 * 删
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@ResponseBody
-	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryFieldService.deleteById(id);
-	}
-
-	/**
-	 * 改
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(method=RequestMethod.PUT)
-	@ResponseBody
-	public Object update(HttpServletRequest request){
-		String action = request.getParameter("action");
-		// 更改顺序
-		if("ordernumber".equalsIgnoreCase(action)){
-			String id = request.getParameter(DictionaryField.id);
-			String type = request.getParameter("type");
-			return dictionaryFieldService.updateOrdernumber(id ,type);
-		}
-		
-		// 默认进行update
-		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
-		return dictionaryFieldService.update(bbjEntity );
-	}
-	
 	
 	/**
 	 * 查（单个）

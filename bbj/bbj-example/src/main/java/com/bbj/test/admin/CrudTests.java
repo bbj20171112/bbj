@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.bbj.admin.dictionary.dao.DictionaryFieldDao;
-import com.bbj.admin.dictionary.domain.DictionaryField;
+import com.bbj.base.dictionary.dao.DictionaryFieldDao;
+import com.bbj.base.dictionary.domain.DictionaryField;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
@@ -35,8 +35,8 @@ public class CrudTests
         list.add(new WhereFilter(DictionaryField.fieldOrderNumber, "<", "12"));
         list.add(new WhereFilter(DictionaryField.tableId, "=", "1524497478126"));
 		sqlFilter.addWhereFilter(list );
-		DictionaryField temp = demoDao.queryMaxSmallerThan(sqlFilter );
-        System.out.println(temp);
+		//DictionaryField temp = demoDao.queryMaxSmallerThan(sqlFilter );
+        //System.out.println(temp);
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.bbj.admin.dictionary.domain.DictionaryField;
 import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.base.dao.BBJDaoImp;
+import com.bbj.base.domain.BBJDaoInsertParam;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 
@@ -229,6 +230,5 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		} 
 		return 0;
 	}
-	 
-
+	
 }

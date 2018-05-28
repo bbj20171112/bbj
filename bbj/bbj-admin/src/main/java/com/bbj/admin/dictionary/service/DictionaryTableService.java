@@ -10,7 +10,7 @@ import com.bbj.admin.dictionary.dao.DictionaryTableDao;
 import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.base.domain.SqlFilter;
 
-@Service(value = "dictionaryTableService")
+@Service
 public class DictionaryTableService {
 	
 	@Autowired

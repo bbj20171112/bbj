@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.admin.dictionary.domain.DictionaryField;
-import com.bbj.admin.dictionary.service.DictionaryFieldService;
 import com.bbj.base.constant.Constants;
+import com.bbj.base.dictionary.domain.DictionaryField;
+import com.bbj.base.dictionary.service.DictionaryFieldService;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
@@ -28,7 +28,7 @@ public class GridController {
 	@Autowired
 	private DictionaryFieldService dictionaryFieldService;
 	
-	@RequestMapping(value={""})
+	@RequestMapping(value={"/"})
 	public String newDesign(HttpServletRequest request){
 		return Constants.module_admin+"/designer/grid";	
 	}

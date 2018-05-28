@@ -1,4 +1,4 @@
-package com.bbj.admin.dictionary.controller;
+package com.bbj.base.dictionary.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.admin.Constants;
-import com.bbj.admin.dictionary.domain.DictionaryTable;
-import com.bbj.admin.dictionary.service.DictionaryTableService;
+import com.bbj.base.constant.Constants;
+import com.bbj.base.dictionary.domain.DictionaryTable;
+import com.bbj.base.dictionary.service.DictionaryTableService;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
-import com.bbj.base.utils.BBJEntityUtils;
-
 
 @Controller
 @RequestMapping(value={Constants.module_current+"/dictionary/table"})
@@ -34,26 +32,6 @@ public class DictionaryTableController {
 	@RequestMapping(value="/page")
 	public Object page(HttpServletRequest request){
 		return Constants.module_current + "/dictionary/dictionaryTable";
-	}
-
-	@RequestMapping(method=RequestMethod.POST)
-	@ResponseBody
-	public Object insert(HttpServletRequest request){
-		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.insert(bbjEntity );
-	}
-	
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@ResponseBody
-	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryTableService.deleteById(id);
-	}
-
-	@RequestMapping(method=RequestMethod.PUT)
-	@ResponseBody
-	public Object update(HttpServletRequest request){
-		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.update(bbjEntity);
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.utils.StringUtils;
@@ -42,77 +43,72 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#insert(T)
-	 */
-	public int insert(T bbjEntity){
-		if(!inputIsValid(bbjEntity)){
-			return 0;
-		}
-		List<String> listAttrKeys = bbjEntity.getAttrKeys();
-		// 构造参数列表
-		StringBuilder sbAttrKeys = new StringBuilder();
-		StringBuilder sbParamAttr = new StringBuilder();
-		List<String> listParamAttr = new ArrayList<String>();
-		for(int i = 0;i < listAttrKeys.size();i ++){
-			String key = listAttrKeys.get(i);
-			if(StringUtils.isNotEmpty(key)){
-				// 如果没有ID，设置当前时间
-				if(bbjEntity.getAttr(bbjEntity.getId()) == "" || bbjEntity.getAttr(bbjEntity.getId()) == null){
-					bbjEntity.setAttr(bbjEntity.getId(), "" + System.currentTimeMillis());
-				}
-				// 如果删除状态没有值，默认有效状态
-				if(BBJEntity.delete_state.equals(key) && (null == bbjEntity.getAttr(key) || "".equals(bbjEntity.getAttr(key)))){
-					bbjEntity.setAttr(key, BBJEntity.delete_state_not);
-				}
-				// 创建时间
-				if(BBJEntity.create_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
-					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
-				}
-				if(StringUtils.isNotEmpty(bbjEntity.getAttr(key))){
-					if(sbAttrKeys.length() == 0){
-						sbAttrKeys.append(key);
-						sbParamAttr.append("?");
-					}else{
-						sbAttrKeys.append(","+key);
-						sbParamAttr.append(",?");
-					}
-					listParamAttr.add(bbjEntity.getAttr(key));
-				}
-			}
-		}
-		String insertSql = " insert into " + bbjEntity.getTableName() 
-						+ "(" + sbAttrKeys.toString() + ")"
-						+ "values("	+ sbParamAttr.toString() + ")" ;
-		return jdbcTemplate.update(insertSql, listParamAttr.toArray(new Object[0]));
-	}
-
 	/**
-	 * 目前仅仅是判断是否为空
-	 * @param bbjEntity
+	 * 示例化一个对象
 	 * @return
 	 */
-	private boolean inputIsValid(T bbjEntity) {
-		if(bbjEntity == null){
-			return false;
+	private BBJEntity newInstanceBBJEntity() {
+		try {
+			return currentBBJEntityClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return true;
+		return currentBBJEntity;
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#deleteById(java.lang.String)
-	 */
-	public int deleteById(String id){
+	
+	public Map<String, Object> queryForMap(BBJDaoParam daoParam) {
+		String prepareSql = daoParam.get(BBJDaoParam.keyPrepareSql,String.class);
+		Object[] args = daoParam.get(BBJDaoParam.keyArgs,Object[].class);
+		return jdbcTemplate.queryForMap(prepareSql, args);
+	}
+
+
+
+	public List<T> queryForList(BBJDaoParam daoParam) {
+		String prepareSql = daoParam.get(BBJDaoParam.keyPrepareSql,String.class);
+		Object[] args = daoParam.get(BBJDaoParam.keyArgs,Object[].class);
+		Class<T> elementType = (Class<T>) daoParam.get(BBJDaoParam.keyArgs);
+		return jdbcTemplate.queryForList(prepareSql, args,elementType);
+	}
+
+
+
+	public T queryForObject(BBJDaoParam daoParam) {
+		String prepareSql = daoParam.get(BBJDaoParam.keyPrepareSql,String.class);
+		Object[] args = daoParam.get(BBJDaoParam.keyArgs,Object[].class);
+		Class<T> requiredType = (Class<T>) daoParam.get(BBJDaoParam.keyArgs);
+		return jdbcTemplate.queryForObject(prepareSql, args, requiredType);
+	}
+
+
+
+	public int[] batchUpdate(BBJDaoParam daoParam) {
+		String prepareSql = daoParam.get(BBJDaoParam.keyPrepareSql,String.class);
+		List<Object[]> batchArgs = (List<Object[]>) daoParam.get(BBJDaoParam.keyBatchArgs);
+		return jdbcTemplate.batchUpdate(prepareSql, batchArgs);
+	}
+
+
+
+	public int deleteById(BBJDaoParam daoParam) {
+		String id = daoParam.get(BBJDaoParam.keyId,String.class);
 		String updateSql = " update " + currentBBJEntity.getTableName() 
-						+ " set " + BBJEntity.delete_state + " = " + BBJEntity.delete_state_yes 
-						+ " where " + currentBBJEntity.getId() + " = ?";
+		+ " set " + BBJEntity.delete_state + " = " + BBJEntity.delete_state_yes 
+		+ " where " + currentBBJEntity.getId() + " = ?";
 		return jdbcTemplate.update(updateSql, new Object[]{id});
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#update(T)
-	 */
-	public int update(T bbjEntity){
+
+
+
+	public int update(BBJDaoParam daoParam) {
+		
+		T bbjEntity = daoParam.get(BBJDaoParam.keyEntity,currentBBJEntityClass);
+		
 		List<String> listAttrKeys = bbjEntity.getAttrKeys();
 		// 构造参数列表
 		StringBuilder sbParamAttrPair = new StringBuilder();
@@ -140,40 +136,34 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 						+ " where " + currentBBJEntity.getId() + "=?";
 		return jdbcTemplate.update(insertSql, listParamAttr.toArray(new Object[0]));
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#queryById(java.lang.String)
-	 */
-	public T queryById(String id){
+
+
+
+	public T queryById(BBJDaoParam daoParam) {
+		String id = daoParam.get(BBJDaoParam.keyId,String.class);
 		String sql = "  select "+currentBBJEntity.getAttrKeysStr()
 					+ " from " + currentBBJEntity.getTableName() 
-				+ " where " + currentBBJEntity.getId() + " = ? " 
-				+ " and " + BBJEntity.delete_state + " <> ? ";
+					+ " where " + currentBBJEntity.getId() + " = ? " 
+					+ " and " + BBJEntity.delete_state + " <> ? ";
 		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id,BBJEntity.delete_state_yes);
 		if(rs.next()){
-			BBJEntity bbjEntity = newInstanceBBJEntity();
-			List<String> keys = currentBBJEntity.getAttrKeys();
-			for (int i = 0; i < keys.size(); i++) {
-				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
-			}
-			return (T) bbjEntity;
+		BBJEntity bbjEntity = newInstanceBBJEntity();
+		List<String> keys = currentBBJEntity.getAttrKeys();
+		for (int i = 0; i < keys.size(); i++) {
+			bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
+		}
+		return (T) bbjEntity;
 		} 
 		return null ;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#queryByPage(int, in3t)
-	 */
-	public List<T> queryByPage(int tagPage,int pageSize){
-		return this.queryByPage(tagPage, pageSize, null);
-	}
 
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#queryByPage(int, int, com.bbj.base.domain.SqlFilter)
-	 */
-	public List<T> queryByPage(int tagPage,int pageSize,SqlFilter sqlFilter){
-		
-		int totalRow = getTotalRow(sqlFilter);
+
+
+	public List<T> queryByPage(BBJDaoParam daoParam) {
+		int tagPage = daoParam.get(BBJDaoParam.keyTagPage,Integer.class);
+		int pageSize = daoParam.get(BBJDaoParam.keyPageSize,Integer.class);
+		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
+		int totalRow = getTotalRow(new BBJDaoParam().setAttr(BBJDaoParam.keySqlFilter, sqlFilter)));
 		int totalPage = totalRow / pageSize;
 		if(totalPage *  pageSize < totalRow){ // 不能够整除，总页数应该 + 1
 			totalPage = totalPage + 1;
@@ -210,18 +200,10 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		}
 		return (List<T>) list;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#getTotalRow()
-	 */
-	public int getTotalRow(){
-		return getTotalRow(null);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#getTotalRow(com.bbj.base.domain.SqlFilter)
-	 */
-	public int getTotalRow(SqlFilter sqlFilter){
+
+
+	public int getTotalRow(BBJDaoParam daoParam) {
+		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select count(1) from ");
 		sb.append( currentBBJEntity.getTableName() );
@@ -236,46 +218,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		int row = jdbcTemplate.queryForObject(sb.toString(),list.toArray(new Object[0]),Integer.class);
 		return row <=0 ? 1 : row;
 	}
-	
-	/**
-	 * 示例化一个对象
-	 * @return
-	 */
-	private BBJEntity newInstanceBBJEntity() {
-		try {
-			return currentBBJEntityClass.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return currentBBJEntity;
-	}
 
-	/* (non-Javadoc)
-	 * @see com.bbj.base.dao.BBJDao#update(java.lang.String,)
-	 */
-	public int update(String prepareSql, Object... args) {
-		return jdbcTemplate.update(prepareSql, args);
-	}
 
-	public int[] batchUpdate(String prepareSql, List<Object[]> batchArgs) {
-		return jdbcTemplate.batchUpdate(prepareSql,batchArgs);
-	}
-
-	public T queryForObject(String prepareSql,Object[] args, Class<T> requiredType) {
-		return jdbcTemplate.queryForObject(prepareSql,args, requiredType);
-	}
-
-	
-	public List<T> queryForList(String prepareSql,Object[] args, Class<T> elementType) {
-		return jdbcTemplate.queryForList(prepareSql, args, elementType);
-	}
-	
-	public Map<String, Object> queryForMap(String prepareSql,Object... args){
-		return jdbcTemplate.queryForMap(prepareSql, args);
-	}
-
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
 	
 }

@@ -1,13 +1,12 @@
-package com.bbj.admin.dictionary.service;
+package com.bbj.base.dictionary.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.bbj.admin.dictionary.dao.DictionaryReferenceDao;
-import com.bbj.admin.dictionary.domain.DictionaryReference;
+import com.bbj.base.dictionary.dao.DictionaryReferenceDao;
+import com.bbj.base.dictionary.domain.DictionaryReference;
 import com.bbj.base.domain.SqlFilter;
 
 @Service
@@ -15,19 +14,6 @@ public class DictionaryReferenceService {
 	
 	@Autowired
 	private DictionaryReferenceDao dictionaryReferenceDao;
-
-	@Transactional
-	public int insert(DictionaryReference reference){
-		return dictionaryReferenceDao.insert(reference);
-	}
-	
-	public int deleteById(String id){
-		return dictionaryReferenceDao.deleteById(id);
-	}
-
-	public int update(DictionaryReference bbjEntity){
-		return dictionaryReferenceDao.update(bbjEntity);
-	}
 
 	public DictionaryReference queryById(String id){
 		return dictionaryReferenceDao.queryById(id);
