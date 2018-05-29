@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bbj.admin.menu.dao.MenuDao;
 import com.bbj.admin.menu.domain.Menu;
 import com.bbj.admin.menu.domain.MenuTree;
-import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.BBJServiceParam;
 
 @Service
 public class MenuService {
@@ -18,71 +18,66 @@ public class MenuService {
 	private MenuDao menuDao;
 	
 	
+
 	/**
-	 * 增
-	 * @param menu
+	 * 新增<br><br>
+	 * public int insert(Menu menu)
+	 * @param serviceParam
 	 * @return
 	 */
-	public int insert(Menu menu){
-		if(menu == null){
-			return 0;
-		}
-		return menuDao.insert(menu);
+	public int insert(BBJServiceParam serviceParam){
+		return menuDao.insert(serviceParam);
+	}
+	
+	/**
+	 * 删除<br><br>
+	 * public int delete(String id)
+	 * @param serviceParam
+	 * @return
+	 */
+	public int delete(BBJServiceParam serviceParam){
+		return menuDao.delete(serviceParam);
+	}	
+
+	/**
+	 * 更新<br><br>
+	 * public int update(Menu menu){
+	 * @param serviceParam
+	 * @return
+	 */
+	public int update(BBJServiceParam serviceParam){
+		return menuDao.update(serviceParam);
+	}
+	
+	/**
+	 * 查询<br><br>
+	 * public Menu query(String id)
+	 * @param serviceParam
+	 * @return
+	 */
+	public Menu query(BBJServiceParam serviceParam){
+		return menuDao.query(serviceParam);
+	}
+	
+	/**
+	 * 分页查询<br><br>
+	 * public List<Menu> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter)
+	 * @param serviceParam
+	 * @return
+	 */
+	public List<Menu> queryByPage(BBJServiceParam serviceParam){
+		return menuDao.queryByPage(serviceParam);
 	}
 	
 	
 	/**
-	 * 删
-	 * @param id
+	 * 获取总数<br><br>
+	 * public int getTotalRow(SqlFilter sqlFilter)
+	 * @param serviceParam
 	 * @return
 	 */
-	public int deleteById(String id){
-		if(id == null){
-			return 0;
-		}
-		return menuDao.deleteById(id);
-	}
-	
-	
-	/**
-	 * 改
-	 * @param menu
-	 * @return
-	 */
-	public int update(Menu menu){
-		return menuDao.update(menu);
-	}
-	
-	
-	/**
-	 * 查
-	 * @param id
-	 * @return
-	 */
-	public Menu queryById(String id){
-		return menuDao.queryById(id);
-	}
-	
-	
-	/**
-	 * 查（分页）
-	 * @param tagPage
-	 * @param pageSize
-	 * @param sqlFilter
-	 * @return
-	 */
-	public List<Menu> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){
-		return menuDao.queryByPage(tagPage, pageSize, sqlFilter);
-	}
-	
-	
-	/**
-	 * 获取总数
-	 * @param sqlFilter
-	 * @return
-	 */
-	public int getTotalRow(SqlFilter sqlFilter){
-		return menuDao.getTotalRow(sqlFilter);
+	public int getTotalRow(BBJServiceParam serviceParam){
+		return menuDao.getTotalRow(serviceParam);
 	}
 
 
@@ -95,7 +90,10 @@ public class MenuService {
     public List<MenuTree> queryAll() {
         List<MenuTree> list = new ArrayList<MenuTree>(); 
         list = generateMenuData();
-        List<Menu> listDb = menuDao.queryByPage(1, 1000);
+        List<Menu> listDb = menuDao.queryByPage(new BBJServiceParam()
+        		.addAttr(BBJServiceParam.keyTagPage, 1)
+        		.addAttr(BBJServiceParam.keyPageSize, 1000)
+        		);
         for (int i = 0; i < listDb.size(); i++) {
         	Menu menu = listDb.get(i);
         	MenuTree menuObj = new MenuTree(menu);

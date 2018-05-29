@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.admin.Constants;
 import com.bbj.admin.dictionary.domain.DictionaryField;
 import com.bbj.admin.dictionary.service.DictionaryFieldService;
+import com.bbj.base.domain.BBJServiceParam;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
@@ -39,8 +40,10 @@ public class DictionaryFieldController {
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
-		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
-		return dictionaryFieldService.insert(bbjEntity );
+		DictionaryField dictionaryField = BBJEntityUtils.parseFrom(request, DictionaryField.class);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, dictionaryField);
+		return dictionaryFieldService.insert(serviceParam );
 	}
 	
 
@@ -52,7 +55,9 @@ public class DictionaryFieldController {
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryFieldService.deleteById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return dictionaryFieldService.delete(serviceParam);
 	}
 
 	/**
@@ -68,12 +73,18 @@ public class DictionaryFieldController {
 		if("ordernumber".equalsIgnoreCase(action)){
 			String id = request.getParameter(DictionaryField.id);
 			String type = request.getParameter("type");
-			return dictionaryFieldService.updateOrdernumber(id ,type);
+			
+			BBJServiceParam serviceParam = new BBJServiceParam()
+					.addAttr("id", id)
+					.addAttr("type", type);
+			return dictionaryFieldService.updateOrdernumber(serviceParam);
 		}
 		
 		// 默认进行update
 		DictionaryField bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryField.class);
-		return dictionaryFieldService.update(bbjEntity );
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, bbjEntity);
+		return dictionaryFieldService.update(serviceParam );
 	}
 	
 	
@@ -85,7 +96,9 @@ public class DictionaryFieldController {
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public Object get(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryFieldService.queryById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return dictionaryFieldService.query(serviceParam);
 	}
 	
 	/**
@@ -125,9 +138,15 @@ public class DictionaryFieldController {
 		} else {
 			tagPage = tagPage + 1;
 		}
-		map.put("data", dictionaryFieldService.queryByPage(tagPage, length, sqlFilter));
-		map.put("recordsTotal", dictionaryFieldService.getTotalRow(sqlFilter));
-		map.put("recordsFiltered", dictionaryFieldService.getTotalRow(sqlFilter));
+		
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyTagPage, tagPage)
+				.addAttr(BBJServiceParam.keyPageSize, length)
+				.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);
+		
+		map.put("data", dictionaryFieldService.queryByPage(serviceParam));
+		map.put("recordsTotal", dictionaryFieldService.getTotalRow(serviceParam));
+		map.put("recordsFiltered", dictionaryFieldService.getTotalRow(serviceParam));
 		map.put("draw", draw);
 		
 		return map;
@@ -155,7 +174,12 @@ public class DictionaryFieldController {
 		}
 		sqlFilter.addWhereFilter(list );
 		int tagPage = 1;
-		return dictionaryFieldService.queryByPage(tagPage, 1000, sqlFilter);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyTagPage, tagPage)
+				.addAttr(BBJServiceParam.keyPageSize, 1000)
+				.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);
+		
+		return dictionaryFieldService.queryByPage(serviceParam);
 	}
 	
 	@RequestMapping(value="/page")

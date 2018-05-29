@@ -24,8 +24,27 @@ public class BBJParam extends BBJObject{
 	 * @return
 	 */
 	public Object get(String key) {
-		return this.attr.get(key) == null ? "" : this.attr.get(key);
+		return this.attr.get(key);
 	}
+	
+	/**
+	 * 获取String一个属性值
+	 * @param key
+	 * @return
+	 */
+	public String getString(String key) {
+		return String.valueOf(this.attr.get(key) == null ? "" : this.attr.get(key));
+	}
+	
+	/**
+	 * 获取Int一个属性值
+	 * @param key
+	 * @return
+	 */
+	public int getInt(String key) {
+		return Integer.parseInt(getString(key));
+	}
+
 	
 	/**
 	 * 获取一个属性值

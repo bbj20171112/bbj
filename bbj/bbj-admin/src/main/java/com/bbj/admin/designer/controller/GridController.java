@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.base.constant.Constants;
 import com.bbj.base.dictionary.domain.DictionaryField;
 import com.bbj.base.dictionary.service.DictionaryFieldService;
+import com.bbj.base.domain.BBJServiceParam;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
@@ -50,7 +51,12 @@ public class GridController {
 		}
 		sqlFilter.addWhereFilter(list );
 		
-		List<DictionaryField> fields = dictionaryFieldService.queryByPage(1, 100, sqlFilter);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyTagPage, 1)
+				.addAttr(BBJServiceParam.keyPageSize, 100)
+				.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);
+		
+		List<DictionaryField> fields = dictionaryFieldService.queryByPage(serviceParam);
 		List<Map<String,Object>> datas = new ArrayList<Map<String,Object>>();
 		
 		int tagPage = start / length;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.base.dao.BBJDaoImp;
+import com.bbj.base.domain.BBJDaoParam;
 
 /**
  * 表数据字典的DAO实现
@@ -31,7 +32,7 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 		Map<String, Object> map = getCreateTablePrepareSqlMap(table);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
-		return update( sql,args);
+		return getJdbcTemplate().update( sql,args);
 	}
 
 	public String getCreateTablePrepareSql(DictionaryTable table){
@@ -68,7 +69,7 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 		Map<String, Object> map = getAlterTablePrepareSqlMap(table);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
-		return update( sql,args);
+		return getJdbcTemplate().update( sql,args);
 	}
 
 	public String getAlterTablePrepareSql(DictionaryTable table){
@@ -77,7 +78,7 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 	}
 	
 	public Map<String,Object> getAlterTablePrepareSqlMap(DictionaryTable table){
-		DictionaryTable oldTable = this.queryById(table.getAttr(table.getId()));
+		DictionaryTable oldTable = query(new BBJDaoParam().addAttr(BBJDaoParam.keyId, table.getId()));
 		String oldTableName = oldTable.getAttr(DictionaryTable.table_name);
 		String newTableName = table.getAttr(DictionaryTable.table_name);
 		StringBuilder sb = new StringBuilder();
@@ -101,7 +102,7 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 		Map<String, Object> map = getDropTablePrepareSqlMap(table);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
-		return update( sql,args);
+		return getJdbcTemplate().update( sql,args);
 	}
 
 	public String getDropTablePrepareSql(DictionaryTable table){

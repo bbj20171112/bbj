@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bbj.base.dictionary.dao.DictionaryFieldDao;
 import com.bbj.base.dictionary.domain.DictionaryField;
-import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.BBJServiceParam;
 
 @Service
 public class DictionaryFieldService
@@ -16,16 +16,35 @@ public class DictionaryFieldService
 	private DictionaryFieldDao dictionaryFieldDao;
 	
 
-	public DictionaryField queryById(String id){
-		return dictionaryFieldDao.queryById(id);
+	/**
+	 * 查找<br><br>
+	 * public DictionaryField query(String id)
+	 * @param serviceParam
+	 * @return
+	 */
+	public DictionaryField query(BBJServiceParam serviceParam){
+		return dictionaryFieldDao.query(serviceParam);
 	}
 
-	public List<DictionaryField> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){
-		return dictionaryFieldDao.queryByPage(tagPage, pageSize, sqlFilter);
+	/**
+	 * 分页<br><br>
+	 * public List<DictionaryField> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter)
+	 * @param serviceParam
+	 * @return
+	 */
+	public List<DictionaryField> queryByPage(BBJServiceParam serviceParam){
+		return dictionaryFieldDao.queryByPage(serviceParam);
 	}
 	
-	public int getTotalRow(SqlFilter sqlFilter){
-		return dictionaryFieldDao.getTotalRow(sqlFilter);
-	}
+
+	/**
+	 * 获取总数<br><br>
+	 * public int getTotalRow(SqlFilter sqlFilter)
+	 * @param serviceParam
+	 * @return
+	 */
+	public int getTotalRow(BBJServiceParam serviceParam){
+		return dictionaryFieldDao.getTotalRow(serviceParam);
+	}	
 	
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.bbj.admin.dictionary.domain.DictionaryField;
 import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.base.dao.BBJDaoImp;
-import com.bbj.base.domain.BBJDaoInsertParam;
+import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 
@@ -30,10 +30,12 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 	
 	
 	@Override
-	public List<DictionaryField> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter) {
-
+	public List<DictionaryField> queryByPage(BBJDaoParam daoParam) {
+		int tagPage = daoParam.get(BBJDaoParam.keyTagPage,Integer.class);
+		int pageSize = daoParam.get(BBJDaoParam.keyPageSize,Integer.class);
+		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
 		DictionaryField temp = new DictionaryField();
-		int totalRow = getTotalRow(sqlFilter);
+		int totalRow = getTotalRow(daoParam);
 		int totalPage = totalRow / pageSize;
 		if(totalPage *  pageSize < totalRow){ // 不能够整除，总页数应该 + 1
 			totalPage = totalPage + 1;
@@ -83,7 +85,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		Map<String, Object> map = getCreateFieldPrepareSqlMap(field,tableName);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
-		return update( sql,args);
+		return getJdbcTemplate().update( sql,args);
 	}
 
 	/**
@@ -132,7 +134,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		Map<String, Object> map = getDropFieldPrepareSqlMap(field,tableName);
 		String sql = (String) map.get(key_sql);
 		Object[] args = (Object[]) map.get(key_parameter);
-		return update( sql,args);
+		return getJdbcTemplate().update( sql,args);
 	}
 
 	public String getDropTablePrepareSql(DictionaryField field,String tableName){

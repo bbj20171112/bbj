@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.bbj.base.dao.BBJDaoImp;
 import com.bbj.base.dictionary.domain.DictionaryField;
 import com.bbj.base.dictionary.domain.DictionaryTable;
+import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
 
@@ -21,11 +22,18 @@ import com.bbj.base.domain.SqlFilter;
 public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 	
 	
+	/**
+	 * 分页查询<br><br>
+	 * public List<DictionaryField> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter)
+	 */
 	@Override
-	public List<DictionaryField> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter) {
-
+	public List<DictionaryField> queryByPage(BBJDaoParam daoParam) {
+		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
+		int pageSize = daoParam.getInt(BBJDaoParam.keyPageSize);
+		int tagPage = daoParam.getInt(BBJDaoParam.keyTagPage);
+		
 		DictionaryField temp = new DictionaryField();
-		int totalRow = getTotalRow(sqlFilter);
+		int totalRow = getTotalRow(daoParam);
 		int totalPage = totalRow / pageSize;
 		if(totalPage *  pageSize < totalRow){ // 不能够整除，总页数应该 + 1
 			totalPage = totalPage + 1;
@@ -64,6 +72,5 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		}
 		return list;
 	}
-	 
 
 }

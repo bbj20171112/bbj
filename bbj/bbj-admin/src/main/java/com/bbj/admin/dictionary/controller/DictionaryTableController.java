@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.admin.Constants;
 import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.admin.dictionary.service.DictionaryTableService;
+import com.bbj.base.domain.BBJServiceParam;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.domain.WhereFilter;
@@ -40,26 +41,34 @@ public class DictionaryTableController {
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
 		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.insert(bbjEntity );
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, bbjEntity);
+		return dictionaryTableService.insert(serviceParam );
 	}
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryTableService.deleteById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return dictionaryTableService.delete(serviceParam);
 	}
 
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
 	public Object update(HttpServletRequest request){
 		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
-		return dictionaryTableService.update(bbjEntity);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, bbjEntity);
+		return dictionaryTableService.update(serviceParam);
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public Object queryById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryTableService.queryById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return dictionaryTableService.query(serviceParam);
 	}
 
 	
@@ -84,11 +93,15 @@ public class DictionaryTableController {
 		} else {
 			tagPage = tagPage + 1;
 		}
-		;
-
-		map.put("data", dictionaryTableService.queryByPage(tagPage, length, sqlFilter));
-		map.put("recordsTotal", dictionaryTableService.getTotalRow(sqlFilter));
-		map.put("recordsFiltered", dictionaryTableService.getTotalRow(sqlFilter));
+		
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyTagPage, tagPage)
+				.addAttr(BBJServiceParam.keyPageSize, length)
+				.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);
+		
+		map.put("data", dictionaryTableService.queryByPage(serviceParam));
+		map.put("recordsTotal", dictionaryTableService.getTotalRow(serviceParam));
+		map.put("recordsFiltered", dictionaryTableService.getTotalRow(serviceParam));
 		map.put("draw", draw);
 		
 		return map;

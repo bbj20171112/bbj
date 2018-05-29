@@ -18,6 +18,7 @@ import com.bbj.admin.Constants;
 import com.bbj.admin.dictionary.domain.DictionaryField;
 import com.bbj.admin.dictionary.domain.DictionaryReference;
 import com.bbj.admin.dictionary.service.DictionaryReferenceService;
+import com.bbj.base.domain.BBJServiceParam;
 import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.utils.BBJEntityUtils;
@@ -38,7 +39,9 @@ public class DictionaryReferenceController {
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
 		DictionaryReference bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryReference.class);
-		return dictionaryReferenceService.insert(bbjEntity );
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, bbjEntity);
+		return dictionaryReferenceService.insert(serviceParam );
 	}
 	
 
@@ -50,7 +53,9 @@ public class DictionaryReferenceController {
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryReferenceService.deleteById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return dictionaryReferenceService.delete(serviceParam);
 	}
 
 	/**
@@ -62,7 +67,9 @@ public class DictionaryReferenceController {
 	@ResponseBody
 	public Object update(HttpServletRequest request){
 		DictionaryReference bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryReference.class);
-		return dictionaryReferenceService.update(bbjEntity );
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, bbjEntity);
+		return dictionaryReferenceService.update(serviceParam );
 	}
 	
 	
@@ -74,7 +81,9 @@ public class DictionaryReferenceController {
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public Object get(@PathVariable("id")String id,HttpServletRequest request){
-		return dictionaryReferenceService.queryById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return dictionaryReferenceService.query(serviceParam);
 	}
 	
 	/**
@@ -103,9 +112,15 @@ public class DictionaryReferenceController {
 		} else {
 			tagPage = tagPage + 1;
 		}
-		map.put("data", dictionaryReferenceService.queryByPage(tagPage, length, sqlFilter));
-		map.put("recordsTotal", dictionaryReferenceService.getTotalRow(sqlFilter));
-		map.put("recordsFiltered", dictionaryReferenceService.getTotalRow(sqlFilter));
+		
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyTagPage, tagPage)
+				.addAttr(BBJServiceParam.keyPageSize, length)
+				.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);
+		
+		map.put("data", dictionaryReferenceService.queryByPage(serviceParam));
+		map.put("recordsTotal", dictionaryReferenceService.getTotalRow(serviceParam));
+		map.put("recordsFiltered", dictionaryReferenceService.getTotalRow(serviceParam));
 		map.put("draw", draw);
 		
 		return map;

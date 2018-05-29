@@ -18,7 +18,7 @@ public class DemoContolller {
 	@RequestMapping({"/queryByPage"})
 	@ResponseBody
 	public Object grid(@RequestParam("tagPage") int tagPage,@RequestParam("pageSize") int pageSize){
-		List<DemoDomain2> list = demoDao.queryByPage(tagPage, pageSize);
-		return list;
+		//List<DemoDomain2> list = demoDao.queryByPage(tagPage, pageSize);
+		return null;
 	}
 }

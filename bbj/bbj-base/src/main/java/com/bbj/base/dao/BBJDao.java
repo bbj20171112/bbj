@@ -63,11 +63,11 @@ public interface BBJDao<T extends BBJEntity> {
 
 	/**
 	 * 删除方法，根据主键进行删除记录<br><br>
-	 * public int deleteById(String id);
+	 * public int delete(String id);
 	 * @param daoParam
 	 * @return
 	 */
-	public int deleteById(BBJDaoParam daoParam);
+	public int delete(BBJDaoParam daoParam);
 
 	/**
 	 * 更新方法，根据传入对象参数的主键进行更新修改该条记录<br><br>
@@ -79,16 +79,17 @@ public interface BBJDao<T extends BBJEntity> {
 
 	/**
 	 * 查找方法，根据主键值查找记录并映射成一个对象返回<br><br>
-	 * public T queryById(String id);
+	 * public T query(String id);
 	 * @param daoParam
 	 * @return
 	 */
-	public T queryById(BBJDaoParam daoParam);
+	public T query(BBJDaoParam daoParam);
 	
 
 	/**
 	 * 查询方法，分页查询<br><br>
-	 * public List<T> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter);
+	 * public List<T> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter);<br><br>
+	 * sqlFilter 可为空
 	 * @param daoParam
 	 * @return
 	 */

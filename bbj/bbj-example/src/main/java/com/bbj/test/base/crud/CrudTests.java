@@ -26,7 +26,7 @@ public class CrudTests
     
     @Test
     public void getAccount() throws Exception {
-
+/*
         @SuppressWarnings("unused")
         DemoDao demoDao = wac.getBean("demoDao", DemoDao.class);
         //BBJEntity h = demoDao.queryById("1");
@@ -41,7 +41,7 @@ public class CrudTests
 		System.out.println(demoDao2.queryByPage(1, 2,sqlFilter ));
 		
         // 查找
-        DemoDomain2 h2 = demoDao2.queryById("3");
+        DemoDomain2 h2 = demoDao2.query("3");
         System.out.println(h2);
        /*
         // 增加

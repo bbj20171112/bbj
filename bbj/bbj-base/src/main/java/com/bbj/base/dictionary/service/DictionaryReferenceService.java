@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bbj.base.dictionary.dao.DictionaryReferenceDao;
 import com.bbj.base.dictionary.domain.DictionaryReference;
-import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.BBJServiceParam;
 
 @Service
 public class DictionaryReferenceService {
@@ -15,16 +15,35 @@ public class DictionaryReferenceService {
 	@Autowired
 	private DictionaryReferenceDao dictionaryReferenceDao;
 
-	public DictionaryReference queryById(String id){
-		return dictionaryReferenceDao.queryById(id);
-	}
 
-	public List<DictionaryReference> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){
-		return dictionaryReferenceDao.queryByPage(tagPage, pageSize, sqlFilter);
+	/**
+	 * 查询<br><br>
+	 * public DictionaryReference query(String id)
+	 * @param serviceParam
+	 * @return
+	 */
+	public DictionaryReference query(BBJServiceParam serviceParam){
+		return dictionaryReferenceDao.query(serviceParam);
 	}
 	
-	public int getTotalRow(SqlFilter sqlFilter){
-		return dictionaryReferenceDao.getTotalRow(sqlFilter);
+	/**
+	 * 分页查询<br><br>
+	 * public List<DictionaryReference> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter)
+	 * @param serviceParam
+	 * @return
+	 */
+	public List<DictionaryReference> queryByPage(BBJServiceParam serviceParam){
+		return dictionaryReferenceDao.queryByPage(serviceParam);
+	}
+	
+	/**
+	 * 获取总数<br><br>
+	 * public int getTotalRow(SqlFilter sqlFilter)
+	 * @param serviceParam
+	 * @return
+	 */
+	public int getTotalRow(BBJServiceParam serviceParam){
+		return dictionaryReferenceDao.getTotalRow(serviceParam);
 	}
 	
 }

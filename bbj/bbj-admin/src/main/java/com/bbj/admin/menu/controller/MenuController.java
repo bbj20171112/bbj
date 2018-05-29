@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbj.admin.menu.domain.Menu;
 import com.bbj.admin.menu.service.MenuService;
 import com.bbj.base.constant.Constants;
+import com.bbj.base.domain.BBJServiceParam;
 import com.bbj.base.domain.SqlFilter;
 import com.bbj.base.utils.BBJEntityUtils;
 
@@ -36,7 +37,9 @@ public class MenuController {
 	@ResponseBody
 	public Object insert(HttpServletRequest request){
 		Menu menu = BBJEntityUtils.parseFrom(request, Menu.class);
-		return menuService.insert(menu );
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, menu);
+		return menuService.insert(serviceParam );
 	}
 	
 	
@@ -48,7 +51,9 @@ public class MenuController {
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public Object deleteById(@PathVariable("id")String id,HttpServletRequest request){
-		return menuService.deleteById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return menuService.delete(serviceParam);
 	}
 	
 	
@@ -61,7 +66,9 @@ public class MenuController {
 	@ResponseBody
 	public Object update(HttpServletRequest request){
 		Menu menu = BBJEntityUtils.parseFrom(request, Menu.class);
-		return menuService.update(menu);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyEntity, menu);
+		return menuService.update(serviceParam);
 	}
 	
 	
@@ -73,7 +80,9 @@ public class MenuController {
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public Object get(@PathVariable("id")String id,HttpServletRequest request){
-		return menuService.queryById(id);
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyId, id);
+		return menuService.query(serviceParam);
 	}
 	
 	
@@ -103,9 +112,15 @@ public class MenuController {
 		} else {
 			tagPage = tagPage + 1;
 		}
-		map.put("data", menuService.queryByPage(tagPage, length, sqlFilter));
-		map.put("recordsTotal", menuService.getTotalRow(sqlFilter));
-		map.put("recordsFiltered", menuService.getTotalRow(sqlFilter));
+		
+		BBJServiceParam serviceParam = new BBJServiceParam()
+				.addAttr(BBJServiceParam.keyTagPage, tagPage)
+				.addAttr(BBJServiceParam.keyPageSize, length)
+				.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);
+		
+		map.put("data", menuService.queryByPage(serviceParam));
+		map.put("recordsTotal", menuService.getTotalRow(serviceParam));
+		map.put("recordsFiltered", menuService.getTotalRow(serviceParam));
 		map.put("draw", draw);
 		
 		return map;
