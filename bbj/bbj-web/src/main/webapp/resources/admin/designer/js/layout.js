@@ -577,7 +577,7 @@ function getServiceStr(classNameObj){
 					"import org.springframework.beans.factory.annotation.Autowired;\n" + 
 					"import org.springframework.stereotype.Service;\n" + 
 					"\n" + 
-					"import com.bbj.base.domain.SqlFilter;\n" ;
+					"import com.bbj.base.domain.BBJDaoParam;\n" ;
 			
 	var classDefHeader ="\n" +
 						"@Service\n" +
@@ -594,72 +594,64 @@ function getServiceStr(classNameObj){
 	var classMethodsTabsStr = "\t";
 	var classMethodsStr = 	classMethodsTabsStr + "\n" +
 							classMethodsTabsStr + "/**\n"+ 
-							classMethodsTabsStr + " * 增\n"+ 
-							classMethodsTabsStr + " * @param "+ classNameObj.domainNameParam +"\n"+ 
+							classMethodsTabsStr + " * 新增<br><br>\n"+ 
+							classMethodsTabsStr + " * public int insert("+ classNameObj.domainName +" "+ classNameObj.domainNameParam +")\n"+ 
 							classMethodsTabsStr + " * @return\n"+ 
 							classMethodsTabsStr + " */\n"+ 
-							classMethodsTabsStr + "public int insert("+ classNameObj.domainName +" "+ classNameObj.domainNameParam +"){\n"+ 
-							classMethodsTabsStr + "	if("+ classNameObj.domainNameParam +" == null){\n"+ 
-							classMethodsTabsStr + "		return 0;\n"+ 
-							classMethodsTabsStr + "	}\n"+ 
-							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".insert("+ classNameObj.domainNameParam+");\n"+
+							classMethodsTabsStr + "public int insert(BBJDaoParam daoParam){\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".insert(daoParam);\n"+
 							classMethodsTabsStr + "}\n"+ 
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "/**\n"+ 
-							classMethodsTabsStr + " * 删\n"+ 
-							classMethodsTabsStr + " * @param id\n"+ 
+							classMethodsTabsStr + " * 删除<br><br>\n"+ 
+							classMethodsTabsStr + " * public int delete(String id)\n"+ 
 							classMethodsTabsStr + " * @return\n"+ 
 							classMethodsTabsStr + " */\n"+ 
-							classMethodsTabsStr + "public int deleteById(String id){\n"+ 
-							classMethodsTabsStr + "	if(id == null){\n"+ 
-							classMethodsTabsStr + "		return 0;\n"+ 
-							classMethodsTabsStr + "	}\n"+ 
-							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".deleteById(id);\n"+ 
+							classMethodsTabsStr + "public int delete(BBJDaoParam daoParam){\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".delete(daoParam);\n"+ 
 							classMethodsTabsStr + "}\n" +
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "/**\n"+ 
-							classMethodsTabsStr + " * 改\n"+ 
-							classMethodsTabsStr + " * @param "+ classNameObj.domainNameParam +"\n"+ 
+							classMethodsTabsStr + " * 更改<br><br>\n"+ 
+							classMethodsTabsStr + " * public int update("+ classNameObj.domainName +" "+ classNameObj.domainNameParam +")\n"+ 
 							classMethodsTabsStr + " * @return\n"+ 
 							classMethodsTabsStr + " */\n"+ 
-							classMethodsTabsStr + "public int update("+ classNameObj.domainName +" "+ classNameObj.domainNameParam +"){\n"+ 
-							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".update("+ classNameObj.domainNameParam +");\n"+ 
+							classMethodsTabsStr + "public int update(BBJDaoParam daoParam){\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".update(daoParam);\n"+ 
 							classMethodsTabsStr + "}\n"+ 
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "/**\n"+ 
-							classMethodsTabsStr + " * 查\n"+ 
-							classMethodsTabsStr + " * @param id\n"+ 
+							classMethodsTabsStr + " * 查询<br><br>\n"+ 
+							classMethodsTabsStr + " * public "+ classNameObj.domainName +" query(String id)\n"+ 
 							classMethodsTabsStr + " * @return\n"+ 
 							classMethodsTabsStr + " */\n"+ 
-							classMethodsTabsStr + "public "+ classNameObj.domainName +" queryById(String id){\n"+ 
-							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".queryById(id);\n"+ 
+							classMethodsTabsStr + "public "+ classNameObj.domainName +" query(BBJDaoParam daoParam){\n"+ 
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".query(daoParam);\n"+ 
 							classMethodsTabsStr + "}\n"+ 
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "\n"+
 							classMethodsTabsStr + "/**\n"+
-							classMethodsTabsStr + " * 查（分页）\n"+
-							classMethodsTabsStr + " * @param tagPage\n"+
-							classMethodsTabsStr + " * @param pageSize\n"+
-							classMethodsTabsStr + " * @param sqlFilter\n"+
+							classMethodsTabsStr + " * 分页查询<br><br>\n"+
+							classMethodsTabsStr + " * public List<" + classNameObj.domainName + "> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter)\n"+
 							classMethodsTabsStr + " * @return\n"+
 							classMethodsTabsStr + " */\n"+
-							classMethodsTabsStr + "public List<" + classNameObj.domainName + "> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter){\n"+
-							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".queryByPage(tagPage, pageSize, sqlFilter);\n"+
+							classMethodsTabsStr + "public List<" + classNameObj.domainName + "> queryByPage(BBJDaoParam daoParam){\n"+
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".queryByPage(daoParam);\n"+
 							classMethodsTabsStr + "}\n"+
 							
 							classMethodsTabsStr + "\n"+ 
 							classMethodsTabsStr + "\n"+
 							classMethodsTabsStr + "/**\n"+
-							classMethodsTabsStr + " * 获取总数\n"+
-							classMethodsTabsStr + " * @param sqlFilter\n"+
+							classMethodsTabsStr + " * 获取总数<br><br>\n"+
+							classMethodsTabsStr + " * public int getTotalRow(SqlFilter sqlFilter)\n"+
 							classMethodsTabsStr + " * @return\n"+
 							classMethodsTabsStr + " */\n"+
-							classMethodsTabsStr + "public int getTotalRow(SqlFilter sqlFilter){\n"+
-							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".getTotalRow(sqlFilter);\n"+
-							classMethodsTabsStr + "}\n";
+							classMethodsTabsStr + "public int getTotalRow(BBJDaoParam daoParam){\n"+
+							classMethodsTabsStr + "	return " + classNameObj.daoNameParam + ".getTotalRow(daoParam);\n"+
+							classMethodsTabsStr + "}";
 						
 	return importStr + classDefHeader + classPropertyStr + classMethodsStr + classDefFooter ;
 }
@@ -680,6 +672,7 @@ function getControllerStr(classNameObj){
 					"import org.springframework.web.bind.annotation.ResponseBody;\n" + 
 					"\n" + 
 					"import com.bbj.base.constant.Constants;\n" + 
+					"import com.bbj.base.domain.BBJServiceParam;\n" + 
 					"import com.bbj.base.domain.SqlFilter;\n" + 
 					"import com.bbj.base.utils.BBJEntityUtils;\n" ;
 			
@@ -707,7 +700,9 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "@ResponseBody\n" + 
 						classMethodsTabsStr + "public Object insert(HttpServletRequest request){\n" + 
 						classMethodsTabsStr + "	" + classNameObj.domainName + " " + classNameObj.domainNameParam + " = BBJEntityUtils.parseFrom(request, " + classNameObj.domainName + ".class);\n" + 
-						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".insert(" + classNameObj.domainNameParam + " );\n" + 
+						classMethodsTabsStr + "	BBJServiceParam serviceParam = new BBJServiceParam()\n" + 
+						classMethodsTabsStr + "	.addAttr(BBJServiceParam.keyEntity, " + classNameObj.domainNameParam + ");\n" + 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".insert(serviceParam);\n" + 
 						classMethodsTabsStr + "}\n"+ 
 						classMethodsTabsStr + "\n"+ 
 						classMethodsTabsStr + "\n"+ 
@@ -718,8 +713,10 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr +  "*/\n"+ 
 						classMethodsTabsStr + "@RequestMapping(value=\"/{id}\",method=RequestMethod.DELETE)\n"+ 
 						classMethodsTabsStr + "@ResponseBody\n"+ 
-						classMethodsTabsStr + "public Object deleteById(@PathVariable(\"id\")String id,HttpServletRequest request){\n"+ 
-						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".deleteById(id);\n"+ 
+						classMethodsTabsStr + "public Object delete(@PathVariable(\"id\")String id,HttpServletRequest request){\n"+ 
+						classMethodsTabsStr + "	BBJServiceParam serviceParam = new BBJServiceParam()\n" + 
+						classMethodsTabsStr + "	.addAttr(BBJServiceParam.keyId, id);\n" + 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".delete(serviceParam);\n"+ 
 						classMethodsTabsStr + "}\n" +
 						classMethodsTabsStr + "\n"+ 
 						classMethodsTabsStr + "\n"+ 
@@ -732,7 +729,9 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "@ResponseBody\n"+ 
 						classMethodsTabsStr + "public Object update(HttpServletRequest request){\n"+ 
 						classMethodsTabsStr + "	" + classNameObj.domainName + " " + classNameObj.domainNameParam + " = BBJEntityUtils.parseFrom(request, " + classNameObj.domainName + ".class);\n" + 
-						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".update(" + classNameObj.domainNameParam + ");\n"+ 
+						classMethodsTabsStr + "	BBJServiceParam serviceParam = new BBJServiceParam()\n" + 
+						classMethodsTabsStr + "	.addAttr(BBJServiceParam.keyEntity, " + classNameObj.domainNameParam + ");\n" + 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".update(serviceParam);\n"+ 
 						classMethodsTabsStr + "}\n"+ 
 						classMethodsTabsStr + "\n"+ 
 						classMethodsTabsStr + "\n"+ 
@@ -743,8 +742,10 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + " */\n"+ 
 						classMethodsTabsStr + "@RequestMapping(value=\"/{id}\",method=RequestMethod.GET)\n"+ 
 						classMethodsTabsStr + "@ResponseBody\n"+ 
-						classMethodsTabsStr + "public Object get(@PathVariable(\"id\")String id,HttpServletRequest request){\n"+ 
-						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".queryById(id);\n"+ 
+						classMethodsTabsStr + "public Object query(@PathVariable(\"id\")String id,HttpServletRequest request){\n"+ 
+						classMethodsTabsStr + "	BBJServiceParam serviceParam = new BBJServiceParam()\n" + 
+						classMethodsTabsStr + "	.addAttr(BBJServiceParam.keyId, id);\n" + 
+						classMethodsTabsStr + "	return " + classNameObj.serviceNameParam + ".query(serviceParam);\n"+ 
 						classMethodsTabsStr + "}\n"+ 
 						classMethodsTabsStr + "\n"+ 
 						classMethodsTabsStr + "\n"+
@@ -773,10 +774,14 @@ function getControllerStr(classNameObj){
 						classMethodsTabsStr + "		tagPage = 1;\n"+
 						classMethodsTabsStr + "	} else {\n"+
 						classMethodsTabsStr + "		tagPage = tagPage + 1;\n"+
-						classMethodsTabsStr + "	}\n"+
-						classMethodsTabsStr + "	map.put(\"data\", " + classNameObj.serviceNameParam + ".queryByPage(tagPage, length, sqlFilter));\n"+
-						classMethodsTabsStr + "	map.put(\"recordsTotal\", " + classNameObj.serviceNameParam + ".getTotalRow(sqlFilter));\n"+
-						classMethodsTabsStr + "	map.put(\"recordsFiltered\", " + classNameObj.serviceNameParam + ".getTotalRow(sqlFilter));\n"+
+						classMethodsTabsStr + "	}\n\n"+
+						classMethodsTabsStr + "	BBJServiceParam serviceParam = new BBJServiceParam()\n"+
+						classMethodsTabsStr + "			.addAttr(BBJServiceParam.keyTagPage, tagPage)\n"+
+						classMethodsTabsStr + "			.addAttr(BBJServiceParam.keyPageSize, length)\n"+
+						classMethodsTabsStr + "			.addAttr(BBJServiceParam.keySqlFilter, sqlFilter);\n\n"+
+						classMethodsTabsStr + "	map.put(\"data\", " + classNameObj.serviceNameParam + ".queryByPage(serviceParam));\n"+
+						classMethodsTabsStr + "	map.put(\"recordsTotal\", " + classNameObj.serviceNameParam + ".getTotalRow(serviceParam));\n"+
+						classMethodsTabsStr + "	map.put(\"recordsFiltered\", " + classNameObj.serviceNameParam + ".getTotalRow(serviceParam));\n"+
 						classMethodsTabsStr + "	map.put(\"draw\", draw);\n"+
 						classMethodsTabsStr + "	\n"+
 						classMethodsTabsStr + "	return map;\n"+

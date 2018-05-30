@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.bbj.base.dictionary.dao.DictionaryFieldDao;
 import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
@@ -30,6 +31,9 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	private JdbcTemplate jdbcTemplate; // jdbcTemplate
 	private Class<T> currentBBJEntityClass; // 当前的实体类
 	private BBJEntity currentBBJEntity = null; // 当前的实体对象
+	
+	@Autowired
+	private DictionaryFieldDao dictionaryFieldDao;
 	
 	public BBJDaoMySQLImp(){
 		
@@ -213,10 +217,13 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		}		
 		int startId = pageSize * (tagPage - 1 );
 		
+		System.out.println("dictionaryFieldDao:" + dictionaryFieldDao);
+		currentBBJEntity.getTableName();
+		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select "+currentBBJEntity.getAttrKeysStr() );
-		sb.append( " from " + currentBBJEntity.getTableName()  );
-		sb.append( " where " + BBJEntity.delete_state + " <> ? " );
+		sb.append(" select "+currentBBJEntity.getAttrKeysStr("a") );
+		sb.append( " from " + currentBBJEntity.getTableName() + " a"  );
+		sb.append( " where a." + BBJEntity.delete_state + " <> ? " );
 				
 		List<Object> listParam = new ArrayList<Object>();
 		listParam.add(BBJEntity.delete_state_yes);

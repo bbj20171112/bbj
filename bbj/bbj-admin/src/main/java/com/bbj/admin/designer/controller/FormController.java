@@ -11,7 +11,7 @@ import com.bbj.base.constant.Constants;
 @RequestMapping(value={Constants.module_admin+"/designer/form"})
 public class FormController {
 
-	@RequestMapping(value={"/"})
+	@RequestMapping
 	public String newDesign(HttpServletRequest request){
 		return Constants.module_admin+"/designer/form";	
 	}
