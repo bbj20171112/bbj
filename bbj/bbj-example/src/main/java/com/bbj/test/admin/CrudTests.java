@@ -33,7 +33,7 @@ public class CrudTests
         SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
         List<WhereFilter> list = new ArrayList<WhereFilter>();
         list.add(new WhereFilter(DictionaryField.fieldOrderNumber, "<", "12"));
-        list.add(new WhereFilter(DictionaryField.tableId, "=", "1524497478126"));
+        list.add(new WhereFilter(DictionaryField.tableName, "=", "1524497478126"));
 		sqlFilter.addWhereFilter(list );
 		//DictionaryField temp = demoDao.queryMaxSmallerThan(sqlFilter );
         //System.out.println(temp);

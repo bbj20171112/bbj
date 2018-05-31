@@ -1,5 +1,5 @@
 
-var tableId = "1524497478126"; // 当前表ID
+var tableName = "admin_menu"; // 当前表ID
 var dictionary = {}; // 数据字典
 var baseURL = contextPath + "/admin/menu/menu"; // 基URL
 var tableDataTable = {}; // 表格对象
@@ -13,7 +13,7 @@ var modalElementId = "modal-admin_menu"; // 当前表ID
 $(document).ready(function(){
 	
 	// 获取数据字典
-	dictionary = bbj.getBBJEntityDictionary(tableId);
+	dictionary = bbj.getBBJEntityDictionary(tableName);
 	
 	// 初始化表格
 	initTable(dictionary);

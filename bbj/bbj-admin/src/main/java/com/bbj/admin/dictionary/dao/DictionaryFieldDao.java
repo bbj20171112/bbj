@@ -9,7 +9,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.bbj.admin.dictionary.domain.DictionaryField;
-import com.bbj.admin.dictionary.domain.DictionaryTable;
 import com.bbj.base.dao.BBJDaoImp;
 import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
@@ -46,9 +45,8 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		int startId = pageSize * (tagPage - 1 );
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select "+temp.getAttrKeysStr("a") + ",b.table_name" );
-		sb.append("  from " + temp.getTableName() + " a left join " + DictionaryTable.tableName + " b" );
-		sb.append(" 	on a.table_id = b.id ");
+		sb.append(" select "+temp.getAttrKeysStr("a") );
+		sb.append("  from " + temp.getTableName() + " a " );
 		sb.append("  where a." + BBJEntity.delete_state + " <> ? " );
 				
 		List<Object> listParam = new ArrayList<Object>();
@@ -69,7 +67,6 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 			for (int i = 0; i < keys.size(); i++) {
 				temp.setAttr(keys.get(i), rs.getString(keys.get(i)));
 			}
-			temp.setAttr("table_name", rs.getString("table_name"));
 			list.add(temp);
 		}
 		return list;

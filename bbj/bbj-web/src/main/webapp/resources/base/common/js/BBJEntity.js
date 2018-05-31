@@ -8,19 +8,14 @@ jQuery.extend(bbj, (function(win, $) {
 	return {
 
 
-		/**
-		 * obj : bbj 对象
-		 * prefix : ID 前缀
-		 * 
-		 */
-		getBBJEntityDictionary : function(tableId){
+		getBBJEntityDictionary : function(tableName){
 			
-			if(tableId == null || tableId == ""){
+			if(tableName == null || tableName == ""){
 				return "";
 			}
 			var dictionary = {};
 			Utils.ajax({
-				url : contextPath + "/admin/dictionary/field/all?table_id=" + tableId,
+				url : contextPath + "/admin/dictionary/field/all?table_name=" + tableName,
 				type : 'GET',
 				async : false, // 同步
 				success : function(response) {

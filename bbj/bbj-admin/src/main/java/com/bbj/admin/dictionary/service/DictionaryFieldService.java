@@ -39,7 +39,7 @@ public class DictionaryFieldService
 		if(field == null){
 			return rows;
 		}
-		DictionaryTable table = dictionaryTableDao.query(new BBJDaoParam().addAttr(BBJDaoParam.keyId, field.getAttr(DictionaryField.tableId)));
+		DictionaryTable table = dictionaryTableDao.query(new BBJDaoParam().addAttr(BBJDaoParam.keyId, field.getAttr(DictionaryField.tableName)));
 		String tableName = table.getAttr(DictionaryTable.table_name);
 		
 		rows += dictionaryFieldDao.insert(serviceParam); // 插入到数据字典表
@@ -65,7 +65,7 @@ public class DictionaryFieldService
 			return rows;
 		}
 		DictionaryField field = dictionaryFieldDao.query(serviceParam);
-		DictionaryTable table = dictionaryTableDao.query(new BBJServiceParam().addAttr(BBJServiceParam.keyId,field.getAttr(DictionaryField.tableId)));
+		DictionaryTable table = dictionaryTableDao.query(new BBJServiceParam().addAttr(BBJServiceParam.keyId,field.getAttr(DictionaryField.tableName)));
 		String tableName = table.getAttr(DictionaryTable.table_name);
 
 		rows += dictionaryFieldDao.delete(serviceParam); // 从数据字典表删除
@@ -132,7 +132,7 @@ public class DictionaryFieldService
 		String currentOrder = current.getAttr(DictionaryField.fieldOrderNumber);
 		if("previous".equals(type)){
 	        List<WhereFilter> list = new ArrayList<WhereFilter>();
-	        list.add(new WhereFilter(DictionaryField.tableId, "=",current.getAttr(DictionaryField.tableId)));
+	        list.add(new WhereFilter(DictionaryField.tableName, "=",current.getAttr(DictionaryField.tableName)));
 	        if(currentOrder != null && !"".equals(currentOrder)){
 	        	list.add(new WhereFilter(DictionaryField.fieldOrderNumber, "<", currentOrder));
 	        	list.add(new WhereFilter(DictionaryField.fieldOrderNumber, "is not null ",null));
@@ -154,7 +154,7 @@ public class DictionaryFieldService
 			if(currentOrder != null && !"".equals(currentOrder)){
 		        list.add(new WhereFilter(DictionaryField.fieldOrderNumber, ">", currentOrder));
 		        list.add(new WhereFilter(DictionaryField.fieldOrderNumber, "is not null",null));
-		        list.add(new WhereFilter(DictionaryField.tableId, "=", current.getAttr(DictionaryField.tableId)));
+		        list.add(new WhereFilter(DictionaryField.tableName, "=", current.getAttr(DictionaryField.tableName)));
 		        sqlFilter.addWhereFilter(list );
 		        DictionaryField min = dictionaryFieldDao.queryMinBiggerThan(sqlFilter);
 		        if(min != null){
@@ -166,14 +166,14 @@ public class DictionaryFieldService
 		        } else {
 		        	list.clear();
 		        	sqlFilter.clear();
-			        list.add(new WhereFilter(DictionaryField.tableId, "=", current.getAttr(DictionaryField.tableId)));
+			        list.add(new WhereFilter(DictionaryField.tableName, "=", current.getAttr(DictionaryField.tableName)));
 			        sqlFilter.addWhereFilter(list );
 			    	int max = dictionaryFieldDao.getMaxOrderNumber(sqlFilter);
 		        	current.setAttr(DictionaryField.fieldOrderNumber, max + 1 + "");
 		        	dictionaryFieldDao.update(new BBJDaoParam().addAttr(BBJDaoParam.keyEntity, current));
 		        }
 		    } else {
-		    	list.add(new WhereFilter(DictionaryField.tableId, "=", current.getAttr(DictionaryField.tableId)));
+		    	list.add(new WhereFilter(DictionaryField.tableName, "=", current.getAttr(DictionaryField.tableName)));
 		    	sqlFilter.addWhereFilter(list );
 		    	int max = dictionaryFieldDao.getMaxOrderNumber(sqlFilter);
 	        	current.setAttr(DictionaryField.fieldOrderNumber, max + 1 + "");
@@ -181,14 +181,14 @@ public class DictionaryFieldService
 		    }
 		} else if("first".equals(type)){
 			List<WhereFilter> list = new ArrayList<WhereFilter>();
-			list.add(new WhereFilter(DictionaryField.tableId, "=",current.getAttr(DictionaryField.tableId)));
+			list.add(new WhereFilter(DictionaryField.tableName, "=",current.getAttr(DictionaryField.tableName)));
 			sqlFilter.addWhereFilter(list );
         	int min = dictionaryFieldDao.getMinOrderNumber(sqlFilter);
         	current.setAttr(DictionaryField.fieldOrderNumber, min - 1 + "");
         	dictionaryFieldDao.update(new BBJDaoParam().addAttr(BBJDaoParam.keyEntity, current));
 		} else if("last".equals(type)){
 			List<WhereFilter> list = new ArrayList<WhereFilter>();
-			list.add(new WhereFilter(DictionaryField.tableId, "=",current.getAttr(DictionaryField.tableId)));
+			list.add(new WhereFilter(DictionaryField.tableName, "=",current.getAttr(DictionaryField.tableName)));
 			sqlFilter.addWhereFilter(list );
         	int max = dictionaryFieldDao.getMaxOrderNumber(sqlFilter);
         	current.setAttr(DictionaryField.fieldOrderNumber, max + 1 + "");

@@ -1,6 +1,6 @@
 
 $(document).ready(function() {	
-	var fields = getDictionary($("#field-item-table_id").val());
+	var fields = getDictionary($("#field-item-table_name").val());
 	initGrid(fields);
 } );
 
@@ -46,10 +46,10 @@ function initGrid(fields){
 							'<label data-column="-1">操作</label>'+
 						'</div>';
 		liFields.html(liFieldsHtml);
-		var tableId = $("#field-item-table_id").val();
+		var tableName = $("#field-item-table_name").val();
 		var tableExp = $('#example').DataTable({
 			ajax: {
-	            url: contextPath + "/base/designer/grid/simulatedata?table_id=" + tableId,
+	            url: contextPath + "/base/designer/grid/simulatedata?table_name=" + tableName,
 	        },
 	        lengthChange: false	,    
 	        scrollCollapse: true,
@@ -71,10 +71,10 @@ function getElementById (id) {
   return document.getElementById(id);
 }
 
-function getDictionary(tableId) {
+function getDictionary(tableName) {
 	var returnData = {};
 	Utils.ajax({
-		url : contextPath + "/admin/dictionary/field/all?table_id=" + tableId,
+		url : contextPath + "/admin/dictionary/field/all?table_name=" + tableName,
 		type : 'GET',
 		async : false, // 同步
 		success : function(data) {
@@ -132,7 +132,7 @@ function newFieldSave() {
 	var itemData = {};
 	itemData.attr = {};
 	itemData.attr.id = $("#item-field-id").val();
-	itemData.attr.table_id = $("#item-field-table_id").val();
+	itemData.attr.table_name = $("#item-field-table_name").val();
 	itemData.attr.field_name = $("#item-field-field_name").val();
 	itemData.attr.field_name_comment = $("#item-field-field_name_comment")
 			.val();
@@ -207,7 +207,7 @@ function getFieldItems(){
 	return fieldItems;
 }
 function initFieldItems(){
-	var fields = getDictionary($("#field-item-table_id").val());
+	var fields = getDictionary($("#field-item-table_name").val());
 	fieldItems = [];
 	if(fields){
 		for (var i = 0; i < fields.length; i++) {

@@ -58,6 +58,7 @@ public class DictionaryTableController {
 	@ResponseBody
 	public Object update(HttpServletRequest request){
 		DictionaryTable bbjEntity = BBJEntityUtils.parseFrom(request, DictionaryTable.class);
+		bbjEntity.addAttr("table_name_new", request.getParameter("table_name_new")); // 新的表名
 		BBJServiceParam serviceParam = new BBJServiceParam()
 				.addAttr(BBJServiceParam.keyEntity, bbjEntity);
 		return dictionaryTableService.update(serviceParam);

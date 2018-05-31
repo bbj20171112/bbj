@@ -1,7 +1,7 @@
 $(function () {
 		        	var headers = [];
 					headers.push("ID");
-					headers.push("表ID");
+					headers.push("表名称");
 					headers.push("参照值");
 					headers.push("参照名称");
 					headers.push("参照说明");
@@ -25,7 +25,7 @@ $(function () {
 	                  }],
 	      		columns: [ // 配置列映射（对象数据[嵌套数据：attr.id]）,如果是数组数据,直接 0,1,2,3 
 	      			{ data: 'attr.id' , title: headers[0]},
-	      			{ data: 'attr.table_id', title: headers[1]},
+	      			{ data: 'attr.table_name', title: headers[1]},
 					{ data: 'attr.reference_value', title: headers[2]},
 					{ data: 'attr.reference_name', title: headers[3]},
 					{ data: 'attr.reference_remark', title: headers[4]},
@@ -49,7 +49,7 @@ $(function () {
 				data = data.data.attr;
 				
 				$("#item-field-id").val(data.id);
-				$("#item-field-table_id").val(data.table_id);
+				$("#item-field-table_name").val(data.table_name);
 				$("#item-field-reference_value").val(data.reference_value);
 				$("#item-field-reference_name").val(data.reference_name);				
 				$("#item-field-reference_remark").val(data.reference_remark);
@@ -73,7 +73,7 @@ $(function () {
 		var data = {};
 		
 		$("#item-field-id").val(data.id);
-		$("#item-field-table_id").val(data.table_id);
+		$("#item-field-table_name").val(data.table_name);
 		$("#item-field-reference_value").val(data.reference_value);
 		$("#item-field-reference_name").val(data.reference_name);				
 		$("#item-field-reference_remark").val(data.reference_remark);
@@ -84,7 +84,7 @@ $(function () {
 	function newDataSave() {
 		var jsonData = {};
 		jsonData.id = $("#item-field-id").val();
-		jsonData.table_id = $("#item-field-table_id").val();
+		jsonData.table_name = $("#item-field-table_name").val();
 		jsonData.reference_value = $("#item-field-reference_value").val();
 		jsonData.reference_name = $("#item-field-reference_name").val();				
 		jsonData.reference_remark = $("#item-field-reference_remark").val();

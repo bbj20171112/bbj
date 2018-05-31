@@ -86,11 +86,11 @@
 									</div>
 									<div class="row form-group">
 										<div class="col-sm-2 item">
-											<label>表ID</label>
+											<label>表名称</label>
 										</div>
 										<div class="col-sm-4 item">
-											<input class="form-control" id="item-field-table_id"
-												th:value="${param.id}" />
+											<input class="form-control" id="item-field-table_name"
+												th:value="${param.table_name}" />
 										</div>
 									</div>
 									<div class="row form-group">
@@ -191,10 +191,10 @@
 									</div>
 									<div class="row form-group">
 										<div class="col-sm-2 item">
-											<label>参照表ID</label>
+											<label>参照表名</label>
 										</div>
 										<div class="col-sm-4 item">
-											<input class="form-control" id="item-field-field_reference_table_id"></input>
+											<input class="form-control" id="item-field-field_reference_table_name"></input>
 										</div>
 										<div class="col-sm-2 item">
 											<label>参照字段</label>
@@ -206,12 +206,20 @@
 									</div>
 									<div class="row form-group">
 										<div class="col-sm-2 item">
+											<label>参照显示字段</label>
+										</div>
+										<div class="col-sm-4 item">
+											<input class="form-control" id="item-field-field_reference_table_field_value"></input>
+										</div>
+										<div class="col-sm-2 item">
 											<label>参照说明</label>
 										</div>
 										<div class="col-sm-4 item">
 											<input class="form-control"
 												id="item-field-field_reference_comment"></input>
 										</div>
+									</div>
+									<div class="row form-group">
 										<div class="col-sm-2 item">
 											<label>备注</label>
 										</div>

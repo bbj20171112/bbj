@@ -86,10 +86,10 @@ function getElementById (id) {
   return document.getElementById(id);
 }
 
-function getDictionaryFields(tableId) {
+function getDictionaryFields(tableName) {
 	var returnData = {};
 	Utils.ajax({
-		url : contextPath + "/admin/dictionary/field/all?table_id=" + tableId,
+		url : contextPath + "/admin/dictionary/field/all?table_name=" + tableName,
 		type : 'GET',
 		async : false, // 同步
 		success : function(data) {

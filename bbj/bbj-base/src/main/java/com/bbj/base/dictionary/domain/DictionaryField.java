@@ -12,7 +12,7 @@ public class DictionaryField extends BBJEntity {
 	private static final long serialVersionUID = 1L;
 
 	public static final String id = "id"; 
-	public static final String tableId = "table_id"; // 表ID
+	public static final String tableName = "table_name"; // 表名称
 	public static final String fieldName = "field_name"; // 名称
 	public static final String fieldNameComment = "field_name_comment"; // 说明 
 	public static final String fieldType = "field_type";  // 类型
@@ -22,8 +22,9 @@ public class DictionaryField extends BBJEntity {
 	public static final String fieldOrderNumber = "field_order_number"; // 排序序号
 	public static final String fieldConstraint = "field_constraint";  
 	public static final String fieldConstraintComment = "field_constraint_comment"; 
-	public static final String fieldReferenceTableId = "field_reference_table_id"; 
+	public static final String fieldReferenceTableName = "field_reference_table_name"; 
 	public static final String fieldReferenceTableFieldName = "field_reference_table_field_name"; 
+	public static final String fieldReferenceTableFieldValue = "field_reference_table_field_value";
 	public static final String fieldReferenceComment="field_reference_comment"; 
 	
 	@Override
@@ -35,7 +36,7 @@ public class DictionaryField extends BBJEntity {
 	public String[] initAttr() {
 		String attrs[] = new String[]{
 				id, 
-				tableId, 
+				tableName, 
 				fieldName,
 				fieldNameComment,
 				fieldType,
@@ -45,8 +46,9 @@ public class DictionaryField extends BBJEntity {
 				fieldOrderNumber,
 				fieldConstraint,
 				fieldConstraintComment,
-				fieldReferenceTableId,
+				fieldReferenceTableName,
 				fieldReferenceTableFieldName,
+				fieldReferenceTableFieldValue,
 				fieldReferenceComment,
 				BBJEntity.create_time,
 				BBJEntity.update_time,

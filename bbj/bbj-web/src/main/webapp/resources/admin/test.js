@@ -1,5 +1,5 @@
 
-var tableId = "1525515537026"; // 当前表ID
+var tableName = "admin_test"; // 当前表ID
 var dictionary = {}; // 数据字典
 var baseURL = contextPath + "/admin/test"; // 基URL
 var tableDataTable = {}; // 表格对象
@@ -13,7 +13,7 @@ var modalElementId = "modal-admin_test"; // 当前表ID
 $(document).ready(function(){
 	
 	// 获取数据字典
-	dictionary = bbj.getBBJEntityDictionary(tableId);
+	dictionary = bbj.getBBJEntityDictionary(tableName);
 	
 	// 初始化表格
 	initTable(dictionary);
@@ -32,7 +32,7 @@ function initTable(dictionary){
 	for(var i = 0; i < dictionary.length ;i ++){
 		columns.push({
 			data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义
-			title : dictionary[i].attr.field_name_comment , // 数据列标题
+			sTitle : dictionary[i].attr.field_name_comment , // 数据列标题
 		});
 	}
 	// 增加操作列
@@ -48,6 +48,10 @@ function initTable(dictionary){
         },
         lengthChange: false,
         columnDefs: [{
+ 			targets: -2,
+ 			render: function(data, type, row) { 
+          	return row.attr.type_value;
+ 			}},{
  			targets: -1,
  			render: function(data, type, row) { 
 	          	var operatorDiv = '<div>'

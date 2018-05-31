@@ -7,10 +7,9 @@ var dictionary = null;
 
 $(document).ready(function() {		
 		
-	var tableId = $("#input-table_id").val();
-	if(tableId){
-		dictionary = bbj.getBBJEntityDictionary(tableId);
-		var tableName = $('#input-table_name').val();
+	var tableName = $("#input-table_name").val();
+	if(tableName){
+		dictionary = bbj.getBBJEntityDictionary(tableName);
 		$("#input-program-controller-baseurl").val(tableName.substring(tableName.indexOf("_")).replace(/_/g,"/"));
 	}
 	initContext();
@@ -230,10 +229,10 @@ function getElementById (id) {
 function editFormSure(){
 	$("#modal-edit-form").modal('hide');
 }
-function getDictionaryFields(tableId) {
+function getDictionaryFields(tableName) {
 	var returnData = {};
 	Utils.ajax({
-		url : contextPath + "/admin/dictionary/field/all?table_id=" + tableId,
+		url : contextPath + "/admin/dictionary/field/all?table_name=" + tableName,
 		type : 'GET',
 		async : false, // 同步
 		success : function(data) {
@@ -250,7 +249,7 @@ function getFieldItems(){
 	return fieldItems;
 }
 function initFieldItems(){
-	var fields = getDictionaryFields($("#field-item-table_id").val());
+	var fields = getDictionaryFields($("#field-item-table_name").val());
 	fieldItems = [];
 	if(fields){
 		for (var i = 0; i < fields.length; i++) {
@@ -398,7 +397,6 @@ function generateProgramCode(isRebuild){
 
 function getClassNameObj(isRebuild){
 	
-	var tableId = $('#input-table_id').val();
 	var tableName = $('#input-table_name').val();
 	
 	var domainName = Utils.getCamelCaseName("_" + tableName.substring(tableName.indexOf("_")));
@@ -483,7 +481,6 @@ function getClassNameObj(isRebuild){
 	}
 	
 	return {
-		tableId : tableId,
 		tableName : tableName,
 		moduleName : moduleName,
 		baseUrl : baseUrl,
@@ -858,12 +855,12 @@ function getHTMLStr(classNameObj){
 
 function getJsStr(classNameObj){
 	var globalVars = "\n\n" + 
-					"var tableId = \""+classNameObj.tableId+"\"; // 当前表ID\n" + 
+					"var tableName = \""+classNameObj.tableName+"\"; // 当前表名称\n" + 
 					"var dictionary = {}; // 数据字典\n" + 
 					"var baseURL = contextPath + \"/"+classNameObj.moduleName+""+classNameObj.baseUrl+"\"; // 基URL\n" + 
 					"var tableDataTable = {}; // 表格对象\n" + 
-					"var tableElementId = \"table-"+classNameObj.tableName+"\"; // 当前表ID\n" + 
-					"var modalElementId = \"modal-"+classNameObj.tableName+"\"; // 当前表ID\n" + 
+					"var tableElementId = \"table-"+classNameObj.tableName+"\"; // 当前表名称\n" + 
+					"var modalElementId = \"modal-"+classNameObj.tableName+"\"; // 当前表名称\n" + 
 					"\n\n";
 
 	var initMethod ="/**\n" + 
@@ -872,7 +869,7 @@ function getJsStr(classNameObj){
 					"$(document).ready(function(){\n" + 
 					"	\n" + 
 					"	// 获取数据字典\n" + 
-					"	dictionary = bbj.getBBJEntityDictionary(tableId);\n" + 
+					"	dictionary = bbj.getBBJEntityDictionary(tableName);\n" + 
 					"	\n" + 
 					"	// 初始化表格\n" + 
 					"	initTable(dictionary);\n" + 

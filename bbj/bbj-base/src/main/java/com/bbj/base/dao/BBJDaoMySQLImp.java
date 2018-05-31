@@ -2,6 +2,7 @@ package com.bbj.base.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.bbj.base.dictionary.dao.DictionaryFieldDao;
+import com.bbj.base.dictionary.domain.DictionaryField;
 import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
+import com.bbj.base.domain.BBJSqlFilter;
 import com.bbj.base.domain.SqlFilter;
+import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.utils.StringUtils;
 import com.bbj.base.utils.TimeUtils;
 
@@ -34,6 +38,7 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 	
 	@Autowired
 	private DictionaryFieldDao dictionaryFieldDao;
+
 	
 	public BBJDaoMySQLImp(){
 		
@@ -217,13 +222,46 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		}		
 		int startId = pageSize * (tagPage - 1 );
 		
-		System.out.println("dictionaryFieldDao:" + dictionaryFieldDao);
-		currentBBJEntity.getTableName();
+		
+		// 获取表的数字字典
+		SqlFilter fieldSqlFilter = new BBJSqlFilter(DictionaryField.class);
+		fieldSqlFilter.addWhereFilter(Arrays.asList(new WhereFilter(DictionaryField.tableName, WhereFilter.EQUALS, currentBBJEntity.getTableName() )));
+		
+		BBJDaoParam fieldParamDictionary = new BBJDaoParam()
+				.addAttr(BBJDaoParam.keyTagPage, 1)
+				.addAttr(BBJDaoParam.keyPageSize, 1000)
+				.addAttr(BBJDaoParam.keySqlFilter, fieldSqlFilter);
+		
+		List<DictionaryField> dictionaryFields = dictionaryFieldDao.queryByPage(fieldParamDictionary);
+		
+		List<String> foreignFields = new ArrayList<String>();
+		StringBuilder sbForeignSelect = new StringBuilder();
+		StringBuilder sbForeignJoin = new StringBuilder();
+
+		String selfTableAlias = "self";
+		int count = 1;
+
+		// 解析外键
+		for (int i = 0; i < dictionaryFields.size(); i++) {
+			DictionaryField dictionaryField = dictionaryFields.get(i);
+			String referenceTableName = dictionaryField.getAttr(DictionaryField.fieldReferenceTableName);
+			if(StringUtils.isNotEmpty(referenceTableName)){ // 外键
+				
+				String foreignField = dictionaryField.getAttr(DictionaryField.fieldReferenceTableFieldValue);
+				foreignFields.add(foreignField);
+				String alias = "foreigner" + count ;
+				sbForeignSelect.append(", " + alias + "." + foreignField);
+				
+				sbForeignJoin.append(" left join " + referenceTableName + " " + alias + " on " + selfTableAlias + "." + dictionaryField.getAttr(DictionaryField.fieldName) + "=" +alias + "." + dictionaryField.getAttr(DictionaryField.fieldReferenceTableFieldName) );
+				
+				count ++;
+			}
+		}
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select "+currentBBJEntity.getAttrKeysStr("a") );
-		sb.append( " from " + currentBBJEntity.getTableName() + " a"  );
-		sb.append( " where a." + BBJEntity.delete_state + " <> ? " );
+		sb.append(" select "+currentBBJEntity.getAttrKeysStr(selfTableAlias) + " " + sbForeignSelect.toString());
+		sb.append( " from " + currentBBJEntity.getTableName() + " " + selfTableAlias + " " + sbForeignJoin.toString() );
+		sb.append( " where " + selfTableAlias + "." + BBJEntity.delete_state + " <> ? " );
 				
 		List<Object> listParam = new ArrayList<Object>();
 		listParam.add(BBJEntity.delete_state_yes);
@@ -242,6 +280,10 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 			List<String> keys = currentBBJEntity.getAttrKeys();
 			for (int i = 0; i < keys.size(); i++) {
 				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
+			}
+			// 添加外键
+			for (int i = 0; i < foreignFields.size(); i++) {
+				bbjEntity.setAttr(foreignFields.get(i), rs.getString(foreignFields.get(i)));
 			}
 			list.add(bbjEntity);
 		}

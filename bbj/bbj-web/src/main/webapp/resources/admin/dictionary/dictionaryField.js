@@ -21,7 +21,9 @@ function init() {
 	headers.push("参照说明");
 	headers.push("备注");
 	headers.push("排序");
+	headers.push("参照显示字段");
 	headers.push("操作");
+	
 	// console.log(data);
 	var tableExp = $('#example')
 			.DataTable(
@@ -30,7 +32,7 @@ function init() {
 							url : contextPath + "/admin/dictionary/field",
 							data : function(searchParam) {
 								//添加额外的参数传给服务器  
-								searchParam.table_id = $("#item-field-table_id")
+								searchParam.table_name = $("#item-field-table_name")
 										.val();
 							}
 						},
@@ -79,7 +81,7 @@ function init() {
 							data : 'attr.field_order_number',
 							title : headers[5]
 						}, {
-							data : 'attr.field_reference_table_id',
+							data : 'attr.field_reference_table_name',
 							title : headers[6]
 						}, {
 							data : 'attr.field_constraint_comment',
@@ -91,12 +93,16 @@ function init() {
 						{ data: 'field_refdesc', title: headers[11]},
 						{ data: 'field_remark', title: headers[12]}, */
 						{
-							data : null,
+							data : 'attr.field_reference_table_field_value',
 							title : headers[13]
 						},
 						{
 							data : null,
 							title : headers[14]
+						},
+						{
+							data : null,
+							title : headers[15]
 						},]
 					});
 }
@@ -125,7 +131,7 @@ function row_edit(id) {
 
 			// Utils.setBBJEntityValue(data);
 			$("#item-field-id").val(data.id);
-			//$("#item-field-table_id").val(data.table_id);
+			//$("#item-field-table_name").val(data.table_name);
 			$("#item-field-field_name").val(data.field_name);
 			$("#item-field-field_name_comment").val(
 					data.field_name_comment);
@@ -137,9 +143,10 @@ function row_edit(id) {
 					.val(data.field_constraint);
 			$("#item-field-field_constraint_comment").val(
 					data.field_constraint_comment);
-			$("#item-field-field_reference").val(data.field_reference);
-			$("#item-field-field_reference_comment").val(
-					data.field_reference_comment);
+			$("#item-field-field_reference_table_name").val(data.field_reference_table_name);
+			$("#item-field-field_reference_table_field_name").val(data.field_reference_table_field_name);
+			$("#item-field-field_reference_table_field_value").val(data.field_reference_table_field_value);
+			
 			$("#item-field-field_remark").val(data.field_remark);
 			$("#modal-new-field").modal('show');
 		}
@@ -160,7 +167,7 @@ function newField() {
 	var data = {};
 
 	$("#item-field-id").val(data.id);
-	//$("#item-field-table_id").val(data.table_id);
+	//$("#item-field-table_name").val(data.table_name);
 	$("#item-field-field_name").val(data.field_name);
 	$("#item-field-field_name_comment").val(data.field_name_comment);
 	$("#item-field-field_type").val(data.field_type);
@@ -169,7 +176,10 @@ function newField() {
 	$("#item-field-field_constraint").val(data.field_constraint);
 	$("#item-field-field_constraint_comment")
 			.val(data.field_constraint_comment);
-	$("#item-field-field_reference").val(data.field_reference);
+	
+	$("#item-field-field_reference_table_name").val(data.field_reference_table_name);
+	$("#item-field-field_reference_table_field_name").val(data.field_reference_table_field_name);
+	$("#item-field-field_reference_table_field_value").val(data.field_reference_table_field_value);
 	$("#item-field-field_reference_comment").val(data.field_reference_comment);
 	$("#item-field-field_remark").val(data.field_remark);
 
@@ -179,7 +189,7 @@ function newField() {
 function newFieldSave() {
 	var jsonData = {};
 	jsonData.id = $("#item-field-id").val();
-	jsonData.table_id = $("#item-field-table_id").val();
+	jsonData.table_name = $("#item-field-table_name").val();
 	jsonData.field_name = $("#item-field-field_name").val();
 	jsonData.field_name_comment = $("#item-field-field_name_comment")
 			.val();
@@ -200,9 +210,12 @@ function newFieldSave() {
 	jsonData.field_constraint = $("#item-field-field_constraint").val();
 	jsonData.field_constraint_comment = $(
 			"#item-field-field_constraint_comment").val();
-	jsonData.field_reference = $("#item-field-field_reference").val();
-	jsonData.field_reference_comment = $(
-			"#item-field-field_reference_comment").val();
+	
+	jsonData.field_reference_table_name = $("#item-field-field_reference_table_name").val();
+	jsonData.field_reference_table_field_name = $("#item-field-field_reference_table_field_name").val();
+	jsonData.field_reference_table_field_value = $("#item-field-field_reference_table_field_value").val();
+	jsonData.field_reference_comment = $("#item-field-field_reference_comment").val();
+	
 	jsonData.field_remark = $("#item-field-field_remark").val();
 
 	//Utils.getBBJEntityValue(jsonData);

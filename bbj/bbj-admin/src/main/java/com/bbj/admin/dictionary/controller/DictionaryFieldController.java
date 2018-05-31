@@ -122,14 +122,10 @@ public class DictionaryFieldController {
 		// 分页查询
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.tableId) != null && !"".equals(field.getAttr(DictionaryField.tableId))){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.tableId, "=", field.getAttr(DictionaryField.tableId));
+		if(field.getAttr(DictionaryField.tableName) != null && !"".equals(field.getAttr(DictionaryField.tableName))){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.tableName, "=", field.getAttr(DictionaryField.tableName));
 			list.add(whereFilter );
-		}
-		if(field.getAttr(DictionaryField.fieldName) != null && !"".equals(field.getAttr(DictionaryField.fieldName))){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.fieldName, "like", "%" + searchValue + "%");
-			list.add(whereFilter );
-		}
+		}		
 		sqlFilter.addWhereFilter(list );
 		Map<String, Object> map = new HashMap<String, Object>();
 		int tagPage = start / length;
@@ -168,8 +164,8 @@ public class DictionaryFieldController {
 		// 分页查询
 		SqlFilter sqlFilter = new BBJSqlFilter(DictionaryField.class);
 		List<WhereFilter> list = new ArrayList<WhereFilter>();
-		if(field.getAttr(DictionaryField.tableId) != null){
-			WhereFilter whereFilter = new WhereFilter(DictionaryField.tableId, "=",  field.getAttr(DictionaryField.tableId));
+		if(field.getAttr(DictionaryField.tableName) != null){
+			WhereFilter whereFilter = new WhereFilter(DictionaryField.tableName, "=",  field.getAttr(DictionaryField.tableName));
 			list.add(whereFilter );
 		}
 		sqlFilter.addWhereFilter(list );

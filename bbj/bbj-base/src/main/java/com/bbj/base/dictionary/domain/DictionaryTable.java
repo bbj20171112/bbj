@@ -13,7 +13,6 @@ public class DictionaryTable extends BBJEntity {
 
 	public static final String tableName = "admin_dictionary_table";
 	
-	public static final String ID = "id";
 	public static final String table_name = "table_name";
 	public static final String table_comment = "table_comment";
 	public static final String table_description = "table_description";
@@ -28,7 +27,6 @@ public class DictionaryTable extends BBJEntity {
 	@Override
 	public String[] initAttr() {
 		String attrs[] = new String[]{
-				ID, 
 				table_name,
 				table_comment,
 				table_description,
