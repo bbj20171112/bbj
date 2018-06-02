@@ -73,7 +73,7 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 		List<String> listParamAttr = new ArrayList<String>();
 		for(int i = 0;i < listAttrKeys.size();i ++){
 			String key = listAttrKeys.get(i);
-			if(StringUtils.isNotEmpty(key) && !paramEntity.getId().equals(key)){
+			if(StringUtils.isNotEmpty(key)){ //  && !paramEntity.getId().equals(key) // 主键也要更改[表名]
 				if(BBJEntity.update_time.equals(key) && "".equals(paramEntity.getAttr(key))){
 					paramEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
@@ -83,11 +83,15 @@ public class DictionaryTableDao extends BBJDaoImp<DictionaryTable> {
 					}else{
 						sbParamAttrPair.append("," + key + "=?");
 					}
-					listParamAttr.add(paramEntity.getAttr(key));
+					if(!DictionaryTable.table_name.equals(key)){
+						listParamAttr.add(paramEntity.getAttr(key));
+					} else {
+						listParamAttr.add(paramEntity.getAttr("table_name_new"));
+					}
 				}
 			}
 		}
-		listParamAttr.add(paramEntity.getAttr("table_name_new"));
+		listParamAttr.add(paramEntity.getAttr(DictionaryTable.table_name));
 		String insertSql = " update " + paramEntity.getTableName() 
 						+ " set "
 						+ sbParamAttrPair.toString()

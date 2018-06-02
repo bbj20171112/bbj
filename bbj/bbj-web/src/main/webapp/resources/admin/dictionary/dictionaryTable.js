@@ -135,6 +135,7 @@ function newTableSave(){
 			}
 		});
 	} else {
+		jsonData.table_name = jsonData.table_name_new
 		url = contextPath + "/admin/dictionary/table";
 		Utils.ajax({
 			type : "POST",

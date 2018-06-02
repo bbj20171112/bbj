@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+	<meta charset="UTF-8">
+	<title>org_company</title>
+	
+	<!-- 引入全局css样式 -->
+	<script th:src="@{/resources/base/css-import.js}" src="../../../../resources/base/css-import.js"></script>
+<head>
+
+<body th:class="${session.currentSkin}">
+	<div class="wrapper">
+	  <div th:replace="~{base/header :: header}"></div>
+	  <div th:replace="~{base/menu :: menu}"></div>
+	  <div class="content-wrapper">
+	    <section class="content-header">
+	      <h1>Page Header</h1>
+	      <ol class="breadcrumb" id="menu-footprint">
+	      <li><a href="#"><i class="fa fa-dashboard"></i> <span
+	      name="parent-menu">Level</span></a></li>
+	      <li name="li-sub-menu" style="display: none">Here</li>
+	      </ol>
+	    </section>
+	    <section class="content">
+		  <div class="box box-info">
+			<div class="box-header with-border">
+				<h3 class="box-title">org_company</h3>
+				<button type="button" onclick="insertOption()" class="btn btn-info">新建</button>
+				<table id="table-org_company" class="table table-bordered table-hover"></table>
+			</div>
+		  </div>
+				</section>
+	  </div>
+	  <div th:replace="~{base/footer :: footer}"></div>
+	  <div th:replace="~{base/settings :: settings}"></div>
+	</div>
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-org_company" aria-labelledby="modal-org_company">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-horizontal">
+         <div class="box-body">
+
+	<div class="col-sm-12 item-parent" id="item-parent-0">
+		<div class="col-sm-12 item" id="item-0-0">
+			<div class="form-group ">
+				<label for="item_field-org_company-code" class="col-sm-3 control-label">公司编号</label>
+				<div class="col-sm-9">
+			  		<input id="item_field-org_company-code" type="input" class="form-control" placeholder="公司编号">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 item" id="item-0-1">
+			<div class="form-group ">
+				<label for="item_field-org_company-name" class="col-sm-3 control-label">公司名称</label>
+				<div class="col-sm-9">
+			  		<input id="item_field-org_company-name" type="input" class="form-control" placeholder="公司名称">
+				</div>
+			</div>
+		</div>
+	</div>
+
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="insertOrUpdateSave()">保存</button>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+
+<!-- 引入全局JavaScript -->
+<script th:src="@{/resources/base/javascript-import.js}" src="../../../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/organization/company.js}" src="../../../../resources/organization/company.js" ></script>
+
+</html>

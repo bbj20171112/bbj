@@ -72,8 +72,8 @@ public class DictionaryTableService {
 			return rows;
 		}
 		 
-		rows += dictionaryTableDao.alterTable(table);
 		rows += dictionaryTableDao.update(serviceParam);
+		rows += dictionaryTableDao.alterTable(table);
 		
 		return rows;
 	}

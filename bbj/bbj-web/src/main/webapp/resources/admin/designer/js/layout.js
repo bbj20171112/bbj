@@ -468,7 +468,7 @@ function getClassNameObj(isRebuild){
 		}
 	}
 	
-	var htmlName = moduleName + "/" + baseUrl + ".html";
+	var htmlName = moduleName + "" + baseUrl + ".html";
 	var htmlElement = $("#input-program-html-name");
 	if(isRebuild){
 		htmlElement.val(htmlName);
@@ -668,14 +668,13 @@ function getControllerStr(classNameObj){
 					"import org.springframework.web.bind.annotation.RequestParam;\n" + 
 					"import org.springframework.web.bind.annotation.ResponseBody;\n" + 
 					"\n" + 
-					"import com.bbj.base.constant.Constants;\n" + 
 					"import com.bbj.base.domain.BBJServiceParam;\n" + 
 					"import com.bbj.base.domain.SqlFilter;\n" + 
 					"import com.bbj.base.utils.BBJEntityUtils;\n" ;
 			
 	var classDefHeader ="\n" +
 						"@Controller\n" + 
-						"@RequestMapping(value={Constants.module_" + classNameObj.moduleName + " + \""+classNameObj.baseUrl+"\"})\n" + 
+						"@RequestMapping(value={Constants.module_current" + " + \""+classNameObj.baseUrl+"\"})\n" + 
 						"public class " + classNameObj.controllerName + " {\n" +
 						"\n";
 	var classPropertyTabsStr = "\t"

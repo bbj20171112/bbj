@@ -48,6 +48,11 @@
 			<artifactId>bbj-security</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.bbj</groupId>
+			<artifactId>bbj-organization</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

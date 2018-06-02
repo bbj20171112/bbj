@@ -285,7 +285,7 @@ function getFieldItems(){
 	return fieldItems;
 }
 function initFieldItems(){
-	var fields = getDictionaryFields($("#field-item-table_id").val());
+	var fields = getDictionaryFields($("#field-item-table_name").val());
 	fieldItems = [];
 	if(fields){
 		for (var i = 0; i < fields.length; i++) {
