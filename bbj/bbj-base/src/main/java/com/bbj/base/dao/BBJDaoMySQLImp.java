@@ -176,23 +176,23 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 				if(BBJEntity.update_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
 					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
-				boolean isUpdate = true;
+				boolean isVarchar = false;
 				for (int j = 0; j < dictionaryFields.size(); j++) {
 					DictionaryField item = dictionaryFields.get(j);
-					// 如果不是字符类型
-					if(item.getAttr(DictionaryField.fieldName).equals(key) && !(item.getAttr(DictionaryField.fieldType).contains("varchar") || item.getAttr(DictionaryField.fieldType).contains("VARCHAR"))){
-						isUpdate = false;
+					// 如果是字符类型
+					if(item.getAttr(DictionaryField.fieldName).equals(key) && (item.getAttr(DictionaryField.fieldType).contains("varchar") || item.getAttr(DictionaryField.fieldType).contains("VARCHAR"))){
+						isVarchar = true;
 						break;
 					}
 				}
-				if(isUpdate && !(DictionaryField.update_time.equals(key) || DictionaryField.create_time.equals(key))){
+				if(isVarchar || StringUtils.isNotEmpty(bbjEntity.getAttr(key))){ //字符串或者不为空
 					if(sbParamAttrPair.length() == 0){
 						sbParamAttrPair.append(key + "=?");
 					}else{
 						sbParamAttrPair.append("," + key + "=?");
 					}
 					listParamAttr.add(bbjEntity.getAttr(key));
-				}
+				} 
 			}
 		}
 		listParamAttr.add(bbjEntity.getAttr(currentBBJEntity.getId()));

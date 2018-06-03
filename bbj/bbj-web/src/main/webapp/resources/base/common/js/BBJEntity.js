@@ -7,7 +7,193 @@ jQuery.extend(bbj, (function(win, $) {
 
 	return {
 
+		getModalContent : function(dictionary){
+			
+			var tableName = dictionary[0].attr.table_name;
+			var colNum = "1";
+			var baseWidth = 12;
+			var colHtml = [];
+			var tabStr = "\t";
+			for (var i = 0; i < colNum; i++) {
+				colHtml[i] = tabStr + '<div' + ' class = "col-sm-'+(baseWidth / colNum)+' item-parent' + '" ' + ' id="item-parent-' + i +'">\n';
+			}
+			var name = "";
+			var clazz = "";
+			for (var i = 0; i < dictionary.length; i++) {
+					colHtml[i % colNum] += tabStr +  '	<div'+' class="col-sm-12 item"' + ' id="item-' + (i % colNum) + '-' + i +'">\n'
+											+ bbj.getFieldItem(dictionary[i])+ 
+										tabStr + '	</div>\n';
+			}
+			var containerHtml = "";
+			for (var i = 0; i < colNum; i++) {
+				colHtml[i] += tabStr + '</div>\n'; // 结束标签
+				containerHtml += colHtml[i]; // 进行拼接容器HTML
+			}
+			var modalStr = //'<!-- Modal -->\n'  +
+			// '<div class="modal fade" id="modal-'+tableName+'" aria-labelledby="modal-'+tableName+'">\n'  +
+			'  <div class="modal-dialog">\n'  +
+			'    <div class="modal-content">\n'  +
+			'      <div class="modal-header">\n'  +
+			'        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n'  +
+			'        <h4 class="modal-title">Modal title</h4>\n'  +
+			'      </div>\n'  +
+			'      <div class="modal-body">\n'  +
+			'      	<form class="form-horizontal">\n'  +
+			'         <div class="box-body">\n'  +                
+			'\n' + containerHtml + '\n' + 
+			'         </div>\n'  +
+			'      </div>\n'  +
+			'      <div class="modal-footer">\n'  +
+			'        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>\n'  +
+			'        <button type="button" class="btn btn-primary" onclick="insertOrUpdateSave()">保存</button>\n'  +
+			'      </div>\n'  +
+			'     </div>\n'  +
+			'    </div>\n'  +
+			'  </div>\n' ; // +
+			// '</div>';
+			return modalStr;
+			
+		},
 
+		getFieldItem : function (field){
+				
+			var labelCol = "3";
+			var contentCol = "9";
+			var itemTabStr = "\t\t\t";
+			var fieldKeyType = field.attr.field_show_type;
+			var idStr = "item_field-"+field.attr.table_name+"-" + field.attr.field_name;
+			if(fieldKeyType == 'input'){
+				var hiddenAttr = "";
+				if(field.id == field.attr.field_name){ // 主键ID
+					hiddenAttr = "hidden";
+				}
+				var item =  itemTabStr + '<div class="form-group ' + hiddenAttr + '">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '  		<input id="'+idStr+'" type="input" class="form-control" placeholder="'+field.attr.field_name_comment+'">\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else if (fieldKeyType == 'checkbox'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<div class="col-sm-offset-'+labelCol+' col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '    <div name="item_check" class="checkbox checkbox-info">\n'	+
+							itemTabStr + '        <input id="'+idStr+'" type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n' + 
+							itemTabStr + '        <label>'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '    </div>\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else if (fieldKeyType == 'img'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '    <input type="file" id="'+idStr+'">\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else if (fieldKeyType == 'button'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '    <button id="'+idStr+'" class="btn btn-info"></button>\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else if(fieldKeyType == 'date'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '		<div class="input-group">\n' + 
+							itemTabStr + '        <div class="input-group-addon">\n' + 
+							itemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
+							itemTabStr + '        </div>\n' + 
+							itemTabStr + '        <input type="text" class="form-control pull-right datepicker"></input>\n' + 
+							itemTabStr + '    	</div>\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;				
+			}else if(fieldKeyType == 'datetime'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '		<div class="input-group">\n' + 
+							itemTabStr + '        <div class="input-group-addon">\n' + 
+							itemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
+							itemTabStr + '        </div>\n' + 
+							itemTabStr + '        <input type="text" class="form-control pull-right datetimepicker"></input>\n' + 
+							itemTabStr + '    	</div>\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else if(fieldKeyType == 'textarea'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+' date">\n' + 
+							itemTabStr + '    <textarea id="'+idStr+'" class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>\n' + 
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else if(fieldKeyType == 'select'){
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '    <select id="'+idStr+'" class="form-control select2" style="width: 100%">\n' +
+							itemTabStr + '    	<option value="0">'+field.attr.field_name_comment+'</option>\n' +
+							itemTabStr + '    </select>\n' +
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}else { // 当成label
+				var item =  itemTabStr + '<div class="form-group">\n' + 
+							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
+							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
+							itemTabStr + '    <label id="'+idStr+'" >'+field.attr.field_name_comment+'</label>\n' +
+							itemTabStr + '	</div>\n' + 
+							itemTabStr + '</div>\n';
+				return 	item;
+			}
+		},
+		
+		getDataTableDefs : function(dictionary){
+			
+			if(dictionary == null || dictionary == ""){
+				return "";
+			}
+			// 获取配置信息[默认全部进行展示，当数据库新增表结构时候会进行同步更新展示]
+			var columns = [];
+			for(var i = 0; i < dictionary.length ;i ++){
+				columns.push({
+					data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义
+					title : dictionary[i].attr.field_name_comment , // 数据列标题
+				});
+			}
+			// 增加操作列
+			columns.push({
+				data : null,
+				title : "编辑" ,
+			});
+			var columnDefs =  [{
+	 			targets: -2,
+	 			render: function(data, type, row) { 
+	          	return row.attr.type_value;
+	 			}},{
+	 			targets: -1,
+	 			render: function(data, type, row) { 
+		          	var operatorDiv = '<div>'
+		          	+'<i class="fa fa-edit" title="编辑"></i>'
+		          	+'<button class = "btn btn-link btn-sm" onclick="updateOption('+row.attr.id+')" >编辑</button>'
+		          	+'<button class = "btn btn-link btn-sm" onclick="deleteOption('+row.attr.id+')" >删除</button>'
+		          	+'</div>';
+	          	return operatorDiv;
+	         }}];
+			
+			return {
+					columnDefs : columnDefs,
+					columns : columns
+			};
+		},
+		
 		getBBJEntityDictionary : function(tableName){
 			
 			if(tableName == null || tableName == ""){

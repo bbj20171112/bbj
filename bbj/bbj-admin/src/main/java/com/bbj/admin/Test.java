@@ -10,7 +10,7 @@ public class Test extends BBJEntity {
 	public static final String id = "id"; // ID 
 	public static final String icon = "icon"; // icon 
 	public static final String sex = "sex"; // 性别 
-	public static final String ok = "ok"; // ok 
+	public static final String birthday = "birthday"; // birthday
 	public static final String name = "name"; // 名称 
 	public static final String testType = "test_type"; // 测试类型 
 
@@ -27,7 +27,7 @@ public class Test extends BBJEntity {
 			id, 
 			icon, 
 			sex, 
-			ok, 
+			birthday, 
 			name, 
 			testType, 
 		};
