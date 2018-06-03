@@ -935,7 +935,7 @@ function getJsStr(classNameObj){
 						" 		url : baseURL + \"/\" + id,\n" +
 						"		type : 'DELETE',\n" +
 						"		success : function(data) {\n" +
-						"			tableDataTable.ajax.reload();// 刷新页面\n" +
+						"			tableDataTable.draw(false);// 刷新页面\n" +
 						"		}\n" +
 						"	});\n" +
 						"}\n" +
@@ -975,7 +975,7 @@ function getJsStr(classNameObj){
 									"		url : baseURL,\n" + 
 									"		data : entity,\n" + 
 									"		success : function(data) {\n" + 
-									"			tableDataTable.ajax.reload();// 刷新页面\n" + 
+									"			tableDataTable.draw(false);// 刷新页面\n" + 
 									"		}\n" + 
 									"	});\n" + 
 									"}\n" +

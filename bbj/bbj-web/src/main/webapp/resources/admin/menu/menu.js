@@ -83,7 +83,7 @@ function deleteOption(id){
  		url : baseURL + "/" + id,
 		type : 'DELETE',
 		success : function(data) {
-			tableDataTable.ajax.reload();// 刷新页面
+			tableDataTable.draw(false);// 刷新页面
 		}
 	});
 }
@@ -125,7 +125,7 @@ function insertOrUpdateSave(){
 		url : baseURL,
 		data : entity,
 		success : function(data) {
-			tableDataTable.ajax.reload();// 刷新页面
+			tableDataTable.draw(false);// 刷新页面
 		}
 	});
 }

@@ -158,6 +158,14 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		
 		T bbjEntity = daoParam.get(BBJDaoParam.keyEntity,currentBBJEntityClass);
 		
+		BBJDaoParam fieldParamDictionary = new BBJDaoParam()
+				.addAttr(BBJDaoParam.keyTagPage, 1)
+				.addAttr(BBJDaoParam.keyPageSize, 1000)
+				.addAttr(BBJDaoParam.keySqlFilter, null);
+		
+		List<DictionaryField> dictionaryFields = dictionaryFieldDao.queryByPage(fieldParamDictionary);
+		
+				
 		List<String> listAttrKeys = bbjEntity.getAttrKeys();
 		// 构造参数列表
 		StringBuilder sbParamAttrPair = new StringBuilder();
@@ -168,7 +176,16 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 				if(BBJEntity.update_time.equals(key) && "".equals(bbjEntity.getAttr(key))){
 					bbjEntity.setAttr(key, TimeUtils.getCurrentTime());
 				}
-				if(StringUtils.isNotEmpty(bbjEntity.getAttr(key))){
+				boolean isUpdate = true;
+				for (int j = 0; j < dictionaryFields.size(); j++) {
+					DictionaryField item = dictionaryFields.get(j);
+					// 如果不是字符类型
+					if(item.getAttr(DictionaryField.fieldName).equals(key) && !(item.getAttr(DictionaryField.fieldType).contains("varchar") || item.getAttr(DictionaryField.fieldType).contains("VARCHAR"))){
+						isUpdate = false;
+						break;
+					}
+				}
+				if(isUpdate && !(DictionaryField.update_time.equals(key) || DictionaryField.create_time.equals(key))){
 					if(sbParamAttrPair.length() == 0){
 						sbParamAttrPair.append(key + "=?");
 					}else{
