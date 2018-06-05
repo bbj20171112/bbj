@@ -1,5 +1,7 @@
 package com.bbj.base.utils;
 
+import java.util.List;
+
 public class StringUtils
 {
 
@@ -58,5 +60,16 @@ public class StringUtils
         }
         return "";
     }
+
+	public static String getListString(List<String> selectFields,String separator) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < selectFields.size(); i++) {
+			sb.append(selectFields.get(i));
+			if(i < selectFields.size() - 1){
+				sb.append(separator);
+			}
+		}
+		return sb.toString();
+	}
 
 }
