@@ -17,16 +17,6 @@ public class DictionaryReferenceService {
 
 
 	/**
-	 * 查询<br><br>
-	 * public DictionaryReference query(String id)
-	 * @param serviceParam
-	 * @return
-	 */
-	public DictionaryReference query(BBJServiceParam serviceParam){
-		return dictionaryReferenceDao.query(serviceParam);
-	}
-	
-	/**
 	 * 分页查询<br><br>
 	 * public List<DictionaryReference> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter)
 	 * @param serviceParam
@@ -34,16 +24,6 @@ public class DictionaryReferenceService {
 	 */
 	public List<DictionaryReference> queryByPage(BBJServiceParam serviceParam){
 		return dictionaryReferenceDao.queryByPage(serviceParam);
-	}
-	
-	/**
-	 * 获取总数<br><br>
-	 * public int getTotalRow(SqlFilter sqlFilter)
-	 * @param serviceParam
-	 * @return
-	 */
-	public int getTotalRow(BBJServiceParam serviceParam){
-		return dictionaryReferenceDao.getTotalRow(serviceParam);
 	}
 	
 }
