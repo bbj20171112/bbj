@@ -4,6 +4,7 @@ public class Constants {
 
 	// 页面大小常量 == page
 	public static final String pageSize = "10";
+	public static final String pageSizeAll = "1000";
 	public static final String pageSizeString = "" + pageSize;
 	
 	// 各个模块常量

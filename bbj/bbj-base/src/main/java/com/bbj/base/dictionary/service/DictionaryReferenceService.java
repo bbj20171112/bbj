@@ -18,7 +18,7 @@ public class DictionaryReferenceService {
 
 	/**
 	 * 分页查询<br><br>
-	 * public List<DictionaryReference> queryByPage(int tagPage, int pageSize,SqlFilter sqlFilter)
+	 * public List<DictionaryField> queryByPage(String tableName, String referenceFieldName, List<String> referenceFieldValues,int tagPage, int pageSize, SqlFilter sqlFilter)
 	 * @param serviceParam
 	 * @return
 	 */

@@ -11,7 +11,6 @@ import com.bbj.base.dictionary.domain.DictionaryField;
 import com.bbj.base.domain.BBJDaoParam;
 import com.bbj.base.domain.BBJEntity;
 import com.bbj.base.domain.SqlFilter;
-import com.bbj.base.utils.StringUtils;
 
 /**
  * 字段数据字典的DAO实现
@@ -24,11 +23,10 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 	
 	/**
 	 * 分页查询<br><br>
-	 * public List<DictionaryField> queryByPage(List<String> selectFields,int tagPage, int pageSize, SqlFilter sqlFilter)
+	 * public List<DictionaryField> queryByPage(int tagPage, int pageSize, SqlFilter sqlFilter)
 	 */
 	@Override
 	public List<DictionaryField> queryByPage(BBJDaoParam daoParam) {
-		Object selectFieldsObj = daoParam.get(BBJDaoParam.keySelectFields);
 		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
 		int pageSize = daoParam.getInt(BBJDaoParam.keyPageSize);
 		int tagPage = daoParam.getInt(BBJDaoParam.keyTagPage);
@@ -45,13 +43,7 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 		int startId = pageSize * (tagPage - 1 );
 		
 		StringBuilder sb = new StringBuilder();
-		if(selectFieldsObj == null){
-			sb.append(" select "+temp.getAttrKeysStr() + "" );
-		} else {
-			@SuppressWarnings("unchecked")
-			List<String> selectFields = (List<String>) selectFieldsObj;
-			sb.append(" select "+StringUtils.getListString(selectFields,",") + "" );
-		}
+		sb.append(" select "+temp.getAttrKeysStr() + "" );
 		sb.append("  from " + temp.getTableName() + "" );
 		sb.append("  where " + BBJEntity.delete_state + " <> ? " );
 				

@@ -15,7 +15,6 @@ public class BBJDaoParam extends BBJParam{
 	public static final String keyPrepareSql = "prepareSql";
 	public static final String keyArgs = "args";
 	public static final String keyBatchArgs = "batchArgs";
-	public static final String keySelectFields = "selectFields";
 	
 
 	/**
