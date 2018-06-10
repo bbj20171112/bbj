@@ -33,7 +33,7 @@ public class DictionaryReferenceDao {
 	 * public List<DictionaryField> queryByPage(String tableName, String referenceFieldName, List<String> referenceFieldValues,int tagPage, int pageSize, SqlFilter sqlFilter)
 	 */
 	public List<DictionaryReference> queryByPage(BBJDaoParam daoParam) {
-		String tableName = daoParam.getString(DictionaryReference.tableName);
+		String tableName = daoParam.getString(DictionaryReference.referenceTableName);
 		String referenceFieldName = daoParam.getString(DictionaryReference.referenceFieldName);
 		Object referenceFieldValueObj = daoParam.get(DictionaryReference.referenceFieldValue);
 		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
@@ -79,7 +79,7 @@ public class DictionaryReferenceDao {
 					map.put(referenceFieldValues.get(i), rs.getString(referenceFieldValues.get(i)));
 					referenceFieldValuesInDb.add(map);
 				}
-				temp.setAttr(DictionaryReference.tableName, tableName);
+				temp.setAttr(DictionaryReference.referenceTableName, tableName);
 				temp.setAttr(DictionaryReference.referenceFieldName, rs.getString(referenceFieldName));
 				temp.setAttr(DictionaryReference.referenceFieldValue, referenceFieldValuesInDb);
 				list.add(temp);
@@ -92,7 +92,7 @@ public class DictionaryReferenceDao {
 
 	public int getTotalRow(BBJDaoParam daoParam) {
 		
-		String tableName = daoParam.getString(DictionaryReference.tableName);
+		String tableName = daoParam.getString(DictionaryReference.referenceTableName);
 		SqlFilter sqlFilter = daoParam.get(BBJDaoParam.keySqlFilter,SqlFilter.class);
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select count(1) from ");

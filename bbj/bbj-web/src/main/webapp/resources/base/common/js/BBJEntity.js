@@ -135,11 +135,23 @@ jQuery.extend(bbj, (function(win, $) {
 							itemTabStr + '</div>\n';
 				return 	item;
 			}else if(fieldKeyType == 'select'){
+				
+				var optionsHtml = [];
+				if(field.attr.field_reference_table_name){ // 有参照值
+					var references= bbj.getBBJEntityReference(field.attr.field_reference_table_name,
+							field.attr.field_reference_table_field_name,
+							field.attr.field_reference_table_field_value);
+					var values = field.attr.field_reference_table_field_value.split(',');
+					for (var i = 0; i < references.length; i++) {
+						optionsHtml +='    	<option value="'+references[i].attr.reference_field_name+'">'+references[i].attr.reference_field_value[0][values[0]]+'</option>\n' ;
+					}
+				}
+				
 				var item =  itemTabStr + '<div class="form-group">\n' + 
 							itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
 							itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
 							itemTabStr + '    <select id="'+idStr+'" class="form-control select2" style="width: 100%">\n' +
-							itemTabStr + '    	<option value="0">'+field.attr.field_name_comment+'</option>\n' +
+							itemTabStr + optionsHtml +
 							itemTabStr + '    </select>\n' +
 							itemTabStr + '	</div>\n' + 
 							itemTabStr + '</div>\n';
@@ -193,7 +205,41 @@ jQuery.extend(bbj, (function(win, $) {
 					columns : columns
 			};
 		},
+
+		/**
+		 * 获取外键
+		 */
+		getBBJEntityReference : function(referenceTableName,referenceFieldName,referenceFieldValue){
+			if(referenceTableName == null || referenceTableName == ""){
+				return "";
+			}
+			if(referenceFieldName == null || referenceFieldName == ""){
+				return "";
+			}
+			if(referenceFieldValue == null || referenceFieldValue == ""){
+				return "";
+			}
+			var reference = [];
+			Utils.ajax({
+				url : contextPath + "/base/dictionary/reference/all?" +
+						"reference_table_name=" + referenceTableName + 
+						"&reference_field_name=" + referenceFieldName + 
+						"&reference_field_value=" + referenceFieldValue + 
+						"",
+				type : 'GET',
+				async : false, // 同步
+				success : function(response) {
+					if(response.code = '200'){
+						reference = response.data;
+					}
+				}
+			});
+			return reference;
+		},
 		
+		/**
+		 * 获取数据字典
+		 */
 		getBBJEntityDictionary : function(tableName){
 			
 			if(tableName == null || tableName == ""){

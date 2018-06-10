@@ -158,7 +158,10 @@ function Utils() {
 	      format: 'yyyy-mm-dd hh:ii'
 	    });
 	    
-	    $('.select2').select2();
+	    $('.select2').select2({
+	    	language: "zh-CN"
+	    	}
+	    );
 	}
 	
 	this.getCamelCaseName = function(name){

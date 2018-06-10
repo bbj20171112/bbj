@@ -78,6 +78,7 @@ document.writeln('<script src="' + contextPath + '/resources/base/widgets/js/ale
 
 document.writeln('<!-- select2.js -->');
 document.writeln('<script src="' + contextPath + '/resources/bower_components/select2/dist/js/select2.full.js"></script>');
+document.writeln('<script src="' + contextPath + '/resources/bower_components/select2/dist/js/i18n/zh-CN.js"></script>');
 
 document.writeln('<!-- base.js -->');
 document.writeln('<script src="' + contextPath + '/resources/base/common/js/base.js"></script>');

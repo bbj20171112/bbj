@@ -101,105 +101,6 @@ function getDictionaryFields(tableName) {
 	return returnData;
 }
 
-function getFieldItem(field){
-		
-	var labelCol = "3";
-	var contentCol = "9";
-	var itemTabStr = "\t\t\t";
-	var fieldKeyType = field.attr.field_show_type;
-	var idStr = "item_field-"+field.attr.table_name+"-" + field.attr.field_name;
-	if(fieldKeyType == 'input'){
-		var hiddenAttr = "";
-		if(field.id == field.attr.field_name){ // 主键ID
-			hiddenAttr = "hidden";
-		}
-		var item =  itemTabStr + '<div class="form-group ' + hiddenAttr + '">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '  		<input id="'+idStr+'" type="input" class="form-control" placeholder="'+field.attr.field_name_comment+'">\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else if (fieldKeyType == 'checkbox'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<div class="col-sm-offset-'+labelCol+' col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '    <div name="item_check" class="checkbox checkbox-info">\n'	+
-					itemTabStr + '        <input id="'+idStr+'" type="checkbox" class="styled" aria-label="Single checkbox One"></input>\n' + 
-					itemTabStr + '        <label>'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '    </div>\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else if (fieldKeyType == 'img'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '    <input type="file" id="'+idStr+'">\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else if (fieldKeyType == 'button'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '    <button id="'+idStr+'" class="btn btn-info"></button>\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else if(fieldKeyType == 'date'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '		<div class="input-group">\n' + 
-					itemTabStr + '        <div class="input-group-addon">\n' + 
-					itemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
-					itemTabStr + '        </div>\n' + 
-					itemTabStr + '        <input type="text" class="form-control pull-right datepicker"></input>\n' + 
-					itemTabStr + '    	</div>\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;				
-	}else if(fieldKeyType == 'datetime'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '		<div class="input-group">\n' + 
-					itemTabStr + '        <div class="input-group-addon">\n' + 
-					itemTabStr + '            <i class="fa fa-calendar"></i>\n' + 
-					itemTabStr + '        </div>\n' + 
-					itemTabStr + '        <input type="text" class="form-control pull-right datetimepicker"></input>\n' + 
-					itemTabStr + '    	</div>\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else if(fieldKeyType == 'textarea'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+' date">\n' + 
-					itemTabStr + '    <textarea id="'+idStr+'" class="form-control" rows="3" placeholder="'+field.attr.field_name_comment+'"></textarea>\n' + 
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else if(fieldKeyType == 'select'){
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '    <select id="'+idStr+'" class="form-control select2" style="width: 100%">\n' +
-					itemTabStr + '    	<option value="0">'+field.attr.field_name_comment+'</option>\n' +
-					itemTabStr + '    </select>\n' +
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}else { // 当成label
-		var item =  itemTabStr + '<div class="form-group">\n' + 
-					itemTabStr + '	<label for="'+idStr+'" class="col-sm-'+labelCol+' control-label">'+field.attr.field_name_comment+'</label>\n' + 
-					itemTabStr + '	<div class="col-sm-'+contentCol+'">\n' + 
-					itemTabStr + '    <label id="'+idStr+'" >'+field.attr.field_name_comment+'</label>\n' +
-					itemTabStr + '	</div>\n' + 
-					itemTabStr + '</div>\n';
-		return 	item;
-	}
-}
 
 function addComponent(){
 	$("#modal-new-field").modal('show');
@@ -240,11 +141,11 @@ function newFieldSave() {
 	var colNum = $("#field-item-col_num").val();
 	var tagCol = fieldItems.length % colNum;
 	
-	fieldItems[fieldItems.length] = getFieldItem(itemData);
+	fieldItems[fieldItems.length] = bbj.getFieldItem(itemData);
 	var htmlValue = '<div'+
 	' class="col-sm-12 item"' +
 	' id="item-' + tagCol + '-' + (fieldItems.length - 1) +'">'
-	+getFieldItem(itemData)+
+	+bbj.getFieldItem(itemData)+
 	'</div>';
 	if(fieldItems.length - 1 - colNum > 0){
 		$('#item-'+tagCol +'-'+(fieldItems.length - 1 - colNum)).parent().append(htmlValue);
@@ -290,7 +191,7 @@ function initFieldItems(){
 	if(fields){
 		for (var i = 0; i < fields.length; i++) {
 			fields[i].attr.field_show_default = "FieldValue" + i;
-			var item = getFieldItem(fields[i]);
+			var item = bbj.getFieldItem(fields[i]);
 			fieldItems[fieldItems.length] = item;
 		}
 	}

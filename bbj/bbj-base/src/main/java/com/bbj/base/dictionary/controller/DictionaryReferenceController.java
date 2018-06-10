@@ -33,7 +33,7 @@ public class DictionaryReferenceController {
 	@RequestMapping(value="/all",method=RequestMethod.GET)
 	@ResponseBody
 	public Object query(
-			@RequestParam("table_name") String tableName,
+			@RequestParam("reference_table_name") String referenceTableName,
 			@RequestParam("reference_field_name") String referenceFieldName,
 			@RequestParam("reference_field_value") String referenceFieldValue,
 			HttpServletRequest request){
@@ -46,7 +46,7 @@ public class DictionaryReferenceController {
 			referenceFieldValues = Arrays.asList(referenceFieldValue.split(","));
 		}
 		BBJServiceParam serviceParam = new BBJServiceParam()
-				.addAttr(DictionaryReference.tableName, tableName )
+				.addAttr(DictionaryReference.referenceTableName, referenceTableName )
 				.addAttr(DictionaryReference.referenceFieldName, referenceFieldName )
 				.addAttr(DictionaryReference.referenceFieldValue, referenceFieldValues )
 				.addAttr(BBJServiceParam.keyTagPage, tagPage)

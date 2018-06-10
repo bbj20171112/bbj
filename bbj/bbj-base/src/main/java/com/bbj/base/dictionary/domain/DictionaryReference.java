@@ -19,15 +19,15 @@ public class DictionaryReference extends BBJObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final String tableName = "tableName"; 
-	public static final String referenceFieldName = "referenceFieldName"; 
-	public static final String referenceFieldValue = "referenceFieldValue";
+	public static final String referenceTableName = "reference_table_name";
+	public static final String referenceFieldName = "reference_field_name"; 
+	public static final String referenceFieldValue = "reference_field_value";
 	
 	private Map<String, Object> attr = new HashMap<String, Object>(); 	// 属性集
 	
 	public DictionaryReference() {
 		super();
-		addAttr(tableName, "");
+		addAttr(referenceTableName, "");
 		addAttr(referenceFieldName, "");
 		addAttr(referenceFieldValue, new ArrayList<String>());
 	}
@@ -137,6 +137,16 @@ public class DictionaryReference extends BBJObject {
 			keySb.deleteCharAt(keySb.length() - 1);
 		}
 		return keySb.toString();
+	}
+
+
+	public Map<String, Object> getAttr() {
+		return attr;
+	}
+
+
+	public void setAttr(Map<String, Object> attr) {
+		this.attr = attr;
 	}
 
 
