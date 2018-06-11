@@ -841,6 +841,13 @@ function getHTMLStr(classNameObj){
 	
 	var importJsStrTabsStr = "";
 	var importJsStr = 	importJsStrTabsStr + "\n" + 
+
+						importJsStrTabsStr + "<!-- Modal -->\n" + 
+						importJsStrTabsStr + '<div class="modal fade" id="modal-'+classNameObj.tableName+'" aria-labelledby="modal-'+classNameObj.tableName+'">\n' + 
+						importJsStrTabsStr + " \n" + 
+						importJsStrTabsStr + "</div>\n" + 
+						importJsStrTabsStr + " \n" + 
+						
 						importJsStrTabsStr + "<!-- 引入全局JavaScript -->\n" + 
 						importJsStrTabsStr + "<script th:src=\"@{/resources/base/javascript-import.js}\" src=\"../../../../resources/base/javascript-import.js\"></script>\n" + 
 						importJsStrTabsStr + "<script th:src=\"@{/resources/"+classNameObj.jsName+"}\" src=\"../../../../resources/"+classNameObj.jsName+"\" ></script>\n" + 
@@ -869,6 +876,12 @@ function getJsStr(classNameObj){
 					"	\n" + 
 					"	// 获取数据字典\n" + 
 					"	dictionary = bbj.getBBJEntityDictionary(tableName);\n" + 
+					"	\n" + 
+					"	// 加载编辑新增页面\n" + 
+					'	$("#"+modalElementId).html(bbj.getModalContent(dictionary));\n' + 
+					"	\n" + 
+					"	// 初始化控件\n" + 
+					"	Utils.initWidgets();\n" + 
 					"	\n" + 
 					"	// 初始化表格\n" + 
 					"	initTable(dictionary);\n" + 

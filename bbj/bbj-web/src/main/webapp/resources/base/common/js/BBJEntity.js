@@ -172,23 +172,11 @@ jQuery.extend(bbj, (function(win, $) {
 			if(dictionary == null || dictionary == ""){
 				return "";
 			}
-			// 获取配置信息[默认全部进行展示，当数据库新增表结构时候会进行同步更新展示]
-			var columns = [];
-			for(var i = 0; i < dictionary.length ;i ++){
-				columns.push({
-					data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义
-					title : dictionary[i].attr.field_name_comment , // 数据列标题
-				});
-			}
-			// 增加操作列
-			columns.push({
-				data : null,
-				title : "编辑" ,
-			});
+			
 			var columnDefs =  [{
 	 			targets: -2,
 	 			render: function(data, type, row) { 
-	          	return row.attr.type_value;
+	 				return row.attr.type_value;
 	 			}},{
 	 			targets: -1,
 	 			render: function(data, type, row) { 
@@ -199,6 +187,32 @@ jQuery.extend(bbj, (function(win, $) {
 		          	+'</div>';
 	          	return operatorDiv;
 	         }}];
+			
+			// 获取配置信息[默认全部进行展示，当数据库新增表结构时候会进行同步更新展示]
+			var columns = [];
+			for(var i = 0; i < dictionary.length ;i ++){
+				if(dictionary[i].attr.field_reference_table_name){ // 有参照值
+					var field = dictionary[i].attr.field_reference_table_field_value;
+					var index = i;
+					columnDefs.push({
+			 			targets: index,
+			 			render: function(data, type, row) { 
+			 				console.log(field);
+			 				console.log(row.attr[field]);
+			 				return row.attr[field];
+			 			}});
+				}
+				
+				columns.push({
+					data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义
+					title : dictionary[i].attr.field_name_comment , // 数据列标题
+				});
+			}
+			// 增加操作列
+			columns.push({
+				data : null,
+				title : "编辑" ,
+			});
 			
 			return {
 					columnDefs : columnDefs,

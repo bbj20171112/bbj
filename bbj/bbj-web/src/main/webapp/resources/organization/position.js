@@ -15,6 +15,10 @@ $(document).ready(function(){
 	// 获取数据字典
 	dictionary = bbj.getBBJEntityDictionary(tableName);
 	
+	$("#"+modalElementId).html(bbj.getModalContent(dictionary));
+	
+	Utils.initWidgets();
+	
 	// 初始化表格
 	initTable(dictionary);
 	

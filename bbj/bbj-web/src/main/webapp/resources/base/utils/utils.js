@@ -158,10 +158,15 @@ function Utils() {
 	      format: 'yyyy-mm-dd hh:ii'
 	    });
 	    
-	    $('.select2').select2({
+	    var select2 = $('.select2');
+	    select2.select2({
 	    	language: "zh-CN"
 	    	}
 	    );
+	    select2.each(function(){  //遍历所有option  
+	        $(this).val($(this).children('option').first());
+	    });
+	    select2.trigger('change'); // Notify any JS components that the value changed
 	}
 	
 	this.getCamelCaseName = function(name){

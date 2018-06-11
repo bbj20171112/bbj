@@ -15,6 +15,10 @@ $(document).ready(function(){
 	// 获取数据字典
 	dictionary = bbj.getBBJEntityDictionary(tableName);
 	
+	$("#"+modalElementId).html(bbj.getModalContent(dictionary));
+	
+	Utils.initWidgets();
+	
 	// 初始化表格
 	initTable(dictionary);
 	
@@ -27,38 +31,15 @@ $(document).ready(function(){
  * @returns
  */
 function initTable(dictionary){
-	// 获取配置信息[默认全部进行展示，当数据库新增表结构时候会进行同步更新展示]
-	var columns = [];
-	for(var i = 0; i < dictionary.length ;i ++){
-		columns.push({
-			data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义
-			title : dictionary[i].attr.field_name_comment , // 数据列标题
-		});
-	}
-	// 增加操作列
-	columns.push({
-		data : null,
-		title : "编辑" ,
-	});
-	
 	// 初始化DataTable
+	dataTableDefs = bbj.getDataTableDefs(dictionary);
 	tableDataTable = $('#'+tableElementId).DataTable({
 		ajax: { 
             url: baseURL
         },
         lengthChange: false,
-        columnDefs: [{
- 			targets: -1,
- 			render: function(data, type, row) { 
-	          	var operatorDiv = '<div>'
-	          	+'<i class="fa fa-edit" title="编辑"></i>'
-	          	+'<button class = "btn btn-link btn-sm" onclick="updateOption('+row.attr.id+')" >编辑</button>'
-	          	+'<button class = "btn btn-link btn-sm" onclick="deleteOption('+row.attr.id+')" >删除</button>'
-	          	+'</div>';
-          	return operatorDiv;
-         }
-      }],
-      columns: columns
+        columnDefs: dataTableDefs.columnDefs,
+        columns: dataTableDefs.columns
 	});
 }
 
