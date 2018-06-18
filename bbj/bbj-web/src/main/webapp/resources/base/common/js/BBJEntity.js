@@ -172,12 +172,7 @@ jQuery.extend(bbj, (function(win, $) {
 			if(dictionary == null || dictionary == ""){
 				return "";
 			}
-			
 			var columnDefs =  [{
-	 			targets: -2,
-	 			render: function(data, type, row) { 
-	 				return row.attr.type_value;
-	 			}},{
 	 			targets: -1,
 	 			render: function(data, type, row) { 
 		          	var operatorDiv = '<div>'
@@ -193,12 +188,10 @@ jQuery.extend(bbj, (function(win, $) {
 			for(var i = 0; i < dictionary.length ;i ++){
 				if(dictionary[i].attr.field_reference_table_name){ // 有参照值
 					var field = dictionary[i].attr.field_reference_table_field_value;
-					var index = i;
+					var index = 1 + i; // 第一个是勾选框
 					columnDefs.push({
 			 			targets: index,
 			 			render: function(data, type, row) { 
-			 				console.log(field);
-			 				console.log(row.attr[field]);
 			 				return row.attr[field];
 			 			}});
 				}
