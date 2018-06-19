@@ -177,8 +177,8 @@ jQuery.extend(bbj, (function(win, $) {
 	 			render: function(data, type, row) { 
 		          	var operatorDiv = '<div>'
 		          	+'<i class="fa fa-edit" title="编辑"></i>'
-		          	+'<button class = "btn btn-link btn-sm" onclick="updateOption('+row.attr.id+')" >编辑</button>'
-		          	+'<button class = "btn btn-link btn-sm" onclick="deleteOption('+row.attr.id+')" >删除</button>'
+		          	+'<button class = "btn btn-link btn-sm" onclick="updateOption(\''+row.attr[row["id"]]+'\')" >编辑</button>'
+		          	+'<button class = "btn btn-link btn-sm" onclick="deleteOption(\''+row.attr[row["id"]]+'\')" >删除</button>'
 		          	+'</div>';
 	          	return operatorDiv;
 	         }}];
@@ -187,12 +187,14 @@ jQuery.extend(bbj, (function(win, $) {
 			var columns = [];
 			for(var i = 0; i < dictionary.length ;i ++){
 				if(dictionary[i].attr.field_reference_table_name){ // 有参照值
-					var field = dictionary[i].attr.field_reference_table_field_value;
+					var fieldName = dictionary[i].attr.field_name;
+					var foreignField = dictionary[i].attr.field_reference_table_field_value;
+					var fieldForeignKey = "foreigner_" + fieldName + "_" + foreignField;// 外键命名规则
 					var index = 1 + i; // 第一个是勾选框
 					columnDefs.push({
 			 			targets: index,
 			 			render: function(data, type, row) { 
-			 				return row.attr[field];
+			 				return row.attr[fieldForeignKey];
 			 			}});
 				}
 				
@@ -284,7 +286,28 @@ jQuery.extend(bbj, (function(win, $) {
 				var element = $("#"+idPrefix + "-" + dictionary[i].attr.table_name +"-" + fieldName);
 				if(element){
 					if(bbjEntity && bbjEntity.attr){
-						element.val(bbjEntity.attr[fieldName]); // 赋值
+						var fieldKeyType = dictionary[i].attr.field_show_type;
+						if(fieldKeyType == 'input'){
+							element.val(bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'checkbox'){
+							//element.val(bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'img'){
+							element.attr("src",bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'button'){
+							element.val(bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'date'){
+							//element.val(bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'datetime'){
+							//element.val(bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'textarea'){
+							element.val(bbjEntity.attr[fieldName]); // 赋值
+						} else if(fieldKeyType == 'select'){
+							element.val(bbjEntity.attr[fieldName]).trigger('change'); // 赋值
+						} else { // 当成label
+							element.html(bbjEntity.attr[fieldName]); // 赋值
+						}
+						
+						
 					} else {
 						element.val("");
 					}

@@ -251,12 +251,10 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 		
 		List<DictionaryField> dictionaryFields = dictionaryFieldDao.queryByPage(fieldParamDictionary);
 		
-		List<String> foreignFields = new ArrayList<String>();
 		StringBuilder sbForeignSelect = new StringBuilder();
 		StringBuilder sbForeignJoin = new StringBuilder();
 
 		String selfTableAlias = "self";
-		int count = 1;
 
 		// 解析外键
 		for (int i = 0; i < dictionaryFields.size(); i++) {
@@ -265,13 +263,14 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 			if(StringUtils.isNotEmpty(referenceTableName)){ // 外键
 				
 				String foreignField = dictionaryField.getAttr(DictionaryField.fieldReferenceTableFieldValue);
-				foreignFields.add(foreignField);
-				String alias = "foreigner" + count ;
-				sbForeignSelect.append(", " + alias + "." + foreignField);
+				String fieldName = dictionaryField.getAttr(DictionaryField.fieldName);
+
+				String alias = "foreigner_" + fieldName ;
+				String key = alias + "_" + foreignField; // 外键命名规则
+				sbForeignSelect.append(", " + alias + "." + foreignField + " " + key);
 				
 				sbForeignJoin.append(" left join " + referenceTableName + " " + alias + " on " + selfTableAlias + "." + dictionaryField.getAttr(DictionaryField.fieldName) + "=" +alias + "." + dictionaryField.getAttr(DictionaryField.fieldReferenceTableFieldName) );
 				
-				count ++;
 			}
 		}
 		
@@ -299,9 +298,21 @@ public class BBJDaoMySQLImp<T extends BBJEntity> implements BBJDao<T>{
 				bbjEntity.setAttr(keys.get(i), rs.getString(keys.get(i)));
 			}
 			// 添加外键
-			for (int i = 0; i < foreignFields.size(); i++) {
-				bbjEntity.setAttr(foreignFields.get(i), rs.getString(foreignFields.get(i)));
+			// 解析外键
+			for (int i = 0; i < dictionaryFields.size(); i++) {
+				DictionaryField dictionaryField = dictionaryFields.get(i);
+				String referenceTableName = dictionaryField.getAttr(DictionaryField.fieldReferenceTableName);
+				if(StringUtils.isNotEmpty(referenceTableName)){ // 外键
+					
+					String foreignField = dictionaryField.getAttr(DictionaryField.fieldReferenceTableFieldValue);
+					String fieldName = dictionaryField.getAttr(DictionaryField.fieldName);
+
+					String key = "foreigner_" + fieldName + "_" + foreignField;
+					bbjEntity.setAttr(key, rs.getString(key));
+
+				}
 			}
+			
 			list.add(bbjEntity);
 		}
 		return (List<T>) list;
