@@ -15,6 +15,8 @@
 	<!-- 配置自动扫描的包 -->
 	<context:component-scan base-package="com.bbj" name-generator="com.bbj.base.BBJAnnotationBeanNameGenerator"></context:component-scan>
 	
+	<multipart-config />
+	
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">

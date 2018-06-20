@@ -15,7 +15,8 @@
     <module>bbj-authorization</module>
     <module>bbj-organization</module>
     <module>bbj-security</module>
-	</modules>
+    <module>bbj-attachment</module>
+  </modules>
 
 <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbj.base.constant.Constants;
+import com.bbj.admin.Constants;
 import com.bbj.base.dictionary.domain.DictionaryField;
 import com.bbj.base.dictionary.service.DictionaryFieldService;
 import com.bbj.base.domain.BBJServiceParam;
@@ -23,7 +23,7 @@ import com.bbj.base.domain.WhereFilter;
 import com.bbj.base.utils.BBJEntityUtils;
 
 @Controller
-@RequestMapping(value={Constants.module_admin+"/designer/grid"})
+@RequestMapping(value={Constants.module_current+"/designer/grid"})
 public class GridController {
 
 	@Autowired
@@ -31,7 +31,7 @@ public class GridController {
 	
 	@RequestMapping
 	public String newDesign(HttpServletRequest request){
-		return Constants.module_admin+"/designer/grid";	
+		return Constants.module_current+"/designer/grid";	
 	}
 	@RequestMapping(value={"/simulatedata"})
 	@ResponseBody
