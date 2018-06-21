@@ -19,7 +19,6 @@ public class HomeController {
 	
 	@RequestMapping(value={"/","/index"})
 	public String index(HttpServletRequest request){
-		request.getSession().setAttribute(Constants.sessionAttr_currentSkin, Constants.sessionAttr_Skin_greenLight);
 		return Constants.module_base + "/index";
 	}
 	

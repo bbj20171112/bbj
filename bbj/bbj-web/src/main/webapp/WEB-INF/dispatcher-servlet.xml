@@ -15,8 +15,6 @@
 	<!-- 配置自动扫描的包 -->
 	<context:component-scan base-package="com.bbj" name-generator="com.bbj.base.BBJAnnotationBeanNameGenerator"></context:component-scan>
 	
-	<multipart-config />
-	
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">
@@ -28,20 +26,6 @@
 		</mvc:return-value-handlers>
 	</mvc:annotation-driven>
 	
-	<!-- 返回 jsp 
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean> 
-	-->
-	<!-- <bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/html/framework/" />
-		<property name="suffix" value=".html" />
-	</bean> -->
 	<!--springMVC+thymeleaf的跳转页面配置-->
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">

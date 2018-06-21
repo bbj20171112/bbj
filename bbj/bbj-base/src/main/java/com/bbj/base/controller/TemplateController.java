@@ -1,5 +1,7 @@
 package com.bbj.base.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -45,8 +47,8 @@ public class TemplateController {
 		return Constants.module_base + "/template/lockscreen";
 	}
 	@RequestMapping(value={"/login"})
-	public String login(){
-		System.out.println("login");
+	public String login(HttpServletRequest request){
+		request.getSession().setAttribute(Constants.sessionAttr_currentSkin, Constants.sessionAttr_Skin_greenLight);
 		return Constants.module_base + "/template/login";
 	}
 }
