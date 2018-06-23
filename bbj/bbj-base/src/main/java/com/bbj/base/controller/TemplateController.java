@@ -48,7 +48,6 @@ public class TemplateController {
 	}
 	@RequestMapping(value={"/login"})
 	public String login(HttpServletRequest request){
-		request.getSession().setAttribute(Constants.sessionAttr_currentSkin, Constants.sessionAttr_Skin_greenLight);
 		return Constants.module_base + "/template/login";
 	}
 }

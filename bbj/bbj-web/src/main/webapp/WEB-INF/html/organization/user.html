@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+	<meta charset="UTF-8">
+	<title>org_user</title>
+	
+	<!-- 引入全局css样式 -->
+	<script th:src="@{/resources/base/css-import.js}" src="../../../../resources/base/css-import.js"></script>
+<head>
+
+<body th:class="${session.currentSkin}">
+	<div class="wrapper">
+	  <div th:replace="~{base/header :: header}"></div>
+	  <div th:replace="~{base/menu :: menu}"></div>
+	  <div class="content-wrapper">
+	    <section class="content-header">
+	      <h1>Page Header</h1>
+	      <ol class="breadcrumb" id="menu-footprint">
+	      <li><a href="#"><i class="fa fa-dashboard"></i> <span
+	      name="parent-menu">Level</span></a></li>
+	      <li name="li-sub-menu" style="display: none">Here</li>
+	      </ol>
+	    </section>
+	    <section class="content">
+		  <div class="box box-info">
+			<div class="box-header with-border">
+				<h3 class="box-title">org_user</h3>
+				<button type="button" onclick="insertOption()" class="btn btn-info">新建</button>
+				<table id="table-org_user" class="table table-bordered table-hover"></table>
+			</div>
+		  </div>
+				</section>
+	  </div>
+	  <div th:replace="~{base/footer :: footer}"></div>
+	  <div th:replace="~{base/settings :: settings}"></div>
+	</div>
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-org_user" aria-labelledby="modal-org_user">
+ 
+</div>
+ 
+<!-- 引入全局JavaScript -->
+<script th:src="@{/resources/base/javascript-import.js}" src="../../../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/organization/user.js}" src="../../../../resources/organization/user.js" ></script>
+
+</html>

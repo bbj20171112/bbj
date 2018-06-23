@@ -1,6 +1,5 @@
 package com.bbj.attachment.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -30,6 +29,18 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
+    public void init() {
+        try {
+            Files.createDirectory(rootLocation);
+        } catch (IOException e) {
+            throw new StorageException("Could not initialize storage", e);
+        }
+    }
+    
+    /**
+     * 增
+     */
+    @Override
     public void store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
@@ -41,11 +52,78 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    /**
+     * 删
+     */
+    @Override
+    public void delete(String fileName) throws Exception {
+    	Path path = load(fileName);
+    	Files.delete(path);
+    }
+    
+
+    /**
+     * 删除所有
+     */
+    @Override
+    public void deleteAll() {
+        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+    
+    /**
+     * 修改名称
+     * @param fileName
+     * @param newFileName
+     * @return
+     */
+    @Override
+    public int update(String fileName,String newFileName) {
+    	Path source = load(fileName);
+    	Path target = load(newFileName);
+    	try {
+			Files.move(source, target);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 0;
+		}
+    	return 1;
+    }
+    
+
+    /**
+     * 查询[单个]
+     */
+    @Override
+    public Path load(String fileName) {
+        return rootLocation.resolve(fileName);
+    }
+
+    /**
+     * 根据关键字查询所有
+     */
+    @Override
+    public Stream<Path> loadAll(String fileNameKey) {
+        try {
+        	if(!Files.exists(this.rootLocation)){
+        		init();
+        	}
+            return Files.walk(this.rootLocation, 1)
+                    .filter(path -> (!path.equals(this.rootLocation) && !path.getFileName().toString().toLowerCase().contains(fileNameKey.toLowerCase())))
+                    .map(path -> this.rootLocation.relativize(path));
+        } catch (IOException e) {
+            throw new StorageException("Failed to read stored files", e);
+        }
+
+    }
+
+    
+    /**
+     * 查询所有
+     */
     @Override
     public Stream<Path> loadAll() {
         try {
-        	File file = this.rootLocation.toFile();
-        	if(!file.exists()){
+        	if(!Files.exists(this.rootLocation)){
         		init();
         	}
             return Files.walk(this.rootLocation, 1)
@@ -58,38 +136,20 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
-    }
-
-    @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String fileName) {
         try {
-            Path file = load(filename);
+            Path file = load(fileName);
             Resource resource = new UrlResource(file.toUri());
             if(resource.exists() || resource.isReadable()) {
                 return resource;
             }
             else {
-                throw new StorageFileNotFoundException("Could not read file: " + filename);
+                throw new StorageFileNotFoundException("Could not read file: " + fileName);
 
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("Could not read file: " + fileName, e);
         }
     }
 
-    @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
-    }
-
-    @Override
-    public void init() {
-        try {
-            Files.createDirectory(rootLocation);
-        } catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
-        }
-    }
 }

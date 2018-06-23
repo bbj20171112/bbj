@@ -80,8 +80,21 @@ public class DictionaryFieldService
 	 * @param serviceParam
 	 * @return
 	 */
+	@Transactional
 	public int update(BBJServiceParam serviceParam){
-		return dictionaryFieldDao.update(serviceParam);
+		int rows = 0;
+		
+		DictionaryField field  = serviceParam.get(BBJServiceParam.keyEntity,DictionaryField.class);
+
+		if(field == null){
+			return rows;
+		}
+		DictionaryField oldField = dictionaryFieldDao.query(new BBJDaoParam().addAttr(BBJDaoParam.keyId, field.getAttr(field.getId())));
+
+		rows += dictionaryFieldDao.update(serviceParam); // 从数据字典表删除
+		rows += dictionaryFieldDao.alterField(field,oldField); // 创建一个字段
+
+		return rows;
 	}
 	
 	

@@ -894,37 +894,14 @@ function getJsStr(classNameObj){
 					" */\n" + 
 					"function initTable(dictionary){\n" + 
 					"	// 获取配置信息[默认全部进行展示，当数据库新增表结构时候会进行同步更新展示]\n" + 
-					"	var columns = [];\n" + 
-					"	for(var i = 0; i < dictionary.length ;i ++){\n" + 
-					"		columns.push({\n" + 
-					"			data : 'attr.' + dictionary[i].attr.field_name, // 数据列key定义\n" + 
-					"			title : dictionary[i].attr.field_name_comment , // 数据列标题\n" + 
-					"		});\n" + 
-					"	}\n" + 
-					"	// 增加操作列\n" + 
-					"	columns.push({\n" + 
-					"		data : null,\n" + 
-					"		title : \"编辑\" ,\n" + 
-					"	});\n" + 
-					"	\n" + 
-					"	// 初始化DataTable\n" + 
+					"	var dataTableDefs = bbj.getDataTableDefs(dictionary);\n" + 
 					"	tableDataTable = $('#'+tableElementId).DataTable({\n" + 
 					"		ajax: { \n" + 
 					"            url: baseURL\n" + 
 					"        },\n" + 
 					"        lengthChange: false,\n" + 
-					"        columnDefs: [{\n" + 
-					" 			targets: -1,\n" + 
-					" 			render: function(data, type, row) { \n" + 
-					"	          	var operatorDiv = '<div>'\n" + 
-					"	          	+'<i class=\"fa fa-edit\" title=\"编辑\"></i>'\n" + 
-					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"updateOption(\'+row.attr.id+\')\" >编辑</button>'\n" + 
-					"	          	+'<button class = \"btn btn-link btn-sm\" onclick=\"deleteOption(\'+row.attr.id+\')\" >删除</button>'\n" + 
-					"	          	+'</div>';\n" + 
-					"          	return operatorDiv;\n" + 
-					"         }\n" + 
-					"      }],\n" + 
-					"      columns: columns\n" + 
+					"        columnDefs: dataTableDefs.columnDefs,\n" + 
+					" 		 columns: dataTableDefs.columns \n" + 
 					"	});\n" + 
 					"}\n" + 
 					"\n\n";

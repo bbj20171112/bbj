@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -117,10 +118,57 @@ public class DictionaryFieldDao extends BBJDaoImp<DictionaryField>{
 	 * @param table
 	 * @return
 	 */
-	public int alterField(DictionaryField field,String tableName) {
-		return 0;
+	public int alterField(DictionaryField field,DictionaryField oldField) {
+		JdbcTemplate jdbcTemplate = getJdbcTemplate();
+		boolean fieldNameIsSame = oldField.getAttr(DictionaryField.fieldName).equalsIgnoreCase(field.getAttr(DictionaryField.fieldName));
+		if(!fieldNameIsSame){
+			Map<String, Object> map = getAlterFieldNamePrepareSqlMap(field,oldField);
+			String sql = (String) map.get(key_sql);
+			Object[] args = (Object[]) map.get(key_parameter);
+			
+			jdbcTemplate.update( sql,args); // 重命名
+		}
+		if(!oldField.getAttr(DictionaryField.fieldType).equalsIgnoreCase(field.getAttr(DictionaryField.fieldType))){
+			
+			Map<String, Object> map = getAlterFieldOtherPrepareSqlMap(field,oldField);
+			String sql = (String) map.get(key_sql);
+			Object[] args = (Object[]) map.get(key_parameter);
+			
+			jdbcTemplate.update( sql,args); // 更改类型
+		}	
+		return 1;
 	}
 
+
+	public Map<String,Object> getAlterFieldNamePrepareSqlMap(DictionaryField field,DictionaryField oldField){
+		StringBuilder sb = new StringBuilder();
+		sb.append(" alter table ");
+		sb.append(" " + oldField.getAttr(DictionaryField.tableName));
+		sb.append(" change");
+		sb.append(" column");
+		sb.append(" " + oldField.getAttr(DictionaryField.fieldName));
+		sb.append(" " + field.getAttr(DictionaryField.fieldName));
+		sb.append(" " + oldField.getAttr(DictionaryField.fieldType));
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put(key_sql, sb.toString());
+		map.put(key_parameter, new Object[]{});
+		return map;
+	}
+	
+	public Map<String,Object> getAlterFieldOtherPrepareSqlMap(DictionaryField field,DictionaryField oldField){
+		StringBuilder sb = new StringBuilder();
+		sb.append(" alter table ");
+		sb.append(" " + oldField.getAttr(DictionaryField.tableName) + " ");
+		sb.append(" alter ");
+		sb.append(" column ");
+		sb.append(" " + field.getAttr(DictionaryField.fieldName) + " ");
+		sb.append(" " + field.getAttr(DictionaryField.fieldType) + " ");
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put(key_sql, sb.toString());
+		map.put(key_parameter, new Object[]{});
+		return map;
+	}
+	
 	/**
 	 * 删除一个字段
 	 * 

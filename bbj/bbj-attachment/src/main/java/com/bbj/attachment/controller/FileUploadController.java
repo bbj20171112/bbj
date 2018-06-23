@@ -36,6 +36,27 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
+
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+
+        storageService.store(file);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "redirect:"+Constants.module_current+"/file/list";
+    }
+    
+
+//    @GetMapping("/delete")
+//    public String delte(Model model) throws IOException {
+//
+//    	
+//        return Constants.module_current+"/uploadForm";
+//    }
+
+    
     @GetMapping("/list")
     public String listUploadedFiles(Model model) throws IOException {
 
@@ -55,16 +76,6 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
-
-        storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:"+Constants.module_current+"/file/list";
-    }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
