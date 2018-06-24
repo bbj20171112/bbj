@@ -26,11 +26,6 @@
 		<artifactId>bbj-base</artifactId>
 		<version>${project.version}</version>
 	</dependency>
-	<dependency>
-		<groupId>com.bbj</groupId>
-		<artifactId>bbj-attachment</artifactId>
-		<version>${project.version}</version>
-	</dependency>
 	
   </dependencies>
 </project>
