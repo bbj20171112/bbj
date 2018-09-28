@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>BBJ | Menu</title>
+
+<!-- 引入全局css样式 -->
+<script th:src="@{/resources/base/css-import.js}"
+	src="../../../../resources/base/css-import.js"></script>
+
+</head>
+<body th:class="${session.currentSkin}">
+	<div class="wrapper">
+		<div th:replace="~{base/header :: header}"></div>
+		<div th:replace="~{base/menu :: menu}"></div>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div th:if="${message}">
+					<h2 th:text="${message}"/>
+				</div>
+			
+				<div>
+					<form method="POST" enctype="multipart/form-data" th:action="@{/attachment/file/upload}" action="/attachment/file/upload">
+						<table>
+							<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+							<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+						</table>
+					</form>
+				</div>
+			
+				<div>
+					<ul>
+						<li th:each="file : ${files}">
+							<a th:href="${file}" th:text="${file}" />
+						</li>
+					</ul>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<div th:replace="~{base/footer :: footer}"></div>
+		<div th:replace="~{base/settings :: settings}"></div>
+	</div>
+	<!-- ./wrapper -->
+</body>
+
+<!-- 引入JavaScripts样式 -->
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../../../resources/base/javascript-import.js"></script>
+
+</html>
+

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+    	 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         ">
+  
+  
+	<!-- 配置自动扫描的包 -->
+	<context:component-scan base-package="com.bbj" name-generator="com.bbj.base.BBJAnnotationBeanNameGenerator"></context:component-scan>
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">
+			</bean>
+		</mvc:message-converters>
+		<mvc:return-value-handlers>
+			<bean class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
+			</bean>
+		</mvc:return-value-handlers>
+	</mvc:annotation-driven>
+	
+	<!--springMVC+thymeleaf的跳转页面配置-->
+    <bean id="templateResolver"
+          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+         <property name="prefix" value="/WEB-INF/html/" />
+         <property name="suffix" value=".html" />
+         <property name="templateMode" value="HTML5" />
+         <property name="characterEncoding" value="UTF-8"/>
+       </bean>
+
+       <bean id="templateEngine"
+           class="org.thymeleaf.spring4.SpringTemplateEngine">
+          <property name="templateResolver" ref="templateResolver" />
+       </bean>
+
+       <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+         <property name="templateEngine" ref="templateEngine" />
+         <property name="characterEncoding" value="UTF-8"/>
+       </bean>
+       
+	<!-- MySQL --> 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+     </bean>
+     <context:property-placeholder location="classpath:jdbc.properties"/>
+     <bean id="jdbctemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- MySQL -->
+
+	<!-- 配置spring的事务控制 start bage 2018-03-08 -->  
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>  
+      
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- 配置spring的事务控制  end bage 2018-03-08 -->  
+    
+    
+	<!-- 增加返回JSON格式支持 2017-11-28 by luruihua -->
+	<bean class="com.bbj.base.responseconverter.BBJAnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="bbjMappingJackson2HttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="bbjMappingJackson2HttpMessageConverter"
+		class="com.bbj.base.responseconverter.BBJMappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="bbjRequestResponseBodyMethodProcessor"
+		class="com.bbj.base.responseconverter.BBJRequestResponseBodyMethodProcessor">
+	</bean>
+ 	<!-- 增加返回JSON格式支持  2017-11-28 by luruihua -->
+ 	
+ 	<!-- aop开启注解扫描 cglib代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+ 	<!-- aop开启注解扫描-->
+ 	
+ 	<!-- aop配置实现-->
+ 	<bean id="timeHandler" class="com.bbj.base.aop.TimeHandler" />
+ 
+	<aop:config>
+        <aop:aspect id="time" ref="timeHandler">
+        <aop:before method="printTime"
+				pointcut="execution(* com.bbj.base.service.MenuService.retrieve(..))"></aop:before>
+            
+        </aop:aspect>
+    </aop:config>
+    <!-- aop配置实现-->
+</beans>

@@ -16,7 +16,6 @@ public class Company extends BBJEntity {
 		return tableName;
 	}
 	
-	
 	@Override
 	public String[] initAttr() {
 		String attrs[] = new String[]{

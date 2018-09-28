@@ -1,0 +1,214 @@
+﻿﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>页面设计</title>
+
+<!-- 引入全局css样式 -->
+<script th:src="@{/resources/base/css-import.js}"
+	src="../../resources/base/css-import.js"></script>
+<link rel="stylesheet"
+	th:href="@{/resources/plugins/dragula/dragula.css}"
+	href="../../resources/plugins/dragula/dragula.css">
+<link rel="stylesheet"
+	th:href="@{/resources/plugins/ContextJS/css/context.standalone.css}"
+	href="../../resources/plugins/ContextJS/css/context.standalone.css">
+<link rel="stylesheet"
+	th:href="@{/resources/plugins/CodeMirror/lib/codemirror.css}"
+	href="../../resources/plugins/CodeMirror/lib/codemirror.css">
+
+<style type="text/css">
+.item-parent .item {
+	padding: 10px;
+	margin: 5px;
+	cursor: move;
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+	cursor: move;
+}
+
+.selected {
+	background-color: #f4f4f4;
+}
+</style>
+</head>
+<body th:class="${session.currentSkin}">
+	<div class="wrapper">
+		<div th:replace="~{base/header :: header}"></div>
+		<div th:replace="~{base/menu :: menu}"></div>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
+			<section class="content">
+			    <div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Form设计</h3>
+					</div>
+					<!-- /.box-header -->
+					<!-- form start -->
+					<form class="form-horizontal">
+						<div class="box-body">
+							<div class="form-group">
+								<label for="field-item-table_name" class="col-sm-2 control-label">table_name</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="field-item-table_name"
+										th:value="${param.table_name}" placeholder="table_name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="field-item-col_num" class="col-sm-2 control-label">url</label>
+								<div class="col-sm-10">
+									<input type="number" class="form-control" id="field-item-url"
+										placeholder="cols">
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+						<div class="box-footer">
+							<button type="button" class="btn btn-default">返回</button>
+							<button type="button" onclick="newPage()"
+								class="btn btn-info pull-right">重绘</button>
+						</div>
+						<!-- /.box-footer -->
+						<!-- /.box-body -->
+					</form>
+				</div>
+				<div class="box box-info">
+					<div class="nav-tabs-custom">
+						<!-- Tabs within a box -->
+						<ul class="nav nav-tabs pull-right ui-sortable-handle">
+							<li class="pull-left header">Grid页面</li>
+							<li class="pull-left" id="li-fields"></li>
+							<li><a href="#revenue-source" onclick="showSource()"
+								data-toggle="tab" aria-expanded="false">源代码</a></li>
+							<li class="active"><a href="#revenue-view" data-toggle="tab"
+								aria-expanded="true">内容</a></li>
+						</ul>
+						<div class="tab-content no-padding">
+							<!-- Morris chart - Sales -->
+							<div class="chart tab-pane active" id="revenue-view">
+								<div id="container-view" class="container"
+									style="border: 1px; border-color: gray;">
+									<table id="example"
+										class="table table-bordered table-hover dataTable" width="100%">
+									</table>
+								</div>
+							</div>
+							<div class="chart tab-pane" id="revenue-source">
+								<textarea id="container-source">
+						
+								</textarea>
+								<a onclick="autoFormatRange()">格式化</a>
+	
+							</div>
+						</div>
+					  </div>
+				</div>
+			</section>
+		</div>
+		<div th:replace="~{base/footer :: footer}"></div>
+		<div th:replace="~{base/settings :: settings}"></div>
+	</div>
+	<!-- ./wrapper -->
+</body>
+<div class="modal fade" id="modal-new-field" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">New</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-custom">
+					<!-- Tabs within a box -->
+					<ul class="nav nav-tabs pull-right ui-sortable-handle">
+						<li class="active"><a href="#field-columns" data-toggle="tab"
+							aria-expanded="true">列 新增</a></li>
+						<li class="pull-left header"><i class="fa fa-inbox"></i> 字段维护</li>
+					</ul>
+					<div class="tab-content no-padding">
+						<div class="chart tab-pane active" id="field-columns">
+							<div class="form-horizontal">
+								<div class="box-body">
+									<div class="row form-group">
+										<div class="col-sm-2">
+											<label>字段显示</label>
+										</div>
+										<div class="col-sm-4">
+											<select class="form-control select2"
+												id="item-field-field_type" style="width: 100%">
+												<option value="varchar(64)" selected="selected">字符串[varchar(64)]</option>
+												<option value="int">数字[int]</option>
+												<option value="float">长数字[float]</option>
+												<option value="decimal">小数[decimal]</option>
+												<option value="date">日期[date]</option>
+												<option value="datetime">日期时间[datetime]</option>
+												<option value="text">文本[text]</option>
+												<option value="blob">blob[blob]</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left"
+					data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary"
+					onclick="newFieldSave()">Save</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<!-- 引入JavaScripts样式 -->
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/plugins/dragula/dragula.js}"
+	src='../../resources/plugins/dragula/dragula.js'></script>
+<script th:src="@{/resources/plugins/ContextJS/js/context.js}"
+	src='../../resources/plugins/ContextJS/js/context.js'></script>
+<script th:src="@{/resources/admin/designer/js/grid.js}"
+	src='../../resources/admin/designer/js/grid.js'></script>
+<script th:src="@{/resources/plugins/ContextJS/js/context.js}"
+	src='../../resources/plugins/ContextJS/js/context.js'></script>
+<script th:src="@{/resources/plugins/CodeMirror/lib/codemirror.js}"
+	src='../../resources/plugins/CodeMirror/src/codemirror.js'></script>
+<script
+	th:src="@{/resources/plugins/CodeMirror/mode/javascript/javascript.js}"
+	src='../../resources/plugins/CodeMirror/mode/javascript/javascript.js'></script>
+<script th:src="@{/resources/plugins/CodeMirror/mode/xml/xml.js}"
+	src='../../resources/plugins/CodeMirror/mode/xml/xml.js'></script>
+<script th:src="@{/resources/plugins/CodeMirror/mode/css/css.js}"
+	src='../../resources/plugins/CodeMirror/mode/css/css.js'></script>
+<script
+	th:src="@{/resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js}"
+	src='../../resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js'></script>
+<script th:src="@{/resources/plugins/CodeMirror/lib/util/formatting.js}"
+	src='../../resources/plugins/CodeMirror/lib/util/formatting.js'></script>
+
+</html>

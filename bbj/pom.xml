@@ -8,14 +8,15 @@
 	<packaging>pom</packaging> 
 
 	<modules>
-		<module>bbj-web</module>
-		<module>bbj-base</module>
-		<module>bbj-example</module>
+	<module>bbj-web</module>
+	<module>bbj-base</module>
+	<module>bbj-example</module>
     <module>bbj-admin</module>
     <module>bbj-authorization</module>
     <module>bbj-organization</module>
     <module>bbj-security</module>
     <module>bbj-attachment</module>
+    <module>bbj-salary</module>
   </modules>
 
 <properties>

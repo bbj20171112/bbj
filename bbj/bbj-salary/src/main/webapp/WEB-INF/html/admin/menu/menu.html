@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>菜单管理</title>
+
+<!-- 引入全局css样式 -->
+<script th:src="@{/resources/base/css-import.js}"
+	src="../../../../resources/base/css-import.js"></script>
+<head>
+<body th:class="${session.currentSkin}">
+	<div class="wrapper">
+		<div th:replace="~{base/header :: header}"></div>
+		<div th:replace="~{base/menu :: menu}"></div>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Page Header
+					<!-- <small>Optional description</small> -->
+				</h1>
+				<ol class="breadcrumb" id="menu-footprint">
+					<li><a href="#"><i class="fa fa-dashboard"></i> <span
+							name="parent-menu">Level</span></a></li>
+					<li name="li-sub-menu" style="display: none">Here</li>
+				</ol>
+			</section>
+			<section class="content">
+			    <div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">菜单管理</h3>
+						<button type="button" onclick="insertOption()" class="btn btn-info">新建</button>
+						<table id="table-admin_menu"
+							class="table table-bordered table-hover"></table>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div th:replace="~{base/footer :: footer}"></div>
+		<div th:replace="~{base/settings :: settings}"></div>
+	</div>
+	<!-- ./wrapper -->
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-admin_menu"
+	aria-labelledby="modal-admin_menu">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">新建</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="box-body">
+
+						<div class="col-sm-12 item-parent" id="item-parent-0">
+							<div class="col-sm-12 item" id="item-0-0">
+								<div class="form-group hidden">
+									<label for="item_field-admin_menu-id"
+										class="col-sm-3 control-label">ID</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-id" type="input"
+											class="form-control" placeholder="ID">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-1">
+								<div class="form-group ">
+									<label for="item_field-admin_menu-menu_number"
+										class="col-sm-3 control-label">菜单编号</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-menu_number" type="input"
+											class="form-control" placeholder="菜单编号">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-1">
+								<div class="form-group ">
+									<label for="item_field-admin_menu-menu_name"
+										class="col-sm-3 control-label">菜单名称</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-menu_name" type="input"
+											class="form-control" placeholder="菜单名称">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-2">
+								<div class="form-group ">
+									<label for="item_field-admin_menu-up_menu_id"
+										class="col-sm-3 control-label">上级菜单ID</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-up_menu_id" type="input"
+											class="form-control" placeholder="上级菜单ID">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-3">
+								<div class="form-group ">
+									<label for="item_field-admin_menu-program_id"
+										class="col-sm-3 control-label">程序ID</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-program_id" type="input"
+											class="form-control" placeholder="程序ID">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-4">
+								<div class="form-group">
+									<label for="item_field-admin_menu-menu_icon"
+										class="col-sm-3 control-label">菜单图标</label>
+									<div class="col-sm-9">
+										<input type="file" id="item_field-admin_menu-menu_icon">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-5">
+								<div class="form-group ">
+									<label for="item_field-admin_menu-menu_link"
+										class="col-sm-3 control-label">菜单链接</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-menu_link" type="input"
+											class="form-control" placeholder="菜单链接">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-5">
+								<div class="form-group ">
+									<label for="item_field-admin_menu-menu_order_number"
+										class="col-sm-3 control-label">菜单序号</label>
+									<div class="col-sm-9">
+										<input id="item_field-admin_menu-menu_order_number"
+											type="input" class="form-control" placeholder="菜单序号">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 item" id="item-0-6">
+								<div class="form-group">
+									<label for="item_field-admin_menu-menu_remark"
+										class="col-sm-3 control-label">菜单备注</label>
+									<div class="col-sm-9 date">
+										<textarea id="item_field-admin_menu-menu_remark"
+											class="form-control" rows="3" placeholder="菜单备注"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left"
+					data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary"
+					onclick="insertOrUpdateSave()">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- 引入全局JavaScript -->
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../../../resources/base/javascript-import.js"></script>
+<script th:src="@{/resources/admin/menu/menu.js}"
+	src="../../../../resources/admin/menu/menu.js"></script>
+
+
+</html>

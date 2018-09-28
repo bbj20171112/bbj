@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>BBJ | Menu</title>
+  
+  <!-- 引入全局css样式 -->
+  <script src="../../resources/base/css-import.js"></script>
+  
+</head>
+<body>
+<div class="wrapper">
+		<h3 class="box-title">layer, 官网：http://www.layui.com/doc/modules/layer.html</h3>
+	 <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+			<button type="button" onclick="msg()" class="btn btn-info">msg</button>
+			<button type="button" onclick="alert()" class="btn btn-info">alert</button>
+			<button type="button" onclick="confirm()" class="btn btn-info">confirm</button>
+			...
+			
+			
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- ./wrapper -->
+<!-- 引入JavaScripts样式 -->
+<script src="../../resources/base/javascript-import.js"></script>
+
+<script type="text/javascript">
+	function msg(){
+		layer.msg('hello');
+	}
+	
+	function alert(){
+		layer.alert('内容', {
+			  icon: 1,
+			  skin: 'layer-ext-moon' 
+			})
+	}
+
+	//询问框
+	function confirm(){
+		layer.confirm('您是如何看待前端开发？', {
+		  btn: ['重要','奇葩'] //按钮
+		}, function(){
+		  layer.msg('的确很重要', {icon: 1});
+		}, function(){
+		  layer.msg('也可以这样', {
+		    time: 20000, //20s后自动关闭
+		    btn: ['明白了', '知道了']
+		  });
+		});
+	}
+
+</script>
+
+</body>
+</html>

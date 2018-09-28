@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Footer</title>
+
+<!-- 引入全局css样式 -->
+<script th:src="@{/resources/base/css-import.js}"
+	src="../../../../resources/base/css-import.js"></script>
+
+</head>
+<body>
+	<footer class="main-footer" th:fragment="footer">
+		<!-- To the right -->
+		<div class="pull-right hidden-xs">Anything you want</div>
+		<!-- Default to the left -->
+		<strong>Copyright &copy; 2016 <a href="#">Company</a>.
+		</strong> All rights reserved.
+	</footer>
+</body>
+
+<!-- 引入JavaScripts样式 -->
+<script th:src="@{/resources/base/javascript-import.js}"
+	src="../../../../resources/base/javascript-import.js"></script>
+
+</html>

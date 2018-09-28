@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>卡片列表Demo</title>
+<script src="../../resources/base/css-import.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<h3>卡片列表</h3>
+		<div id="cardlist"></div>
+	</div>
+	<script src="../../resources/base/javascript-import.js"></script>
+	<script type="text/javascript">
+		(function(win, $) {
+			var options = {
+				type : 'cardlist'
+			};
+			bbj.renderCardlist('cardlist', options);
+		}(this, jQuery));
+	</script>
+</body>
+
+</html>

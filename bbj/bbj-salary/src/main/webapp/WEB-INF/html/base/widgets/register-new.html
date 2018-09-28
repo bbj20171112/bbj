@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>AdminLTE 2 | Registration Page</title>
+<!-- 引入全局css样式 -->
+<script src="../../resources/base/css-import.js"></script>
+</head>
+<body class="hold-transition register-page">
+	<div class="register-box">
+		<div class="register-logo">
+			<a href="../../index2.html"><b>BBJ</b></a>
+		</div>
+
+		<div class="register-body">
+
+			<form id="registerForm" action="../../../rl/register"
+				method="post">
+                <div id="form"></div>
+                
+                <div class="form-group has-feedback">
+					您的爱好：<br />
+					<label><input name="hobby" type="checkbox" value="eat" />吃 </label> &nbsp;
+					<label><input name="hobby" type="checkbox" value="drink" />喝 </label> &nbsp;
+					<label><input name="hobby" type="checkbox" value="play" />玩 </label> &nbsp;
+					<label><input name="hobby" type="checkbox" value="happy" />乐 </label> &nbsp;
+				</div>	
+               
+                <div class="row">
+					<div class="col-xs-6">
+						<div class="">
+							<a><img src="../../rl/vcode" class="vcode"></img></a>
+						</div>
+					</div>
+
+					<!-- /.col -->
+					<div class="col-xs-6">
+						<div id="verification_code"></div>
+						<!-- <input type="text" class="form-control codecontent"
+							name="verification-code" placeholder="请输入验证码"> -->
+					</div>
+
+					<!-- /.col -->
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="">
+							<label> <input type="checkbox"> 我同意这些 <a href="#">条约</a>
+							</label>
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<button type="submit"
+							class="btn btn-primary btn-block btn-flat">注册</button>
+					</div>
+					<!-- /.col -->
+				</div>
+            </form>
+            		
+			</div>
+			<!-- /.form-box -->
+	</div>
+	<div id="test"></div>
+	<!-- /.register-box -->
+	<!-- 引入JavaScripts样式 -->
+	<script src="../../resources/base/javascript-import.js"></script>
+	<script src="../../resources/plugins/jquery.form.js"></script>
+	<script>
+	/**************************start--一次渲染多个input***************************/
+	(function(win, $) {
+		
+		//forminput
+		var options=[{
+			type: 'forminput',
+			input_type: 'text', //输入类型
+			input_id: 'input_username_id', //输入框id
+			placeholder: '请输入用户名', //输入提示信息
+			hint_id: 'label_username_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_username_state_id'  //输入框输入信息校正控制状态
+		},{
+			type: 'forminput',
+			input_type: 'email', //输入类型
+			input_id: 'input_email_id', //输入框id
+			placeholder: '请输入邮箱号', //输入提示信息
+			hint_id: 'label_email_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_email_state_id'  //输入框输入信息校正控制状态
+		},{
+				type: 'forminput',
+				input_type: 'password', //输入类型
+				input_id: 'input_password_id', //输入框id
+				placeholder: '请输入密码', //输入提示信息
+				hint_id: 'label_password_id',	//提示信息——id
+				hint_text: '', //提示信息
+				input_state_id: 'input_password_state_id'  //输入框输入信息校正控制状态
+			},{
+			type: 'forminput',
+			input_type: 'password', //输入类型
+			input_id: 'input_repassword_id', //输入框id
+			placeholder: '请再次输入密码', //输入提示信息
+			hint_id: 'label_repassword_id',	//提示信息——id
+			hint_text: '', //提示信息
+			input_state_id: 'input_repassword_state_id'  //输入框输入信息校正控制状态
+		}];
+		
+		//渲染box1
+		bbj.renderHtml('form', options);
+	}(this, jQuery));
+	/**************************end渲染***************************/
+	/*注册提交验证
+	*/
+	$('#registerForm').submit(function() {
+
+		//再次验证
+		if(!validateUsername() || !validatePhone() || !validatePassword() || !validateRp() || !validateEmail() || !vvcode()){
+			return false; //阻止表单默认提交  
+		}
+		
+		var flag = false;
+		$(this).ajaxSubmit(function(data) {
+			if (data.data == "success") {
+				flag = true;
+			} else {
+				alert(data.data);
+				flag = false;
+			}
+		});
+		if (flag) {
+			alert("register success!")
+			//跳转到指定页面
+		} else {
+			return false;
+		}
+	}); 
+	
+	/**************************start验证码输入及其验证***************************/
+	$("#input_verification_code_id").blur(function() {
+		vvcode();
+	});	
+	/**
+	 *	刷新验证码
+	 */	
+	$('.vcode').click(function() {
+		var url = Utils.getAbsoluteUrl("/rl/vcode");
+		$('.vcode').attr("src", url + "?rnd=" + Math.random());
+	});
+	
+	function vvcode() {
+		var content = $("#input_verification_code_id").val();
+		if (Utils.isEmpty(content)) {
+			updateHtml("label_verification_code_id", "请输入验证码！");
+			updateState("input_verification_code_state_id", "has-error");
+			return false;
+		}
+		var flag = false;
+		Utils.ajax({
+			type : "GET",
+			url : "../../../rl/vvcode",
+			async: false,
+			data : "content=" + content,
+			success : function(data) {
+				var data = data.data;
+				if (data == "false") {
+					updateHtml("label_verification_code_id", "验证码错误！");
+					updateState("input_verification_code_state_id", "has-error");
+					flag = false;
+				} else {
+					updateHtml("label_verification_code_id", "验证码正确！");
+					updateState("input_verification_code_state_id", "has-success");
+					flag = true;
+				}
+			}
+		});
+		return flag;
+	}
+	/**************************end验证号输入及其验证***************************/
+	
+	/**************************start手机号输入及其验证***************************/
+		
+	$("#input_number_id").blur(function() {
+		validatePhone();
+	});
+	
+	function validatePhone(){
+		var value = $("#input_number_id").val();
+		if(Utils.isEmpty(value)){
+			updateHtml("label_number_id", "请输入手机号！");
+			updateState("input_number_state_id", "has-error");
+			return false;
+		}
+		if(Utils.isMobil(value)){
+			
+			updateHtml("label_number_id", "手机号正确");
+			updateState("input_number_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_number_id", "请输入正确手机号！");
+			updateState("input_number_state_id", "has-error");
+			return false;
+		}
+	}
+	
+	/**************************end手机号输入及其验证***************************/
+	
+	/**************************start密码输入及其验证***************************/
+		
+	$("#input_password_id").blur(function() {
+		validatePassword();
+	});
+	
+	function validatePassword(){
+		var value = $("#input_password_id").val();
+		if(value.length < 6){
+			updateHtml("label_password_id", "密码长度至少为6位！");
+			updateState("input_password_state_id", "has-error");
+			return false;
+		}
+		if(Utils.isValidPassword(value)){
+			updateHtml("label_password_id", "密码有效");
+			updateState("input_password_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_password_id", "密码只能含6-20个字母、数字、下划线");
+			updateState("input_password_state_id", "has-error");
+			return false;
+		}
+	}
+	
+	/**************************end密码输入及其验证***************************/
+	
+	
+	
+	$("#input_repassword_id").blur(function() {
+		validateRp();
+	});
+	
+	function validateRp(input){
+		var value = $("#input_repassword_id").val();
+		if(Utils.isEmpty(value)){
+			updateHtml("label_repassword_id", "密码不能为空！");
+			updateState("input_repassword_state_id", "has-error");
+			return false;
+		}
+		if(value == $("#input_password_id").val()){
+			updateHtml("label_repassword_id", "密码一致");
+			updateState("input_repassword_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_repassword_id", "两次密码不一致，请重新输入！");
+			updateState("input_repassword_state_id", "has-error");
+			return false;
+		}
+	}
+	
+	/**************************end密码输入及其验证***************************/
+	
+	
+	/**************************start邮箱输入及其验证***************************/
+	
+	$("#input_email_id").blur(function() {
+		validateEmail();
+	});
+	
+	function validateEmail(input){
+		var value = $("#input_email_id").val();
+		if(Utils.isEmpty(value)){
+			updateHtml("label_email_id", "请输入邮箱！");
+			updateState("input_email_state_id", "has-error");
+			return false;
+		}
+		if(Utils.isEmail(value)){
+			updateHtml("label_email_id", "邮箱正确");
+			updateState("input_email_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_email_id", "请输入正确邮箱！");
+			updateState("input_email_state_id", "has-error");
+			return false;
+		}
+	}
+	
+	/**************************end邮箱输入及其验证***************************/
+	
+	
+	/**************************start用户名输入及其验证***************************/
+	
+	$("#input_username_id").blur(function() {
+		validateUsername();
+	});
+	
+	function validateUsername(){
+		var value = $("#input_username_id").val();
+		if(Utils.isEmpty(value)){
+			updateHtml("label_username_id", "用户名不能为空！");
+			updateState("input_username_state_id", "has-error");
+			return false;
+		}
+		if(!Utils.isRegisterUserName(value)){
+			updateHtml("label_username_id", "只能输入5-20个以字母开头、可带数字、“_”、“.”的字串");
+			updateState("input_username_state_id", "has-error");
+			return false;
+		}
+		if(!isNameExists(value)){
+			updateHtml("label_username_id", "用户名可用！");
+			updateState("input_username_state_id", "has-success");
+			return true;
+		}else{
+			updateHtml("label_username_id", "用户名存在！");
+			updateState("input_username_state_id", "has-error");
+			return false;
+		}
+	}
+	function isNameExists(name){
+		var isExists = false;
+		Utils.ajax({
+			type : "GET",
+			url : "../../../rl/vname",
+			data : "userName=" + name,
+			async: false,
+			success : function(data) {
+				if(data.data == "true"){
+					isExists = true;
+				}else{
+					isExists = false;
+				}
+			}
+		});
+		return isExists;
+	}
+	/**************************end用户名输入及其验证***************************/
+	
+	function updateHtml(id, hint){
+		$("#" + id).html(hint);
+	}
+	function updateState(id, clazz){
+		$("#" + id).attr("class", "");
+		$("#" + id).attr("class", "form-group " + clazz);
+	}
+	
+	</script>
+	
+</body>
+</html>
