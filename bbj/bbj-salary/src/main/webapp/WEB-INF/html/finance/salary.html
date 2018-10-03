@@ -10,14 +10,20 @@
 	<script th:src="@{/resources/base/css-import.js}" src="../../../../resources/base/css-import.js"></script>
 
 	<style type="text/css">
+		.table>tbody>tr>td{        
+			text-align:center;
+		} 
+		.table>thead>tr>th{
+			text-align:center;
+			vertical-align: middle;
+		}
 	</style>
 <head>
 
 <body th:class="${session.currentSkin}">
 	<div class="wrapper">
 	  <div th:replace="~{base/header :: header}"></div>
-	  <div th:replace="~{base/menu :: menu}"></div>
-	  <div class="content-wrapper">
+	  <div class="content">
 	    <section class="content-header">
 	      <h1>Page Header</h1>
 	      <ol class="breadcrumb" id="menu-footprint">
@@ -31,13 +37,93 @@
 			<div class="box-header with-border">
 				<h3 class="box-title">fin_salary</h3>
 				<button type="button" onclick="insertOption()" class="btn btn-info">新建</button>
-				<table id="table-fin_salary" class="table table-bordered table-hover"></table>
+				<table id="table-fin_salary" class="table table-bordered table-hover">
+	                <thead>
+	                <tr>
+			            <th rowspan="2" width="50px">监理部</th>
+			            <th rowspan="2" width="100px">部门类别</th>
+			            <th rowspan="2" width="80px">姓名</th>
+			            
+			            <th colspan="6">薪点工资</th>
+			            
+	        		    <th rowspan="2" width="40px">伙补（现场）/月度</th>
+	        			<th rowspan="2" width="40px">伙补（机关）/季度</th>
+			            
+			            <th colspan="6">补助工资</th>
+			            
+			            <th colspan="4">工作量奖励</th>
+			            
+			            <th rowspan="2" width="40px">安全生产奖</th>
+			            <th rowspan="2" width="40px">月度考核奖</th>
+			            <th rowspan="2" width="40px">证书津贴/季度</th>
+			            <th rowspan="2" width="40px">通讯奖励/季度</th>
+			            <th rowspan="2" width="40px">高温费</th>
+			            <th rowspan="2" width="40px">差旅补助</th>
+			            
+			            <th rowspan="2" width="40px">电脑自购补贴</th>
+			            <th rowspan="2" width="40px">年终奖</th>
+			            <th rowspan="2" width="40px">绩效工资考核部分</th>
+			            <th rowspan="2" width="40px">开门红</th>
+			            <th rowspan="2" width="40px">春节过节费</th>
+			            <th rowspan="2" width="40px">公司先进</th>
+			            <th rowspan="2" width="40px">端午过节费</th>
+			            
+			            <th rowspan="2" width="40px">中秋过节费</th>
+			            <th rowspan="2" width="40px">驾驶班补助</th>
+			            <th rowspan="2" width="40px">双过半奖</th>
+			            <th rowspan="2" width="40px">迎峰度夏奖</th>
+			            <th rowspan="2" width="40px">专1</th>
+			            <th rowspan="2" width="40px">专2</th>
+			            <th rowspan="2" width="40px">专3</th>
+			            <th rowspan="2" width="40px">专4</th>
+			            <th rowspan="2" width="40px">合计</th>
+			            <th rowspan="2" width="40px">保险个缴</th>
+			            
+			            <th rowspan="2" width="40px">公积金个缴</th>
+			            <th rowspan="2" width="40px">个税</th>
+			            <th rowspan="2" width="40px">扣款</th>
+			            <th rowspan="2" width="40px">实发合计</th>
+			            <th rowspan="2" width="40px">保险企缴</th>
+			            <th rowspan="2" width="40px">公积金企缴</th>
+			            <th rowspan="2" width="40px">岗位名称</th>
+			            <th rowspan="2" width="40px">岗位级别</th>
+			            <th rowspan="2" width="40px">劳务公司</th>
+			            
+			        </tr>
+			        <tr>
+			        	<!-- 薪点工资 start -->
+			            <th width="40px">基本工资</th>
+			            <th width="40px">绩效工资</th>
+			            <th width="40px">职务补贴</th>
+			            <th width="40px">工龄工资</th>
+			            <th width="40px">专家/炊事员费用</th>
+			            <th width="40px">补或扣</th>
+			           	<!-- 薪点工资 end -->
+			           	
+			           	<!-- 补助工资 start -->
+			            <th width="40px">周末加班</th>
+			            <th width="40px">假日加班</th>
+			            <th width="40px">驻点补贴</th>
+			            <th width="40px">远程补助</th>
+			            <th width="40px">艰苦地区补助</th>
+			            <th width="40px">补或扣</th>
+			           	<!-- 补助工资 end -->
+			           	
+			           	<!-- 工作量奖励 start -->
+			            <th width="40px">提成保底奖金</th>
+			            <th width="40px">驾驶员公里费</th>
+			            <th width="40px">工程量奖金</th>
+			            <th width="40px">补或扣</th>
+			           	<!-- 工作量奖励 end -->
+			           
+			        </tr>
+	                </thead>
+	            </table>
 			</div>
 		  </div>
 				</section>
 	  </div>
 	  <div th:replace="~{base/footer :: footer}"></div>
-	  <div th:replace="~{base/settings :: settings}"></div>
 	</div>
 </body>
 
